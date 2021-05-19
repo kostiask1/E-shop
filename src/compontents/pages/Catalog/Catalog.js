@@ -1,26 +1,23 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useContext } from "react";
+import { Link } from "react-router-dom";
+import { catalogContext } from "../../../context/catalog/catalog-context";
+import ShopItem from "../../ShopItem/ShopItem";
 const Catalog = () => {
-  const GetData = async (filter = "albumId", value = 1) => {
-    const response = await axios.get(
-      `https://jsonplaceholder.typicode.com/photos?${filter}=${value}`
-    );
-    console.log(response);
-    useData(response.data);
-  };
-  const [data, useData] = useState([]);
-  const [filter, useFilter] = useState("albumId");
-  const [value, useValue] = useState(1);
-
-  const Filters = (newFilter, newValue) => {
-    useFilter((prev) => newFilter);
-    useValue((prev) => newValue);
-  };
+  const { filters, find, findWithText, data } = useContext(catalogContext);
 
   useEffect(() => {
-    GetData(filter, value);
-    console.log("bthusd");
-  }, [filter, value]);
+    find();
+    //eslint-disable-next-line
+  }, []);
+
+  const handleInput = (e) => {
+    findWithText(e.target.value);
+  };
+
+  const handleCheckbox = (e) => {
+    return find(e.target.id);
+  };
+
   return (
     <main className="main">
       <div className="bg">
@@ -29,37 +26,57 @@ const Catalog = () => {
           <p className="navbar">Shop by Apolin Ko</p>
         </div>
       </div>
-      <div className="catalog__wrapper">
+      <Link className="fas fa-shopping-cart" to="/" />
+      <div className="container catalog__wrapper">
         <div className="row">
           <div className="col-12 col-md-2">
-            <div className="catalog__filters">
-              <button
-                className="btn btn-primary"
-                onClick={() => Filters("albumId", 1)}
-              ></button>
-              <button
-                className="btn btn-primary"
-                onClick={() => Filters("albumId", 51)}
-              ></button>
-              <button
-                className="btn btn-primary"
-                onClick={() => Filters("albumId", 31)}
-              ></button>
-            </div>
+            <div className="catalog__filters"></div>
+            <input
+              type="radio"
+              name="categories"
+              id="all"
+              onChange={(e) => handleCheckbox(e)}
+            />
+            <label htmlFor="all">Show all</label>
+            {filters
+              ? filters.map((item, index) => (
+                  <div key={index}>
+                    <input
+                      type="radio"
+                      name="categories"
+                      id={item}
+                      onChange={(e) => handleCheckbox(e)}
+                      key={index}
+                    />
+                    <label htmlFor={item} key={item + 1}>
+                      {item}
+                    </label>
+                  </div>
+                ))
+              : null}
+            <input
+              className="form-control"
+              type="text"
+              onChange={(e) => handleInput(e)}
+            />
           </div>
           <div className="col-12 col-md-10">
             <div className="catalog">
               <div className="container">
                 <div className="row">
-                  {data.length > 0 ? (
-                    data.map((item) => (
-                      <div className="col-6 col-md-3" key={item.id}>
-                        <div className="item">
-                          <img src={item.thumbnailUrl} alt="" />
-                          <p>{item.title}</p>
-                        </div>
-                      </div>
-                    ))
+                  {Object.values(data).length > 0 ? (
+                    Object.values(data).map((item, index) => {
+                      // console.log(item);
+                      return (
+                        <ShopItem
+                          key={index}
+                          id={item.id}
+                          text={item.text}
+                          src={item.image}
+                          price={item.price}
+                        />
+                      );
+                    })
                   ) : (
                     <span>No matching results found</span>
                   )}

@@ -7,22 +7,56 @@ import Delivery from "./compontents/pages/Delivery/Delivery";
 import About from "./compontents/pages/About/About";
 import Card from "./compontents/Card/Card";
 import { Footer } from "./layout/footer/footer";
+import { CatalogState } from "./context/catalog/catalog-state";
+import Cart from "./compontents/pages/Cart/Cart";
+import Create from "./compontents/pages/Create/Create";
 //const API = "AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg";
 
 function App() {
   return (
-    <div>
+    <>
       <Navigation />
       <Switch>
-        <Route path="/catalog" exact component={Catalog} />
-        <Route path="/catalog/:name" component={Card} />
+        <Route
+          path="/catalog"
+          exact
+          render={(props) => (
+            <CatalogState>
+              <Catalog {...props} />
+            </CatalogState>
+          )}
+        />
+        <Route
+          path="/catalog/:name"
+          render={(props) => (
+            <CatalogState>
+              <Card {...props} />
+            </CatalogState>
+          )}
+        />
+        <Route
+          path="/cart"
+          render={(props) => (
+            <CatalogState>
+              <Cart {...props} />
+            </CatalogState>
+          )}
+        />
+        <Route
+          path="/create"
+          component={Create}
+        />
         <Route path="/about" component={About} />
         <Route path="/contacts" component={Contacts} />
         <Route path="/delivery" component={Delivery} />
-        <Route path="/" component={Catalog} />
+        <Route path="/">
+          <CatalogState>
+            <Catalog />
+          </CatalogState>
+        </Route>
       </Switch>
       <Footer />
-    </div>
+    </>
   );
 }
 
