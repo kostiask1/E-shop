@@ -48,6 +48,15 @@ export const Navigation = () => {
                 </NavLink>
               </li>
               <li className="nav-item">
+                <NavLink
+                  className="nav-link pl-3"
+                  activeClassName="active"
+                  to="/create"
+                >
+                  Create
+                </NavLink>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link pl-3" href="tel:380679029584">
                   +380679029584
                 </a>

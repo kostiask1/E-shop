@@ -71,6 +71,15 @@ const Create = () => {
     });
   };
 
+  const clear = (e) => {
+    e.preventDefault();
+    setTitle("");
+    setImage("");
+    setDescription("");
+    setPrice("");
+    setCategory("");
+  };
+
   const newItem = (e) => {
     e.preventDefault();
     const data = {
@@ -86,15 +95,7 @@ const Create = () => {
       method: "post",
       url: `https://e-shop-d051e-default-rtdb.europe-west1.firebasedatabase.app/items/${data.category}/.json`,
       data,
-      transformResponse: [
-        () => {
-          setTitle("");
-          setImage("");
-          setDescription("");
-          setPrice("");
-          setCategory("");
-        },
-      ],
+      transformResponse: [clear()],
     });
   };
 
@@ -228,13 +229,19 @@ const Create = () => {
                       ))
                     : ""}
                 </select>
+                <button
+                  className="btn btn-secondary mr-2 mt-3"
+                  onClick={(e) => clear(e)}
+                >
+                  reset
+                </button>
                 <button className="btn btn-primary mt-3" type="submit">
                   Add item to shop
                 </button>
               </form>
             </div>
             <div className="col-12 col-md-6 mt-5">
-              <p className="mb-4 title">Item preview</p>
+              <p className="mb-4 title text-center">Item preview</p>
               <div className="row">
                 <div className="col-12 col-md-5">
                   {image && (
@@ -242,9 +249,9 @@ const Create = () => {
                   )}
                 </div>
                 <div className="col-12 col-md-7">
-                  {title && <p>{title}</p>}
+                  {title && <h4>{title}</h4>}
                   {description && <p>{description}</p>}
-                  {price && <p>{price}</p>}
+                  {price && <p>{price} uah</p>}
                 </div>
               </div>
             </div>

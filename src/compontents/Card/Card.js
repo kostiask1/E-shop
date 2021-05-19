@@ -19,8 +19,8 @@ const Card = ({ match }) => {
               <img src={image} className="img-fluid" alt={text} />
             </div>
             <div className="col-12 col-md-7">
-              <p>{text}</p>
-              <p>{price}</p>
+              <h1>{text}</h1>
+              <p>{price} uah</p>
               <p>{description}</p>
             </div>
           </>

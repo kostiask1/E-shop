@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { catalogContext } from "../../../context/catalog/catalog-context";
+import Category from "../../Category/Category";
 import ShopItem from "../../ShopItem/ShopItem";
 const Catalog = () => {
   const { filters, find, findWithText, data } = useContext(catalogContext);
@@ -27,7 +28,7 @@ const Catalog = () => {
         </div>
       </div>
       <Link className="fas fa-shopping-cart" to="/" />
-      <div className="container catalog__wrapper">
+      <div className="container-fluid catalog__wrapper pb-5 pt-2">
         <div className="row">
           <div className="col-12 col-md-2">
             <div className="catalog__filters"></div>
@@ -40,18 +41,12 @@ const Catalog = () => {
             <label htmlFor="all">Show all</label>
             {filters
               ? filters.map((item, index) => (
-                  <div key={index}>
-                    <input
-                      type="radio"
-                      name="categories"
-                      id={item}
-                      onChange={(e) => handleCheckbox(e)}
-                      key={index}
-                    />
-                    <label htmlFor={item} key={item + 1}>
-                      {item}
-                    </label>
-                  </div>
+                  <Category
+                    key={index}
+                    categories="categories"
+                    item={item}
+                    change={(e) => handleCheckbox(e)}
+                  />
                 ))
               : null}
             <input
