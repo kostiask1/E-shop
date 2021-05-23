@@ -72,7 +72,7 @@ const Create = () => {
   };
 
   const clear = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     setTitle("");
     setImage("");
     setDescription("");
@@ -97,6 +97,12 @@ const Create = () => {
       data,
       transformResponse: [clear()],
     });
+  };
+
+  const loadFile = (e) => {
+    console.log(e);
+    const loadFile = axios.post("gs://e-shop-d051e.appspot.com/", e);
+    console.log(loadFile);
   };
 
   return (
@@ -258,6 +264,11 @@ const Create = () => {
           </div>
         </div>
       </div>
+      <input
+        type="file"
+        onChange={(e) => loadFile(e.target.files[0])}
+        placeholder="select file"
+      />
     </div>
   );
 };
