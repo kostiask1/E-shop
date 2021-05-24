@@ -4,6 +4,9 @@ import axios from "axios";
 import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
 
+import { app } from "../../base";
+const db = app.firestore();
+
 const LOCAL_STORAGE_KEY = "bloom-shop";
 
 export const CatalogState = ({ children }) => {
@@ -83,40 +86,55 @@ export const CatalogState = ({ children }) => {
       console.error(err);
     }
   };
-  const find = async (category = 0) => {
+
+  const getFilters = async () => {
     try {
-      const data = [...filters];
-      let toFind = ``;
-      data.map((item) => {
-        if (item.value) {
-          toFind += `${item.filter}=${item.value}&${toFind}`;
-        }
-        return toFind;
-      });
-      const response = await axios.get(
-        `https://e-shop-d051e-default-rtdb.europe-west1.firebasedatabase.app/.json`
-      );
-      let payload = null;
-      if (category !== "all" && category) {
-        payload = response.data.items[category];
+      console.log("started loading...");
+      let filters = await db.collection("categories").get();
+      filters
+        ? (filters = filters.docs.map((doc) => doc.data()))
+        : (filters = []);
+      if (filters.length) {
+        filters = Object.values(filters[0].categories);
       }
-      if (!category || category === "all") {
-        payload = response.data.items;
-        payload = Object.keys(payload).reduce(function (res, v) {
-          return res.concat(Object.values(payload[v]));
-        }, []);
-      }
-      dispatch({
-        type: FILTERS,
-        payload: Object.values(response.data.categories),
-      });
-      return dispatch({ type: RESPONSE, payload });
+      dispatch({ type: FILTERS, payload: filters });
+      return filters;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const find = async (category = null) => {
+    try {
+      let response = undefined;
+      getFilters()
+        .then(async (filters) => {
+          console.log("start loading data...");
+          if (category !== "all" && category) {
+            response = await db.collection(category).get();
+            const payload = response.docs.map((doc) => doc.data());
+            return dispatch({ type: RESPONSE, payload });
+          }
+          if (!category || category === "all") {
+            let item = [];
+            let row = [];
+            console.log("i get there", filters);
+            filters.forEach(async (filter) => {
+              item = await db.collection(filter).get();
+              item = item.docs.map((doc) => doc.data());
+              row = row.concat(item);
+              console.log(row);
+              return dispatch({ type: RESPONSE, payload: row });
+            });
+          }
+        });
     } catch (err) {
       console.error(err);
     }
   };
 
   const { filters, data } = state;
+
   return (
     <catalogContext.Provider
       value={{ filters, find, findWithText, findWithId, data }}

@@ -1,6 +1,8 @@
-import React, { useEffect, useState, Fragment } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { app } from "../../../base";
+
+const db = app.firestore();
 
 const Create = () => {
   const [filters, setFilters] = useState([]);
@@ -19,11 +21,12 @@ const Create = () => {
 
   const getFilters = async () => {
     try {
-      let filt = await axios.get(
-        `https://e-shop-d051e-default-rtdb.europe-west1.firebasedatabase.app/categories.json`
-      );
-      filt = filt.data;
-      filt ? (filt = filt) : (filt = []);
+      let filt = await db.collection("categories").get();
+      filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = []);
+      if (filt.length) {
+        filt = Object.values(filt[0].categories);
+      }
+      console.log(filt);
       setFilters(filt);
       return filters;
     } catch (err) {
@@ -35,40 +38,35 @@ const Create = () => {
     e.preventDefault();
     const value = e.target[0].value;
     if (!value) return false;
-    console.log(filters);
     if (filters && filters.includes(value)) {
       alert("This category already exists");
       return false;
     }
     const data = filters.concat(value);
-    axios({
-      method: "put",
-      url: `https://e-shop-d051e-default-rtdb.europe-west1.firebasedatabase.app/categories.json`,
-      data,
-      transformResponse: [
-        function () {
-          setCategoryToAdd("");
-          return getFilters();
-        },
-      ],
-    });
+
+    db.collection("categories").doc("categories").set({ categories: data });
+
+    db.collection("categories")
+      .doc("categories")
+      .onSnapshot((doc) => {
+        setCategoryToAdd("");
+        return getFilters();
+      });
   };
 
   const deleteFilter = (e) => {
     e.preventDefault();
     const value = e.target[0].value;
     const data = filters.filter((el) => el !== value);
-    axios({
-      method: "put",
-      url: `https://e-shop-d051e-default-rtdb.europe-west1.firebasedatabase.app/categories.json`,
-      data,
-      transformResponse: [
-        function () {
-          setCategoryToRemove("0");
-          return getFilters();
-        },
-      ],
-    });
+
+    db.collection("categories").doc("categories").set({ categories: data });
+
+    db.collection("categories")
+      .doc("categories")
+      .onSnapshot((doc) => {
+        setCategoryToAdd("");
+        return getFilters();
+      });
   };
 
   const clear = (e) => {
@@ -91,18 +89,30 @@ const Create = () => {
       text: title,
     };
     console.log(data);
-    axios({
-      method: "post",
-      url: `https://e-shop-d051e-default-rtdb.europe-west1.firebasedatabase.app/items/${data.category}/.json`,
-      data,
-      transformResponse: [clear()],
-    });
+    db.collection(data.category)
+      .doc(data.text + data.price)
+      .set(data);
+
+    db.collection(data.category)
+      .doc(data.text + data.price)
+      .onSnapshot((doc) => {
+        clear();
+      });
   };
 
-  const loadFile = (e) => {
-    console.log(e);
-    const loadFile = axios.post("gs://e-shop-d051e.appspot.com/", e);
-    console.log(loadFile);
+  const loadFile = async (e) => {
+    try {
+      const file = e;
+      const storageRef = app.storage().ref();
+      const fileRef = storageRef.child(file.name);
+      await fileRef.put(file);
+      const fileUrl = await fileRef.getDownloadURL();
+      console.log(fileUrl);
+
+      setImage(fileUrl);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -170,6 +180,7 @@ const Create = () => {
                     <ul className="list-group list-group-flush">
                       <li className="list-group-item">Title</li>
                       <li className="list-group-item">Image URL</li>
+                      <li className="list-group-item">&nbsp;</li>
                       <li className="list-group-item">Description</li>
                       <li className="list-group-item">Price</li>
                     </ul>
@@ -193,7 +204,12 @@ const Create = () => {
                         name="image"
                         value={image}
                         onChange={(e) => setImage(e.target.value)}
-                        required
+                      />{" "}
+                      /
+                      <input
+                        type="file"
+                        onChange={(e) => loadFile(e.target.files[0])}
+                        placeholder="select file"
                       />
                     </div>
                     <div className="mb-2">
@@ -264,11 +280,6 @@ const Create = () => {
           </div>
         </div>
       </div>
-      <input
-        type="file"
-        onChange={(e) => loadFile(e.target.files[0])}
-        placeholder="select file"
-      />
     </div>
   );
 };
