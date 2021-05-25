@@ -1,13 +1,15 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
+const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
+
 export const Navigation = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
-            Bloom
+            {SHOP_NAME}
           </a>
           <div className="navbar">
             <ul className="navbar-nav flex-row me-auto mb-2 mb-lg-0">

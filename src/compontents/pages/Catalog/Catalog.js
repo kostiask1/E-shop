@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import Category from "../../Category/Category";
 import ShopItem from "../../ShopItem/ShopItem";
+
+const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
+
 const Catalog = () => {
   const { filters, find, findWithText, data } = useContext(catalogContext);
 
@@ -22,7 +25,7 @@ const Catalog = () => {
   return (
     <main className="main">
       <div className="bg">
-        <h1>The Bloom</h1>
+        <h1>{SHOP_NAME}</h1>
         <div className="container-fluid">
           <p className="navbar">Shop by Apollin Ko</p>
         </div>

@@ -10,7 +10,6 @@ import { Footer } from "./layout/footer/footer";
 import { CatalogState } from "./context/catalog/catalog-state";
 import Cart from "./compontents/pages/Cart/Cart";
 import Create from "./compontents/pages/Create/Create";
-//const API = "AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg";
 
 function App() {
   return (

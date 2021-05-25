@@ -10,9 +10,7 @@ const Category = (props) => {
         id={item}
         onChange={(e) => change(e)}
       />
-      <label htmlFor={item} key={item + 1}>
-        {item}
-      </label>
+      <label htmlFor={item}>{item}</label>
     </div>
   );
 };

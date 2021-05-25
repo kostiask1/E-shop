@@ -49,6 +49,12 @@ a {
   }
 }
 
+.navbar {
+  &-brand {
+    text-transform: capitalize;
+  }
+}
+
 .main {
   .bg {
     display: flex;
@@ -76,6 +82,7 @@ a {
       }
     }
   }
+
   .catalog {
     background-color: var(--white);
     .item {
