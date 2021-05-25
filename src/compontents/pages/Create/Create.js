@@ -26,7 +26,7 @@ const Create = () => {
       if (filt.length) {
         filt = Object.values(filt[0].categories);
       }
-      console.log(filt);
+
       setFilters(filt);
       return filters;
     } catch (err) {
@@ -44,11 +44,10 @@ const Create = () => {
     }
     const data = filters.concat(value);
 
-    db.collection("categories").doc("categories").set({ categories: data });
-
     db.collection("categories")
       .doc("categories")
-      .onSnapshot((doc) => {
+      .set({ categories: data })
+      .then(() => {
         setCategoryToAdd("");
         return getFilters();
       });
@@ -69,7 +68,7 @@ const Create = () => {
       });
   };
 
-  const clear = (e) => {
+  const clearInputs = (e) => {
     if (e) e.preventDefault();
     setTitle("");
     setImage("");
@@ -88,31 +87,33 @@ const Create = () => {
       description,
       text: title,
     };
-    console.log(data);
-    db.collection(data.category)
-      .doc(data.text + data.price)
-      .set(data);
 
-    db.collection(data.category)
-      .doc(data.text + data.price)
-      .onSnapshot((doc) => {
-        clear();
-      });
+    db.collection("All")
+      .doc(`${data.text} ${data.price}`)
+      .set(data)
+      .then(() => clearInputs());
   };
 
-  const loadFile = async (e) => {
+  const loadImage = async (e) => {
     try {
       const file = e;
       const storageRef = app.storage().ref();
       const fileRef = storageRef.child(file.name);
       await fileRef.put(file);
       const fileUrl = await fileRef.getDownloadURL();
-      console.log(fileUrl);
 
       setImage(fileUrl);
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const deleteImage = async (file) => {
+    const storageRef = app.storage().ref();
+    const fileRef = storageRef.child(file.name);
+    await fileRef.delete(file).then(() => {
+      console.log(file.name, "has been deleted");
+    });
   };
 
   return (
@@ -174,18 +175,18 @@ const Create = () => {
             <div className="col-12 col-md-6 mt-5">
               <form className="text-center" onSubmit={(e) => newItem(e)}>
                 <p className="mb-4 title">Create item</p>
-                <div className="row mb-4">
-                  <div className="col-5">
+                <div className="row justify-content-center mb-4">
+                  {/* <div className="col-4">
                     Product:
                     <ul className="list-group list-group-flush">
                       <li className="list-group-item">Title</li>
                       <li className="list-group-item">Image URL</li>
-                      <li className="list-group-item">&nbsp;</li>
+                      <li className="list-group-item">OR</li>
                       <li className="list-group-item">Description</li>
                       <li className="list-group-item">Price</li>
                     </ul>
-                  </div>
-                  <div className="col-7">
+                  </div> */}
+                  <div className="col-10">
                     <div>&nbsp;</div>
                     <div className="mb-3">
                       <input
@@ -193,6 +194,7 @@ const Create = () => {
                         type="text"
                         name="title"
                         value={title}
+                        placeholder="Item title"
                         onChange={(e) => setTitle(e.target.value)}
                         required
                       />
@@ -203,14 +205,27 @@ const Create = () => {
                         type="text"
                         name="image"
                         value={image}
+                        placeholder="ImageURL"
                         onChange={(e) => setImage(e.target.value)}
                       />{" "}
-                      /
-                      <input
-                        type="file"
-                        onChange={(e) => loadFile(e.target.files[0])}
-                        placeholder="select file"
-                      />
+                      <div className="d-flex align-items-center justify-content-between mt-3">
+                        <label
+                          className="btn btn-sm btn-primary mb-0"
+                          htmlFor="loadFile"
+                        >
+                          Load file &nbsp; <i className="fas fa-upload" />
+                        </label>
+                        <input
+                          className="d-none"
+                          type="file"
+                          name="loadFile"
+                          id="loadFile"
+                          onChange={(e) => loadImage(e.target.files[0])}
+                        />
+                        <button className="btn btn-sm btn-primary">
+                          Browse gallery <i className="far fa-share-square" />
+                        </button>
+                      </div>
                     </div>
                     <div className="mb-2">
                       <input
@@ -218,6 +233,7 @@ const Create = () => {
                         type="text"
                         name="description"
                         value={description}
+                        placeholder="Item description"
                         onChange={(e) => setDescription(e.target.value)}
                         required
                       />
@@ -228,6 +244,7 @@ const Create = () => {
                         type="text"
                         name="price"
                         value={price}
+                        placeholder="Item price"
                         onChange={(e) => setPrice(e.target.value)}
                         required
                       />
@@ -253,7 +270,7 @@ const Create = () => {
                 </select>
                 <button
                   className="btn btn-secondary mr-2 mt-3"
-                  onClick={(e) => clear(e)}
+                  onClick={(e) => clearInputs(e)}
                 >
                   reset
                 </button>

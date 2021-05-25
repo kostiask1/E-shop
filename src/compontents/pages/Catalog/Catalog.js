@@ -24,7 +24,7 @@ const Catalog = () => {
       <div className="bg">
         <h1>The Bloom</h1>
         <div className="container-fluid">
-          <p className="navbar">Shop by Apolin Ko</p>
+          <p className="navbar">Shop by Apollin Ko</p>
         </div>
       </div>
       <Link className="fas fa-shopping-cart" to="/" />

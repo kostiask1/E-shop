@@ -107,27 +107,31 @@ export const CatalogState = ({ children }) => {
   const find = async (category = null) => {
     try {
       let response = undefined;
-      getFilters()
-        .then(async (filters) => {
-          console.log("start loading data...");
-          if (category !== "all" && category) {
-            response = await db.collection(category).get();
-            const payload = response.docs.map((doc) => doc.data());
-            return dispatch({ type: RESPONSE, payload });
-          }
-          if (!category || category === "all") {
-            let item = [];
-            let row = [];
-            console.log("i get there", filters);
-            filters.forEach(async (filter) => {
-              item = await db.collection(filter).get();
-              item = item.docs.map((doc) => doc.data());
-              row = row.concat(item);
-              console.log(row);
-              return dispatch({ type: RESPONSE, payload: row });
+      getFilters().then(async (filters) => {
+        console.log("start loading data...");
+        if (category !== "all" && category) {
+          response = await db
+            .collection("All")
+            .where("category", "==", category)
+            .get();
+          //response = await db.collection(category).get();
+          const payload = response.docs.map((doc) => doc.data());
+          return dispatch({ type: RESPONSE, payload });
+        }
+        if (!category || category === "all") {
+          let item = [];
+          let row = [];
+          console.log("i get there", filters);
+          db.collection("All")
+            .get()
+            .then((resp) => {
+              resp.forEach((doc) => {
+                row = row.concat(doc.data());
+                return dispatch({ type: RESPONSE, payload: row });
+              });
             });
-          }
-        });
+        }
+      });
     } catch (err) {
       console.error(err);
     }
