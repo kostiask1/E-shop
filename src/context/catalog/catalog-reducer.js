@@ -1,4 +1,4 @@
-import { FILTERS, RESPONSE } from "./types";
+import { FILTERS, RESPONSE, CART } from "./types";
 
 const handlers = {
   [FILTERS]: (state, { payload }) => ({
@@ -8,6 +8,10 @@ const handlers = {
   [RESPONSE]: (state, { payload }) => ({
     ...state,
     data: payload,
+  }),
+  [CART]: (state, { payload }) => ({
+    ...state,
+    cart: payload,
   }),
   DEFAULT: (state) => state,
 };

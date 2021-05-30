@@ -21,6 +21,8 @@ const Catalog = () => {
   const handleCheckbox = (e) => {
     return find(e.target.id);
   };
+  //console.log("renders");
+  //console.log(data)
 
   return (
     <main className="main">
@@ -30,7 +32,7 @@ const Catalog = () => {
           <p className="navbar">Shop by Apollin Ko</p>
         </div>
       </div>
-      <Link className="fas fa-shopping-cart" to="/" />
+      <Link className="fas fa-shopping-cart" to="/cart" />
       <div className="container-fluid catalog__wrapper pb-5 pt-2">
         <div className="row">
           <div className="col-12 col-md-2">
@@ -70,7 +72,9 @@ const Catalog = () => {
                           key={index}
                           id={item.id}
                           text={item.text}
-                          src={item.image}
+                          image={item.image}
+                          category={item.category}
+                          description={item.description}
                           price={item.price}
                         />
                       );
