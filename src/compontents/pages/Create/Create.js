@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { app } from "../../../base";
+import { catalogContext } from "../../../context/catalog/catalog-context";
 import ItemCreator from "../../ItemCreator/ItemCreator";
 
 const db = app.firestore();
 
 const Create = () => {
+  const { admin, auth } = useContext(catalogContext);
   const [filters, setFilters] = useState([]);
   const [categoryToRemove, setCategoryToRemove] = useState("");
   const [categoryToAdd, setCategoryToAdd] = useState("");
 
   useEffect(() => {
-    getFilters();
+    auth()
+    if (admin) getFilters();
     //eslint-disable-next-line
-  }, []);
+  }, [admin]);
 
-  console.log(filters);
+  if (!admin) return null;
 
   const getFilters = async () => {
     try {

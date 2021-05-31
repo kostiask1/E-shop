@@ -7,10 +7,7 @@ import React, {
   useCallback,
 } from "react";
 
-export function Modal(
-  { children, size, fade = false, defaultOpened = false },
-  ref
-) {
+export function Modal({ children, size, defaultOpened = false }, ref) {
   const [isOpen, setIsOpen] = useState(defaultOpened);
 
   const close = useCallback(() => setIsOpen(false), []);

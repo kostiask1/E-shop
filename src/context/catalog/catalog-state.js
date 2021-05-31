@@ -1,5 +1,6 @@
 import React, { useReducer } from "react";
-import { FILTERS, RESPONSE } from "./types";
+import axios from "axios";
+import { FILTERS, RESPONSE, LOGIN } from "./types";
 import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
 
@@ -10,10 +11,13 @@ export const CatalogState = ({ children }) => {
   const initialState = {
     filters: [],
     data: [],
+    admin: false,
   };
+
   const [state, dispatch] = useReducer(catalogReducer, initialState);
 
   const findWithId = async (id) => {
+    if (!id) return dispatch({ type: RESPONSE, payload: [] });
     let payload = [];
     try {
       const promises = id.map((id) =>
@@ -114,11 +118,68 @@ export const CatalogState = ({ children }) => {
     }
   };
 
-  const { filters, data } = state;
+  const login = async (credits) => {
+    let url = "";
+    credits.type === "login"
+      ? (url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
+      : credits.type === "signup"
+      ? (url =
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
+      : (url = false);
+    if (!url) return false;
+
+    const request = axios.post(url, credits);
+    request.then((response) => {
+      let data = response.data;
+      console.log(data);
+
+      const expirationDate = new Date(new Date().getTime() + 36 * 1000);
+      localStorage.setItem("token", data.idToken);
+      localStorage.setItem("userId", data.localId);
+      localStorage.setItem("expirationDate", expirationDate);
+      auth();
+      window.location.reload();
+    });
+  };
+
+  const logout = (reload) => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("expirationDate");
+    dispatch({ type: LOGIN, payload: false });
+    return reload ? window.location.reload() : false;
+  };
+
+  const auth = () => {
+    if (
+      new Date(localStorage.getItem("expirationDate")) >=
+        new Date().getTime() &&
+      localStorage.getItem("token")
+    ) {
+      let expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+      localStorage.setItem("expirationDate", expirationDate);
+      return dispatch({ type: LOGIN, payload: true });
+    } else {
+      return logout();
+    }
+  };
+
+  const { filters, data, admin } = state;
 
   return (
     <catalogContext.Provider
-      value={{ filters, find, findWithText, findWithId, data }}
+      value={{
+        filters,
+        find,
+        findWithText,
+        findWithId,
+        data,
+        login,
+        auth,
+        logout,
+        admin,
+      }}
     >
       {children}
     </catalogContext.Provider>

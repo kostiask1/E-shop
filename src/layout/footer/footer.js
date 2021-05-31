@@ -1,8 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Auth from "../../compontents/Auth/Auth";
+import { catalogContext } from "../../context/catalog/catalog-context";
 
 export const Footer = () => {
-  const [auth, setAuth] = useState(false);
+  const { auth, admin, logout } = useContext(catalogContext);
+  const [form, setForm] = useState(false);
+
+  useEffect(() => {
+    auth();
+    //eslint-disable-next-line
+  }, []);
+
   return (
     <div className="footer text-center">
       <div className="container">
@@ -19,15 +27,28 @@ export const Footer = () => {
             <i className="fab fa-instagram" />
           </a>
         </div>
-        <button className="m-auto btn btn-dark" onClick={() => setAuth(!auth)}>
-          Authorize
-        </button>
+        {!admin ? (
+          <button
+            className="m-auto btn btn-dark"
+            onClick={() => setForm(!form)}
+          >
+            Authorize
+          </button>
+        ) : null}
+        {!admin && form ? (
+          <div className="col-3 ml-auto mr-auto mt-5">
+            <Auth />
+          </div>
+        ) : null}
+        {admin && (
+          <button
+            onClick={() => logout(true)}
+            className="btn btn-danger btn-sm mt-2"
+          >
+            <i className="fas fa-power-off" style={{ fontSize: "12px" }} />
+          </button>
+        )}
       </div>
-      {auth ? (
-        <div className="col-3 ml-auto mr-auto mt-5">
-          <Auth />
-        </div>
-      ) : null}
     </div>
   );
 };

@@ -64,8 +64,8 @@ const ItemCreator = (props) => {
       .doc(data.id)
       .set(data)
       .then(() => {
-        console.log(modal.current);
         if (props.id === id) {
+          props.close();
           return props.find();
         }
         return clearInputs();
@@ -121,9 +121,16 @@ const ItemCreator = (props) => {
     modal.current.open();
   };
 
+  const handleTitle = (e) => {
+    if (!e) return setTitle("");
+    let newTitle = e[0].toUpperCase();
+    newTitle = newTitle + e.slice(1);
+    setTitle(newTitle);
+  };
+
   return (
     <>
-      <div className="col-12 row">
+      <div className="row">
         <div className="col-12 col-md-6">
           <form className="text-center" onSubmit={(e) => newItem(e)}>
             <p className="mb-4 title">Create item</p>
@@ -137,7 +144,7 @@ const ItemCreator = (props) => {
                     name="title"
                     value={title}
                     placeholder="Item title"
-                    onChange={(e) => setTitle(e.target.value)}
+                    onChange={(e) => handleTitle(e.target.value)}
                     required
                   />
                 </div>

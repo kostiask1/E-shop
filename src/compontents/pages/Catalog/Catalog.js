@@ -7,12 +7,21 @@ import ShopItem from "../../ShopItem/ShopItem";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Catalog = () => {
-  const { filters, find, findWithText, data } = useContext(catalogContext);
+  const { filters, admin, auth, find, findWithText, data } =
+    useContext(catalogContext);
 
   useEffect(() => {
     find();
+    auth();
     //eslint-disable-next-line
   }, []);
+
+let functions;
+  if (admin) {
+    functions = { addToCart: true, deleteItem: true };
+  } else {
+    functions = { addToCart: true };
+  }
 
   const handleInput = (e) => {
     findWithText(e.target.value);
@@ -21,8 +30,6 @@ const Catalog = () => {
   const handleCheckbox = (e) => {
     return find(e.target.id);
   };
-  //console.log("renders");
-  //console.log(data)
 
   return (
     <main className="main">
@@ -76,6 +83,8 @@ const Catalog = () => {
                           category={item.category}
                           description={item.description}
                           price={item.price}
+                          functions={functions}
+                          admin={admin}
                         />
                       );
                     })

@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { catalogContext } from "../../context/catalog/catalog-context";
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 export const Navigation = () => {
+  const { admin, auth } = useContext(catalogContext);
+
+  useEffect(() => {
+    auth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -49,15 +57,17 @@ export const Navigation = () => {
                   Contacts
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link pl-3"
-                  activeClassName="active"
-                  to="/create"
-                >
-                  Create
-                </NavLink>
-              </li>
+              {admin && (
+                <li className="nav-item">
+                  <NavLink
+                    className="nav-link pl-3"
+                    activeClassName="active"
+                    to="/create"
+                  >
+                    Create
+                  </NavLink>
+                </li>
+              )}
               <li className="nav-item">
                 <a className="nav-link pl-3" href="tel:380679029584">
                   +380679029584

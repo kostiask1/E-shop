@@ -14,7 +14,9 @@ import Create from "./compontents/pages/Create/Create";
 function App() {
   return (
     <>
-      <Navigation />
+      <CatalogState>
+        <Navigation />
+      </CatalogState>
       <Switch>
         <Route
           path="/catalog"
@@ -43,7 +45,11 @@ function App() {
         />
         <Route
           path="/create"
-          component={Create}
+          render={(props) => (
+            <CatalogState>
+              <Create {...props} />
+            </CatalogState>
+          )}
         />
         <Route path="/about" component={About} />
         <Route path="/contacts" component={Contacts} />
@@ -54,7 +60,9 @@ function App() {
           </CatalogState>
         </Route>
       </Switch>
-      <Footer />
+      <CatalogState>
+        <Footer />
+      </CatalogState>
     </>
   );
 }
