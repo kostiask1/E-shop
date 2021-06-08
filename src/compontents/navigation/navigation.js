@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink as RLink, useLocation } from "react-router-dom";
+import { Link } from "react-scroll";
 import { catalogContext } from "../../context/catalog/catalog-context";
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
@@ -12,60 +13,62 @@ export const Navigation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  let props = useLocation();
+  console.log(props.pathname !== "/" && props.pathname !== "/catalog");
+
+  let routes = [
+    { to: "about", name: "About" },
+    { to: "delivery", name: "Delivery" },
+    { to: "contacts", name: "Contacts" },
+  ];
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <RLink className="navbar-brand" to="/catalog">
             {SHOP_NAME}
-          </a>
+          </RLink>
           <div className="navbar">
             <ul className="navbar-nav flex-row me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink
+                <RLink
                   className="nav-link pl-3"
-                  activeClassName="active"
+                  activeClassName="current"
                   to="/catalog"
                 >
                   Catalog
-                </NavLink>
+                </RLink>
               </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link pl-3"
-                  activeClassName="active"
-                  to="/about"
-                >
-                  About
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link pl-3"
-                  activeClassName="active"
-                  to="/delivery"
-                >
-                  Delivery
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  className="nav-link pl-3"
-                  activeClassName="active"
-                  to="/contacts"
-                >
-                  Contacts
-                </NavLink>
-              </li>
+              {routes.map(({ to, name }) => {
+                if (props.pathname.includes("/cat") || props.pathname === "/") {
+                  return (
+                    <li className="nav-item" key={name}>
+                      <Link
+                        to={to}
+                        spy={true}
+                        smooth={true}
+                        offset={-125}
+                        duration={500}
+                        containerId="page"
+                        activeClass="active"
+                        className="nav-link pl-3"
+                      >
+                        {name}
+                      </Link>
+                    </li>
+                  );
+                }
+              })}
               {admin && (
                 <li className="nav-item">
-                  <NavLink
+                  <RLink
                     className="nav-link pl-3"
-                    activeClassName="active"
+                    activeClassName="current"
                     to="/create"
                   >
                     Create
-                  </NavLink>
+                  </RLink>
                 </li>
               )}
               <li className="nav-item">

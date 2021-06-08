@@ -68,13 +68,7 @@ const Cart = (props) => {
       </div>
     );
   } else {
-    return (
-      <div className="container-fluid">
-        <Link to={"/catalog"}>
-          <h1>{loading} go to catalog --></h1>
-        </Link>
-      </div>
-    );
+    return null;
   }
 };
 

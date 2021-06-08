@@ -24,7 +24,7 @@ const ShopItem = (props) => {
       });
     };
   }
-  console.log(deleteItem)
+  
   if (props.functions.hasOwnProperty("getCart")) {
     getCart = props.functions.getCart;
   }

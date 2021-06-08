@@ -206,7 +206,7 @@ const ItemCreator = (props) => {
             <select
               className="form-select d-block form-select-lg m-auto"
               name="category"
-              id="category"
+              id="categoryChoose"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               required

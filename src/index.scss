@@ -1,5 +1,8 @@
 body {
   margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -8,10 +11,39 @@ body {
 }
 
 #root {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.page {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  padding-top: 81px;
+  overflow-y: scroll;
+  height: calc(100%);
+}
+
+.page-enter {
+  opacity: 0;
+}
+
+.page-enter-active {
+  opacity: 1;
+  transition: opacity 400ms, transform 400ms;
+}
+
+.page-exit {
+  opacity: 1;
+}
+
+.page-exit-active {
+  opacity: 0;
+  transition: opacity 400ms, transform 400ms;
+}
+.fadeIn {
+  animation: 0.3s 0.3s fadeIn ease-in-out forwards;
 }
 
 code {
@@ -57,8 +89,15 @@ a {
 }
 
 .navbar {
+  z-index: 9990;
   &-brand {
     text-transform: capitalize;
+  }
+  a.active {
+    color: rgb(114, 114, 114);
+  }
+  a.current {
+    color: #000 !important;
   }
 }
 

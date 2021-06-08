@@ -24,10 +24,16 @@ export const CatalogState = ({ children }) => {
         db.collection("All").where("id", "==", id).get()
       );
       const responses = await Promise.all(promises);
-      responses.forEach((item) => {
-        payload.push(item.docs[0].data());
-      });
-      dispatch({ type: RESPONSE, payload });
+      console.log(responses);
+      if (responses[0].docs.length > 0) {
+        console.log(responses);
+        responses.forEach((item) => {
+          payload.push(item.docs[0].data());
+        });
+        dispatch({ type: RESPONSE, payload });
+      } else {
+        return dispatch({ type: RESPONSE, payload: [] });
+      }
     } catch (err) {
       console.error(err);
     }

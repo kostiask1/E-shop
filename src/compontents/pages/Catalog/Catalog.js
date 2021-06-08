@@ -6,7 +6,7 @@ import ShopItem from "../../ShopItem/ShopItem";
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
-const Catalog = () => {
+const Catalog = (props) => {
   const { filters, admin, auth, find, findWithText, data } =
     useContext(catalogContext);
 
@@ -16,7 +16,7 @@ const Catalog = () => {
     //eslint-disable-next-line
   }, []);
 
-let functions;
+  let functions;
   if (admin) {
     functions = { addToCart: true, deleteItem: true };
   } else {

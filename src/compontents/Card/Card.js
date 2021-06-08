@@ -2,20 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 
-const Card = ({ match }) => {
+const Card = (match) => {
   const { data, findWithId } = useContext(catalogContext);
-  const [ loading, setLoading ] = useState("Loading...");
+  const [loading, setLoading] = useState("");
 
   useEffect(() => {
-    findWithId([match.params.name]).then(() => {
-      if (data.length === 0) {
-        setLoading(prev => prev = "Nothing was found");
-      }
-    });
+    findWithId([match.params.name]);
+    const timeout = setTimeout(
+      () => setLoading((prev) => (prev = "Error occurred while loading")),
+      2000
+    );
+    return () => {
+      clearTimeout(timeout);
+    };
     //eslint-disable-next-line
   }, []);
 
-  console.log(data);
   if (data && data.length === 1) {
     const { text, image, price, description } = data[0];
     return (
