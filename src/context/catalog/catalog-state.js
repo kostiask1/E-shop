@@ -25,14 +25,16 @@ export const CatalogState = ({ children }) => {
       );
       const responses = await Promise.all(promises);
       console.log(responses);
-      if (responses[0].docs.length > 0) {
+      if (responses.length > 0 && responses[0].docs.length > 0) {
         console.log(responses);
         responses.forEach((item) => {
           payload.push(item.docs[0].data());
         });
         dispatch({ type: RESPONSE, payload });
+        return true;
       } else {
-        return dispatch({ type: RESPONSE, payload: [] });
+        dispatch({ type: RESPONSE, payload: [] });
+        return false;
       }
     } catch (err) {
       console.error(err);
