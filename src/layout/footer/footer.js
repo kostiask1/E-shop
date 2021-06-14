@@ -1,15 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Auth from "../../compontents/Auth/Auth";
-import { catalogContext } from "../../context/catalog/catalog-context";
+import { authContext } from "../../context/Auth/auth-context";
 
 export const Footer = () => {
-  const { auth, admin, logout } = useContext(catalogContext);
+  const { admin, logout } = useContext(authContext);
   const [form, setForm] = useState(false);
-
-  useEffect(() => {
-    auth();
-    //eslint-disable-next-line
-  }, []);
 
   return (
     <div className="footer text-center">
@@ -42,7 +37,7 @@ export const Footer = () => {
         ) : null}
         {admin && (
           <button
-            onClick={() => logout(true)}
+            onClick={() => logout()}
             className="btn btn-danger btn-sm mt-2"
           >
             <i className="fas fa-power-off" style={{ fontSize: "12px" }} />

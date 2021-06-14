@@ -1,20 +1,13 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { NavLink as RLink, useLocation } from "react-router-dom";
 import { Link } from "react-scroll";
-import { catalogContext } from "../../context/catalog/catalog-context";
-
+import { authContext } from "../../context/Auth/auth-context";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 export const Navigation = () => {
-  const { admin, auth } = useContext(catalogContext);
-
-  useEffect(() => {
-    auth();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { admin } = useContext(authContext);
 
   let props = useLocation();
-  console.log(props.pathname !== "/" && props.pathname !== "/catalog");
 
   let routes = [
     { to: "about", name: "About" },
@@ -59,6 +52,7 @@ export const Navigation = () => {
                     </li>
                   );
                 }
+                return null;
               })}
               {admin && (
                 <li className="nav-item">

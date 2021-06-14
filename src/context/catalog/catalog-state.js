@@ -1,6 +1,5 @@
 import React, { useReducer } from "react";
-import axios from "axios";
-import { FILTERS, RESPONSE, LOGIN } from "./types";
+import { FILTERS, RESPONSE, CATEGORY } from "./types";
 import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
 
@@ -12,6 +11,7 @@ export const CatalogState = ({ children }) => {
     filters: [],
     data: [],
     admin: false,
+    category: "all",
   };
 
   const [state, dispatch] = useReducer(catalogReducer, initialState);
@@ -43,7 +43,7 @@ export const CatalogState = ({ children }) => {
 
   const findWithText = async (text) => {
     if (text === "") {
-      return find("all");
+      return find();
     }
     try {
       text = text[0].toUpperCase() + text.slice(1);
@@ -53,14 +53,22 @@ export const CatalogState = ({ children }) => {
         .where("text", "<=", text + "\uf8ff")
         .get()
         .then((response) => {
-          console.log(response);
           let row = [];
           if (!response.docs.length) {
             return dispatch({ type: RESPONSE, payload: [] });
           } else {
             response.forEach((item) => {
-              row = row.concat(item.data());
-              return dispatch({ type: RESPONSE, payload: row });
+              if (category && category !== "all") {
+                if (item.data().category === category) {
+                  row = row.concat(item.data());
+                  console.log(row);
+                  return dispatch({ type: RESPONSE, payload: row });
+                }
+              } else {
+                row = row.concat(item.data());
+                console.log(row);
+                return dispatch({ type: RESPONSE, payload: row });
+              }
             });
           }
         });
@@ -86,7 +94,11 @@ export const CatalogState = ({ children }) => {
     }
   };
 
-  const find = async (category = null) => {
+  const setCategory = (value) => {
+    return dispatch({ type: CATEGORY, payload: value });
+  };
+
+  const find = async () => {
     try {
       let response = undefined;
       getFilters().then(async (filters) => {
@@ -101,7 +113,6 @@ export const CatalogState = ({ children }) => {
         }
         if (!category || category === "all") {
           let row = [];
-          console.log("i get categories: (" + filters.join(", ") + ") for you");
           db.collection("All")
             .get()
             .then((resp) => {
@@ -126,54 +137,7 @@ export const CatalogState = ({ children }) => {
     }
   };
 
-  const login = async (credits) => {
-    let url = "";
-    credits.type === "login"
-      ? (url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
-      : credits.type === "signup"
-      ? (url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
-      : (url = false);
-    if (!url) return false;
-
-    const request = axios.post(url, credits);
-    request.then((response) => {
-      let data = response.data;
-      console.log(data);
-
-      const expirationDate = new Date(new Date().getTime() + 36 * 1000);
-      localStorage.setItem("token", data.idToken);
-      localStorage.setItem("userId", data.localId);
-      localStorage.setItem("expirationDate", expirationDate);
-      auth();
-      window.location.reload();
-    });
-  };
-
-  const logout = (reload) => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("expirationDate");
-    dispatch({ type: LOGIN, payload: false });
-    return reload ? window.location.reload() : false;
-  };
-
-  const auth = () => {
-    if (
-      new Date(localStorage.getItem("expirationDate")) >=
-        new Date().getTime() &&
-      localStorage.getItem("token")
-    ) {
-      let expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-      localStorage.setItem("expirationDate", expirationDate);
-      return dispatch({ type: LOGIN, payload: true });
-    } else {
-      return logout();
-    }
-  };
-
-  const { filters, data, admin } = state;
+  const { filters, data, category } = state;
 
   return (
     <catalogContext.Provider
@@ -183,10 +147,8 @@ export const CatalogState = ({ children }) => {
         findWithText,
         findWithId,
         data,
-        login,
-        auth,
-        logout,
-        admin,
+        category,
+        setCategory,
       }}
     >
       {children}

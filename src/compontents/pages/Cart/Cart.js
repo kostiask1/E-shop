@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import ShopItem from "../../ShopItem/ShopItem";
 const LOCAL_STORAGE_KEY = "bloom-shop";
 
 const Cart = (props) => {
   const { data, findWithId } = useContext(catalogContext);
-  const [loading, setLoading] = useState("Loading...");
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {

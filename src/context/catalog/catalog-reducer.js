@@ -1,4 +1,4 @@
-import { FILTERS, RESPONSE, CART, LOGIN } from "./types";
+import { FILTERS, RESPONSE, CART, LOGIN, CATEGORY } from "./types";
 
 const handlers = {
   [FILTERS]: (state, { payload }) => ({
@@ -16,6 +16,10 @@ const handlers = {
   [LOGIN]: (state, { payload }) => ({
     ...state,
     admin: payload,
+  }),
+  [CATEGORY]: (state, { payload }) => ({
+    ...state,
+    category: payload,
   }),
   DEFAULT: (state) => state,
 };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
 import { Navigation } from "./compontents/navigation/navigation";
@@ -11,6 +11,7 @@ import { Footer } from "./layout/footer/footer";
 import { CatalogState } from "./context/catalog/catalog-state";
 import Cart from "./compontents/pages/Cart/Cart";
 import Create from "./compontents/pages/Create/Create";
+import { authContext } from "./context/Auth/auth-context";
 
 const mainRoutes = [
   { path: "/", Component: Catalog },
@@ -24,6 +25,12 @@ const routes = [
 ];
 
 function App() {
+  const { auth } = useContext(authContext);
+
+  useEffect(() => {
+    auth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <CatalogState>

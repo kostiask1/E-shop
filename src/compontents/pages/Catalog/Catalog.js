@@ -1,5 +1,6 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { authContext } from "../../../context/Auth/auth-context";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import Category from "../../Category/Category";
 import ShopItem from "../../ShopItem/ShopItem";
@@ -7,14 +8,20 @@ import ShopItem from "../../ShopItem/ShopItem";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Catalog = (props) => {
-  const { filters, admin, auth, find, findWithText, data } =
+  const { filters, find, category, findWithText, data, setCategory } =
     useContext(catalogContext);
+  const { admin } = useContext(authContext);
+  const [itemsPerPage, setItemsPerPage] = useState(
+    JSON.parse(localStorage.getItem("BloomItemsPerPage")) || 6
+  );
+  const [page, setPage] = useState(
+    JSON.parse(localStorage.getItem("BloomPage")) || 0
+  );
 
   useEffect(() => {
     find();
-    auth();
     //eslint-disable-next-line
-  }, []);
+  }, [category]);
 
   let functions;
   if (admin) {
@@ -28,9 +35,42 @@ const Catalog = (props) => {
   };
 
   const handleCheckbox = (e) => {
-    return find(e.target.id);
+    return setCategory(e.target.id);
+    //return find(e.target.id);
   };
+  let newData = data
+    ? data.reduce(
+        (result, value, index, sourceArray) =>
+          index % itemsPerPage === 0
+            ? [...result, sourceArray.slice(index, index + itemsPerPage)]
+            : result,
+        []
+      )
+    : [];
 
+  if (page > Math.ceil(data.length / itemsPerPage)) {
+    JSON.stringify(
+      localStorage.setItem("BloomPage", Math.ceil(data.length / itemsPerPage))
+    );
+    window.location.reload();
+  }
+
+  const nextPage = () => {
+    if (page < Math.ceil(data.length / itemsPerPage)) {
+      JSON.stringify(localStorage.setItem("BloomPage", page + 1));
+      return setPage((page) => (page = page + 1));
+    }
+  };
+  const prevPage = () => {
+    if (page > 0) {
+      JSON.stringify(localStorage.setItem("BloomPage", page - 1));
+      return setPage((page) => (page = page - 1));
+    }
+  };
+  const handleSelect = (value) => {
+    JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
+    setItemsPerPage(value);
+  };
   return (
     <main className="main">
       <div className="bg">
@@ -71,9 +111,9 @@ const Catalog = (props) => {
             <div className="catalog">
               <div className="container">
                 <div className="row">
-                  {Object.values(data).length > 0 ? (
-                    Object.values(data).map((item, index) => {
-                      // console.log(item);
+                  {newData.length > 0 &&
+                  Object.values(newData[page]).length > 0 ? (
+                    Object.values(newData[page]).map((item, index) => {
                       return (
                         <ShopItem
                           key={index}
@@ -94,6 +134,32 @@ const Catalog = (props) => {
                 </div>
               </div>
             </div>
+            <button
+              disabled={page === 0 ? true : false}
+              onClick={() => prevPage()}
+            >
+              Prev page
+            </button>
+            <button
+              disabled={
+                page + 1 >= Math.ceil(data.length / itemsPerPage) ? true : false
+              }
+              onClick={() => nextPage()}
+            >
+              Next page
+            </button>
+            <select
+              name="category"
+              id="category"
+              value={itemsPerPage}
+              onChange={(e) => handleSelect(e.target.value)}
+            >
+              {[4, 6, 8, 10, 20].map((idx) => (
+                <option value={idx} key={idx}>
+                  {idx}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
       </div>

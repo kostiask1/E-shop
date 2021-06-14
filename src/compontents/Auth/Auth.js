@@ -1,8 +1,8 @@
 import React, { useState, useContext } from "react";
-import { catalogContext } from "../../context/catalog/catalog-context";
+import { authContext } from "../../context/Auth/auth-context";
 
 const Auth = () => {
-  const { login, admin, logout, auth } = useContext(catalogContext);
+  const { login, admin } = useContext(authContext);
   const [loginValue, setLoginValue] = useState("");
   const [password, setPassword] = useState("");
 
