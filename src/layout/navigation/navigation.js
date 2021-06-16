@@ -25,16 +25,31 @@ export const Navigation = () => {
           <div className="navbar">
             <ul className="navbar-nav flex-row me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <RLink
-                  className="nav-link pl-3"
-                  activeClassName="current"
-                  to="/catalog"
-                >
-                  Catalog
-                </RLink>
+                {props.pathname === "/catalog" ? (
+                  <Link
+                    to="catalog"
+                    spy={true}
+                    smooth={true}
+                    offset={570}
+                    duration={500}
+                    containerId="page"
+                    activeClass="active"
+                    className="nav-link pl-3"
+                  >
+                    Catalog
+                  </Link>
+                ) : (
+                  <RLink
+                    className="nav-link pl-3"
+                    activeClassName="current"
+                    to="/catalog"
+                  >
+                    Catalog
+                  </RLink>
+                )}
               </li>
               {routes.map(({ to, name }) => {
-                if (props.pathname.includes("/cat") || props.pathname === "/") {
+                if (props.pathname === "/catalog") {
                   return (
                     <li className="nav-item" key={name}>
                       <Link
@@ -78,7 +93,7 @@ export const Navigation = () => {
               <li className="nav-item">
                 <a
                   className="nav-link pl-1"
-                  href="https://www.instagram.com/apollin_ko_studio/"
+                  href="https://www.instagram.com/apollin_ko_shop/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

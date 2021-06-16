@@ -1,4 +1,14 @@
-import { FILTERS, RESPONSE, CART, LOGIN, CATEGORY } from "./types";
+import {
+  FILTERS,
+  RESPONSE,
+  CART,
+  LOGIN,
+  CATEGORY,
+  PRICERANGE,
+  SEARCHTEXT,
+  ORDER,
+  DATA,
+} from "./types";
 
 const handlers = {
   [FILTERS]: (state, { payload }) => ({
@@ -6,6 +16,10 @@ const handlers = {
     filters: payload,
   }),
   [RESPONSE]: (state, { payload }) => ({
+    ...state,
+    rowData: payload,
+  }),
+  [DATA]: (state, { payload }) => ({
     ...state,
     data: payload,
   }),
@@ -20,6 +34,19 @@ const handlers = {
   [CATEGORY]: (state, { payload }) => ({
     ...state,
     category: payload,
+  }),
+  [PRICERANGE]: (state, { payload }) => ({
+    ...state,
+    minPrice: payload.min,
+    maxPrice: payload.max,
+  }),
+  [SEARCHTEXT]: (state, { payload }) => ({
+    ...state,
+    searchText: payload,
+  }),
+  [ORDER]: (state, { payload }) => ({
+    ...state,
+    order: payload,
   }),
   DEFAULT: (state) => state,
 };

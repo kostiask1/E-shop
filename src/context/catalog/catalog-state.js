@@ -1,5 +1,13 @@
 import React, { useReducer } from "react";
-import { FILTERS, RESPONSE, CATEGORY } from "./types";
+import {
+  FILTERS,
+  RESPONSE,
+  CATEGORY,
+  PRICERANGE,
+  SEARCHTEXT,
+  ORDER,
+  DATA,
+} from "./types";
 import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
 
@@ -9,73 +17,17 @@ const db = app.firestore();
 export const CatalogState = ({ children }) => {
   const initialState = {
     filters: [],
+    rowData: [],
     data: [],
     admin: false,
     category: "all",
+    minPrice: 0,
+    maxPrice: 999999,
+    searchText: "",
+    order: null,
   };
 
   const [state, dispatch] = useReducer(catalogReducer, initialState);
-
-  const findWithId = async (id) => {
-    if (!id) return dispatch({ type: RESPONSE, payload: [] });
-    let payload = [];
-    try {
-      const promises = id.map((id) =>
-        db.collection("All").where("id", "==", id).get()
-      );
-      const responses = await Promise.all(promises);
-      console.log(responses);
-      if (responses.length > 0 && responses[0].docs.length > 0) {
-        console.log(responses);
-        responses.forEach((item) => {
-          payload.push(item.docs[0].data());
-        });
-        dispatch({ type: RESPONSE, payload });
-        return true;
-      } else {
-        dispatch({ type: RESPONSE, payload: [] });
-        return false;
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const findWithText = async (text) => {
-    if (text === "") {
-      return find();
-    }
-    try {
-      text = text[0].toUpperCase() + text.slice(1);
-      await db
-        .collection("All")
-        .where("text", ">=", text)
-        .where("text", "<=", text + "\uf8ff")
-        .get()
-        .then((response) => {
-          let row = [];
-          if (!response.docs.length) {
-            return dispatch({ type: RESPONSE, payload: [] });
-          } else {
-            response.forEach((item) => {
-              if (category && category !== "all") {
-                if (item.data().category === category) {
-                  row = row.concat(item.data());
-                  console.log(row);
-                  return dispatch({ type: RESPONSE, payload: row });
-                }
-              } else {
-                row = row.concat(item.data());
-                console.log(row);
-                return dispatch({ type: RESPONSE, payload: row });
-              }
-            });
-          }
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const getFilters = async () => {
     try {
@@ -94,61 +46,111 @@ export const CatalogState = ({ children }) => {
     }
   };
 
+  const getData = () => {
+    getFilters();
+    db.collection("All")
+      .get()
+      .then((response) => {
+        let row = [];
+        let promise = new Promise((resolve) => {
+          if (!response.docs.length) {
+            return resolve(row);
+          } else {
+            response.docs.map((item) => {
+              if (category && category !== "all") {
+                if (item.data().category === category) {
+                  return (row = row.concat(item.data()));
+                }
+              } else {
+                return (row = row.concat(item.data()));
+              }
+              return false;
+            });
+          }
+          resolve(row);
+        });
+        promise.then((response) => {
+          dispatch({ type: DATA, payload: response });
+          dispatch({ type: RESPONSE, payload: response });
+        });
+      });
+  };
+
+  const filterData = () => {
+    console.log(order);
+    let dataNew = [...rowData];
+    if (searchText !== "" && dataNew.length > 0) {
+      dataNew = dataNew.filter((item) => {
+        return item.text.toLowerCase().includes(searchText);
+      });
+    }
+    if (category !== "all" && dataNew.length > 0) {
+      dataNew = dataNew.filter((item) => {
+        return item.category === category;
+      });
+    }
+    if (dataNew.length > 0) {
+      dataNew = dataNew.filter((item) => {
+        return item.price >= minPrice && item.price <= maxPrice;
+      });
+    }
+    if (order !== null && order !== "") {
+      function compare(a, b) {
+        if (a.price < b.price) {
+          return -1;
+        }
+        if (a.price > b.price) {
+          return 1;
+        }
+        return 0;
+      }
+
+      dataNew.sort(compare);
+      if (order === "desc") dataNew.reverse();
+    }
+    console.log(dataNew);
+    return dispatch({ type: DATA, payload: dataNew });
+  };
+
   const setCategory = (value) => {
+    localStorage.setItem("BLOOM_category", JSON.stringify(value));
     return dispatch({ type: CATEGORY, payload: value });
   };
-
-  const find = async () => {
-    try {
-      let response = undefined;
-      getFilters().then(async (filters) => {
-        console.log("start loading data...");
-        if (category !== "all" && category) {
-          response = await db
-            .collection("All")
-            .where("category", "==", category)
-            .get();
-          const payload = response.docs.map((doc) => doc.data());
-          return dispatch({ type: RESPONSE, payload });
-        }
-        if (!category || category === "all") {
-          let row = [];
-          db.collection("All")
-            .get()
-            .then((resp) => {
-              let promise = new Promise((resolve) => {
-                if (resp.docs.length) {
-                  resp.forEach((doc) => {
-                    return row.push(doc.data());
-                  });
-                  resolve(row);
-                } else {
-                  resolve([]);
-                }
-              });
-              promise.then((payload) => {
-                return dispatch({ type: RESPONSE, payload });
-              });
-            });
-        }
-      });
-    } catch (err) {
-      console.error(err);
-    }
+  const setPriceRange = async (min, max) => {
+    max = max === 0 ? 9999 : max;
+    return dispatch({ type: PRICERANGE, payload: { min, max } });
+  };
+  const setSearchText = (value) => {
+    return dispatch({ type: SEARCHTEXT, payload: value.toLowerCase() });
+  };
+  const setOrder = (value) => {
+    return dispatch({ type: ORDER, payload: value });
   };
 
-  const { filters, data, category } = state;
+  const {
+    filters,
+    data,
+    rowData,
+    category,
+    minPrice,
+    maxPrice,
+    searchText,
+    order,
+  } = state;
 
   return (
     <catalogContext.Provider
       value={{
-        filters,
-        find,
-        findWithText,
-        findWithId,
+        getData,
         data,
-        category,
+        filters,
         setCategory,
+        setPriceRange,
+        filterData,
+        setSearchText,
+        setOrder,
+        minPrice,
+        maxPrice,
       }}
     >
       {children}

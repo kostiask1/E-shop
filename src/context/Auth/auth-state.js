@@ -25,7 +25,7 @@ export const AuthState = ({ children }) => {
     const request = axios.post(url, credits);
     request.then((response) => {
       let data = response.data;
-      console.log(data);
+      console.log(response);
 
       const expirationDate = new Date(new Date().getTime() + 36 * 1000);
       localStorage.setItem("token", data.idToken);

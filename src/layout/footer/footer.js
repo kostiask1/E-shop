@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import Auth from "../../compontents/Auth/Auth";
 import { authContext } from "../../context/Auth/auth-context";
+import Auth from "../Auth/Auth";
 
 export const Footer = () => {
   const { admin, logout } = useContext(authContext);
@@ -15,7 +15,7 @@ export const Footer = () => {
           </a>
           <a
             className="pl-3"
-            href="https://www.instagram.com/apollin_ko_studio/"
+            href="https://www.instagram.com/apollin_ko_shop/"
             target="_blank"
             rel="noopener noreferrer"
           >

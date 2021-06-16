@@ -93,6 +93,9 @@ a {
   &-brand {
     text-transform: capitalize;
   }
+  a {
+    cursor: pointer;
+  }
   a.active {
     color: rgb(114, 114, 114);
   }
@@ -191,6 +194,9 @@ select {
   padding: 5px;
   padding-left: 12px;
 }
+p {
+  word-break: break-word;
+}
 
 .modal {
   display: flex;
@@ -204,6 +210,9 @@ select {
     left: 0;
     background-color: rgba(0, 0, 0, 0.5);
   }
+  &-dialog {
+    margin-top: 7rem;
+  }
   &-content {
     height: 100%;
   }
@@ -211,12 +220,17 @@ select {
     width: 75vw;
     max-width: unset;
     min-height: unset;
-    height: 85vh;
+    max-height: 75vh;
   }
   &-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-y: scroll;
+    max-height: 75vh;
+  }
+  .col-md-3 {
+    margin: 1rem 0;
   }
   &-controls {
     align-self: flex-end;

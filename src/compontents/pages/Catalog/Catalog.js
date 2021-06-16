@@ -8,20 +8,53 @@ import ShopItem from "../../ShopItem/ShopItem";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Catalog = (props) => {
-  const { filters, find, category, findWithText, data, setCategory } =
-    useContext(catalogContext);
+  const {
+    filters,
+    data,
+    setCategory,
+    category,
+    setSearchText,
+    getData,
+    setPriceRange,
+    filterData,
+    setOrder,
+    minPrice,
+    maxPrice,
+  } = useContext(catalogContext);
   const { admin } = useContext(authContext);
+  const [orderS, setOrderS] = useState("");
   const [itemsPerPage, setItemsPerPage] = useState(
     JSON.parse(localStorage.getItem("BloomItemsPerPage")) || 6
   );
+  const [categoryS, setCategoryS] = useState("");
+  const [search, setSearch] = useState("");
+  const [minPriceS, setMinPriceS] = useState(0);
+  const [maxPriceS, setMaxPriceS] = useState(999999);
   const [page, setPage] = useState(
     JSON.parse(localStorage.getItem("BloomPage")) || 0
   );
 
   useEffect(() => {
-    find();
+    let get = Promise.resolve(getData());
+    get.then(() => filterData());
     //eslint-disable-next-line
-  }, [category]);
+  }, []);
+
+  useEffect(() => {
+    let get = Promise.resolve(setPriceRange(+minPriceS, +maxPriceS));
+    get.then(() => filterData());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryS, category, search, minPrice, maxPrice, orderS]);
+
+  useEffect(() => {
+    setNewData();
+    //eslint-disable-next-line
+  }, [itemsPerPage, page]);
+
+  useEffect(() => {
+    setPriceRange(+minPriceS, +maxPriceS);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [minPriceS, maxPriceS]);
 
   let functions;
   if (admin) {
@@ -31,30 +64,53 @@ const Catalog = (props) => {
   }
 
   const handleInput = (e) => {
-    findWithText(e.target.value);
+    setSearchText(e.target.value);
+    return setSearch(e.target.value);
   };
 
   const handleCheckbox = (e) => {
-    return setCategory(e.target.id);
-    //return find(e.target.id);
+    setCategory(e.target.id);
+    return setCategoryS(e.target.id);
   };
-  let newData = data
-    ? data.reduce(
-        (result, value, index, sourceArray) =>
-          index % itemsPerPage === 0
-            ? [...result, sourceArray.slice(index, index + itemsPerPage)]
-            : result,
-        []
-      )
-    : [];
+  const handleMin = (e) => {
+    setMinPriceS(e);
+  };
+  const handleMax = (e) => {
+    setMaxPriceS(e);
+  };
+  const handleOrder = (value) => {
+    setOrderS(value);
+    return setOrder(value);
+  };
 
-  if (page > Math.ceil(data.length / itemsPerPage)) {
-    JSON.stringify(
-      localStorage.setItem("BloomPage", Math.ceil(data.length / itemsPerPage))
-    );
-    window.location.reload();
-  }
-
+  const handleItmesPerPage = (value) => {
+    if (page >= Math.ceil(data.length / itemsPerPage) - 1) {
+      if (Math.ceil(data.length / itemsPerPage) - 1 >= 0) {
+        setPage(Math.ceil(data.length / itemsPerPage) - 1);
+        JSON.stringify(
+          localStorage.setItem(
+            "BloomPage",
+            Math.ceil(data.length / itemsPerPage) - 1
+          )
+        );
+      }
+      else if (Math.ceil(data.length / itemsPerPage) - 2 >= 0) {
+        setPage(Math.ceil(data.length / itemsPerPage) - 2);
+        JSON.stringify(
+          localStorage.setItem(
+            "BloomPage",
+            Math.ceil(data.length / itemsPerPage) - 2
+          )
+        );
+      }
+    }
+    if (page > 0) {
+      JSON.stringify(localStorage.setItem("BloomPage", page - 1));
+      setPage((page) => (page = page - 1));
+    }
+    JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
+    setItemsPerPage(value);
+  };
   const nextPage = () => {
     if (page < Math.ceil(data.length / itemsPerPage)) {
       JSON.stringify(localStorage.setItem("BloomPage", page + 1));
@@ -67,10 +123,27 @@ const Catalog = (props) => {
       return setPage((page) => (page = page - 1));
     }
   };
-  const handleSelect = (value) => {
-    JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
-    setItemsPerPage(value);
+
+  let newData;
+  const setNewData = () => {
+    let clone = [...data];
+    let chunks = function (array, size) {
+      let results = [];
+      while (array.length) {
+        results.push(array.splice(0, size));
+      }
+      return results;
+    };
+    newData = chunks(clone, itemsPerPage);
   };
+  setNewData();
+
+  if (page > Math.ceil(data.length / itemsPerPage)) {
+    JSON.stringify(
+      localStorage.setItem("BloomPage", Math.ceil(data.length / itemsPerPage))
+    );
+    window.location.reload();
+  }
   return (
     <main className="main">
       <div className="bg">
@@ -83,7 +156,24 @@ const Catalog = (props) => {
       <div className="container-fluid catalog__wrapper pb-5 pt-2">
         <div className="row">
           <div className="col-12 col-md-2">
-            <div className="catalog__filters"></div>
+            <div className="catalog__filters row">
+              <div className="col-6">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Min"
+                  onChange={(e) => handleMin(e.target.value)}
+                />
+              </div>
+              <div className="col-6">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Max"
+                  onChange={(e) => handleMax(e.target.value)}
+                />
+              </div>
+            </div>
             <input
               type="radio"
               name="categories"
@@ -104,12 +194,13 @@ const Catalog = (props) => {
             <input
               className="form-control"
               type="text"
+              placeholder="Search..."
               onChange={(e) => handleInput(e)}
             />
           </div>
           <div className="col-12 col-md-10">
-            <div className="catalog">
-              <div className="container">
+            <div id="catalog" className="catalog">
+              <div className="container-fluid">
                 <div className="row">
                   {newData.length > 0 &&
                   Object.values(newData[page]).length > 0 ? (
@@ -152,13 +243,23 @@ const Catalog = (props) => {
               name="category"
               id="category"
               value={itemsPerPage}
-              onChange={(e) => handleSelect(e.target.value)}
+              onChange={(e) => handleItmesPerPage(e.target.value)}
             >
               {[4, 6, 8, 10, 20].map((idx) => (
                 <option value={idx} key={idx}>
                   {idx}
                 </option>
               ))}
+            </select>
+            <select
+              name="order"
+              id="order"
+              value={orderS}
+              onChange={(e) => handleOrder(e.target.value)}
+            >
+              <option value="">Order:</option>
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
             </select>
           </div>
         </div>

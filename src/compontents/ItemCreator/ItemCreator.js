@@ -11,14 +11,13 @@ const ItemCreator = (props) => {
   const id = props.id || uuidv4();
   const [image, setImage] = useState(props.image || "");
   const [description, setDescription] = useState(props.description || "");
-  const [price, setPrice] = useState(props.price || "");
+  let [price, setPrice] = useState(props.price || "");
   const [category, setCategory] = useState(props.category || "");
 
   const [gallery, setGallery] = useState([]);
   const modal = useRef(null);
 
   useEffect(() => {
-    console.log(props);
     if (filters.length === 0) {
       getFilters();
     }
@@ -55,7 +54,7 @@ const ItemCreator = (props) => {
       category,
       id,
       image,
-      price,
+      price: +price,
       description,
       text: title,
     };
@@ -193,7 +192,7 @@ const ItemCreator = (props) => {
                 <div className="mb-2">
                   <input
                     className="form-control"
-                    type="text"
+                    type="number"
                     name="price"
                     value={price}
                     placeholder="Item price"

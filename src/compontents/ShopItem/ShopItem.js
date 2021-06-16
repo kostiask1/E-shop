@@ -9,8 +9,13 @@ const db = app.firestore();
 const LOCAL_STORAGE_KEY = "bloom-shop";
 
 const ShopItem = (props) => {
-  const { find } = useContext(catalogContext);
+  const { filterData, getData } = useContext(catalogContext);
   const modal = useRef(null);
+
+  const handleUpdate = () => {
+    let get = Promise.resolve(getData());
+    get.then(() => filterData());
+  };
 
   let addToCart, deleteFromCart, deleteItem, getCart;
 
@@ -19,12 +24,12 @@ const ShopItem = (props) => {
       let item = db.collection("All").where("id", "==", props.id);
       item.get().then(function (querySnapshot) {
         querySnapshot.docs[0].ref.delete().then(() => {
-          find();
+          filterData();
         });
       });
     };
   }
-  
+
   if (props.functions.hasOwnProperty("getCart")) {
     getCart = props.functions.getCart;
   }
@@ -126,7 +131,7 @@ const ShopItem = (props) => {
           price={props.price}
           category={props.category}
           close={() => modal.current.close()}
-          find={() => find()}
+          find={() => handleUpdate()}
         />
       </Modal>
     </>
