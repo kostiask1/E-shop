@@ -12,7 +12,6 @@ const Catalog = (props) => {
     filters,
     data,
     setCategory,
-    category,
     setSearchText,
     getData,
     setPriceRange,
@@ -34,6 +33,8 @@ const Catalog = (props) => {
     JSON.parse(localStorage.getItem("BloomPage")) || 0
   );
 
+  const [newData, setNewData] = useState([]);
+
   useEffect(() => {
     let get = Promise.resolve(getData());
     get.then(() => filterData());
@@ -44,17 +45,12 @@ const Catalog = (props) => {
     let get = Promise.resolve(setPriceRange(+minPriceS, +maxPriceS));
     get.then(() => filterData());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryS, category, search, minPrice, maxPrice, orderS]);
+  }, [categoryS, search, minPrice, maxPrice, orderS, minPriceS, maxPriceS]);
 
   useEffect(() => {
-    setNewData();
+    setNewDataF();
     //eslint-disable-next-line
-  }, [itemsPerPage, page]);
-
-  useEffect(() => {
-    setPriceRange(+minPriceS, +maxPriceS);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [minPriceS, maxPriceS]);
+  }, [data, itemsPerPage, page]);
 
   let functions;
   if (admin) {
@@ -83,36 +79,15 @@ const Catalog = (props) => {
     return setOrder(value);
   };
 
+  let pages = Math.ceil(data.length / itemsPerPage);
   const handleItmesPerPage = (value) => {
-    if (page >= Math.ceil(data.length / itemsPerPage) - 1) {
-      if (Math.ceil(data.length / itemsPerPage) - 1 >= 0) {
-        setPage(Math.ceil(data.length / itemsPerPage) - 1);
-        JSON.stringify(
-          localStorage.setItem(
-            "BloomPage",
-            Math.ceil(data.length / itemsPerPage) - 1
-          )
-        );
-      }
-      else if (Math.ceil(data.length / itemsPerPage) - 2 >= 0) {
-        setPage(Math.ceil(data.length / itemsPerPage) - 2);
-        JSON.stringify(
-          localStorage.setItem(
-            "BloomPage",
-            Math.ceil(data.length / itemsPerPage) - 2
-          )
-        );
-      }
+    if (page < pages) {
+      JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
+      setItemsPerPage(value);
     }
-    if (page > 0) {
-      JSON.stringify(localStorage.setItem("BloomPage", page - 1));
-      setPage((page) => (page = page - 1));
-    }
-    JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
-    setItemsPerPage(value);
   };
   const nextPage = () => {
-    if (page < Math.ceil(data.length / itemsPerPage)) {
+    if (page < pages) {
       JSON.stringify(localStorage.setItem("BloomPage", page + 1));
       return setPage((page) => (page = page + 1));
     }
@@ -123,9 +98,13 @@ const Catalog = (props) => {
       return setPage((page) => (page = page - 1));
     }
   };
-
-  let newData;
-  const setNewData = () => {
+  const setNewDataF = () => {
+    if (page >= pages) {
+      if (pages > 0) {
+        setPage(pages - 1);
+        JSON.stringify(localStorage.setItem("BloomPage", pages - 1));
+      }
+    }
     let clone = [...data];
     let chunks = function (array, size) {
       let results = [];
@@ -134,16 +113,9 @@ const Catalog = (props) => {
       }
       return results;
     };
-    newData = chunks(clone, itemsPerPage);
+    setNewData(chunks(clone, itemsPerPage));
   };
-  setNewData();
 
-  if (page > Math.ceil(data.length / itemsPerPage)) {
-    JSON.stringify(
-      localStorage.setItem("BloomPage", Math.ceil(data.length / itemsPerPage))
-    );
-    window.location.reload();
-  }
   return (
     <main className="main">
       <div className="bg">
@@ -232,9 +204,7 @@ const Catalog = (props) => {
               Prev page
             </button>
             <button
-              disabled={
-                page + 1 >= Math.ceil(data.length / itemsPerPage) ? true : false
-              }
+              disabled={page + 1 >= pages ? true : false}
               onClick={() => nextPage()}
             >
               Next page
@@ -245,7 +215,7 @@ const Catalog = (props) => {
               value={itemsPerPage}
               onChange={(e) => handleItmesPerPage(e.target.value)}
             >
-              {[4, 6, 8, 10, 20].map((idx) => (
+              {[3, 4, 6, 8, 10, 20].map((idx) => (
                 <option value={idx} key={idx}>
                   {idx}
                 </option>

@@ -1,17 +1,17 @@
 import React, { useContext, useEffect } from "react";
 import { Route, withRouter, Redirect } from "react-router-dom";
 import { CSSTransition } from "react-transition-group";
+import { Footer } from "./layout/footer/footer";
+import { CatalogState } from "./context/catalog/catalog-state";
+import { authContext } from "./context/Auth/auth-context";
+import { Navigation } from "./layout/navigation/navigation";
 import Catalog from "./compontents/pages/Catalog/Catalog";
 import Contacts from "./compontents/pages/Contacts/Contacts";
 import Delivery from "./compontents/pages/Delivery/Delivery";
 import About from "./compontents/pages/About/About";
 import Card from "./compontents/Card/Card";
-import { Footer } from "./layout/footer/footer";
-import { CatalogState } from "./context/catalog/catalog-state";
 import Cart from "./compontents/pages/Cart/Cart";
 import Create from "./compontents/pages/Create/Create";
-import { authContext } from "./context/Auth/auth-context";
-import { Navigation } from "./layout/navigation/navigation";
 
 const mainRoutes = [
   { path: "/", Component: Catalog },

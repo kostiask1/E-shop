@@ -76,8 +76,30 @@ export const CatalogState = ({ children }) => {
       });
   };
 
+  const getById = async (id) => {
+    if (!id) return dispatch({ type: DATA, payload: [] });
+    let payload = [];
+    try {
+      const promises = id.map((id) =>
+        db.collection("All").where("id", "==", id).get()
+      );
+      const responses = await Promise.all(promises);
+      if (responses.length > 0 && responses[0].docs.length > 0) {
+        responses.forEach((item) => {
+          payload.push(item.docs[0].data());
+        });
+        dispatch({ type: DATA, payload });
+        return true;
+      } else {
+        dispatch({ type: DATA, payload: [] });
+        return false;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const filterData = () => {
-    console.log(order);
     let dataNew = [...rowData];
     if (searchText !== "" && dataNew.length > 0) {
       dataNew = dataNew.filter((item) => {
@@ -108,7 +130,6 @@ export const CatalogState = ({ children }) => {
       dataNew.sort(compare);
       if (order === "desc") dataNew.reverse();
     }
-    console.log(dataNew);
     return dispatch({ type: DATA, payload: dataNew });
   };
 
@@ -142,13 +163,14 @@ export const CatalogState = ({ children }) => {
     <catalogContext.Provider
       value={{
         getData,
-        data,
-        filters,
+        getById,
         setCategory,
         setPriceRange,
         filterData,
         setSearchText,
         setOrder,
+        data,
+        filters,
         minPrice,
         maxPrice,
       }}

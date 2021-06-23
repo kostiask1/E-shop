@@ -3,11 +3,11 @@ import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 
 const Card = (match) => {
-  const { data, findWithId } = useContext(catalogContext);
+  const { data, getById } = useContext(catalogContext);
   const [loading, setLoading] = useState("");
 
   useEffect(() => {
-    findWithId([match.params.name]);
+    getById([match.params.name]);
     const timeout = setTimeout(
       () => setLoading((prev) => (prev = "Error occurred while loading")),
       2000

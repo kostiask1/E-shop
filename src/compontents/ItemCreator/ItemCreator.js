@@ -13,6 +13,7 @@ const ItemCreator = (props) => {
   const [description, setDescription] = useState(props.description || "");
   let [price, setPrice] = useState(props.price || "");
   const [category, setCategory] = useState(props.category || "");
+  const [drag, setDrag] = useState(false);
 
   const [gallery, setGallery] = useState([]);
   const modal = useRef(null);
@@ -90,7 +91,6 @@ const ItemCreator = (props) => {
   };
 
   const deleteImage = async (file) => {
-    console.log(file);
     const storageRef = app.storage();
     storageRef
       .refFromURL(file)
@@ -107,15 +107,15 @@ const ItemCreator = (props) => {
     var storageRef = app.storage().ref();
     var listRef = storageRef.child("images");
     listRef.listAll().then(function (result) {
-      let row = [];
-      result.items.length > 0
-        ? result.items.forEach(function (imgRef) {
-            imgRef.getDownloadURL().then(function (url) {
-              row = row.concat(url);
-              setGallery(row);
-            });
-          })
-        : setGallery([]);
+      if (result.items.length === 0) return setGallery([]);
+      let promises = result.items.map(function (imgRef) {
+        return imgRef.getDownloadURL().then(function (url) {
+          return url;
+        });
+      });
+      Promise.all(promises).then((items) => {
+        setGallery(items);
+      });
     });
     modal.current.open();
   };
@@ -125,6 +125,36 @@ const ItemCreator = (props) => {
     let newTitle = e[0].toUpperCase();
     newTitle = newTitle + e.slice(1);
     setTitle(newTitle);
+  };
+
+  const onDragStart = (e) => {
+    e.preventDefault();
+    setDrag(true);
+  };
+  const onDragLeave = (e) => {
+    e.preventDefault();
+    setDrag(false);
+  };
+
+  const onDragLoad = (e) => {
+    e.preventDefault();
+    try {
+      let files = [...e.dataTransfer.files];
+      const storageRef = app.storage().ref().child("images");
+      let request = new Promise((resolve) => {
+        files.map(async (file) => {
+          const fileRef = storageRef.child(file.name);
+          await fileRef.put(file);
+          resolve(true);
+        });
+      });
+      request.then(() => {
+        setDrag(false);
+        loadGallery();
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -248,37 +278,47 @@ const ItemCreator = (props) => {
       </div>
 
       <Modal ref={modal} size="fullscreen">
-        <div className="row">
-          {gallery.map((img, idx) => (
-            <div className="col-md-3" key={idx}>
-              <div className="item">
-                <div className="item-controls">
-                  <div className="edit">
-                    <button
-                      className="item-control item-edit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#Edit"
-                      onClick={() => {
-                        setImage(img);
-                        modal.current.close();
-                      }}
-                    >
-                      <i className="fa fa-check" />
-                    </button>
+        <div
+          className="row"
+          onDragStart={(e) => onDragStart(e)}
+          onDragLeave={(e) => onDragLeave(e)}
+          onDragOver={(e) => onDragStart(e)}
+          onDrop={(e) => onDragLoad(e)}
+        >
+          {!drag ? (
+            gallery.map((img, idx) => (
+              <div className="col-md-3" key={idx}>
+                <div className="item">
+                  <div className="item-controls">
+                    <div className="edit">
+                      <button
+                        className="item-control item-edit"
+                        data-bs-toggle="modal"
+                        data-bs-target="#Edit"
+                        onClick={() => {
+                          setImage(img);
+                          modal.current.close();
+                        }}
+                      >
+                        <i className="fa fa-check" />
+                      </button>
+                    </div>
+                    <div className="delete">
+                      <button
+                        onClick={() => deleteImage(img)}
+                        className="item-control item-delete"
+                      >
+                        <i className="fas fa-times" />
+                      </button>
+                    </div>
                   </div>
-                  <div className="delete">
-                    <button
-                      onClick={() => deleteImage(img)}
-                      className="item-control item-delete"
-                    >
-                      <i className="fas fa-times" />
-                    </button>
-                  </div>
+                  <img className="item-img" src={img} alt="" />
                 </div>
-                <img className="item-img" src={img} alt="" />
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div style={{ height: "500px" }}>Drop files here...</div>
+          )}
         </div>
         <div className="modal-controls">
           <label className="btn btn-success mb-0 mr-3" htmlFor="loadFile">

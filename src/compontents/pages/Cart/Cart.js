@@ -5,7 +5,7 @@ import ShopItem from "../../ShopItem/ShopItem";
 const LOCAL_STORAGE_KEY = "bloom-shop";
 
 const Cart = (props) => {
-  const { data, findWithId } = useContext(catalogContext);
+  const { data, getById } = useContext(catalogContext);
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
@@ -14,20 +14,12 @@ const Cart = (props) => {
   }, []);
 
   const getCart = () => {
-    let promise = new Promise((resolve) => {
-      let storage = localStorage.getItem(LOCAL_STORAGE_KEY) || null;
-      if (storage && storage.length > 0) {
-        storage = JSON.parse(storage);
-      }
-      resolve(storage);
-    });
-    promise.then((ids) => {
-      findWithId(ids).then((status) => {
-        if (!status) {
-          setRedirect(true);
-        }
-      });
-    });
+    let storage = localStorage.getItem(LOCAL_STORAGE_KEY) || null;
+    if (!storage || storage === "[]") return setRedirect(true);
+    if (storage && storage.length > 0) {
+      storage = JSON.parse(storage);
+    }
+    getById(storage);
   };
 
   const clearCart = () => {
@@ -36,7 +28,7 @@ const Cart = (props) => {
       resolve(true);
     });
     promise.then(() => {
-      findWithId().then(setRedirect(true));
+      setRedirect(true);
     });
   };
   if (redirect) {
