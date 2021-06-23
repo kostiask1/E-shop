@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { authContext } from "../../../context/Auth/auth-context";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import Category from "../../Category/Category";
+import Pagination from "../../Pagination/Pagination";
 import ShopItem from "../../ShopItem/ShopItem";
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
@@ -38,6 +39,13 @@ const Catalog = (props) => {
   useEffect(() => {
     let get = Promise.resolve(getData());
     get.then(() => filterData());
+    if (window.innerWidth > 1700) {
+      return setItemsPerPage(10);
+    } else if (window.innerWidth > 1200) return setItemsPerPage(8);
+    else if (window.innerWidth > 991) return setItemsPerPage(6);
+    else if (window.innerWidth > 767) return setItemsPerPage(4);
+    else if (window.innerWidth > 300) return setItemsPerPage(3);
+
     //eslint-disable-next-line
   }, []);
 
@@ -50,7 +58,7 @@ const Catalog = (props) => {
   useEffect(() => {
     setNewDataF();
     //eslint-disable-next-line
-  }, [data, itemsPerPage, page]);
+  }, [data, itemsPerPage]);
 
   let functions;
   if (admin) {
@@ -63,8 +71,8 @@ const Catalog = (props) => {
     setSearchText(e.target.value);
     return setSearch(e.target.value);
   };
-
   const handleCheckbox = (e) => {
+    handleSetPage(0);
     setCategory(e.target.id);
     return setCategoryS(e.target.id);
   };
@@ -80,7 +88,8 @@ const Catalog = (props) => {
   };
 
   let pages = Math.ceil(data.length / itemsPerPage);
-  const handleItmesPerPage = (value) => {
+  const handleItemsPerPage = (value) => {
+    console.log(value);
     if (page < pages) {
       JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
       setItemsPerPage(value);
@@ -97,6 +106,10 @@ const Catalog = (props) => {
       JSON.stringify(localStorage.setItem("BloomPage", page - 1));
       return setPage((page) => (page = page - 1));
     }
+  };
+  const handleSetPage = (e) => {
+    JSON.stringify(localStorage.setItem("BloomPage", e));
+    setPage(e);
   };
   const setNewDataF = () => {
     if (page >= pages) {
@@ -116,6 +129,11 @@ const Catalog = (props) => {
     setNewData(chunks(clone, itemsPerPage));
   };
 
+  let pagesArray = [];
+  for (let i = 1; i < pages + 1; i++) {
+    pagesArray.push(i);
+  }
+
   return (
     <main className="main">
       <div className="bg">
@@ -128,31 +146,24 @@ const Catalog = (props) => {
       <div className="container-fluid catalog__wrapper pb-5 pt-2">
         <div className="row">
           <div className="col-12 col-md-2">
-            <div className="catalog__filters row">
-              <div className="col-6">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Min"
-                  onChange={(e) => handleMin(e.target.value)}
-                />
-              </div>
-              <div className="col-6">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Max"
-                  onChange={(e) => handleMax(e.target.value)}
-                />
-              </div>
-            </div>
             <input
-              type="radio"
-              name="categories"
-              id="all"
-              onChange={(e) => handleCheckbox(e)}
+              className="form-control"
+              type="text"
+              placeholder="Search..."
+              onChange={(e) => handleInput(e)}
             />
-            <label htmlFor="all">Show all</label>
+            <div className="mt-2">
+              <input
+                className="d-none"
+                type="radio"
+                name="categories"
+                id="all"
+                onChange={(e) => handleCheckbox(e)}
+              />
+              <label className="form-check-label" htmlFor="all">
+                Show all
+              </label>
+            </div>
             {filters
               ? filters.map((item, index) => (
                   <Category
@@ -163,75 +174,78 @@ const Catalog = (props) => {
                   />
                 ))
               : null}
-            <input
-              className="form-control"
-              type="text"
-              placeholder="Search..."
-              onChange={(e) => handleInput(e)}
-            />
+            <div className="catalog__filters input-group input-group-sm mt-4">
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Min"
+                onChange={(e) => handleMin(e.target.value)}
+              />
+              <input
+                className="form-control"
+                type="text"
+                placeholder="Max"
+                onChange={(e) => handleMax(e.target.value)}
+              />
+            </div>
           </div>
-          <div className="col-12 col-md-10">
-            <div id="catalog" className="catalog">
-              <div className="container-fluid">
-                <div className="row">
-                  {newData.length > 0 &&
-                  Object.values(newData[page]).length > 0 ? (
-                    Object.values(newData[page]).map((item, index) => {
-                      return (
-                        <ShopItem
-                          key={index}
-                          id={item.id}
-                          text={item.text}
-                          image={item.image}
-                          category={item.category}
-                          description={item.description}
-                          price={item.price}
-                          functions={functions}
-                          admin={admin}
-                        />
-                      );
-                    })
-                  ) : (
-                    <span>No matching results found</span>
-                  )}
+          {newData.length > 0 ? (
+            <div className="col-12 col-md-10 row">
+              {itemsPerPage > 7 && (
+                <Pagination
+                  pagesArray={pagesArray}
+                  page={page}
+                  pages={pages}
+                  itemsPerPage={itemsPerPage}
+                  orderS={orderS}
+                  prevPage={prevPage}
+                  nextPage={nextPage}
+                  handleSetPage={(e) => handleSetPage(e)}
+                  handleItemsPerPage={(e) => handleItemsPerPage(e)}
+                  handleOrder={(e) => handleOrder(e)}
+                ></Pagination>
+              )}
+              <div className="col-12">
+                <div id="catalog" className="catalog">
+                  <div className="row">
+                    {newData.length > 0 ? (
+                      Object.values(newData[page]).length > 0 ? (
+                        Object.values(newData[page]).map((item, index) => {
+                          return (
+                            <ShopItem
+                              key={index}
+                              id={item.id}
+                              text={item.text}
+                              image={item.image}
+                              category={item.category}
+                              description={item.description}
+                              price={item.price}
+                              functions={functions}
+                              admin={admin}
+                            />
+                          );
+                        })
+                      ) : (
+                        <span>No matching results found</span>
+                      )
+                    ) : null}
+                  </div>
                 </div>
               </div>
+              <Pagination
+                pagesArray={pagesArray}
+                page={page}
+                pages={pages}
+                itemsPerPage={itemsPerPage}
+                orderS={orderS}
+                prevPage={prevPage}
+                nextPage={nextPage}
+                handleSetPage={(e) => handleSetPage(e)}
+                handleItemsPerPage={(e) => handleItemsPerPage(e)}
+                handleOrder={(e) => handleOrder(e)}
+              ></Pagination>
             </div>
-            <button
-              disabled={page === 0 ? true : false}
-              onClick={() => prevPage()}
-            >
-              Prev page
-            </button>
-            <button
-              disabled={page + 1 >= pages ? true : false}
-              onClick={() => nextPage()}
-            >
-              Next page
-            </button>
-            <select
-              name="category"
-              id="category"
-              value={itemsPerPage}
-              onChange={(e) => handleItmesPerPage(e.target.value)}
-            >
-              {[3, 4, 6, 8, 10, 20].map((idx) => (
-                <option value={idx} key={idx}>
-                  {idx}
-                </option>
-              ))}
-            </select>
-            <select
-              name="order"
-              id="order"
-              value={orderS}
-              onChange={(e) => handleOrder(e.target.value)}
-            >
-              <option value="">Order:</option>
-              <option value="asc">Ascending</option>
-              <option value="desc">Descending</option>
-            </select>
-          </div>
+          ) : null}
         </div>
       </div>
     </main>

@@ -89,7 +89,7 @@ a {
 }
 
 .navbar {
-  z-index: 9990;
+  z-index: 10;
   &-brand {
     text-transform: capitalize;
   }
@@ -235,4 +235,18 @@ p {
   &-controls {
     align-self: flex-end;
   }
+}
+.disabled {
+  color: gray;
+  &:hover {
+    background-color: #e0e0e0;
+    color: gray;
+  }
+}
+.page-link.active {
+  background-color: #0d6efd;
+  color: #fff;
+}
+input:checked ~ label {
+  font-weight: 700;
 }

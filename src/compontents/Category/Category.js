@@ -5,12 +5,15 @@ const Category = (props) => {
   return (
     <div>
       <input
+        className="d-none"
         type="radio"
         name={categories}
         id={item}
         onChange={(e) => change(e)}
       />
-      <label htmlFor={item}>{item}</label>
+      <label className="form-check-label" htmlFor={item}>
+        {item}
+      </label>
     </div>
   );
 };

@@ -1,10 +1,10 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 
 import { app } from "../../base";
-import ItemCreator from "../ItemCreator/ItemCreator";
-import Modal from "../Modal/Modal";
+const Modal = lazy(() => import("../Modal/Modal"));
+const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
 const LOCAL_STORAGE_KEY = "bloom-shop";
 
@@ -122,18 +122,20 @@ const ShopItem = (props) => {
           </div>
         </div>
       </div>
-      <Modal ref={modal} size="lg">
-        <ItemCreator
-          title={props.text}
-          image={props.image}
-          id={props.id}
-          description={props.description}
-          price={props.price}
-          category={props.category}
-          close={() => modal.current.close()}
-          find={() => handleUpdate()}
-        />
-      </Modal>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Modal ref={modal} size="lg">
+          <ItemCreator
+            title={props.text}
+            image={props.image}
+            id={props.id}
+            description={props.description}
+            price={props.price}
+            category={props.category}
+            close={() => modal.current.close()}
+            find={() => handleUpdate()}
+          />
+        </Modal>
+      </Suspense>
     </>
   );
 };
