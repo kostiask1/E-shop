@@ -59,7 +59,7 @@ const Pagination = ({
                 value={itemsPerPage}
                 onChange={(e) => handleItemsPerPage(e.target.value)}
               >
-                {[3, 4, 6, 8, 10, 20].map((idx) => (
+                {[3, 4, 6, 8, 12, 16].map((idx) => (
                   <option value={idx} key={idx}>
                     {idx}
                   </option>
