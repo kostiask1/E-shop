@@ -1,10 +1,18 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, {
+    useEffect,
+    useState,
+    useContext,
+    useRef,
+    lazy,
+    Suspense,
+} from "react";
 import { authContext } from "../../../context/Auth/auth-context";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import Category from "../../Category/Category";
 import Pagination from "../../Pagination/Pagination";
 import ShopItem from "../../ShopItem/ShopItem";
+const Modal = lazy(() => import("../../Modal/Modal"));
+const ItemCreator = lazy(() => import("../../ItemCreator/ItemCreator"));
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
@@ -22,7 +30,7 @@ const Catalog = (props) => {
         maxPrice,
     } = useContext(catalogContext);
     const { admin } = useContext(authContext);
-    const [orderS, setOrderS] = useState("");
+    const [orderS, setOrderS] = useState("newest");
     const [itemsPerPage, setItemsPerPage] = useState(
         JSON.parse(localStorage.getItem("BloomItemsPerPage")) || 6
     );
@@ -37,8 +45,7 @@ const Catalog = (props) => {
     const [newData, setNewData] = useState([]);
 
     useEffect(() => {
-        let get = Promise.resolve(getData());
-        get.then(() => filterData());
+        handleUpdate();
         if (window.innerWidth > 1850) {
             return setItemsPerPage(12);
         } else if (window.innerWidth > 1200) return setItemsPerPage(8);
@@ -53,24 +60,28 @@ const Catalog = (props) => {
         get.then(() => filterData());
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryS, search, minPrice, maxPrice, orderS, minPriceS, maxPriceS]);
+    const modal = useRef(null);
 
     useEffect(() => {
         setNewDataF();
         //eslint-disable-next-line
     }, [data, itemsPerPage]);
 
-    let functions;
+    let functions = {
+        addToCart: true,
+        deleteFromCart: true,
+    };
     if (admin) {
         functions = {
-            addToCart: true,
+            ...functions,
             deleteItem: true,
         };
-    } else {
-        functions = {
-            addToCart: true,
-            deleteFromCart: true,
-        };
     }
+
+    const handleUpdate = () => {
+        let get = Promise.resolve(getData());
+        get.then(() => filterData());
+    };
 
     const handleInput = (e) => {
         setSearchText(e.target.value);
@@ -94,7 +105,6 @@ const Catalog = (props) => {
 
     let pages = Math.ceil(data.length / itemsPerPage);
     const handleItemsPerPage = (value) => {
-        console.log(value);
         if (page < pages) {
             JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
             setItemsPerPage(value);
@@ -214,6 +224,17 @@ const Catalog = (props) => {
                             <div className="col-12">
                                 <div id="catalog" className="catalog">
                                     <div className="row">
+                                        {admin && (
+                                            <div className="col-md-3">
+                                                <button
+                                                    onClick={() =>
+                                                        modal.current.open()
+                                                    }
+                                                >
+                                                    Create new item
+                                                </button>
+                                            </div>
+                                        )}
                                         {newData.length > 0 ? (
                                             Object.values(newData[page])
                                                 .length > 0 ? (
@@ -268,6 +289,16 @@ const Catalog = (props) => {
                     ) : null}
                 </div>
             </div>
+            {admin && (
+                <Suspense fallback={<p>Loading...</p>}>
+                    <Modal ref={modal} size="lg">
+                        <ItemCreator
+                            close={() => modal.current.close()}
+                            find={() => handleUpdate()}
+                        />
+                    </Modal>
+                </Suspense>
+            )}
         </main>
     );
 };

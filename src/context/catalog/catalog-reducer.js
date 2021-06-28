@@ -10,7 +10,7 @@ import {
     DATA,
     STORAGE,
 } from "./types";
-const LOCAL_STORAGE_KEY = "bloom-shop";
+const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const handlers = {
     [FILTERS]: (state, { payload }) => ({
@@ -51,7 +51,7 @@ const handlers = {
         order: payload,
     }),
     [STORAGE]: (state, { payload }) => {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(payload));
+        localStorage.setItem(SHOP_NAME, JSON.stringify(payload));
         return {
             ...state,
             storage: payload,

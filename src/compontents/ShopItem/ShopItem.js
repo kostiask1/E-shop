@@ -8,8 +8,8 @@ import React, {
 } from "react";
 import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
-
 import { app } from "../../base";
+import { authContext } from "../../context/Auth/auth-context";
 const Modal = lazy(() => import("../Modal/Modal"));
 const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
@@ -22,6 +22,7 @@ const ShopItem = (props) => {
         addToStorage,
         deleteFromStorage,
     } = useContext(catalogContext);
+    const { admin } = useContext(authContext);
     const [inStorage, setInStorage] = useState(false);
     const modal = useRef(null);
 
@@ -47,11 +48,6 @@ const ShopItem = (props) => {
             });
         };
     }
-
-    if (props.functions.hasOwnProperty("getCart")) {
-        getCart = props.functions.getCart;
-    }
-
     if (props.functions.addToCart) {
         addToCart = (e) => {
             addToStorage(e);
@@ -61,7 +57,7 @@ const ShopItem = (props) => {
 
     if (props.functions.deleteFromCart) {
         if (props.functions.hasOwnProperty("getCart")) {
-            console.log(true);
+            getCart = props.functions.getCart;
             deleteFromCart = (e) => {
                 deleteFromStorage(e).then(() => getCart());
             };
@@ -75,7 +71,7 @@ const ShopItem = (props) => {
     return (
         <>
             <div className="col-sm-6 col-md-4 col-xl-3">
-                <div className="item">
+                <div className="item fade-in">
                     <div className="item-controls">
                         {!inStorage && props.functions.addToCart && (
                             <div className="cart">
@@ -87,6 +83,20 @@ const ShopItem = (props) => {
                                 >
                                     <img
                                         src="/shopping-cart-add.svg"
+                                        alt=""
+                                        style={{ width: 45 }}
+                                    />
+                                </button>
+                            </div>
+                        )}
+                        {props.functions.deleteFromCart && inStorage && (
+                            <div className="delete">
+                                <button
+                                    onClick={() => deleteFromCart(props.id)}
+                                    className="item-control item-edit"
+                                >
+                                    <img
+                                        src="/shopping-cart-remove.svg"
                                         alt=""
                                         style={{ width: 45 }}
                                     />
@@ -115,20 +125,6 @@ const ShopItem = (props) => {
                                 </button>
                             </div>
                         ) : null}
-                        {props.functions.deleteFromCart && inStorage && (
-                            <div className="delete">
-                                <button
-                                    onClick={() => deleteFromCart(props.id)}
-                                    className="item-control item-delete"
-                                >
-                                    <img
-                                        src="/shopping-cart-remove.svg"
-                                        alt=""
-                                        style={{ width: 45 }}
-                                    />
-                                </button>
-                            </div>
-                        )}
                     </div>
                     <Link to={"/catalog/" + props.id}>
                         <img
@@ -143,20 +139,22 @@ const ShopItem = (props) => {
                     </div>
                 </div>
             </div>
-            <Suspense fallback={<p>Loading...</p>}>
-                <Modal ref={modal} size="lg">
-                    <ItemCreator
-                        title={props.text}
-                        image={props.image}
-                        id={props.id}
-                        description={props.description}
-                        price={props.price}
-                        category={props.category}
-                        close={() => modal.current.close()}
-                        find={() => handleUpdate()}
-                    />
-                </Modal>
-            </Suspense>
+            {admin && (
+                <Suspense fallback={<p></p>}>
+                    <Modal ref={modal} size="lg">
+                        <ItemCreator
+                            title={props.text}
+                            image={props.image}
+                            id={props.id}
+                            description={props.description}
+                            price={props.price}
+                            category={props.category}
+                            close={() => modal.current.close()}
+                            find={() => handleUpdate()}
+                        />
+                    </Modal>
+                </Suspense>
+            )}
         </>
     );
 };
