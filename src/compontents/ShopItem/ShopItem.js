@@ -1,7 +1,7 @@
 import React, {
     useContext,
-    useState,
     useEffect,
+    useState,
     useRef,
     lazy,
     Suspense,
@@ -10,25 +10,20 @@ import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import { app } from "../../base";
 import { authContext } from "../../context/Auth/auth-context";
+import InCart from "../InCart/InCart";
 const Modal = lazy(() => import("../Modal/Modal"));
 const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
 
 const ShopItem = (props) => {
-    const {
-        filterData,
-        getData,
-        findInStorage,
-        addToStorage,
-        deleteFromStorage,
-    } = useContext(catalogContext);
+    const { filterData, getData } = useContext(catalogContext);
     const { admin } = useContext(authContext);
-    const [inStorage, setInStorage] = useState(false);
+    const [fading, setFading] = useState(false);
     const modal = useRef(null);
 
     useEffect(() => {
-        setInStorage(findInStorage(props.id));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        setFading(false);
+        setTimeout(() => setFading(true), 300);
     }, [props.page]);
 
     const handleUpdate = () => {
@@ -36,74 +31,24 @@ const ShopItem = (props) => {
         get.then(() => filterData());
     };
 
-    let addToCart, deleteFromCart, deleteItem, getCart;
-
-    if (props.functions.deleteItem) {
-        deleteItem = () => {
-            let item = db.collection("All").where("id", "==", props.id);
-            item.get().then(function (querySnapshot) {
-                querySnapshot.docs[0].ref.delete().then(() => {
-                    filterData();
-                });
+    const deleteItem = () => {
+        let item = db.collection("All").where("id", "==", props.id);
+        item.get().then(function (querySnapshot) {
+            querySnapshot.docs[0].ref.delete().then(() => {
+                filterData();
             });
-        };
-    }
-    if (props.functions.addToCart) {
-        addToCart = (e) => {
-            addToStorage(e);
-            setInStorage(true);
-        };
-    }
-
-    if (props.functions.deleteFromCart) {
-        if (props.functions.hasOwnProperty("getCart")) {
-            getCart = props.functions.getCart;
-            deleteFromCart = (e) => {
-                deleteFromStorage(e).then(() => getCart());
-            };
-        } else {
-            deleteFromCart = (e) => {
-                deleteFromStorage(e);
-                setInStorage(false);
-            };
-        }
-    }
+        });
+    };
     return (
         <>
-            <div className="col-sm-6 col-md-4 col-xl-3">
-                <div className="item fade-in">
+            <div className="col-sm-6 col-md-4 col-xl-3 item-wrapper">
+                <div
+                    className={`item ${fading && "fade-in"}`}
+                    style={{ animationDelay: `${props.index * 70}ms` }}
+                >
                     <div className="item-controls">
-                        {!inStorage && props.functions.addToCart && (
-                            <div className="cart">
-                                <button
-                                    className="item-control item-edit"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#Edit"
-                                    onClick={() => addToCart(props.id)}
-                                >
-                                    <img
-                                        src="/shopping-cart-add.svg"
-                                        alt=""
-                                        style={{ width: 45 }}
-                                    />
-                                </button>
-                            </div>
-                        )}
-                        {props.functions.deleteFromCart && inStorage && (
-                            <div className="delete">
-                                <button
-                                    onClick={() => deleteFromCart(props.id)}
-                                    className="item-control item-edit"
-                                >
-                                    <img
-                                        src="/shopping-cart-remove.svg"
-                                        alt=""
-                                        style={{ width: 45 }}
-                                    />
-                                </button>
-                            </div>
-                        )}
-                        {props.admin ? (
+                        <InCart id={props.id} key={props.page} />
+                        {admin ? (
                             <div className="edit">
                                 <button
                                     className="item-control item-edit"
@@ -115,7 +60,7 @@ const ShopItem = (props) => {
                                 </button>
                             </div>
                         ) : null}
-                        {props.admin ? (
+                        {admin ? (
                             <div className="delete">
                                 <button
                                     onClick={() => deleteItem()}
@@ -126,6 +71,7 @@ const ShopItem = (props) => {
                             </div>
                         ) : null}
                     </div>
+
                     <Link to={"/catalog/" + props.id}>
                         <img
                             src={props.image}

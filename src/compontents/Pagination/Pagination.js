@@ -87,18 +87,21 @@ const Pagination = ({
                                 }
                                 return null;
                             })}
-                        <li className="page-item">
-                            <button
-                                className={`page-link ${
-                                    page + 1 === pagesArray.length && "active"
-                                }`}
-                                onClick={() =>
-                                    handleSetPage(pagesArray.length - 1)
-                                }
-                            >
-                                {pagesArray.length}
-                            </button>
-                        </li>
+                        {pagesArray.length > 1 && (
+                            <li className="page-item">
+                                <button
+                                    className={`page-link ${
+                                        page + 1 === pagesArray.length &&
+                                        "active"
+                                    }`}
+                                    onClick={() =>
+                                        handleSetPage(pagesArray.length - 1)
+                                    }
+                                >
+                                    {pagesArray.length}
+                                </button>
+                            </li>
+                        )}
                         <li className="page-item">
                             <button
                                 className={`page-link ${
@@ -125,7 +128,7 @@ const Pagination = ({
                                     handleItemsPerPage(e.target.value)
                                 }
                             >
-                                {[3, 4, 6, 8, 12, 16].map((idx) => (
+                                {[1, 3, 4, 6, 8, 12, 16].map((idx) => (
                                     <option value={idx} key={idx}>
                                         {idx}
                                     </option>

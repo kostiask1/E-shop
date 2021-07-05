@@ -6,10 +6,18 @@ import ShopItem from "../../ShopItem/ShopItem";
 const Cart = (props) => {
     const { data, getById, clearStorage, getStorage } =
         useContext(catalogContext);
+    const [loading, setLoading] = useState("Loading cart");
     const [redirect, setRedirect] = useState(false);
 
     useEffect(() => {
         getCart();
+        const timeout = setTimeout(
+            () => setLoading((prev) => (prev = "Cart is empty")),
+            2000
+        );
+        return () => {
+            clearTimeout(timeout);
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -27,7 +35,7 @@ const Cart = (props) => {
     }
     if (data && data.length > 0) {
         return (
-            <div className="container-fluid">
+            <div className="container-fluid fade-in">
                 <div className="row">
                     {data.map((item) => (
                         <ShopItem
@@ -54,7 +62,7 @@ const Cart = (props) => {
             </div>
         );
     } else {
-        return null;
+        return <h3 className="container-fluid fade-in">{loading}</h3>;
     }
 };
 

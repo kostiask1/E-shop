@@ -1,13 +1,47 @@
 .fade-in {
     opacity: 0;
-    animation: 0.4s .4s fadeIn ease-in-out forwards;
+    animation: 0.275s fadeIn ease-in-out forwards;
+}
+.qeqe-enter,
+.qeqe {
+    opacity: 0;
+}
+.qeqe-appear {
+    opacity: 0;
+}
+.qeqe-enter-active {
+    opacity: 1;
+    transition-delay: 0.4s all;
+    transition: 2s opacity;
+}
+.qeqe-enter-done {
+    opacity: 1;
+}
+.qeqe-enter {
+    opacity: 0;
 }
 
 @keyframes fadeIn {
     0% {
+        transform: scale(0.4);
         opacity: 0;
     }
     100% {
+        transform: scale(1);
         opacity: 1;
+    }
+}
+
+.fade-out {
+    opacity: 1;
+    animation: 0.3s fadeOut ease-out-out forwards;
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
     }
 }

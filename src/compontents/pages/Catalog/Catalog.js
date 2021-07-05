@@ -32,7 +32,7 @@ const Catalog = (props) => {
     const { admin } = useContext(authContext);
     const [orderS, setOrderS] = useState("newest");
     const [itemsPerPage, setItemsPerPage] = useState(
-        JSON.parse(localStorage.getItem("BloomItemsPerPage")) || 6
+        JSON.parse(localStorage.getItem(`${SHOP_NAME}ItemsPerPage`)) || 0
     );
     const [categoryS, setCategoryS] = useState("");
     const [search, setSearch] = useState("");
@@ -44,15 +44,43 @@ const Catalog = (props) => {
 
     const [newData, setNewData] = useState([]);
 
+    const [querySearch, setQuerySearch] = useState("");
+    const [queryMinPrice, setQueryMinPrice] = useState("");
+    const [queryMaxPrice, setQueryMaxPrice] = useState("");
+
+    useEffect(() => {
+        const timeOutId = setTimeout(() => {
+            setSearchText(querySearch);
+            setSearch(querySearch);
+        }, 350);
+        return () => clearTimeout(timeOutId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [querySearch]);
+
+    useEffect(() => {
+        const timeOutId = setTimeout(() => {
+            setMinPriceS(queryMinPrice);
+        }, 350);
+        return () => clearTimeout(timeOutId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queryMinPrice]);
+    useEffect(() => {
+        const timeOutId = setTimeout(() => {
+            setMaxPriceS(queryMaxPrice);
+        }, 350);
+        return () => clearTimeout(timeOutId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [queryMaxPrice]);
+
     useEffect(() => {
         handleUpdate();
-        if (window.innerWidth > 1850) {
-            return setItemsPerPage(12);
-        } else if (window.innerWidth > 1200) return setItemsPerPage(8);
-        else if (window.innerWidth > 767) return setItemsPerPage(6);
-        else if (window.innerWidth > 300) return setItemsPerPage(4);
-
-        //eslint-disable-next-line
+        if (itemsPerPage === 0) {
+            if (window.innerWidth > 1850) {
+                return setItemsPerPage(12);
+            } else if (window.innerWidth > 1200) return setItemsPerPage(8);
+            else if (window.innerWidth > 767) return setItemsPerPage(6);
+            else if (window.innerWidth > 300) return setItemsPerPage(4);
+        } //eslint-disable-next-line
     }, []);
 
     useEffect(() => {
@@ -67,25 +95,13 @@ const Catalog = (props) => {
         //eslint-disable-next-line
     }, [data, itemsPerPage]);
 
-    let functions = {
-        addToCart: true,
-        deleteFromCart: true,
-    };
-    if (admin) {
-        functions = {
-            ...functions,
-            deleteItem: true,
-        };
-    }
-
     const handleUpdate = () => {
         let get = Promise.resolve(getData());
         get.then(() => filterData());
     };
 
     const handleInput = (e) => {
-        setSearchText(e.target.value);
-        return setSearch(e.target.value);
+        return setQuerySearch(e.target.value);
     };
     const handleCheckbox = (e) => {
         handleSetPage(0);
@@ -93,10 +109,10 @@ const Catalog = (props) => {
         return setCategoryS(e.target.id);
     };
     const handleMin = (e) => {
-        setMinPriceS(e);
+        setQueryMinPrice(e);
     };
     const handleMax = (e) => {
-        setMaxPriceS(e);
+        setQueryMaxPrice(e);
     };
     const handleOrder = (value) => {
         setOrderS(value);
@@ -106,31 +122,35 @@ const Catalog = (props) => {
     let pages = Math.ceil(data.length / itemsPerPage);
     const handleItemsPerPage = (value) => {
         if (page < pages) {
-            JSON.stringify(localStorage.setItem("BloomItemsPerPage", value));
+            JSON.stringify(
+                localStorage.setItem(`${SHOP_NAME}ItemsPerPage`, value)
+            );
             setItemsPerPage(value);
         }
     };
     const nextPage = () => {
         if (page < pages) {
-            JSON.stringify(localStorage.setItem("BloomPage", page + 1));
+            JSON.stringify(localStorage.setItem(`${SHOP_NAME}Page`, page + 1));
             return setPage((page) => (page = page + 1));
         }
     };
     const prevPage = () => {
         if (page > 0) {
-            JSON.stringify(localStorage.setItem("BloomPage", page - 1));
+            JSON.stringify(localStorage.setItem(`${SHOP_NAME}Page`, page - 1));
             return setPage((page) => (page = page - 1));
         }
     };
     const handleSetPage = (e) => {
-        JSON.stringify(localStorage.setItem("BloomPage", e));
+        JSON.stringify(localStorage.setItem(`${SHOP_NAME}Page`, e));
         setPage(e);
     };
     const setNewDataF = () => {
         if (page >= pages) {
             if (pages > 0) {
                 setPage(pages - 1);
-                JSON.stringify(localStorage.setItem("BloomPage", pages - 1));
+                JSON.stringify(
+                    localStorage.setItem(`${SHOP_NAME}Page`, pages - 1)
+                );
             }
         }
         let clone = [...data];
@@ -150,14 +170,19 @@ const Catalog = (props) => {
     }
 
     return (
-        <main className="main">
-            <div className="bg">
-                <h1>{SHOP_NAME}</h1>
-                <div className="container-fluid">
-                    <p className="navbar">Shop by Apollin Ko</p>
+        <>
+            <main className="main">
+                <div className="bg">
+                    <h1>{SHOP_NAME}</h1>
+                    <div className="container-fluid">
+                        <p>Shop by Apollin Ko</p>
+                    </div>
                 </div>
-            </div>
-            <div className="container-fluid catalog__wrapper pb-5 pt-2">
+            </main>
+            <div
+                id="catalog"
+                className="container-fluid catalog__wrapper pb-5 pt-2"
+            >
                 <div className="row">
                     <div className="col-12 col-md-2">
                         <input
@@ -222,7 +247,7 @@ const Catalog = (props) => {
                                 ></Pagination>
                             )}
                             <div className="col-12">
-                                <div id="catalog" className="catalog">
+                                <div className="catalog">
                                     <div className="row">
                                         {admin && (
                                             <div className="col-md-3">
@@ -244,6 +269,7 @@ const Catalog = (props) => {
                                                     return (
                                                         <ShopItem
                                                             page={page}
+                                                            index={index}
                                                             key={index}
                                                             id={item.id}
                                                             text={item.text}
@@ -255,10 +281,6 @@ const Catalog = (props) => {
                                                                 item.description
                                                             }
                                                             price={item.price}
-                                                            functions={
-                                                                functions
-                                                            }
-                                                            admin={admin}
                                                         />
                                                     );
                                                 })
@@ -299,7 +321,7 @@ const Catalog = (props) => {
                     </Modal>
                 </Suspense>
             )}
-        </main>
+        </>
     );
 };
 

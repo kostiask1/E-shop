@@ -39,7 +39,7 @@ export const Navigation = () => {
                                         to="catalog"
                                         spy={true}
                                         smooth={true}
-                                        offset={570}
+                                        offset={-78}
                                         duration={500}
                                         containerId="page"
                                         activeClass="active"
