@@ -1,0 +1,39 @@
+.navbar {
+    z-index: 9990;
+    &-brand {
+        text-transform: capitalize;
+    }
+    .nav-link {
+        padding-left: 25px;
+    }
+    &-nav {
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
+    .fa-phone {
+        transform: rotate(90deg);
+    }
+    a {
+        cursor: pointer;
+    }
+    a.active {
+        color: rgb(114, 114, 114);
+    }
+    a.current {
+        color: #000 !important;
+    }
+    @media (max-width: 767px) {
+        .navbar-brand.active {
+            position: absolute;
+            top: 9px;
+            left: 18px;
+        }
+        .container-fluid {
+            justify-content: flex-end;
+        }
+        .nav-link {
+            padding-left: 8px;
+            font-size: 15px;
+        }
+    }
+}

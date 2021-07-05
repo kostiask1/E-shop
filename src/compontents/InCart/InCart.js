@@ -1,12 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
 
-const InCart = ({ id }) => {
-    const {
-        findInStorage,
-        addToStorage,
-        deleteFromStorage,
-    } = useContext(catalogContext);
+const InCart = ({ id, ...props }) => {
+    const { findInStorage, addToStorage, deleteFromStorage } =
+        useContext(catalogContext);
 
     const [inStorage, setInStorage] = useState(false);
 
@@ -20,7 +17,11 @@ const InCart = ({ id }) => {
         setInStorage(true);
     };
     const deleteFromCart = () => {
-        deleteFromStorage(id);
+        deleteFromStorage(id).then(() => {
+            if (props.hasOwnProperty("update")) {
+                props.update();
+            }
+        });
         setInStorage(false);
     };
 

@@ -78,8 +78,8 @@ const Catalog = (props) => {
             if (window.innerWidth > 1850) {
                 return setItemsPerPage(12);
             } else if (window.innerWidth > 1200) return setItemsPerPage(8);
-            else if (window.innerWidth > 767) return setItemsPerPage(6);
-            else if (window.innerWidth > 300) return setItemsPerPage(4);
+            else if (window.innerWidth > 500) return setItemsPerPage(6);
+            else if (window.innerWidth < 500) return setItemsPerPage(4);
         } //eslint-disable-next-line
     }, []);
 
@@ -229,8 +229,71 @@ const Catalog = (props) => {
                         </div>
                     </div>
                     {newData.length > 0 ? (
-                        <div className="col-12 col-md-10 row">
-                            {itemsPerPage > 7 && (
+                        <div className="col-12 col-md-10">
+                            <div className="row">
+                                {itemsPerPage > 7 && (
+                                    <Pagination
+                                        pagesArray={pagesArray}
+                                        page={page}
+                                        pages={pages}
+                                        itemsPerPage={itemsPerPage}
+                                        orderS={orderS}
+                                        prevPage={prevPage}
+                                        nextPage={nextPage}
+                                        handleSetPage={(e) => handleSetPage(e)}
+                                        handleItemsPerPage={(e) =>
+                                            handleItemsPerPage(e)
+                                        }
+                                        handleOrder={(e) => handleOrder(e)}
+                                    ></Pagination>
+                                )}
+                                <div className="col-12">
+                                    <div className="catalog">
+                                        <div className="row">
+                                            {admin && (
+                                                <div className="col-md-3">
+                                                    <button
+                                                        onClick={() =>
+                                                            modal.current.open()
+                                                        }
+                                                    >
+                                                        Create new item
+                                                    </button>
+                                                </div>
+                                            )}
+                                            {newData.length > 0 ? (
+                                                Object.values(newData[page])
+                                                    .length > 0 ? (
+                                                    Object.values(
+                                                        newData[page]
+                                                    ).map((item, index) => {
+                                                        return (
+                                                            <ShopItem
+                                                                page={page}
+                                                                index={index}
+                                                                key={index}
+                                                                id={item.id}
+                                                                text={item.text}
+                                                                image={item.image}
+                                                                category={
+                                                                    item.category
+                                                                }
+                                                                description={
+                                                                    item.description
+                                                                }
+                                                                price={item.price}
+                                                            />
+                                                        );
+                                                    })
+                                                ) : (
+                                                    <span>
+                                                        No matching results found
+                                                    </span>
+                                                )
+                                            ) : null}
+                                        </div>
+                                    </div>
+                                </div>
                                 <Pagination
                                     pagesArray={pagesArray}
                                     page={page}
@@ -245,69 +308,7 @@ const Catalog = (props) => {
                                     }
                                     handleOrder={(e) => handleOrder(e)}
                                 ></Pagination>
-                            )}
-                            <div className="col-12">
-                                <div className="catalog">
-                                    <div className="row">
-                                        {admin && (
-                                            <div className="col-md-3">
-                                                <button
-                                                    onClick={() =>
-                                                        modal.current.open()
-                                                    }
-                                                >
-                                                    Create new item
-                                                </button>
-                                            </div>
-                                        )}
-                                        {newData.length > 0 ? (
-                                            Object.values(newData[page])
-                                                .length > 0 ? (
-                                                Object.values(
-                                                    newData[page]
-                                                ).map((item, index) => {
-                                                    return (
-                                                        <ShopItem
-                                                            page={page}
-                                                            index={index}
-                                                            key={index}
-                                                            id={item.id}
-                                                            text={item.text}
-                                                            image={item.image}
-                                                            category={
-                                                                item.category
-                                                            }
-                                                            description={
-                                                                item.description
-                                                            }
-                                                            price={item.price}
-                                                        />
-                                                    );
-                                                })
-                                            ) : (
-                                                <span>
-                                                    No matching results found
-                                                </span>
-                                            )
-                                        ) : null}
-                                    </div>
-                                </div>
-                            </div>
-                            <Pagination
-                                pagesArray={pagesArray}
-                                page={page}
-                                pages={pages}
-                                itemsPerPage={itemsPerPage}
-                                orderS={orderS}
-                                prevPage={prevPage}
-                                nextPage={nextPage}
-                                handleSetPage={(e) => handleSetPage(e)}
-                                handleItemsPerPage={(e) =>
-                                    handleItemsPerPage(e)
-                                }
-                                handleOrder={(e) => handleOrder(e)}
-                            ></Pagination>
-                        </div>
+                            </div></div>
                     ) : null}
                 </div>
             </div>

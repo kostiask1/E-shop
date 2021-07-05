@@ -8,7 +8,7 @@ export const Navigation = () => {
     const { admin } = useContext(authContext);
 
     let props = useLocation();
-
+    let screenWidth = document.documentElement.clientWidth;
     let routes = [
         { to: "about", name: "About" },
         { to: "delivery", name: "Delivery" },
@@ -23,13 +23,13 @@ export const Navigation = () => {
                         {SHOP_NAME}
                     </RLink>
                     <div className="navbar">
-                        <ul className="navbar-nav flex-row me-auto mb-2 mb-lg-0">
+                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                             <li className="nav-item" style={{ marginTop: 5 }}>
                                 <RLink to="/cart">
                                     <img
                                         src="/shopping-cart.svg"
                                         alt=""
-                                        style={{ width: 30 }}
+                                        style={{ width: 25 }}
                                     />
                                 </RLink>
                             </li>
@@ -43,13 +43,13 @@ export const Navigation = () => {
                                         duration={500}
                                         containerId="page"
                                         activeClass="active"
-                                        className="nav-link pl-3"
+                                        className="nav-link"
                                     >
                                         Catalog
                                     </Link>
                                 ) : (
                                     <RLink
-                                        className="nav-link pl-3"
+                                        className="nav-link"
                                         activeClassName="current"
                                         to="/catalog"
                                     >
@@ -58,7 +58,10 @@ export const Navigation = () => {
                                 )}
                             </li>
                             {routes.map(({ to, name }) => {
-                                if (props.pathname === "/catalog") {
+                                if (
+                                    props.pathname === "/catalog" &&
+                                    screenWidth > 767
+                                ) {
                                     return (
                                         <li className="nav-item" key={name}>
                                             <Link
@@ -69,7 +72,7 @@ export const Navigation = () => {
                                                 duration={500}
                                                 containerId="page"
                                                 activeClass="active"
-                                                className="nav-link pl-3"
+                                                className="nav-link"
                                             >
                                                 {name}
                                             </Link>
@@ -81,7 +84,7 @@ export const Navigation = () => {
                             {admin && (
                                 <li className="nav-item">
                                     <RLink
-                                        className="nav-link pl-3"
+                                        className="nav-link"
                                         activeClassName="current"
                                         to="/create"
                                     >
@@ -90,24 +93,19 @@ export const Navigation = () => {
                                 </li>
                             )}
                             <li className="nav-item">
-                                <a
-                                    className="nav-link pl-3"
-                                    href="tel:380679029584"
-                                >
-                                    +380679029584
+                                <a className="nav-link" href="tel:380679029584">
+                                    <i className="fa fa-phone" />
+                                    {screenWidth > 450 && +380679029584}
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a
-                                    className="nav-link pl-3"
-                                    href="tel:380679029584"
-                                >
+                                <a className="nav-link" href="tel:380679029584">
                                     <i className="fab fa-telegram" />
                                 </a>
                             </li>
                             <li className="nav-item">
                                 <a
-                                    className="nav-link pl-1"
+                                    className="nav-link"
                                     href="https://www.instagram.com/apollin_ko_shop/"
                                     target="_blank"
                                     rel="noopener noreferrer"

@@ -35,7 +35,7 @@ const Cart = (props) => {
     }
     if (data && data.length > 0) {
         return (
-            <div className="container-fluid fade-in">
+            <div className="container-fluid fade-in pt-4 pb-4">
                 <div className="row">
                     {data.map((item) => (
                         <ShopItem
@@ -48,7 +48,7 @@ const Cart = (props) => {
                             price={item.price}
                             functions={{
                                 deleteFromCart: true,
-                                getCart: () => getCart(),
+                                getCart: getCart,
                             }}
                         ></ShopItem>
                     ))}

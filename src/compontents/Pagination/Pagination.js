@@ -12,10 +12,11 @@ const Pagination = ({
     handleOrder,
     orderS,
 }) => {
+    let screenWidth = document.documentElement.clientWidth;
     return (
         <div className="col-12">
-            <div className="row justify-content-between">
-                <div className="col-6">
+            <div className="row">
+                <div className="col-md-6">
                     <ul className="pagination pagination-sm">
                         <li className="page-item">
                             <button
@@ -25,7 +26,7 @@ const Pagination = ({
                                 disabled={page === 0 ? true : false}
                                 onClick={() => prevPage()}
                             >
-                                Prev page
+                                Prev {screenWidth > 450 && "page"}
                             </button>
                         </li>
                         <li className="page-item">
@@ -110,14 +111,14 @@ const Pagination = ({
                                 disabled={page + 1 >= pages ? true : false}
                                 onClick={() => nextPage()}
                             >
-                                Next page
+                                Next {screenWidth > 450 && "page"}
                             </button>
                         </li>
                     </ul>
                 </div>
-                <div className="col-6">
-                    <ul className="pagination pagination-sm justify-content-end">
-                        <li className="page-item ml-4">
+                <div className="col-md-6">
+                    <ul className="pagination pagination-sm">
+                        <li className="page-item">
                             <label className="mr-1">Items on page</label>
                             <select
                                 className="page-link d-inline-block mr-1"

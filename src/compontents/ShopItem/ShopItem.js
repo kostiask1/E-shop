@@ -30,7 +30,6 @@ const ShopItem = (props) => {
         let get = Promise.resolve(getData());
         get.then(() => filterData());
     };
-
     const deleteItem = () => {
         let item = db.collection("All").where("id", "==", props.id);
         item.get().then(function (querySnapshot) {
@@ -47,7 +46,14 @@ const ShopItem = (props) => {
                     style={{ animationDelay: `${props.index * 70}ms` }}
                 >
                     <div className="item-controls">
-                        <InCart id={props.id} key={props.page} />
+                        <InCart
+                            update={() =>
+                                props.hasOwnProperty("functions") &&
+                                props.functions.getCart()
+                            }
+                            id={props.id}
+                            key={props.page}
+                        />
                         {admin ? (
                             <div className="edit">
                                 <button
