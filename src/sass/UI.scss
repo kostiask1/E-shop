@@ -30,12 +30,18 @@
         max-height: 75vh;
     }
     &-wrapper {
+        padding: 15px;
         height: 100%;
         width: 100%;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         overflow-y: scroll;
+        border: 4px solid transparent;
+        &.dragging {
+            border: 4px dotted #000;
+            border-radius: 20px;
+        }
     }
     .col-md-3 {
         margin: 1rem 0;
@@ -60,7 +66,22 @@ ul {
     list-style: none;
 }
 .pagination {
+    // justify-content: flex-end;
     @media (max-width: 767px) {
         justify-content: center;
     }
+}
+.error {
+    border-color: red !important;
+    box-shadow: 0 0 0 0.1rem rgba(255, 0, 0, 0.3) !important;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--lightBlue);
+}
+::-webkit-scrollbar-track-piece:start {
+    background: var(--lightBlue);
 }

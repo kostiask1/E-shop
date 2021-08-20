@@ -25,7 +25,7 @@ export const CatalogState = ({ children }) => {
         admin: false,
         category: "all",
         minPrice: 0,
-        maxPrice: 999999,
+        maxPrice: 999999999999999999,
         searchText: "",
         order: null,
     };
@@ -43,6 +43,7 @@ export const CatalogState = ({ children }) => {
                 filters = Object.values(filters[0].categories);
             }
             dispatch({ type: FILTERS, payload: filters });
+            console.log("Loading finished");
             return filters;
         } catch (err) {
             console.error(err);
@@ -61,14 +62,7 @@ export const CatalogState = ({ children }) => {
                         return resolve(row);
                     } else {
                         response.docs.map((item) => {
-                            if (category && category !== "all") {
-                                if (item.data().category === category) {
-                                    return (row = row.concat(item.data()));
-                                }
-                            } else {
-                                return (row = row.concat(item.data()));
-                            }
-                            return false;
+                            return (row = row.concat(item.data()));
                         });
                     }
                     resolve(row);
@@ -115,7 +109,7 @@ export const CatalogState = ({ children }) => {
                 return item.category === category;
             });
         }
-        if (dataNew.length > 0) {
+        if (dataNew.length >= 0) {
             dataNew = dataNew.filter((item) => {
                 if (maxPrice < minPrice) {
                     return item.price >= minPrice;
@@ -161,7 +155,7 @@ export const CatalogState = ({ children }) => {
         return dispatch({ type: CATEGORY, payload: value });
     };
     const setPriceRange = async (min, max) => {
-        max = max === 0 ? 9999 : max;
+        max = max === 0 ? 999999999999999999 : max;
         return dispatch({ type: PRICERANGE, payload: { min, max } });
     };
     const setSearchText = (value) => {
@@ -234,6 +228,7 @@ export const CatalogState = ({ children }) => {
                 filters,
                 minPrice,
                 maxPrice,
+                category,
             }}
         >
             {children}

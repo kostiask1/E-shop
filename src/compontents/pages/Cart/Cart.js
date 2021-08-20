@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import React, { useEffect, useState, useContext, Fragment } from "react";
+import { Redirect, NavLink } from "react-router-dom";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import ShopItem from "../../ShopItem/ShopItem";
 
-const Cart = (props) => {
+const Cart = () => {
     const { data, getById, clearStorage, getStorage } =
         useContext(catalogContext);
     const [loading, setLoading] = useState("Loading cart");
@@ -12,7 +12,18 @@ const Cart = (props) => {
     useEffect(() => {
         getCart();
         const timeout = setTimeout(
-            () => setLoading((prev) => (prev = "Cart is empty")),
+            () =>
+                setLoading(
+                    (prev) =>
+                        (prev = (
+                            <Fragment>
+                                <h1>Cart is empty</h1>
+                                <NavLink to="/catalog">
+                                    Go back shoping ->
+                                </NavLink>
+                            </Fragment>
+                        ))
+                ),
             2000
         );
         return () => {
@@ -35,7 +46,7 @@ const Cart = (props) => {
     }
     if (data && data.length > 0) {
         return (
-            <div className="container-fluid fade-in pt-4 pb-4">
+            <div className="container-fluid pop-in pt-4 pb-4">
                 <div className="row">
                     {data.map((item) => (
                         <ShopItem
@@ -62,7 +73,7 @@ const Cart = (props) => {
             </div>
         );
     } else {
-        return <h3 className="container-fluid fade-in">{loading}</h3>;
+        return <div className="container-fluid pop-in">{loading}</div>;
     }
 };
 

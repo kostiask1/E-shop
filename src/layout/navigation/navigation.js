@@ -6,7 +6,6 @@ const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 export const Navigation = () => {
     const { admin } = useContext(authContext);
-
     let props = useLocation();
     let screenWidth = document.documentElement.clientWidth;
     let routes = [
@@ -29,7 +28,8 @@ export const Navigation = () => {
                                     <img
                                         src="/shopping-cart.svg"
                                         alt=""
-                                        style={{ width: 25 }}
+                                        width="25"
+                                        height="25"
                                     />
                                 </RLink>
                             </li>

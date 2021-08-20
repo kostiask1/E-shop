@@ -34,7 +34,7 @@ const ShopItem = (props) => {
         let item = db.collection("All").where("id", "==", props.id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
-                filterData();
+                handleUpdate();
             });
         });
     };
@@ -42,7 +42,7 @@ const ShopItem = (props) => {
         <>
             <div className="col-sm-6 col-md-4 col-xl-3 item-wrapper">
                 <div
-                    className={`item ${fading && "fade-in"}`}
+                    className={`item ${fading && "pop-in"}`}
                     style={{ animationDelay: `${props.index * 70}ms` }}
                 >
                     <div className="item-controls">

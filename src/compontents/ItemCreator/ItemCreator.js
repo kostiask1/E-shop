@@ -1,10 +1,12 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { app } from "../../base";
+import { catalogContext } from "../../context/catalog/catalog-context";
 import Modal from "../Modal/Modal";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
+    const { filterData, getData } = useContext(catalogContext);
     const sumBtn =
         props.filters || !props.category ? "Add item to shop" : "Update item";
     const [filters, setFilters] = useState(props.filters || []);
@@ -14,7 +16,7 @@ const ItemCreator = (props) => {
     const [description, setDescription] = useState(props.description || "");
     let [price, setPrice] = useState(props.price || "");
     const [category, setCategory] = useState(props.category || "");
-    const [drag, setDrag] = useState(true);
+    const [drag, setDrag] = useState(false);
 
     const [gallery, setGallery] = useState([]);
     const modal = useRef(null);
@@ -69,7 +71,9 @@ const ItemCreator = (props) => {
                     props.close();
                     return props.find();
                 }
-                return clearInputs();
+                let get = Promise.resolve(getData());
+                get.then(() => filterData());
+                props.close();
             });
     };
 
@@ -140,14 +144,13 @@ const ItemCreator = (props) => {
         try {
             let files = [...e.dataTransfer.files];
             const storageRef = app.storage().ref().child("images");
-            let request = new Promise((resolve) => {
-                files.map(async (file) => {
+            let requests = Promise.all(
+                files.map((file) => {
                     const fileRef = storageRef.child(file.name);
-                    await fileRef.put(file);
-                    resolve(true);
-                });
-            });
-            request.then(() => {
+                    return fileRef.put(file);
+                })
+            );
+            requests.then(() => {
                 setDrag(false);
                 loadGallery();
             });
@@ -294,17 +297,20 @@ const ItemCreator = (props) => {
 
             <Modal ref={modal} size="fullscreen">
                 <div
-                    className="modal-wrapper"
+                    className={`modal-wrapper ${
+                        drag || !gallery.length ? "dragging" : ""
+                    }`}
                     onDragStart={(e) => onDragStart(e)}
                     onDragLeave={(e) => onDragLeave(e)}
                     onDragOver={(e) => onDragStart(e)}
+                    onMouseUp={() => setDrag(false)}
                     onDrop={(e) => onDragLoad(e)}
                 >
-                    {!drag ? (
+                    {!drag && gallery.length > 0 ? (
                         <div className="row" style={{ width: "100%" }}>
                             {gallery.map((img, idx) => (
                                 <div className="col-md-3" key={idx}>
-                                    <div className="item">
+                                    <div className="item pop-in">
                                         <div className="item-controls">
                                             <div className="edit">
                                                 <button

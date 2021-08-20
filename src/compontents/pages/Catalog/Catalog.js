@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import { authContext } from "../../../context/Auth/auth-context";
 import { catalogContext } from "../../../context/catalog/catalog-context";
-import Category from "../../Category/Category";
+import FilterSection from "../../FilterSection/FilterSection";
 import Pagination from "../../Pagination/Pagination";
 import ShopItem from "../../ShopItem/ShopItem";
 const Modal = lazy(() => import("../../Modal/Modal"));
@@ -37,7 +37,7 @@ const Catalog = (props) => {
     const [categoryS, setCategoryS] = useState("");
     const [search, setSearch] = useState("");
     const [minPriceS, setMinPriceS] = useState(0);
-    const [maxPriceS, setMaxPriceS] = useState(999999);
+    const [maxPriceS, setMaxPriceS] = useState(999999999999999999);
     const [page, setPage] = useState(
         JSON.parse(localStorage.getItem("BloomPage")) || 0
     );
@@ -185,48 +185,15 @@ const Catalog = (props) => {
             >
                 <div className="row">
                     <div className="col-12 col-md-2">
-                        <input
-                            className="form-control"
-                            type="text"
-                            placeholder="Search..."
-                            onChange={(e) => handleInput(e)}
+                        <FilterSection
+                            filters={filters}
+                            handleInput={handleInput}
+                            handleCheckbox={handleCheckbox}
+                            handleMin={handleMin}
+                            handleMax={handleMax}
+                            minPrice={minPrice}
+                            maxPrice={maxPrice}
                         />
-                        <div className="mt-2">
-                            <input
-                                className="d-none"
-                                type="radio"
-                                name="categories"
-                                id="all"
-                                onChange={(e) => handleCheckbox(e)}
-                            />
-                            <label className="form-check-label" htmlFor="all">
-                                Show all
-                            </label>
-                        </div>
-                        {filters
-                            ? filters.map((item, index) => (
-                                  <Category
-                                      key={index}
-                                      categories="categories"
-                                      item={item}
-                                      change={(e) => handleCheckbox(e)}
-                                  />
-                              ))
-                            : null}
-                        <div className="catalog__filters input-group input-group-sm mt-4">
-                            <input
-                                className="form-control"
-                                type="text"
-                                placeholder="Min"
-                                onChange={(e) => handleMin(e.target.value)}
-                            />
-                            <input
-                                className="form-control"
-                                type="text"
-                                placeholder="Max"
-                                onChange={(e) => handleMax(e.target.value)}
-                            />
-                        </div>
                     </div>
                     {newData.length > 0 ? (
                         <div className="col-12 col-md-10">
@@ -245,6 +212,7 @@ const Catalog = (props) => {
                                             handleItemsPerPage(e)
                                         }
                                         handleOrder={(e) => handleOrder(e)}
+                                        category={categoryS}
                                     ></Pagination>
                                 )}
                                 <div className="col-12">
@@ -252,13 +220,31 @@ const Catalog = (props) => {
                                         <div className="row">
                                             {admin && (
                                                 <div className="col-md-3">
-                                                    <button
+                                                    <div
+                                                        className="item pop-in"
                                                         onClick={() =>
                                                             modal.current.open()
                                                         }
+                                                        style={{
+                                                            cursor: "pointer",
+                                                        }}
                                                     >
-                                                        Create new item
-                                                    </button>
+                                                        <a>
+                                                            <img
+                                                                className="item-img skew"
+                                                                src="https://firebasestorage.googleapis.com/v0/b/e-shop-d051e.appspot.com/o/important%2Fcog.png?alt=media&token=dd0aea42-45af-480e-b531-4fbaaf0f6b0b"
+                                                                alt=""
+                                                            />
+                                                        </a>
+                                                        <div className="item-body text-center">
+                                                            <button
+                                                                className="btn btn-primary mb-4"
+                                                                type="submit"
+                                                            >
+                                                                Create new item
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             )}
                                             {newData.length > 0 ? (
@@ -274,20 +260,25 @@ const Catalog = (props) => {
                                                                 key={index}
                                                                 id={item.id}
                                                                 text={item.text}
-                                                                image={item.image}
+                                                                image={
+                                                                    item.image
+                                                                }
                                                                 category={
                                                                     item.category
                                                                 }
                                                                 description={
                                                                     item.description
                                                                 }
-                                                                price={item.price}
+                                                                price={
+                                                                    item.price
+                                                                }
                                                             />
                                                         );
                                                     })
                                                 ) : (
                                                     <span>
-                                                        No matching results found
+                                                        No matching results
+                                                        found
                                                     </span>
                                                 )
                                             ) : null}
@@ -307,8 +298,10 @@ const Catalog = (props) => {
                                         handleItemsPerPage(e)
                                     }
                                     handleOrder={(e) => handleOrder(e)}
+                                    category={categoryS}
                                 ></Pagination>
-                            </div></div>
+                            </div>
+                        </div>
                     ) : null}
                 </div>
             </div>

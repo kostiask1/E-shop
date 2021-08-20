@@ -1,9 +1,10 @@
-
-
-    .catalog {
-        background-color: var(--white);
-    }
-    .item {
+.catalog {
+    background-color: var(--white);
+}
+.category label {
+    cursor: pointer;
+}
+.item {
     opacity: 0;
     height: 100%;
     width: 100%;

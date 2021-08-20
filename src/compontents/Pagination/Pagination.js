@@ -1,6 +1,7 @@
 import React from "react";
 
 const Pagination = ({
+    category,
     prevPage,
     nextPage,
     handleSetPage,
@@ -157,4 +158,14 @@ const Pagination = ({
     );
 };
 
-export default Pagination;
+function arePropsEqual(prevProps, nextProps) {
+    return (
+        prevProps.pages === nextProps.pages &&
+        prevProps.page === nextProps.page &&
+        prevProps.itemsPerPage === nextProps.itemsPerPage &&
+        prevProps.orderS === nextProps.orderS &&
+        prevProps.category === nextProps.category
+    );
+}
+
+export default React.memo(Pagination, arePropsEqual);
