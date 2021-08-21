@@ -4,12 +4,14 @@ import Category from "../Category/Category";
 const FilterSection = (props) => {
     const {
         filters,
+        searchText,
         handleInput,
         handleCheckbox,
         handleMin,
         handleMax,
         minPrice,
         maxPrice,
+        category,
     } = props;
 
     return (
@@ -18,25 +20,14 @@ const FilterSection = (props) => {
                 className="form-control"
                 type="text"
                 placeholder="Search..."
-                onChange={(e) => handleInput(e)}
+                defaultValue={searchText}
+                onChange={(e) => handleInput(e.target.value)}
             />
-            <div className="mt-2">
-                <input
-                    className="d-none"
-                    type="radio"
-                    name="categories"
-                    id="all"
-                    onChange={(e) => handleCheckbox(e)}
-                />
-                <label className="form-check-label" htmlFor="all">
-                    Show all
-                </label>
-            </div>
             {filters
                 ? filters.map((item, index) => (
                       <Category
+                          category={category}
                           key={index}
-                          categories="categories"
                           item={item}
                           change={(e) => handleCheckbox(e)}
                       />
@@ -49,6 +40,7 @@ const FilterSection = (props) => {
                     }`}
                     type="text"
                     placeholder="Min"
+                    defaultValue={+minPrice ? +minPrice : ""}
                     onChange={(e) => handleMin(e.target.value)}
                 />
                 <input
@@ -57,6 +49,7 @@ const FilterSection = (props) => {
                     }`}
                     type="text"
                     placeholder="Max"
+                    defaultValue={+maxPrice ? +maxPrice : ""}
                     onChange={(e) => handleMax(e.target.value)}
                 />
             </div>
@@ -66,9 +59,8 @@ const FilterSection = (props) => {
 
 function arePropsEqual(prevProps, nextProps) {
     return (
-        prevProps.filters === nextProps.filters &&
-        prevProps.minPrice === nextProps.minPrice &&
-        prevProps.maxPrice === nextProps.maxPrice
+        prevProps.category === nextProps.category &&
+        prevProps.filters === nextProps.filters
     );
 }
 

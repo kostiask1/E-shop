@@ -105,6 +105,7 @@ p {
     background-color: #0d6efd;
     color: #fff;
 }
-input:checked ~ label {
-    font-weight: 700;
+
+.container-fluid {
+    min-height: 100%;
 }

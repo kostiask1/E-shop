@@ -1,12 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { app } from "../../base";
-import { catalogContext } from "../../context/catalog/catalog-context";
 import Modal from "../Modal/Modal";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
-    const { filterData, getData } = useContext(catalogContext);
     const sumBtn =
         props.filters || !props.category ? "Add item to shop" : "Update item";
     const [filters, setFilters] = useState(props.filters || []);
@@ -67,13 +65,11 @@ const ItemCreator = (props) => {
             .doc(data.id)
             .set(data)
             .then(() => {
-                if (props.id === id) {
+                if (props.id === id || props.hasOwnProperty("close")) {
                     props.close();
-                    return props.find();
+                    return props.getData();
                 }
-                let get = Promise.resolve(getData());
-                get.then(() => filterData());
-                props.close();
+                clearInputs();
             });
     };
 
@@ -312,19 +308,7 @@ const ItemCreator = (props) => {
                                 <div className="col-md-3" key={idx}>
                                     <div className="item pop-in">
                                         <div className="item-controls">
-                                            <div className="edit">
-                                                <button
-                                                    className="item-control item-edit"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#Edit"
-                                                    onClick={() => {
-                                                        setImage(img);
-                                                        modal.current.close();
-                                                    }}
-                                                >
-                                                    <i className="fa fa-check" />
-                                                </button>
-                                            </div>
+                                            <div className="edit"></div>
                                             <div className="delete">
                                                 <button
                                                     onClick={() =>
@@ -340,6 +324,10 @@ const ItemCreator = (props) => {
                                             className="item-img"
                                             src={img}
                                             alt=""
+                                            onClick={() => {
+                                                setImage(img);
+                                                modal.current.close();
+                                            }}
                                         />
                                     </div>
                                 </div>
@@ -375,4 +363,8 @@ const ItemCreator = (props) => {
     );
 };
 
-export default ItemCreator;
+function arePropsEqual(prevProps, nextProps) {
+    return prevProps.filters === nextProps.filters;
+}
+
+export default React.memo(ItemCreator, arePropsEqual);

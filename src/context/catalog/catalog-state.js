@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import {
     FILTERS,
     RESPONSE,
@@ -13,24 +13,46 @@ import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
 
 import { app } from "../../base";
+import {
+    local_cart_storage,
+    local_category,
+    local_maxPrice,
+    local_minPrice,
+    local_order,
+    local_searchText,
+} from "../../localStorage";
 const db = app.firestore();
-const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 export const CatalogState = ({ children }) => {
     const initialState = {
-        storage: JSON.parse(localStorage.getItem(SHOP_NAME)) || [],
+        storage: JSON.parse(localStorage.getItem(local_cart_storage)) || [],
         filters: [],
         rowData: [],
         data: [],
         admin: false,
-        category: "all",
-        minPrice: 0,
-        maxPrice: 999999999999999999,
-        searchText: "",
-        order: null,
+        category: JSON.parse(localStorage.getItem(local_category)) || "all",
+        minPrice: localStorage.getItem(local_minPrice) || 0,
+        maxPrice: localStorage.getItem(local_maxPrice) || 0,
+        searchText: JSON.parse(localStorage.getItem(local_searchText)) || "",
+        order: JSON.parse(localStorage.getItem(local_order)) || "newest",
     };
-
     const [state, dispatch] = useReducer(catalogReducer, initialState);
+    const {
+        filters,
+        data,
+        storage,
+        rowData,
+        category,
+        minPrice,
+        maxPrice,
+        searchText,
+        order,
+    } = state;
+
+    useEffect(() => {
+        filterData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [rowData, category, minPrice, maxPrice, searchText, order]);
 
     const getFilters = async () => {
         try {
@@ -109,7 +131,7 @@ export const CatalogState = ({ children }) => {
                 return item.category === category;
             });
         }
-        if (dataNew.length >= 0) {
+        if (dataNew.length >= 0 && maxPrice > 0) {
             dataNew = dataNew.filter((item) => {
                 if (maxPrice < minPrice) {
                     return item.price >= minPrice;
@@ -151,24 +173,27 @@ export const CatalogState = ({ children }) => {
     };
 
     const setCategory = (value) => {
-        localStorage.setItem("BLOOM_category", JSON.stringify(value));
+        localStorage.setItem(local_category, JSON.stringify(value));
         return dispatch({ type: CATEGORY, payload: value });
     };
     const setPriceRange = async (min, max) => {
-        max = max === 0 ? 999999999999999999 : max;
+        localStorage.setItem(local_minPrice, JSON.stringify(min));
+        localStorage.setItem(local_maxPrice, JSON.stringify(max));
         return dispatch({ type: PRICERANGE, payload: { min, max } });
     };
     const setSearchText = (value) => {
+        localStorage.setItem(local_searchText, JSON.stringify(value));
         return dispatch({ type: SEARCHTEXT, payload: value.toLowerCase() });
     };
     const setOrder = (value) => {
+        localStorage.setItem(local_order, JSON.stringify(value));
         return dispatch({ type: ORDER, payload: value });
     };
 
     const clearStorage = () => {
         dispatch({ type: STORAGE, payload: [] });
         return new Promise((resolve) => {
-            localStorage.removeItem(SHOP_NAME);
+            localStorage.removeItem(local_cart_storage);
             resolve(true);
         });
     };
@@ -194,20 +219,8 @@ export const CatalogState = ({ children }) => {
         });
     };
     const getStorage = () => {
-        return JSON.parse(localStorage.getItem(SHOP_NAME)) || [];
+        return JSON.parse(localStorage.getItem(local_cart_storage)) || [];
     };
-
-    const {
-        filters,
-        data,
-        storage,
-        rowData,
-        category,
-        minPrice,
-        maxPrice,
-        searchText,
-        order,
-    } = state;
 
     return (
         <catalogContext.Provider
@@ -221,14 +234,15 @@ export const CatalogState = ({ children }) => {
                 getStorage,
                 setCategory,
                 setPriceRange,
-                filterData,
                 setSearchText,
                 setOrder,
                 data,
                 filters,
                 minPrice,
                 maxPrice,
+                searchText,
                 category,
+                order,
             }}
         >
             {children}

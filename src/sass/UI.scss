@@ -11,7 +11,6 @@
         background-color: rgba(0, 0, 0, 0.5);
     }
     &-dialog {
-        margin-top: 7rem;
         width: 100%;
     }
     &-content {
@@ -84,4 +83,7 @@ ul {
 }
 ::-webkit-scrollbar-track-piece:start {
     background: var(--lightBlue);
+}
+.checked {
+    font-weight: 700;
 }

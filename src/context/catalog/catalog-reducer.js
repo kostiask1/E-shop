@@ -1,3 +1,4 @@
+import { local_cart_storage } from "../../localStorage";
 import {
     FILTERS,
     RESPONSE,
@@ -10,12 +11,11 @@ import {
     DATA,
     STORAGE,
 } from "./types";
-const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const handlers = {
     [FILTERS]: (state, { payload }) => ({
         ...state,
-        filters: payload,
+        filters: ["all", ...payload],
     }),
     [RESPONSE]: (state, { payload }) => ({
         ...state,
@@ -51,7 +51,7 @@ const handlers = {
         order: payload,
     }),
     [STORAGE]: (state, { payload }) => {
-        localStorage.setItem(SHOP_NAME, JSON.stringify(payload));
+        localStorage.setItem(local_cart_storage, JSON.stringify(payload));
         return {
             ...state,
             storage: payload,

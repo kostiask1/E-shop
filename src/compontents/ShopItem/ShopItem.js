@@ -16,7 +16,7 @@ const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
 
 const ShopItem = (props) => {
-    const { filterData, getData } = useContext(catalogContext);
+    const { getData } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [fading, setFading] = useState(false);
     const modal = useRef(null);
@@ -24,17 +24,14 @@ const ShopItem = (props) => {
     useEffect(() => {
         setFading(false);
         setTimeout(() => setFading(true), 300);
+        return () => {};
     }, [props.page]);
 
-    const handleUpdate = () => {
-        let get = Promise.resolve(getData());
-        get.then(() => filterData());
-    };
     const deleteItem = () => {
         let item = db.collection("All").where("id", "==", props.id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
-                handleUpdate();
+                getData();
             });
         });
     };
@@ -102,7 +99,7 @@ const ShopItem = (props) => {
                             price={props.price}
                             category={props.category}
                             close={() => modal.current.close()}
-                            find={() => handleUpdate()}
+                            getData={() => getData()}
                         />
                     </Modal>
                 </Suspense>

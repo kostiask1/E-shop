@@ -1,19 +1,32 @@
 import React from "react";
+import { local_page } from "../../localStorage";
 
 const Pagination = ({
-    category,
-    prevPage,
-    nextPage,
     handleSetPage,
-    pagesArray,
     page,
     pages,
     itemsPerPage,
     handleItemsPerPage,
-    handleOrder,
-    orderS,
+    setOrder,
+    order,
 }) => {
     let screenWidth = document.documentElement.clientWidth;
+    const nextPage = () => {
+        if (page < pages) {
+            JSON.stringify(localStorage.setItem(local_page, page + 1));
+            return handleSetPage(page + 1);
+        }
+    };
+    const prevPage = () => {
+        if (page > 0) {
+            JSON.stringify(localStorage.setItem(local_page, page - 1));
+            return handleSetPage(page - 1);
+        }
+    };
+    let pagesArray = [];
+    for (let i = 1; i < pages + 1; i++) {
+        pagesArray.push(i);
+    }
     return (
         <div className="col-12">
             <div className="row">
@@ -142,8 +155,8 @@ const Pagination = ({
                                 className="page-link"
                                 name="order"
                                 id="order"
-                                value={orderS}
-                                onChange={(e) => handleOrder(e.target.value)}
+                                value={order}
+                                onChange={(e) => setOrder(e.target.value)}
                             >
                                 <option value="">Sort by:</option>
                                 <option value="newest">Newest</option>
@@ -163,8 +176,7 @@ function arePropsEqual(prevProps, nextProps) {
         prevProps.pages === nextProps.pages &&
         prevProps.page === nextProps.page &&
         prevProps.itemsPerPage === nextProps.itemsPerPage &&
-        prevProps.orderS === nextProps.orderS &&
-        prevProps.category === nextProps.category
+        prevProps.order === nextProps.order
     );
 }
 

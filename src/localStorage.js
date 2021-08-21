@@ -1,0 +1,12 @@
+const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
+export const local_itemsPerPage = `${SHOP_NAME}_itemsPerPage`;
+export const local_page = `${SHOP_NAME}_page`;
+export const local_token = `${SHOP_NAME}_token`;
+export const local_userId = `${SHOP_NAME}_userId`;
+export const local_expirationDate = `${SHOP_NAME}_expirationDate`;
+export const local_category = `${SHOP_NAME}_category`;
+export const local_cart_storage = `${SHOP_NAME}_cart_storage`;
+export const local_searchText = `${SHOP_NAME}_searchText`;
+export const local_order = `${SHOP_NAME}_order`;
+export const local_minPrice = `${SHOP_NAME}_minPrice`;
+export const local_maxPrice = `${SHOP_NAME}_maxPrice`;

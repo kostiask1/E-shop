@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import { authContext } from "../../../context/Auth/auth-context";
 import { catalogContext } from "../../../context/catalog/catalog-context";
+import { local_itemsPerPage, local_page } from "../../../localStorage";
 import FilterSection from "../../FilterSection/FilterSection";
 import Pagination from "../../Pagination/Pagination";
 import ShopItem from "../../ShopItem/ShopItem";
@@ -16,64 +17,34 @@ const ItemCreator = lazy(() => import("../../ItemCreator/ItemCreator"));
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
-const Catalog = (props) => {
+const Catalog = () => {
     const {
         filters,
         data,
-        setCategory,
-        setSearchText,
         getData,
-        setPriceRange,
-        filterData,
+        category,
+        setCategory,
+        order,
         setOrder,
         minPrice,
         maxPrice,
+        setPriceRange,
+        searchText,
+        setSearchText,
     } = useContext(catalogContext);
     const { admin } = useContext(authContext);
-    const [orderS, setOrderS] = useState("newest");
     const [itemsPerPage, setItemsPerPage] = useState(
-        JSON.parse(localStorage.getItem(`${SHOP_NAME}ItemsPerPage`)) || 0
+        JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0
     );
-    const [categoryS, setCategoryS] = useState("");
-    const [search, setSearch] = useState("");
-    const [minPriceS, setMinPriceS] = useState(0);
-    const [maxPriceS, setMaxPriceS] = useState(999999999999999999);
     const [page, setPage] = useState(
-        JSON.parse(localStorage.getItem("BloomPage")) || 0
+        JSON.parse(localStorage.getItem(local_page)) || 0
     );
-
     const [newData, setNewData] = useState([]);
-
-    const [querySearch, setQuerySearch] = useState("");
-    const [queryMinPrice, setQueryMinPrice] = useState("");
-    const [queryMaxPrice, setQueryMaxPrice] = useState("");
+    const [minPriceS, setMinPriceS] = useState(minPrice);
+    const [maxPriceS, setMaxPriceS] = useState(maxPrice);
 
     useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            setSearchText(querySearch);
-            setSearch(querySearch);
-        }, 350);
-        return () => clearTimeout(timeOutId);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [querySearch]);
-
-    useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            setMinPriceS(queryMinPrice);
-        }, 350);
-        return () => clearTimeout(timeOutId);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [queryMinPrice]);
-    useEffect(() => {
-        const timeOutId = setTimeout(() => {
-            setMaxPriceS(queryMaxPrice);
-        }, 350);
-        return () => clearTimeout(timeOutId);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [queryMaxPrice]);
-
-    useEffect(() => {
-        handleUpdate();
+        getData();
         if (itemsPerPage === 0) {
             if (window.innerWidth > 1850) {
                 return setItemsPerPage(12);
@@ -84,10 +55,9 @@ const Catalog = (props) => {
     }, []);
 
     useEffect(() => {
-        let get = Promise.resolve(setPriceRange(+minPriceS, +maxPriceS));
-        get.then(() => filterData());
+        setPriceRange(+minPriceS, +maxPriceS);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [categoryS, search, minPrice, maxPrice, orderS, minPriceS, maxPriceS]);
+    }, [minPriceS, maxPriceS]);
     const modal = useRef(null);
 
     useEffect(() => {
@@ -95,62 +65,34 @@ const Catalog = (props) => {
         //eslint-disable-next-line
     }, [data, itemsPerPage]);
 
-    const handleUpdate = () => {
-        let get = Promise.resolve(getData());
-        get.then(() => filterData());
+    const handleInput = (e) => {
+        const timeOutId = setTimeout(() => {
+            setSearchText(e);
+        }, 350);
+        return () => clearTimeout(timeOutId);
     };
 
-    const handleInput = (e) => {
-        return setQuerySearch(e.target.value);
-    };
     const handleCheckbox = (e) => {
         handleSetPage(0);
         setCategory(e.target.id);
-        return setCategoryS(e.target.id);
-    };
-    const handleMin = (e) => {
-        setQueryMinPrice(e);
-    };
-    const handleMax = (e) => {
-        setQueryMaxPrice(e);
-    };
-    const handleOrder = (value) => {
-        setOrderS(value);
-        return setOrder(value);
     };
 
     let pages = Math.ceil(data.length / itemsPerPage);
     const handleItemsPerPage = (value) => {
         if (page < pages) {
-            JSON.stringify(
-                localStorage.setItem(`${SHOP_NAME}ItemsPerPage`, value)
-            );
+            JSON.stringify(localStorage.setItem(local_itemsPerPage, value));
             setItemsPerPage(value);
         }
     };
-    const nextPage = () => {
-        if (page < pages) {
-            JSON.stringify(localStorage.setItem(`${SHOP_NAME}Page`, page + 1));
-            return setPage((page) => (page = page + 1));
-        }
-    };
-    const prevPage = () => {
-        if (page > 0) {
-            JSON.stringify(localStorage.setItem(`${SHOP_NAME}Page`, page - 1));
-            return setPage((page) => (page = page - 1));
-        }
-    };
     const handleSetPage = (e) => {
-        JSON.stringify(localStorage.setItem(`${SHOP_NAME}Page`, e));
+        JSON.stringify(localStorage.setItem(local_page, e));
         setPage(e);
     };
     const setNewDataF = () => {
         if (page >= pages) {
             if (pages > 0) {
                 setPage(pages - 1);
-                JSON.stringify(
-                    localStorage.setItem(`${SHOP_NAME}Page`, pages - 1)
-                );
+                JSON.stringify(localStorage.setItem(local_page, pages - 1));
             }
         }
         let clone = [...data];
@@ -163,11 +105,6 @@ const Catalog = (props) => {
         };
         setNewData(chunks(clone, itemsPerPage));
     };
-
-    let pagesArray = [];
-    for (let i = 1; i < pages + 1; i++) {
-        pagesArray.push(i);
-    }
 
     return (
         <>
@@ -186,11 +123,13 @@ const Catalog = (props) => {
                 <div className="row">
                     <div className="col-12 col-md-2">
                         <FilterSection
+                            searchText={searchText}
+                            category={category}
                             filters={filters}
                             handleInput={handleInput}
                             handleCheckbox={handleCheckbox}
-                            handleMin={handleMin}
-                            handleMax={handleMax}
+                            handleMin={setMinPriceS}
+                            handleMax={setMaxPriceS}
                             minPrice={minPrice}
                             maxPrice={maxPrice}
                         />
@@ -200,19 +139,15 @@ const Catalog = (props) => {
                             <div className="row">
                                 {itemsPerPage > 7 && (
                                     <Pagination
-                                        pagesArray={pagesArray}
                                         page={page}
                                         pages={pages}
                                         itemsPerPage={itemsPerPage}
-                                        orderS={orderS}
-                                        prevPage={prevPage}
-                                        nextPage={nextPage}
+                                        order={order}
                                         handleSetPage={(e) => handleSetPage(e)}
                                         handleItemsPerPage={(e) =>
                                             handleItemsPerPage(e)
                                         }
-                                        handleOrder={(e) => handleOrder(e)}
-                                        category={categoryS}
+                                        setOrder={(e) => setOrder(e)}
                                     ></Pagination>
                                 )}
                                 <div className="col-12">
@@ -229,16 +164,16 @@ const Catalog = (props) => {
                                                             cursor: "pointer",
                                                         }}
                                                     >
-                                                        <a>
+                                                        <div className="a">
                                                             <img
                                                                 className="item-img skew"
                                                                 src="https://firebasestorage.googleapis.com/v0/b/e-shop-d051e.appspot.com/o/important%2Fcog.png?alt=media&token=dd0aea42-45af-480e-b531-4fbaaf0f6b0b"
                                                                 alt=""
                                                             />
-                                                        </a>
+                                                        </div>
                                                         <div className="item-body text-center">
                                                             <button
-                                                                className="btn btn-primary mb-4"
+                                                                className="btn btn-primary mb-5"
                                                                 type="submit"
                                                             >
                                                                 Create new item
@@ -286,19 +221,15 @@ const Catalog = (props) => {
                                     </div>
                                 </div>
                                 <Pagination
-                                    pagesArray={pagesArray}
                                     page={page}
                                     pages={pages}
                                     itemsPerPage={itemsPerPage}
-                                    orderS={orderS}
-                                    prevPage={prevPage}
-                                    nextPage={nextPage}
+                                    order={order}
                                     handleSetPage={(e) => handleSetPage(e)}
                                     handleItemsPerPage={(e) =>
                                         handleItemsPerPage(e)
                                     }
-                                    handleOrder={(e) => handleOrder(e)}
-                                    category={categoryS}
+                                    setOrder={(e) => setOrder(e)}
                                 ></Pagination>
                             </div>
                         </div>
@@ -310,7 +241,7 @@ const Catalog = (props) => {
                     <Modal ref={modal} size="lg">
                         <ItemCreator
                             close={() => modal.current.close()}
-                            find={() => handleUpdate()}
+                            getData={() => getData()}
                         />
                     </Modal>
                 </Suspense>
