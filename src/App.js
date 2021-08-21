@@ -4,7 +4,7 @@ import { CSSTransition } from "react-transition-group";
 import { Footer } from "./layout/footer/footer";
 import { CatalogState } from "./context/catalog/catalog-state";
 import { authContext } from "./context/Auth/auth-context";
-import { Navigation } from "./layout/navigation/navigation";
+import Navigation from "./layout/navigation/navigation";
 import Catalog from "./compontents/pages/Catalog/Catalog";
 import Contacts from "./compontents/pages/Contacts/Contacts";
 import Delivery from "./compontents/pages/Delivery/Delivery";
@@ -35,48 +35,46 @@ function App() {
         <>
             <CatalogState>
                 <Navigation />
+                {mainRoutes.map(({ path, Component }) => (
+                    <Route path={path} exact key={path}>
+                        {({ match }) => (
+                            <CSSTransition
+                                in={match != null}
+                                timeout={400}
+                                classNames="page"
+                                unmountOnExit
+                            >
+                                <>
+                                    <Redirect to="/catalog" />
+                                    <div id="page" className="page">
+                                        <Component {...match} />
+                                        <About></About>
+                                        <Delivery></Delivery>
+                                        <Contacts></Contacts>
+                                        <Footer />
+                                    </div>
+                                </>
+                            </CSSTransition>
+                        )}
+                    </Route>
+                ))}
+                {routes.map(({ path, Component }) => (
+                    <Route path={path} exact key={path}>
+                        {({ match }) => (
+                            <CSSTransition
+                                in={match != null}
+                                timeout={400}
+                                classNames="page"
+                                unmountOnExit
+                            >
+                                <div id="page" className="page">
+                                    <Component {...match} />
+                                </div>
+                            </CSSTransition>
+                        )}
+                    </Route>
+                ))}
             </CatalogState>
-            {mainRoutes.map(({ path, Component }) => (
-                <Route path={path} exact key={path}>
-                    {({ match }) => (
-                        <CSSTransition
-                            in={match != null}
-                            timeout={400}
-                            classNames="page"
-                            unmountOnExit
-                        >
-                            <CatalogState>
-                                <Redirect to="/catalog" />
-                                <div id="page" className="page">
-                                    <Component {...match} />
-                                    <About></About>
-                                    <Delivery></Delivery>
-                                    <Contacts></Contacts>
-                                    <Footer />
-                                </div>
-                            </CatalogState>
-                        </CSSTransition>
-                    )}
-                </Route>
-            ))}
-            {routes.map(({ path, Component }) => (
-                <Route path={path} exact key={path}>
-                    {({ match }) => (
-                        <CSSTransition
-                            in={match != null}
-                            timeout={400}
-                            classNames="page"
-                            unmountOnExit
-                        >
-                            <CatalogState>
-                                <div id="page" className="page">
-                                    <Component {...match} />
-                                </div>
-                            </CatalogState>
-                        </CSSTransition>
-                    )}
-                </Route>
-            ))}
         </>
     );
 }

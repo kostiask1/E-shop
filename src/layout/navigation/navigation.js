@@ -5,7 +5,7 @@ import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
-export const Navigation = () => {
+const Navigation = () => {
     const { storage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     let props = useLocation();
@@ -15,7 +15,6 @@ export const Navigation = () => {
         { to: "delivery", name: "Delivery" },
         { to: "contacts", name: "Contacts" },
     ];
-console.log(storage)
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -33,6 +32,9 @@ console.log(storage)
                                         width="25"
                                         height="25"
                                     />
+                                    {storage.length > 0 && (
+                                        <span>{storage.length}</span>
+                                    )}
                                 </RLink>
                             </li>
                             <li className="nav-item">
@@ -122,3 +124,7 @@ console.log(storage)
         </>
     );
 };
+function arePropsEqual(prevProps, nextProps) {
+    return prevProps.storage === nextProps.storage;
+}
+export default React.memo(Navigation, arePropsEqual);

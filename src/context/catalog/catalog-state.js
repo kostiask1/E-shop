@@ -252,6 +252,7 @@ export const CatalogState = ({ children }) => {
                 searchText,
                 category,
                 order,
+                storage,
             }}
         >
             {children}

@@ -10,6 +10,7 @@ export const DropDown = (props) => {
         return () => {
             document.removeEventListener("mouseup", clickHandler);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const clickHandler = (e) => {
