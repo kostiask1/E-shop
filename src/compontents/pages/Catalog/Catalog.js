@@ -61,7 +61,7 @@ const Catalog = () => {
     const modal = useRef(null);
 
     useEffect(() => {
-        setNewDataF();
+        genNewData();
         //eslint-disable-next-line
     }, [data, itemsPerPage]);
 
@@ -88,7 +88,7 @@ const Catalog = () => {
         JSON.stringify(localStorage.setItem(local_page, e));
         setPage(e);
     };
-    const setNewDataF = () => {
+    const genNewData = () => {
         if (page >= pages) {
             if (pages > 0) {
                 setPage(pages - 1);
@@ -121,7 +121,7 @@ const Catalog = () => {
                 className="container-fluid catalog__wrapper pb-5 pt-2"
             >
                 <div className="row">
-                    <div className="col-12 col-md-2">
+                    <div className="col-12 col-md-2 fade-in">
                         <FilterSection
                             searchText={searchText}
                             category={category}

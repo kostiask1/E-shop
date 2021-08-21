@@ -2,6 +2,7 @@
 @import "./sass/catalog.scss";
 @import "./sass/UI.scss";
 @import "./sass/keyframes.scss";
+@import "./sass/dropdown.scss";
 
 body {
     margin: 0;
@@ -27,6 +28,7 @@ code {
 }
 
 :root {
+    --primary: #007bff;
     --lightBlue: #aecde2;
     --pink: #fd792f;
     --black: #000;

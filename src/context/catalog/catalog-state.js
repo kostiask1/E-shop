@@ -222,10 +222,19 @@ export const CatalogState = ({ children }) => {
         return JSON.parse(localStorage.getItem(local_cart_storage)) || [];
     };
 
+    const resetFilters = () => {
+        localStorage.removeItem(local_category);
+        localStorage.removeItem(local_minPrice);
+        localStorage.removeItem(local_maxPrice);
+        localStorage.removeItem(local_searchText);
+        return window.location.reload();
+    };
+
     return (
         <catalogContext.Provider
             value={{
                 getData,
+                resetFilters,
                 getById,
                 clearStorage,
                 findInStorage,

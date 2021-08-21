@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { catalogContext } from "../../context/catalog/catalog-context";
 import Category from "../Category/Category";
 
 const FilterSection = (props) => {
@@ -13,27 +14,29 @@ const FilterSection = (props) => {
         maxPrice,
         category,
     } = props;
-
+    const { resetFilters } = useContext(catalogContext);
     return (
         <>
             <input
-                className="form-control"
+                className="form-control mb-2"
                 type="text"
                 placeholder="Search..."
                 defaultValue={searchText}
                 onChange={(e) => handleInput(e.target.value)}
             />
-            {filters
-                ? filters.map((item, index) => (
-                      <Category
-                          category={category}
-                          key={index}
-                          item={item}
-                          change={(e) => handleCheckbox(e)}
-                      />
-                  ))
-                : null}
-            <div className="catalog__filters input-group input-group-sm mt-4">
+            <div className="ml-1">
+                {filters
+                    ? filters.map((item, index) => (
+                          <Category
+                              category={category}
+                              key={index}
+                              item={item}
+                              change={(e) => handleCheckbox(e)}
+                          />
+                      ))
+                    : null}
+            </div>
+            <div className="catalog__filters input-group input-group-sm mt-3">
                 <input
                     className={`form-control mr-1 ${
                         minPrice > maxPrice ? "error" : ""
@@ -53,12 +56,20 @@ const FilterSection = (props) => {
                     onChange={(e) => handleMax(e.target.value)}
                 />
             </div>
+            <button
+                className="btn btn-sm btn-warning mt-4"
+                onClick={resetFilters}
+            >
+                Reset Filters
+            </button>
         </>
     );
 };
 
 function arePropsEqual(prevProps, nextProps) {
     return (
+        prevProps.minPrice === nextProps.minPrice &&
+        prevProps.maxPrice === nextProps.maxPrice &&
         prevProps.category === nextProps.category &&
         prevProps.filters === nextProps.filters
     );

@@ -24,7 +24,9 @@ const ShopItem = (props) => {
     useEffect(() => {
         setFading(false);
         setTimeout(() => setFading(true), 300);
-        return () => {};
+        return () => {
+            setFading(false);
+        };
     }, [props.page]);
 
     const deleteItem = () => {

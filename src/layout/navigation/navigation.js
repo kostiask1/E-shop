@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { NavLink as RLink, useLocation } from "react-router-dom";
 import { Link } from "react-scroll";
 import { authContext } from "../../context/Auth/auth-context";
+import { catalogContext } from "../../context/catalog/catalog-context";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 export const Navigation = () => {
+    const { storage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     let props = useLocation();
     let screenWidth = document.documentElement.clientWidth;
@@ -13,7 +15,7 @@ export const Navigation = () => {
         { to: "delivery", name: "Delivery" },
         { to: "contacts", name: "Contacts" },
     ];
-
+console.log(storage)
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">

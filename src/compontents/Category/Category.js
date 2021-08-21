@@ -3,9 +3,6 @@ import React from "react";
 const Category = (props) => {
     const { item, change, category } = props;
 
-    const handleInput = (e) => {
-        change(e);
-    };
     return (
         <div className="category">
             <input
@@ -13,7 +10,7 @@ const Category = (props) => {
                 type="radio"
                 name={category}
                 id={item}
-                onChange={(e) => handleInput(e)}
+                onChange={(e) => change(e)}
             />
             <label
                 className={`form-check-label ${

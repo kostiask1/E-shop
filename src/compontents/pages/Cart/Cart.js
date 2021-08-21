@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, Fragment } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Redirect, NavLink } from "react-router-dom";
 import { catalogContext } from "../../../context/catalog/catalog-context";
 import ShopItem from "../../ShopItem/ShopItem";
@@ -16,12 +16,12 @@ const Cart = () => {
                 setLoading(
                     (prev) =>
                         (prev = (
-                            <Fragment>
+                            <div className="fade-in">
                                 <h1>Cart is empty</h1>
                                 <NavLink to="/catalog">
                                     Go back shoping ->
                                 </NavLink>
-                            </Fragment>
+                            </div>
                         ))
                 ),
             2000
@@ -73,7 +73,7 @@ const Cart = () => {
             </div>
         );
     } else {
-        return <div className="container-fluid pop-in">{loading}</div>;
+        return <div className="container-fluid fade-in">{loading}</div>;
     }
 };
 

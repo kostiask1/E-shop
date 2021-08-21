@@ -1,5 +1,6 @@
 import React from "react";
 import { local_page } from "../../localStorage";
+import { DropDown } from "../DropDown/DropDown";
 
 const Pagination = ({
     handleSetPage,
@@ -30,7 +31,7 @@ const Pagination = ({
     return (
         <div className="col-12">
             <div className="row">
-                <div className="col-md-6">
+                <div className="col-lg-6">
                     <ul className="pagination pagination-sm">
                         <li className="page-item">
                             <button
@@ -128,9 +129,20 @@ const Pagination = ({
                                 Next {screenWidth > 450 && "page"}
                             </button>
                         </li>
+                        {pagesArray.length > 7 && (
+                            <li className="page-item ml-3">
+                                <span>Jump to</span>
+                                <DropDown
+                                    key={pagesArray.length}
+                                    defaultValue={page + 1}
+                                    change={handleSetPage}
+                                    options={pagesArray}
+                                />
+                            </li>
+                        )}
                     </ul>
                 </div>
-                <div className="col-md-6">
+                <div className="col-lg-6">
                     <ul className="pagination pagination-sm">
                         <li className="page-item">
                             <label className="mr-1">Items on page</label>
