@@ -3,6 +3,7 @@
 }
 .category label {
     cursor: pointer;
+    transition: 0.4s all;
 }
 .item {
     opacity: 0;
@@ -58,4 +59,8 @@
             color: var(--alert);
         }
     }
+}
+.page-link:focus {
+    outline: unset;
+    box-shadow: unset;
 }
