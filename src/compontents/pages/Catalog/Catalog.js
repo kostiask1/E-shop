@@ -43,6 +43,8 @@ const Catalog = () => {
     const [minPriceS, setMinPriceS] = useState(minPrice);
     const [maxPriceS, setMaxPriceS] = useState(maxPrice);
 
+    console.log("render");
+
     useEffect(() => {
         getData();
         if (itemsPerPage === 0) {

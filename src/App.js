@@ -31,6 +31,7 @@ function App() {
         auth();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+    console.log("app");
     return (
         <>
             <CatalogState>

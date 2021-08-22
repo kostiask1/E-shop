@@ -57,13 +57,20 @@ export const CatalogState = ({ children }) => {
     const getFilters = async () => {
         try {
             console.log("started loading...");
-            let filters = await db.collection("categories").get();
+            let filters = await db
+                .collection("categories")
+                .get()
+                .then(console.log("success"));
+            console.log(filters.docs);
+            console.log(filters.docs[0].data());
             filters
                 ? (filters = filters.docs.map((doc) => doc.data()))
                 : (filters = []);
+            console.log("got filters, then...");
             if (filters.length) {
                 filters = Object.values(filters[0].categories);
             }
+            console.log("got dispatching received data");
             dispatch({ type: FILTERS, payload: filters });
             console.log("Loading finished");
             return filters;

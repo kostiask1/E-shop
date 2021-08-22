@@ -12,6 +12,8 @@ const InCart = ({ id, ...props }) => {
         //eslint-disable-next-line
     }, []);
 
+    console.log("asaaa");
+
     const addToCart = () => {
         addToStorage(id);
         setInStorage(true);
