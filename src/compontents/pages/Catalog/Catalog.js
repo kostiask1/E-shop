@@ -134,92 +134,9 @@ const Catalog = () => {
                             maxPrice={maxPrice}
                         />
                     </div>
-                    {newData.length > 0 ? (
-                        <div className="col-12 col-md-10">
-                            <div className="row">
-                                {itemsPerPage > 7 && (
-                                    <Pagination
-                                        page={page}
-                                        pages={pages}
-                                        itemsPerPage={itemsPerPage}
-                                        order={order}
-                                        handleSetPage={(e) => handleSetPage(e)}
-                                        handleItemsPerPage={(e) =>
-                                            handleItemsPerPage(e)
-                                        }
-                                        setOrder={(e) => setOrder(e)}
-                                    ></Pagination>
-                                )}
-                                <div className="col-12">
-                                    <div className="catalog">
-                                        <div className="row">
-                                            {admin && (
-                                                <div className="col-md-3">
-                                                    <div
-                                                        className="item pop-in"
-                                                        onClick={() =>
-                                                            modal.current.open()
-                                                        }
-                                                        style={{
-                                                            cursor: "pointer",
-                                                        }}
-                                                    >
-                                                        <div className="a">
-                                                            <img
-                                                                className="item-img skew"
-                                                                src="https://firebasestorage.googleapis.com/v0/b/e-shop-d051e.appspot.com/o/important%2Fcog.png?alt=media&token=dd0aea42-45af-480e-b531-4fbaaf0f6b0b"
-                                                                alt=""
-                                                            />
-                                                        </div>
-                                                        <div className="item-body text-center">
-                                                            <button
-                                                                className="btn btn-primary mb-5"
-                                                                type="submit"
-                                                            >
-                                                                Create new item
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                            {newData.length > 0 ? (
-                                                Object.values(newData[page])
-                                                    .length > 0 ? (
-                                                    Object.values(
-                                                        newData[page]
-                                                    ).map((item, index) => {
-                                                        return (
-                                                            <ShopItem
-                                                                page={page}
-                                                                index={index}
-                                                                key={index}
-                                                                id={item.id}
-                                                                text={item.text}
-                                                                image={
-                                                                    item.image
-                                                                }
-                                                                category={
-                                                                    item.category
-                                                                }
-                                                                description={
-                                                                    item.description
-                                                                }
-                                                                price={
-                                                                    item.price
-                                                                }
-                                                            />
-                                                        );
-                                                    })
-                                                ) : (
-                                                    <span>
-                                                        No matching results
-                                                        found
-                                                    </span>
-                                                )
-                                            ) : null}
-                                        </div>
-                                    </div>
-                                </div>
+                    <div className="col-12 col-md-10">
+                        <div className="row">
+                            {itemsPerPage > 7 && newData.length > 0 && (
                                 <Pagination
                                     page={page}
                                     pages={pages}
@@ -231,9 +148,87 @@ const Catalog = () => {
                                     }
                                     setOrder={(e) => setOrder(e)}
                                 ></Pagination>
+                            )}
+                            <div className="col-12">
+                                <div className="catalog">
+                                    <div className="row">
+                                        {admin && (
+                                            <div className="col-md-3">
+                                                <div
+                                                    className="item pop-in"
+                                                    onClick={() =>
+                                                        modal.current.open()
+                                                    }
+                                                    style={{
+                                                        cursor: "pointer",
+                                                    }}
+                                                >
+                                                    <div className="a">
+                                                        <img
+                                                            className="item-img skew"
+                                                            src="/cog.png"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="item-body text-center">
+                                                        <button
+                                                            className="btn btn-primary mt-4 mb-5"
+                                                            type="submit"
+                                                        >
+                                                            Create new item
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {newData.length > 0 ? (
+                                            Object.values(newData[page])
+                                                .length > 0 ? (
+                                                Object.values(
+                                                    newData[page]
+                                                ).map((item, index) => {
+                                                    return (
+                                                        <ShopItem
+                                                            page={page}
+                                                            index={index}
+                                                            key={index}
+                                                            id={item.id}
+                                                            text={item.text}
+                                                            image={item.image}
+                                                            category={
+                                                                item.category
+                                                            }
+                                                            description={
+                                                                item.description
+                                                            }
+                                                            price={item.price}
+                                                        />
+                                                    );
+                                                })
+                                            ) : (
+                                                <span>
+                                                    No matching results found
+                                                </span>
+                                            )
+                                        ) : null}
+                                    </div>
+                                </div>
                             </div>
+                            {itemsPerPage > 7 && newData.length > 0 && (
+                                <Pagination
+                                    page={page}
+                                    pages={pages}
+                                    itemsPerPage={itemsPerPage}
+                                    order={order}
+                                    handleSetPage={(e) => handleSetPage(e)}
+                                    handleItemsPerPage={(e) =>
+                                        handleItemsPerPage(e)
+                                    }
+                                    setOrder={(e) => setOrder(e)}
+                                ></Pagination>
+                            )}
                         </div>
-                    ) : null}
+                    </div>
                 </div>
             </div>
             {admin && (

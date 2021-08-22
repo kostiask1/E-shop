@@ -27,10 +27,13 @@ const Navigation = () => {
                             <li className="nav-item" style={{ marginTop: 5 }}>
                                 <RLink to="/cart">
                                     <img
-                                        src="/shopping-cart.svg"
+                                        src="/cart.png"
                                         alt=""
-                                        width="25"
-                                        height="25"
+                                        width="30"
+                                        height="30"
+                                        style={{
+                                            filter: "brightness(0%)",
+                                        }}
                                     />
                                     {storage.length > 0 && (
                                         <span>{storage.length}</span>

@@ -145,7 +145,7 @@ const Pagination = ({
                 <div className="col-lg-6">
                     <ul className="pagination pagination-sm">
                         <li className="page-item">
-                            <label className="mr-1">Items on page</label>
+                            <label className="mr-1">Items to Show</label>
                             <select
                                 className="page-link d-inline-block mr-1"
                                 name="category"
@@ -163,6 +163,7 @@ const Pagination = ({
                             </select>
                         </li>
                         <li className="page-item">
+                            <label className="mr-1">Sort by:</label>
                             <select
                                 className="page-link"
                                 name="order"

@@ -131,12 +131,15 @@ export const CatalogState = ({ children }) => {
                 return item.category === category;
             });
         }
-        if (dataNew.length >= 0 && maxPrice > 0) {
+        if (dataNew.length >= 0) {
+            let cloneMaxPrice = maxPrice === 0 ? 99999999999999999 : maxPrice;
             dataNew = dataNew.filter((item) => {
-                if (maxPrice < minPrice) {
+                if (cloneMaxPrice < minPrice) {
                     return item.price >= minPrice;
                 } else {
-                    return item.price >= minPrice && item.price <= maxPrice;
+                    return (
+                        item.price >= minPrice && item.price <= cloneMaxPrice
+                    );
                 }
             });
         }

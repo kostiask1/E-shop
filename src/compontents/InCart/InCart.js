@@ -31,11 +31,7 @@ const InCart = ({ id, ...props }) => {
                 onClick={() => deleteFromCart()}
                 className="item-control item-edit"
             >
-                <img
-                    src="/shopping-cart-remove.svg"
-                    alt=""
-                    style={{ width: 45 }}
-                />
+                <img src="/shopping-cart-remove.svg" alt="remove" width="45" />
             </button>
         </div>
     ) : (
@@ -46,11 +42,7 @@ const InCart = ({ id, ...props }) => {
                 data-bs-target="#Edit"
                 onClick={() => addToCart()}
             >
-                <img
-                    src="/shopping-cart-add.svg"
-                    alt=""
-                    style={{ width: 45 }}
-                />
+                <img src="/shopping-cart-add.svg" alt="add" width="45" />
             </button>
         </div>
     );

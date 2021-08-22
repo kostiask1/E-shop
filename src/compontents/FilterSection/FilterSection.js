@@ -39,7 +39,7 @@ const FilterSection = (props) => {
             <div className="catalog__filters input-group input-group-sm mt-3">
                 <input
                     className={`form-control mr-1 ${
-                        minPrice > maxPrice ? "error" : ""
+                        minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="text"
                     placeholder="Min"
@@ -48,7 +48,7 @@ const FilterSection = (props) => {
                 />
                 <input
                     className={`form-control ml-1 ${
-                        minPrice > maxPrice ? "error" : ""
+                        minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="text"
                     placeholder="Max"
