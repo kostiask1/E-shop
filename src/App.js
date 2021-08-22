@@ -31,52 +31,48 @@ function App() {
         auth();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    console.log("app");
     return (
-        <>
-            <CatalogState>
-                <Navigation />
-                {mainRoutes.map(({ path, Component }) => (
-                    <Route path={path} exact key={path}>
-                        {({ match }) => (
-                            <CSSTransition
-                                in={match != null}
-                                timeout={400}
-                                classNames="page"
-                                unmountOnExit
-                            >
-                                <>
-                                    <Redirect to="/catalog" />
-                                    <div id="page" className="page">
-                                        <Component {...match} />
-                                        <About></About>
-                                        <Delivery></Delivery>
-                                        <Contacts></Contacts>
-                                        <Footer />
-                                    </div>
-                                </>
-                            </CSSTransition>
-                        )}
-                    </Route>
-                ))}
-                {routes.map(({ path, Component }) => (
-                    <Route path={path} exact key={path}>
-                        {({ match }) => (
-                            <CSSTransition
-                                in={match != null}
-                                timeout={400}
-                                classNames="page"
-                                unmountOnExit
-                            >
+        <CatalogState>
+            <Navigation />
+            {mainRoutes.map(({ path, Component }) => (
+                <Route path={path} exact key={path}>
+                    {({ match }) => (
+                        <CSSTransition
+                            in={match != null}
+                            timeout={400}
+                            classNames="page"
+                            unmountOnExit
+                        >
+                            <>
                                 <div id="page" className="page">
                                     <Component {...match} />
+                                    <About></About>
+                                    <Delivery></Delivery>
+                                    <Contacts></Contacts>
+                                    <Footer />
                                 </div>
-                            </CSSTransition>
-                        )}
-                    </Route>
-                ))}
-            </CatalogState>
-        </>
+                            </>
+                        </CSSTransition>
+                    )}
+                </Route>
+            ))}
+            {routes.map(({ path, Component }) => (
+                <Route path={path} exact key={path}>
+                    {({ match }) => (
+                        <CSSTransition
+                            in={match != null}
+                            timeout={400}
+                            classNames="page"
+                            unmountOnExit
+                        >
+                            <div id="page" className="page">
+                                <Component {...match} />
+                            </div>
+                        </CSSTransition>
+                    )}
+                </Route>
+            ))}
+        </CatalogState>
     );
 }
 

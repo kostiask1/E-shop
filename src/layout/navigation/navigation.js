@@ -15,7 +15,6 @@ const Navigation = () => {
         { to: "delivery", name: "Delivery" },
         { to: "contacts", name: "Contacts" },
     ];
-    console.log("nav");
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
