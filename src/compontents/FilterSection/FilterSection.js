@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import Category from "../Category/Category";
 
@@ -41,18 +41,18 @@ const FilterSection = (props) => {
                     className={`form-control mr-1 ${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
-                    type="text"
+                    type="number"
                     placeholder="Min"
-                    defaultValue={+minPrice ? +minPrice : ""}
+                    defaultValue={minPrice ? minPrice : ""}
                     onChange={(e) => handleMin(e.target.value)}
                 />
                 <input
                     className={`form-control ml-1 ${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
-                    type="text"
+                    type="number"
                     placeholder="Max"
-                    defaultValue={+maxPrice ? +maxPrice : ""}
+                    defaultValue={maxPrice ? maxPrice : ""}
                     onChange={(e) => handleMax(e.target.value)}
                 />
             </div>

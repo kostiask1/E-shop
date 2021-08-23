@@ -16,7 +16,7 @@ const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
 
 const ShopItem = (props) => {
-    const { getData } = useContext(catalogContext);
+    const { getData, deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [fading, setFading] = useState(false);
     const modal = useRef(null);
@@ -30,6 +30,7 @@ const ShopItem = (props) => {
     }, [props.page]);
 
     const deleteItem = () => {
+        deleteFromStorage(props.id);
         let item = db.collection("All").where("id", "==", props.id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
@@ -37,6 +38,7 @@ const ShopItem = (props) => {
             });
         });
     };
+
     return (
         <>
             <div className="col-sm-6 col-md-4 col-xl-3 item-wrapper">
