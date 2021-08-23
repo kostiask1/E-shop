@@ -38,7 +38,6 @@ const Catalog = () => {
         const itemsCount =
             JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0;
         if (!itemsCount) {
-            console.log(itemsCount);
             if (window.innerWidth > 1850) {
                 return 12;
             } else if (window.innerWidth > 1200) return 8;

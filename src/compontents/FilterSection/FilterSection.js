@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import Category from "../Category/Category";
 

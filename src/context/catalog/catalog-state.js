@@ -31,8 +31,8 @@ export const CatalogState = ({ children }) => {
         rowData: [],
         data: [],
         category: JSON.parse(localStorage.getItem(local_category)) || "all",
-        minPrice: localStorage.getItem(local_minPrice) || 0,
-        maxPrice: localStorage.getItem(local_maxPrice) || 0,
+        minPrice: +JSON.parse(localStorage.getItem(local_minPrice)) || 0,
+        maxPrice: +JSON.parse(localStorage.getItem(local_maxPrice)) || 0,
         searchText: JSON.parse(localStorage.getItem(local_searchText)) || "",
         order: JSON.parse(localStorage.getItem(local_order)) || "newest",
     };
@@ -56,7 +56,6 @@ export const CatalogState = ({ children }) => {
 
     const getFilters = async () => {
         try {
-            console.log("started loading filters...");
             let filters = await db.collection("categories").get();
             filters
                 ? (filters = filters.docs.map((doc) => doc.data()))
@@ -65,7 +64,6 @@ export const CatalogState = ({ children }) => {
                 filters = Object.values(filters[0].categories);
             }
             dispatch({ type: FILTERS, payload: filters });
-            console.log("Loading filters finished");
             return filters;
         } catch (err) {
             console.error(err);
@@ -74,7 +72,6 @@ export const CatalogState = ({ children }) => {
 
     const getData = () => {
         getFilters();
-        console.log("started loading date...");
         db.collection("All")
             .orderBy("timestamp", "desc")
             .get()
@@ -91,7 +88,6 @@ export const CatalogState = ({ children }) => {
                     resolve(row);
                 });
                 promise.then((response) => {
-                    console.log("Loading data finished");
                     dispatch({ type: DATA, payload: response });
                     dispatch({ type: RESPONSE, payload: response });
                 });
@@ -182,12 +178,12 @@ export const CatalogState = ({ children }) => {
         return dispatch({ type: CATEGORY, payload: value });
     };
     const setMinPrice = (min) => {
-        localStorage.setItem(local_minPrice, JSON.stringify(min));
-        return dispatch({ type: MINPRICE, payload: min });
+        localStorage.setItem(local_minPrice, JSON.stringify(+min));
+        return dispatch({ type: MINPRICE, payload: +min });
     };
     const setMaxPrice = (max) => {
-        localStorage.setItem(local_maxPrice, JSON.stringify(max));
-        return dispatch({ type: MAXPRICE, payload: max });
+        localStorage.setItem(local_maxPrice, JSON.stringify(+max));
+        return dispatch({ type: MAXPRICE, payload: +max });
     };
     const setSearchText = (value) => {
         localStorage.setItem(local_searchText, JSON.stringify(value));
