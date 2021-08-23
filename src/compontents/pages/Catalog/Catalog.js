@@ -27,38 +27,36 @@ const Catalog = () => {
         order,
         setOrder,
         minPrice,
+        setMinPrice,
         maxPrice,
-        setPriceRange,
+        setMaxPrice,
         searchText,
         setSearchText,
     } = useContext(catalogContext);
     const { admin } = useContext(authContext);
-    const [itemsPerPage, setItemsPerPage] = useState(
-        JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0
-    );
+    const [itemsPerPage, setItemsPerPage] = useState(() => {
+        const itemsCount =
+            JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0;
+        if (!itemsCount) {
+            console.log(itemsCount);
+            if (window.innerWidth > 1850) {
+                return 12;
+            } else if (window.innerWidth > 1200) return 8;
+            else if (window.innerWidth > 500) return 6;
+            else if (window.innerWidth < 500) return 4;
+        } else {
+            return itemsCount;
+        }
+    });
     const [page, setPage] = useState(
         JSON.parse(localStorage.getItem(local_page)) || 0
     );
     const [newData, setNewData] = useState([]);
-    const [minPriceS, setMinPriceS] = useState(minPrice);
-    const [maxPriceS, setMaxPriceS] = useState(maxPrice);
-
-    useEffect(() => {
-        getData();
-        if (itemsPerPage === 0) {
-            if (window.innerWidth > 1850) {
-                return setItemsPerPage(12);
-            } else if (window.innerWidth > 1200) return setItemsPerPage(8);
-            else if (window.innerWidth > 500) return setItemsPerPage(6);
-            else if (window.innerWidth < 500) return setItemsPerPage(4);
-        } //eslint-disable-next-line
-    }, []);
-
-    useEffect(() => {
-        setPriceRange(+minPriceS, +maxPriceS);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [minPriceS, maxPriceS]);
     const modal = useRef(null);
+
+    useEffect(() => {
+        getData(); //eslint-disable-next-line
+    }, []);
 
     useEffect(() => {
         genNewData();
@@ -128,8 +126,8 @@ const Catalog = () => {
                             filters={filters}
                             handleInput={handleInput}
                             handleCheckbox={handleCheckbox}
-                            handleMin={setMinPriceS}
-                            handleMax={setMaxPriceS}
+                            handleMin={setMinPrice}
+                            handleMax={setMaxPrice}
                             minPrice={minPrice}
                             maxPrice={maxPrice}
                         />

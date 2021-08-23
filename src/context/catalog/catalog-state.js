@@ -3,11 +3,12 @@ import {
     FILTERS,
     RESPONSE,
     CATEGORY,
-    PRICERANGE,
     SEARCHTEXT,
     ORDER,
     DATA,
     STORAGE,
+    MINPRICE,
+    MAXPRICE,
 } from "./types";
 import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
@@ -29,7 +30,6 @@ export const CatalogState = ({ children }) => {
         filters: [],
         rowData: [],
         data: [],
-        admin: false,
         category: JSON.parse(localStorage.getItem(local_category)) || "all",
         minPrice: localStorage.getItem(local_minPrice) || 0,
         maxPrice: localStorage.getItem(local_maxPrice) || 0,
@@ -56,23 +56,16 @@ export const CatalogState = ({ children }) => {
 
     const getFilters = async () => {
         try {
-            console.log("started loading...");
-            let filters = await db
-                .collection("categories")
-                .get()
-                .then(console.log("success"));
-            console.log(filters.docs);
-            console.log(filters.docs[0].data());
+            console.log("started loading filters...");
+            let filters = await db.collection("categories").get();
             filters
                 ? (filters = filters.docs.map((doc) => doc.data()))
                 : (filters = []);
-            console.log("got filters, then...");
             if (filters.length) {
                 filters = Object.values(filters[0].categories);
             }
-            console.log("got dispatching received data");
             dispatch({ type: FILTERS, payload: filters });
-            console.log("Loading finished");
+            console.log("Loading filters finished");
             return filters;
         } catch (err) {
             console.error(err);
@@ -81,6 +74,7 @@ export const CatalogState = ({ children }) => {
 
     const getData = () => {
         getFilters();
+        console.log("started loading date...");
         db.collection("All")
             .orderBy("timestamp", "desc")
             .get()
@@ -97,6 +91,7 @@ export const CatalogState = ({ children }) => {
                     resolve(row);
                 });
                 promise.then((response) => {
+                    console.log("Loading data finished");
                     dispatch({ type: DATA, payload: response });
                     dispatch({ type: RESPONSE, payload: response });
                 });
@@ -186,10 +181,13 @@ export const CatalogState = ({ children }) => {
         localStorage.setItem(local_category, JSON.stringify(value));
         return dispatch({ type: CATEGORY, payload: value });
     };
-    const setPriceRange = async (min, max) => {
+    const setMinPrice = (min) => {
         localStorage.setItem(local_minPrice, JSON.stringify(min));
+        return dispatch({ type: MINPRICE, payload: min });
+    };
+    const setMaxPrice = (max) => {
         localStorage.setItem(local_maxPrice, JSON.stringify(max));
-        return dispatch({ type: PRICERANGE, payload: { min, max } });
+        return dispatch({ type: MAXPRICE, payload: max });
     };
     const setSearchText = (value) => {
         localStorage.setItem(local_searchText, JSON.stringify(value));
@@ -252,9 +250,10 @@ export const CatalogState = ({ children }) => {
                 deleteFromStorage,
                 getStorage,
                 setCategory,
-                setPriceRange,
                 setSearchText,
                 setOrder,
+                setMinPrice,
+                setMaxPrice,
                 data,
                 filters,
                 minPrice,

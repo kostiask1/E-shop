@@ -44,6 +44,7 @@ function App() {
                             unmountOnExit
                         >
                             <>
+                                <Redirect to="/catalog" />
                                 <div id="page" className="page">
                                     <Component {...match} />
                                     <About></About>

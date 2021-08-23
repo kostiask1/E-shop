@@ -3,13 +3,13 @@ import {
     FILTERS,
     RESPONSE,
     CART,
-    LOGIN,
     CATEGORY,
-    PRICERANGE,
     SEARCHTEXT,
     ORDER,
     DATA,
     STORAGE,
+    MINPRICE,
+    MAXPRICE,
 } from "./types";
 
 const handlers = {
@@ -29,18 +29,17 @@ const handlers = {
         ...state,
         cart: payload,
     }),
-    [LOGIN]: (state, { payload }) => ({
-        ...state,
-        admin: payload,
-    }),
     [CATEGORY]: (state, { payload }) => ({
         ...state,
         category: payload,
     }),
-    [PRICERANGE]: (state, { payload }) => ({
+    [MINPRICE]: (state, { payload }) => ({
         ...state,
-        minPrice: payload.min,
-        maxPrice: payload.max,
+        minPrice: payload,
+    }),
+    [MAXPRICE]: (state, { payload }) => ({
+        ...state,
+        maxPrice: payload,
     }),
     [SEARCHTEXT]: (state, { payload }) => ({
         ...state,
