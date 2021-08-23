@@ -133,7 +133,7 @@ const Catalog = () => {
                     </div>
                     <div className="col-12 col-md-10">
                         <div className="row">
-                            {itemsPerPage > 7 && newData.length > 0 && (
+                            {itemsPerPage > 7 && newData.length > 3 && (
                                 <Pagination
                                     page={page}
                                     pages={pages}
@@ -180,10 +180,9 @@ const Catalog = () => {
                                         )}
                                         {newData.length > 0 ? (
                                             Object.values(newData[page])
-                                                .length > 0 ? (
-                                                Object.values(
-                                                    newData[page]
-                                                ).map((item, index) => {
+                                                .length > 0 &&
+                                            Object.values(newData[page]).map(
+                                                (item, index) => {
                                                     return (
                                                         <ShopItem
                                                             page={page}
@@ -201,17 +200,17 @@ const Catalog = () => {
                                                             price={item.price}
                                                         />
                                                     );
-                                                })
-                                            ) : (
-                                                <span>
-                                                    No matching results found
-                                                </span>
+                                                }
                                             )
-                                        ) : null}
+                                        ) : (
+                                            <span className="fade-in">
+                                                No matching results found
+                                            </span>
+                                        )}
                                     </div>
                                 </div>
                             </div>
-                            {itemsPerPage > 7 && newData.length > 0 && (
+                            {itemsPerPage > 7 && newData.length > 3 && (
                                 <Pagination
                                     page={page}
                                     pages={pages}
