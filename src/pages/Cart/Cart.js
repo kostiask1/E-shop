@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Redirect, NavLink } from "react-router-dom";
-import { catalogContext } from "../../../context/catalog/catalog-context";
-import ShopItem from "../../ShopItem/ShopItem";
+import { catalogContext } from "../../context/catalog/catalog-context";
+import ShopItem from "../../components/ShopItem/ShopItem";
 
 const Cart = () => {
     const { data, getById, clearStorage, getStorage } =

@@ -5,13 +5,13 @@ import { Footer } from "./layout/footer/footer";
 import { CatalogState } from "./context/catalog/catalog-state";
 import { authContext } from "./context/Auth/auth-context";
 import Navigation from "./layout/navigation/navigation";
-import Catalog from "./compontents/pages/Catalog/Catalog";
-import Contacts from "./compontents/pages/Contacts/Contacts";
-import Delivery from "./compontents/pages/Delivery/Delivery";
-import About from "./compontents/pages/About/About";
-import Card from "./compontents/Card/Card";
-import Cart from "./compontents/pages/Cart/Cart";
-import Create from "./compontents/pages/Create/Create";
+import Catalog from "./pages/Catalog/Catalog";
+import Contacts from "./pages/Contacts/Contacts";
+import Delivery from "./pages/Delivery/Delivery";
+import About from "./pages/About/About";
+import Card from "./components/Card/Card";
+import Cart from "./pages/Cart/Cart";
+import Create from "./pages/Create/Create";
 
 const mainRoutes = [
     { path: "/", Component: Catalog },

@@ -1,19 +1,21 @@
 import React, {
-    useEffect,
-    useState,
-    useContext,
-    useRef,
     lazy,
     Suspense,
+    useContext,
+    useEffect,
+    useRef,
+    useState,
 } from "react";
-import { authContext } from "../../../context/Auth/auth-context";
-import { catalogContext } from "../../../context/catalog/catalog-context";
-import { local_itemsPerPage, local_page } from "../../../localStorage";
-import FilterSection from "../../FilterSection/FilterSection";
-import Pagination from "../../Pagination/Pagination";
-import ShopItem from "../../ShopItem/ShopItem";
-const Modal = lazy(() => import("../../Modal/Modal"));
-const ItemCreator = lazy(() => import("../../ItemCreator/ItemCreator"));
+import { local_itemsPerPage, local_page } from "../../localStorage";
+import FilterSection from "../../components/FilterSection/FilterSection";
+import Pagination from "../../components/Pagination/Pagination";
+import ShopItem from "../../components/ShopItem/ShopItem";
+import { authContext } from "../../context/Auth/auth-context";
+import { catalogContext } from "../../context/catalog/catalog-context";
+const Modal = lazy(() => import("../../components/Modal/Modal"));
+const ItemCreator = lazy(() =>
+    import("../../components/ItemCreator/ItemCreator")
+);
 
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 

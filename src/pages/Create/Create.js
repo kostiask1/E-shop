@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { app } from "../../../base";
-import { authContext } from "../../../context/Auth/auth-context";
-import ItemCreator from "../../ItemCreator/ItemCreator";
+import { app } from "../../base";
+import { authContext } from "../../context/Auth/auth-context";
+import ItemCreator from "../../components/ItemCreator/ItemCreator";
 
 const db = app.firestore();
 

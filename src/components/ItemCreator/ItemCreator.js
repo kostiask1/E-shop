@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { app } from "../../base";
 import Modal from "../Modal/Modal";
+import { app } from '../../base';
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -9,14 +9,14 @@ const ItemCreator = (props) => {
         props.filters || !props.category ? "Add item to shop" : "Update item";
     const [filters, setFilters] = useState(props.filters || []);
     const [title, setTitle] = useState(props.title || "");
-    const id = props.id || uuidv4();
     const [image, setImage] = useState(props.image || "");
     const [description, setDescription] = useState(props.description || "");
-    let [price, setPrice] = useState(props.price || "");
     const [category, setCategory] = useState(props.category || "");
     const [drag, setDrag] = useState(false);
-
     const [gallery, setGallery] = useState([]);
+    const [price, setPrice] = useState(props.price || "");
+
+    const id = props.id || uuidv4();
     const modal = useRef(null);
 
     useEffect(() => {
