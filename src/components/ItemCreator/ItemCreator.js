@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "../Modal/Modal";
-import { app } from '../../base';
+import { app } from "../../base";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
     const sumBtn =
-        props.filters || !props.category ? "Add item to shop" : "Update item";
+        props.filters || props.new ? "Add item to shop" : "Update item";
     const [filters, setFilters] = useState(props.filters || []);
     const [title, setTitle] = useState(props.title || "");
     const [image, setImage] = useState(props.image || "");
@@ -20,6 +20,7 @@ const ItemCreator = (props) => {
     const modal = useRef(null);
 
     useEffect(() => {
+        console.log(props.category);
         if (filters.length === 0) {
             getFilters();
         }

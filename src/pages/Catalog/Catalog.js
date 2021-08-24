@@ -233,6 +233,8 @@ const Catalog = () => {
                 <Suspense fallback={<p>Loading...</p>}>
                     <Modal ref={modal} size="lg">
                         <ItemCreator
+                            new={true}
+                            category={category}
                             close={() => modal.current.close()}
                             getData={() => getData()}
                         />

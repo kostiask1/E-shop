@@ -28,6 +28,7 @@ const Auth = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp"
+                    autoComplete="username"
                     onChange={(e) => setLoginValue(e.target.value)}
                 />
             </div>
@@ -39,6 +40,7 @@ const Auth = () => {
                     type="password"
                     className="form-control"
                     id="exampleInputPassword1"
+                    autoComplete="current-password"
                     onChange={(e) => setPassword(e.target.value)}
                 />
             </div>

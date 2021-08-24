@@ -2,73 +2,103 @@ import React, { useReducer } from "react";
 import axios from "axios";
 import { authReducer } from "./auth-reducer";
 import { authContext } from "./auth-context";
-import { local_expirationDate, local_token, local_userId } from "../../localStorage";
+import CryptoJS from "crypto-js";
+import { local_expirationDate } from "../../localStorage";
 const LOGIN = "LOGIN";
 
 export const AuthState = ({ children }) => {
-  const initialState = {
-    admin: false,
-  };
+    const initialState = {
+        admin: false,
+    };
+    window.addEventListener("storage", () => auth());
+    const [state, dispatch] = useReducer(authReducer, initialState);
+    const encryptWithCryptoJS = (plainText) => {
+        const key = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
+        const iv1 = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
+        const encrypted = CryptoJS.AES.encrypt(plainText, key, {
+            keySize: 16,
+            iv: iv1,
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7,
+        });
 
-  const [state, dispatch] = useReducer(authReducer, initialState);
+        return encrypted + "";
+    };
 
-  const login = async (credits) => {
-    let url = "";
-    credits.type === "login"
-      ? (url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
-      : credits.type === "signup"
-      ? (url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
-      : (url = false);
-    if (!url) return false;
+    const decryptionWithCryptoJS = (cipher) => {
+        const key = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
+        const iv1 = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
+        const plainText = CryptoJS.AES.decrypt(cipher, key, {
+            keySize: 16,
+            iv: iv1,
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7,
+        });
 
-    const request = axios.post(url, credits);
-    request.then((response) => {
-      let data = response.data;
-      console.log(response);
+        return plainText.toString(CryptoJS.enc.Utf8);
+    };
 
-      const expirationDate = new Date(new Date().getTime() + 36 * 1000);
-      localStorage.setItem(local_token, data.idToken);
-      localStorage.setItem(local_userId, data.localId);
-      localStorage.setItem(local_expirationDate, expirationDate);
-      auth();
-    });
-  };
+    const login = async (credits) => {
+        let url = "";
+        credits.type === "login"
+            ? (url =
+                  "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
+            : credits.type === "signup"
+            ? (url =
+                  "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg")
+            : (url = false);
+        if (!url) return false;
 
-  const logout = () => {
-    localStorage.removeItem(local_token);
-    localStorage.removeItem(local_userId);
-    localStorage.removeItem(local_expirationDate);
-    dispatch({ type: LOGIN, payload: false });
-  };
+        const request = axios.post(url, credits);
+        request.then(() => {
+            const expirationDate = new Date(new Date().getTime() + 36 * 1000)
+                .getTime()
+                .toString();
+            localStorage.setItem(
+                local_expirationDate,
+                encryptWithCryptoJS(expirationDate)
+            );
+            auth();
+        });
+    };
 
-  const auth = () => {
-    if (
-        new Date(localStorage.getItem(local_expirationDate)) >=
-            new Date().getTime() &&
-        localStorage.getItem(local_token)
-    ) {
-        let expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-        localStorage.setItem(local_expirationDate, expirationDate);
-        return dispatch({ type: LOGIN, payload: true });
-    } else {
-        return logout();
-    }
-  };
+    const logout = () => {
+        localStorage.removeItem(local_expirationDate);
+        dispatch({ type: LOGIN, payload: false });
+    };
 
-  const { admin } = state;
+    const auth = () => {
+        if (
+            localStorage.getItem(local_expirationDate) &&
+            +decryptionWithCryptoJS(
+                localStorage.getItem(local_expirationDate)
+            ) >= new Date().getTime()
+        ) {
+            let expirationDate = new Date(new Date().getTime() + 3600 * 1000)
+                .getTime()
+                .toString();
+            localStorage.setItem(
+                local_expirationDate,
+                encryptWithCryptoJS(expirationDate)
+            );
+            return dispatch({ type: LOGIN, payload: true });
+        } else {
+            return logout();
+        }
+    };
 
-  return (
-    <authContext.Provider
-      value={{
-        login,
-        auth,
-        logout,
-        admin,
-      }}
-    >
-      {children}
-    </authContext.Provider>
-  );
+    const { admin } = state;
+
+    return (
+        <authContext.Provider
+            value={{
+                login,
+                auth,
+                logout,
+                admin,
+            }}
+        >
+            {children}
+        </authContext.Provider>
+    );
 };

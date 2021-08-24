@@ -11,7 +11,8 @@
         background-color: rgba(0, 0, 0, 0.5);
     }
     &-dialog {
-        width: 100%;
+        width: clamp(300px, 100%, 80vw);
+        max-width: unset;
     }
     &-content {
         height: 100%;
