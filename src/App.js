@@ -12,6 +12,7 @@ import About from "./pages/About/About";
 import Card from "./components/Card/Card";
 import Cart from "./pages/Cart/Cart";
 import Create from "./pages/Create/Create";
+import Auth from './layout/Auth/Auth';
 
 const mainRoutes = [
     { path: "/", Component: Catalog },
@@ -19,6 +20,7 @@ const mainRoutes = [
 ];
 
 const routes = [
+    { path: "/auth", Component: Auth },
     { path: "/cart", Component: Cart },
     { path: "/create", Component: Create },
     { path: "/catalog/:name", Component: Card },

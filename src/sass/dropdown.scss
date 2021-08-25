@@ -42,6 +42,7 @@
                 text-decoration: none;
                 display: block;
                 border-bottom: 1px solid #ddd;
+                cursor: pointer;
                 &:hover {
                     color: white;
                     background-color: var(--primary);

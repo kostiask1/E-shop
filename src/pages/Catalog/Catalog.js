@@ -104,7 +104,8 @@ const Catalog = () => {
         };
         setNewData(chunks(clone, itemsPerPage));
     };
-
+    console.log(data);
+    console.log(itemsPerPage);
     return (
         <>
             <main className="main">
@@ -135,7 +136,7 @@ const Catalog = () => {
                     </div>
                     <div className="col-12 col-md-10">
                         <div className="row">
-                            {itemsPerPage > 7 && newData.length > 3 && (
+                            {data.length && (
                                 <Pagination
                                     page={page}
                                     pages={pages}
@@ -212,7 +213,7 @@ const Catalog = () => {
                                     </div>
                                 </div>
                             </div>
-                            {itemsPerPage > 7 && newData.length > 3 && (
+                            {(itemsPerPage > 7 && data.length > 6) && (
                                 <Pagination
                                     page={page}
                                     pages={pages}

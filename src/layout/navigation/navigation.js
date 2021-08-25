@@ -7,7 +7,7 @@ const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Navigation = () => {
     const { storage } = useContext(catalogContext);
-    const { admin } = useContext(authContext);
+    const { admin, logout } = useContext(authContext);
     let props = useLocation();
     let screenWidth = document.documentElement.clientWidth;
     let routes = [
@@ -120,6 +120,25 @@ const Navigation = () => {
                                     <i className="fab fa-instagram" />
                                 </a>
                             </li>
+                            {admin && (
+                                <li className="nav-item">
+                                    <button
+                                        onClick={() => logout()}
+                                        className="btn btn-danger btn-sm mt-2"
+                                        style={{
+                                            padding: 4,
+                                            lineHeight: 0,
+                                        }}
+                                    >
+                                        <i
+                                            className="fas fa-power-off"
+                                            style={{
+                                                fontSize: "12px",
+                                            }}
+                                        />
+                                    </button>
+                                </li>
+                            )}
                         </ul>
                     </div>
                 </div>

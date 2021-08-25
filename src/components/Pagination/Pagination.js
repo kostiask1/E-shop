@@ -143,7 +143,7 @@ const Pagination = ({
                     </ul>
                 </div>
                 <div className="col-lg-6">
-                    <ul className="pagination pagination-sm">
+                    <ul className="pagination pagination-sm pagination-filters">
                         <li className="page-item">
                             <label className="mr-1">Items to Show</label>
                             <select
@@ -155,7 +155,7 @@ const Pagination = ({
                                     handleItemsPerPage(e.target.value)
                                 }
                             >
-                                {[1, 3, 4, 6, 8, 12, 16].map((idx) => (
+                                {[1, 3, 4, 6, 8, 12, 16, 20].map((idx) => (
                                     <option value={idx} key={idx}>
                                         {idx}
                                     </option>
