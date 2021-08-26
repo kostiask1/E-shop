@@ -71,7 +71,7 @@ const Create = () => {
     const createRandom = (e) => {
         e.preventDefault();
         const data = {
-            category: "Bag",
+            category: "",
             id: uuidv4(),
             image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbBfHrizUe6bngDar6zG_DUcPblwxBczo-_Q&usqp=CAU",
             price: Math.ceil(Math.random() * 2000),

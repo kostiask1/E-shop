@@ -124,7 +124,7 @@ const Navigation = () => {
                                 <li className="nav-item">
                                     <button
                                         onClick={() => logout()}
-                                        className="btn btn-danger btn-sm mt-2"
+                                        className="btn btn-danger btn-sm mt-2 ml-3"
                                         style={{
                                             padding: 4,
                                             lineHeight: 0,

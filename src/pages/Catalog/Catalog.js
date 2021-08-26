@@ -12,12 +12,13 @@ import Pagination from "../../components/Pagination/Pagination";
 import ShopItem from "../../components/ShopItem/ShopItem";
 import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
+import { app } from "../../base";
 const Modal = lazy(() => import("../../components/Modal/Modal"));
 const ItemCreator = lazy(() =>
     import("../../components/ItemCreator/ItemCreator")
 );
-
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
+const db = app.firestore();
 
 const Catalog = () => {
     const {
@@ -34,6 +35,7 @@ const Catalog = () => {
         setMaxPrice,
         searchText,
         setSearchText,
+        deleteFromStorage,
     } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [itemsPerPage, setItemsPerPage] = useState(() => {
@@ -53,6 +55,7 @@ const Catalog = () => {
         JSON.parse(localStorage.getItem(local_page)) || 0
     );
     const [newData, setNewData] = useState([]);
+    const [deleteArray, setDeleteArray] = useState([]);
     const modal = useRef(null);
 
     useEffect(() => {
@@ -104,8 +107,37 @@ const Catalog = () => {
         };
         setNewData(chunks(clone, itemsPerPage));
     };
-    console.log(data);
-    console.log(itemsPerPage);
+    const deleteMultipleItems = () => {
+        let promises = [];
+        console.log(deleteArray);
+        deleteArray.map((id) => {
+            return promises.push(
+                new Promise((resolve, reject) => {
+                    deleteFromStorage(id);
+                    let item = db.collection("All").where("id", "==", id);
+                    console.log(item);
+                    item.get().then((querySnapshot) => {
+                        console.log(querySnapshot);
+                        resolve(querySnapshot.docs[0].ref.delete());
+                    });
+                })
+            );
+        });
+        Promise.all(promises).then(() => {
+            getData();
+            setDeleteArray([]);
+        });
+    };
+    const handleDeleteArray = (id) => {
+        if (deleteArray.includes(id)) {
+            console.log(true);
+            let clone = [...deleteArray];
+            clone = clone.filter((item) => item !== id);
+            setDeleteArray(clone);
+        } else {
+            setDeleteArray([...deleteArray, id]);
+        }
+    };
     return (
         <>
             <main className="main">
@@ -150,6 +182,14 @@ const Catalog = () => {
                                 ></Pagination>
                             )}
                             <div className="col-12">
+                                {admin && deleteArray.length ? (
+                                    <button
+                                        className="btn-delete-multiple pop-in"
+                                        onClick={deleteMultipleItems}
+                                    >
+                                        <i className="fa fa-times"></i>
+                                    </button>
+                                ) : null}
                                 <div className="catalog">
                                     <div className="row">
                                         {admin && (
@@ -188,9 +228,9 @@ const Catalog = () => {
                                                 (item, index) => {
                                                     return (
                                                         <ShopItem
+                                                            key={item.id}
                                                             page={page}
                                                             index={index}
-                                                            key={index}
                                                             id={item.id}
                                                             text={item.text}
                                                             image={item.image}
@@ -199,6 +239,9 @@ const Catalog = () => {
                                                             }
                                                             description={
                                                                 item.description
+                                                            }
+                                                            handleDeleteArray={
+                                                                handleDeleteArray
                                                             }
                                                             price={item.price}
                                                         />
@@ -213,7 +256,7 @@ const Catalog = () => {
                                     </div>
                                 </div>
                             </div>
-                            {(itemsPerPage > 7 && data.length > 6) && (
+                            {itemsPerPage > 7 && data.length > 6 && (
                                 <Pagination
                                     page={page}
                                     pages={pages}

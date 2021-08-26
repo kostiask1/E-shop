@@ -16,9 +16,21 @@ const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
 
 const ShopItem = (props) => {
+    const {
+        handleDeleteArray,
+        page,
+        id,
+        index,
+        image,
+        text,
+        price,
+        description,
+        category,
+    } = props;
     const { getData, deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [fading, setFading] = useState(false);
+    const [selected, setSelected] = useState(false);
     const modal = useRef(null);
 
     useEffect(() => {
@@ -27,16 +39,21 @@ const ShopItem = (props) => {
         return () => {
             setFading(false);
         };
-    }, [props.page]);
+    }, [page]);
 
     const deleteItem = () => {
-        deleteFromStorage(props.id);
-        let item = db.collection("All").where("id", "==", props.id);
+        deleteFromStorage(id);
+        let item = db.collection("All").where("id", "==", id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
                 getData();
             });
         });
+    };
+    const handleCheckbox = (event) => {
+        event.preventDefault();
+        setSelected(!selected);
+        handleDeleteArray(id);
     };
 
     return (
@@ -44,7 +61,7 @@ const ShopItem = (props) => {
             <div className="col-sm-6 col-md-4 col-xl-3 item-wrapper">
                 <div
                     className={`item ${fading && "pop-in"}`}
-                    style={{ animationDelay: `${props.index * 70}ms` }}
+                    style={{ animationDelay: `${index * 70}ms` }}
                 >
                     <div className="item-controls">
                         <InCart
@@ -52,43 +69,47 @@ const ShopItem = (props) => {
                                 props.hasOwnProperty("functions") &&
                                 props.functions.getCart()
                             }
-                            id={props.id}
-                            key={props.page}
+                            id={id}
+                            key={page}
                         />
                         {admin ? (
-                            <div className="edit">
-                                <button
-                                    className="item-control item-edit"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#Edit"
-                                    onClick={() => modal.current.open()}
-                                >
-                                    <i className="fas fa-pen" />
-                                </button>
-                            </div>
-                        ) : null}
-                        {admin ? (
-                            <div className="delete">
-                                <button
-                                    onClick={() => deleteItem()}
-                                    className="item-control item-delete"
-                                >
-                                    <i className="fas fa-times" />
-                                </button>
-                            </div>
+                            <>
+                                <div className="edit">
+                                    <button
+                                        className="item-control item-edit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#Edit"
+                                        onClick={() => modal.current.open()}
+                                    >
+                                        <i className="fas fa-pen" />
+                                    </button>
+                                </div>
+                                <div className="delete">
+                                    <button
+                                        onClick={() => deleteItem()}
+                                        className="item-control item-delete"
+                                    >
+                                        <i className="fas fa-times" />
+                                    </button>
+                                </div>
+                                <input
+                                    key={selected}
+                                    className="item-control ml-2"
+                                    type="checkbox"
+                                    checked={selected ? "checked" : ""}
+                                    onChange={handleCheckbox}
+                                    style={{ width: 30, height: 30 }}
+                                />
+                            </>
                         ) : null}
                     </div>
 
-                    <Link to={"/catalog/" + props.id}>
-                        <img
-                            src={props.image}
-                            className="item-img"
-                            alt={props.text}
-                        />
+                    <Link to={"/catalog/" + id}>
+                        <img src={image} className="item-img" alt={text} />
                     </Link>
                     <div className="item-body">
-                        <p>{props.text}</p>
-                        <p>{props.price} UAH</p>
+                        <p>{text}</p>
+                        <p>{price} UAH</p>
                     </div>
                 </div>
             </div>
@@ -96,12 +117,12 @@ const ShopItem = (props) => {
                 <Suspense fallback={<p></p>}>
                     <Modal ref={modal} size="lg">
                         <ItemCreator
-                            title={props.text}
-                            image={props.image}
-                            id={props.id}
-                            description={props.description}
-                            price={props.price}
-                            category={props.category}
+                            title={text}
+                            image={image}
+                            id={id}
+                            description={description}
+                            price={price}
+                            category={category}
                             close={() => modal.current.close()}
                             getData={() => getData()}
                         />

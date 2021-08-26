@@ -20,7 +20,6 @@ const ItemCreator = (props) => {
     const modal = useRef(null);
 
     useEffect(() => {
-        console.log(props.category);
         if (filters.length === 0) {
             getFilters();
         }
@@ -44,11 +43,11 @@ const ItemCreator = (props) => {
 
     const clearInputs = (e) => {
         if (e) e.preventDefault();
-        setTitle("");
-        setImage("");
-        setDescription("");
-        setPrice("");
-        setCategory("");
+        setTitle(props.title ?? "");
+        setImage(props.image ?? "");
+        setDescription(props.description ?? "");
+        setPrice(props.price ?? "");
+        setCategory(props.category ?? "");
     };
 
     const newItem = (e) => {
