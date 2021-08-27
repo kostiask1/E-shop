@@ -13,6 +13,7 @@ import ShopItem from "../../components/ShopItem/ShopItem";
 import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import { app } from "../../base";
+import "./Catalog.scss";
 const Modal = lazy(() => import("../../components/Modal/Modal"));
 const ItemCreator = lazy(() =>
     import("../../components/ItemCreator/ItemCreator")
@@ -143,133 +144,124 @@ const Catalog = () => {
             <main className="main">
                 <div className="bg">
                     <h1>{SHOP_NAME}</h1>
-                    <div className="container-fluid">
+                    <div className="container">
                         <p>Shop by Apollin Ko</p>
                     </div>
                 </div>
             </main>
-            <div
-                id="catalog"
-                className="container-fluid catalog__wrapper pb-5 pt-2"
-            >
+            <div id="catalog" className="container">
                 <div className="row">
-                    <div className="col-12 col-md-2 fade-in">
-                        <FilterSection
-                            searchText={searchText}
-                            category={category}
-                            filters={filters}
-                            handleInput={handleInput}
-                            handleCheckbox={handleCheckbox}
-                            handleMin={setMinPrice}
-                            handleMax={setMaxPrice}
-                            minPrice={minPrice}
-                            maxPrice={maxPrice}
-                        />
-                    </div>
-                    <div className="col-12 col-md-10">
-                        <div className="row">
-                            {data.length ? (
-                                <Pagination
-                                    page={page}
-                                    pages={pages}
-                                    itemsPerPage={itemsPerPage}
-                                    order={order}
-                                    handleSetPage={(e) => handleSetPage(e)}
-                                    handleItemsPerPage={(e) =>
-                                        handleItemsPerPage(e)
-                                    }
-                                    setOrder={(e) => setOrder(e)}
-                                ></Pagination>
+                    <FilterSection
+                        searchText={searchText}
+                        category={category}
+                        filters={filters}
+                        handleInput={handleInput}
+                        handleCheckbox={handleCheckbox}
+                        handleMin={setMinPrice}
+                        handleMax={setMaxPrice}
+                        minPrice={minPrice}
+                        maxPrice={maxPrice}
+                    />
+                    <div className="row">
+                        {data.length ? (
+                            <Pagination
+                                page={page}
+                                pages={pages}
+                                itemsPerPage={itemsPerPage}
+                                order={order}
+                                handleSetPage={(e) => handleSetPage(e)}
+                                handleItemsPerPage={(e) =>
+                                    handleItemsPerPage(e)
+                                }
+                                setOrder={(e) => setOrder(e)}
+                            ></Pagination>
+                        ) : null}
+                        <div>
+                            {admin && deleteArray.length ? (
+                                <button
+                                    className="btn-delete-multiple pop-in"
+                                    onClick={deleteMultipleItems}
+                                >
+                                    <i className="fa fa-times"></i>
+                                </button>
                             ) : null}
-                            <div className="col-12">
-                                {admin && deleteArray.length ? (
-                                    <button
-                                        className="btn-delete-multiple pop-in"
-                                        onClick={deleteMultipleItems}
-                                    >
-                                        <i className="fa fa-times"></i>
-                                    </button>
-                                ) : null}
-                                <div className="catalog">
-                                    <div className="row">
-                                        {admin && (
-                                            <div className="col-md-3">
-                                                <div
-                                                    className="item pop-in"
-                                                    onClick={() =>
-                                                        modal.current.open()
-                                                    }
-                                                    style={{
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    <div className="a">
-                                                        <img
-                                                            className="item-img skew"
-                                                            src="/cog.png"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="item-body text-center">
-                                                        <button
-                                                            className="btn btn-primary mt-4 mb-5"
-                                                            type="submit"
-                                                        >
-                                                            Create new item
-                                                        </button>
-                                                    </div>
+                            <div className="catalog">
+                                <div className="row">
+                                    {admin && (
+                                        <div>
+                                            <div
+                                                className="item pop-in"
+                                                onClick={() =>
+                                                    modal.current.open()
+                                                }
+                                                style={{
+                                                    cursor: "pointer",
+                                                }}
+                                            >
+                                                <div className="a">
+                                                    <img
+                                                        className="item-img skew"
+                                                        src="/cog.png"
+                                                        alt=""
+                                                    />
+                                                </div>
+                                                <div className="item-body text-center">
+                                                    <button
+                                                        className="btn btn-primary"
+                                                        type="submit"
+                                                    >
+                                                        Create new item
+                                                    </button>
                                                 </div>
                                             </div>
-                                        )}
-                                        {newData.length > 0 ? (
-                                            Object.values(newData[page])
-                                                .length > 0 &&
-                                            Object.values(newData[page]).map(
-                                                (item, index) => {
-                                                    return (
-                                                        <ShopItem
-                                                            key={item.id}
-                                                            page={page}
-                                                            index={index}
-                                                            id={item.id}
-                                                            text={item.text}
-                                                            image={item.image}
-                                                            category={
-                                                                item.category
-                                                            }
-                                                            description={
-                                                                item.description
-                                                            }
-                                                            handleDeleteArray={
-                                                                handleDeleteArray
-                                                            }
-                                                            price={item.price}
-                                                        />
-                                                    );
-                                                }
-                                            )
-                                        ) : (
-                                            <span className="fade-in">
-                                                No matching results found
-                                            </span>
-                                        )}
-                                    </div>
+                                        </div>
+                                    )}
+                                    {newData.length > 0 ? (
+                                        Object.values(newData[page]).length >
+                                            0 &&
+                                        Object.values(newData[page]).map(
+                                            (item, index) => {
+                                                return (
+                                                    <ShopItem
+                                                        key={item.id}
+                                                        page={page}
+                                                        index={index}
+                                                        id={item.id}
+                                                        text={item.text}
+                                                        image={item.image}
+                                                        category={item.category}
+                                                        description={
+                                                            item.description
+                                                        }
+                                                        handleDeleteArray={
+                                                            handleDeleteArray
+                                                        }
+                                                        price={item.price}
+                                                    />
+                                                );
+                                            }
+                                        )
+                                    ) : (
+                                        <span className="fade-in">
+                                            No matching results found
+                                        </span>
+                                    )}
                                 </div>
                             </div>
-                            {itemsPerPage > 7 && data.length > 6 && (
-                                <Pagination
-                                    page={page}
-                                    pages={pages}
-                                    itemsPerPage={itemsPerPage}
-                                    order={order}
-                                    handleSetPage={(e) => handleSetPage(e)}
-                                    handleItemsPerPage={(e) =>
-                                        handleItemsPerPage(e)
-                                    }
-                                    setOrder={(e) => setOrder(e)}
-                                ></Pagination>
-                            )}
                         </div>
+                        {itemsPerPage > 7 && data.length > 6 && (
+                            <Pagination
+                                page={page}
+                                pages={pages}
+                                itemsPerPage={itemsPerPage}
+                                order={order}
+                                handleSetPage={(e) => handleSetPage(e)}
+                                handleItemsPerPage={(e) =>
+                                    handleItemsPerPage(e)
+                                }
+                                setOrder={(e) => setOrder(e)}
+                            ></Pagination>
+                        )}
                     </div>
                 </div>
             </div>

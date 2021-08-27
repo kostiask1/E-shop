@@ -1,0 +1,26 @@
+.pagination {
+    width: 100%;
+    &-filters {
+        .page-item {
+            flex: 1 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+    }
+    @media (max-width: 767px) {
+        justify-content: center;
+    }
+    .page-link {
+        white-space: nowrap;
+        &:focus {
+            outline: unset;
+            box-shadow: unset;
+        }
+
+        &.active {
+            background-color: #0d6efd;
+            color: #fff;
+        }
+    }
+}

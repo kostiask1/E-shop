@@ -1,9 +1,10 @@
 import React from "react";
+import "./footer.scss";
 export const Footer = () => {
     return (
         <div className="footer text-center">
             <div className="container">
-                <div className="row align-items-center mb-3 justify-content-center">
+                <div className="row   justify-content-center">
                     <a href="tel:380679029584">
                         <i className="fab fa-telegram" />
                     </a>

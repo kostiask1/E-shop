@@ -1,4 +1,5 @@
 import React from "react";
+import "./Category.scss";
 
 const Category = (props) => {
     const { item, change, category } = props;
@@ -6,16 +7,14 @@ const Category = (props) => {
     return (
         <div className="category">
             <input
-                className="d-none"
+                className="hidden"
                 type="radio"
                 name={category}
                 id={item}
                 onChange={(e) => change(e)}
             />
             <label
-                className={`form-check-label ${
-                    item === category ? "checked" : ""
-                }`}
+                className={`${item === category ? "checked" : ""}`}
                 htmlFor={item}
             >
                 {item === "all" ? "Show all" : item}

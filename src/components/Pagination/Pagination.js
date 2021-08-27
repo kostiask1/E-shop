@@ -1,6 +1,7 @@
 import React from "react";
 import { local_page } from "../../localStorage";
-import { DropDown } from "../DropDown/DropDown";
+import { Dropdown } from "../Dropdown/Dropdown";
+import "./Pagination.scss";
 
 const Pagination = ({
     handleSetPage,
@@ -29,9 +30,9 @@ const Pagination = ({
         pagesArray.push(i);
     }
     return (
-        <div className="col-12">
+        <div>
             <div className="row">
-                <div className="col-lg-6">
+                <div>
                     <ul className="pagination pagination-sm">
                         <li className="page-item">
                             <button
@@ -130,9 +131,9 @@ const Pagination = ({
                             </button>
                         </li>
                         {pagesArray.length > 7 && (
-                            <li className="page-item ml-3">
+                            <li className="page-item ">
                                 <span>Jump to</span>
-                                <DropDown
+                                <Dropdown
                                     key={pagesArray.length}
                                     defaultValue={page + 1}
                                     change={handleSetPage}
@@ -142,12 +143,12 @@ const Pagination = ({
                         )}
                     </ul>
                 </div>
-                <div className="col-lg-6">
+                <div>
                     <ul className="pagination pagination-sm pagination-filters">
                         <li className="page-item">
-                            <label className="mr-1">Items to Show</label>
+                            <label>Items to Show</label>
                             <select
-                                className="page-link d-inline-block mr-1"
+                                className="page-link d-inline-block "
                                 name="category"
                                 id="category"
                                 value={itemsPerPage}
@@ -163,7 +164,7 @@ const Pagination = ({
                             </select>
                         </li>
                         <li className="page-item">
-                            <label className="mr-1">Sort by:</label>
+                            <label>Sort by:</label>
                             <select
                                 className="page-link"
                                 name="order"

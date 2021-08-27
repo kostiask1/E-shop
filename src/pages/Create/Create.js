@@ -84,21 +84,21 @@ const Create = () => {
 
     return (
         <div className="container">
-            <div className="row mb-5">
-                <div className="col-12">
+            <div className="row ">
+                <div>
                     <button onClick={(e) => createRandom(e)}>
                         Create random shit
                     </button>
                 </div>
-                <div className="col-12">
+                <div>
                     <div className="row">
-                        <div className="col-12 col-sm-6 mt-5">
+                        <div>
                             <form
                                 onSubmit={(e) => newFilter(e)}
                                 className="text-center"
                                 action="/"
                             >
-                                <p className="mb-4 title">Create category</p>
+                                <p className=" title">Create category</p>
                                 <div>
                                     <input
                                         type="text"
@@ -109,20 +109,20 @@ const Create = () => {
                                     />
                                 </div>
                                 <button
-                                    className="btn btn-primary mt-3"
+                                    className="btn btn-primary"
                                     type="submit"
                                 >
                                     Add category
                                 </button>
                             </form>
                         </div>
-                        <div className="col-12 col-sm-6 mt-5">
+                        <div>
                             <form
                                 onSubmit={(e) => deleteFilter(e)}
                                 className="text-center"
                                 action="/"
                             >
-                                <p className="mb-4 title">Delete category</p>
+                                <p className=" title">Delete category</p>
                                 <select
                                     className="form-select d-block form-select-lg m-auto"
                                     name="category"
@@ -142,7 +142,7 @@ const Create = () => {
                                         : ""}
                                 </select>
                                 <button
-                                    className="btn btn-primary mt-3"
+                                    className="btn btn-primary"
                                     type="submit"
                                 >
                                     Delete category
@@ -152,7 +152,7 @@ const Create = () => {
                     </div>
                 </div>
                 {filters.length ? (
-                    <div className="col-12 mt-5">
+                    <div>
                         <ItemCreator filters={filters} />
                     </div>
                 ) : null}

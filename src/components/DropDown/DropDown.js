@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import "./Dropdown.scss";
 
-export const DropDown = (props) => {
+export const Dropdown = (props) => {
     const { change, options, defaultValue } = props;
     const [visible, setVisible] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
@@ -48,7 +49,7 @@ export const DropDown = (props) => {
             <button onClick={toggleDropdown} className="dropdown__button">
                 {defaultValue}
                 <i
-                    className={`ml-3 fas fa-chevron-${visible ? "up" : "down"}`}
+                    className={` fas fa-chevron-${visible ? "up" : "down"}`}
                 />
             </button>
             {visible && (

@@ -3,6 +3,7 @@ import { NavLink as RLink, useLocation } from "react-router-dom";
 import { Link } from "react-scroll";
 import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
+import "./navigation.scss";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Navigation = () => {
@@ -17,14 +18,14 @@ const Navigation = () => {
     ];
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container-fluid">
-                    <RLink className="navbar-brand" to="/catalog">
-                        {SHOP_NAME}
-                    </RLink>
-                    <div className="navbar">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li className="nav-item" style={{ marginTop: 5 }}>
+            <nav className="navbar">
+                <div className="container">
+                    <div className="navbar__wrapper">
+                        <RLink className="navbar-brand" to="/catalog">
+                            {SHOP_NAME}
+                        </RLink>
+                        <ul className="navbar-nav me-auto  mb-lg-0">
+                            <li className="nav-item">
                                 <RLink to="/cart">
                                     <img
                                         src="/cart.png"
@@ -122,21 +123,14 @@ const Navigation = () => {
                             </li>
                             {admin && (
                                 <li className="nav-item">
-                                    <button
-                                        onClick={() => logout()}
-                                        className="btn btn-danger btn-sm mt-2 ml-3"
-                                        style={{
-                                            padding: 4,
-                                            lineHeight: 0,
-                                        }}
-                                    >
-                                        <i
-                                            className="fas fa-power-off"
-                                            style={{
-                                                fontSize: "12px",
-                                            }}
-                                        />
-                                    </button>
+                                    <div className="nav-link">
+                                        <button
+                                            onClick={() => logout()}
+                                            className="btn btn-danger"
+                                        >
+                                            <i className="fas fa-power-off" />
+                                        </button>
+                                    </div>
                                 </li>
                             )}
                         </ul>

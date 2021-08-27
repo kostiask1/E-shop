@@ -158,13 +158,13 @@ const ItemCreator = (props) => {
     return (
         <>
             <div className="row">
-                <div className="col-12 col-md-6">
+                <div>
                     <form className="text-center" onSubmit={(e) => newItem(e)}>
-                        <p className="mb-4 title">Create item</p>
-                        <div className="row justify-content-center mb-4">
-                            <div className="col-10">
+                        <p className=" title">Create item</p>
+                        <div className="row justify-content-center ">
+                            <div>
                                 <div>&nbsp;</div>
-                                <div className="mb-3">
+                                <div>
                                     <input
                                         className="form-control"
                                         type="text"
@@ -177,7 +177,7 @@ const ItemCreator = (props) => {
                                         required
                                     />
                                 </div>
-                                <div className="mb-2">
+                                <div>
                                     <input
                                         className="form-control"
                                         type="text"
@@ -187,17 +187,17 @@ const ItemCreator = (props) => {
                                         onChange={(e) =>
                                             setImage(e.target.value)
                                         }
-                                    />{" "}
-                                    <div className="d-flex align-items-center justify-content-between mt-3">
+                                    />
+                                    <div>
                                         <label
-                                            className="btn btn-sm btn-primary mb-0"
+                                            className="btn  btn-primary mb-0"
                                             htmlFor="loadFile"
                                         >
                                             Load file &nbsp;{" "}
                                             <i className="fas fa-upload" />
                                         </label>
                                         <input
-                                            className="d-none"
+                                            className="hidden"
                                             type="file"
                                             name="loadFile"
                                             id="loadFile"
@@ -206,7 +206,7 @@ const ItemCreator = (props) => {
                                             }
                                         />
                                         <button
-                                            className="btn btn-sm btn-primary"
+                                            className="btn  btn-primary"
                                             onClick={(e) => loadGallery(e)}
                                         >
                                             Browse gallery{" "}
@@ -214,7 +214,7 @@ const ItemCreator = (props) => {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="mb-2">
+                                <div>
                                     <input
                                         className="form-control"
                                         type="text"
@@ -227,7 +227,7 @@ const ItemCreator = (props) => {
                                         required
                                     />
                                 </div>
-                                <div className="mb-2">
+                                <div>
                                     <input
                                         className="form-control"
                                         type="number"
@@ -260,20 +260,20 @@ const ItemCreator = (props) => {
                                 : ""}
                         </select>
                         <button
-                            className="btn btn-secondary mr-2 mt-3"
+                            className="btn btn-secondary"
                             onClick={(e) => clearInputs(e)}
                         >
                             reset
                         </button>
-                        <button className="btn btn-primary mt-3" type="submit">
+                        <button className="btn btn-primary" type="submit">
                             {sumBtn}
                         </button>
                     </form>
                 </div>
-                <div className="col-12 col-md-6">
-                    <p className="mb-4 title text-center">Item preview</p>
+                <div>
+                    <p className=" title text-center">Item preview</p>
                     <div className="row">
-                        <div className="col-12 col-md-5">
+                        <div>
                             {image && (
                                 <img
                                     src={image}
@@ -282,7 +282,7 @@ const ItemCreator = (props) => {
                                 />
                             )}
                         </div>
-                        <div className="col-12 col-md-7">
+                        <div>
                             {title && <h4>{title}</h4>}
                             {description && <p>{description}</p>}
                             {price && <p>{price} uah</p>}
@@ -305,7 +305,7 @@ const ItemCreator = (props) => {
                     {!drag && gallery.length > 0 ? (
                         <div className="row" style={{ width: "100%" }}>
                             {gallery.map((img, idx) => (
-                                <div className="col-md-3" key={idx}>
+                                <div key={idx}>
                                     <div className="item pop-in">
                                         <div className="item-controls">
                                             <div className="edit"></div>
@@ -338,13 +338,13 @@ const ItemCreator = (props) => {
                     )}
                     <div className="modal-controls">
                         <label
-                            className="btn btn-success mb-0 mr-3"
+                            className="btn btn-success mb-0 "
                             htmlFor="loadFile"
                         >
                             Load file &nbsp; <i className="fas fa-upload" />
                         </label>
                         <input
-                            className="d-none"
+                            className="hidden"
                             type="file"
                             name="loadFile"
                             id="loadFile"

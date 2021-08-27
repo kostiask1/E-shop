@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import Category from "../Category/Category";
+import "./FilterSection.scss";
 
 const FilterSection = (props) => {
     const {
@@ -16,15 +17,15 @@ const FilterSection = (props) => {
     } = props;
     const { resetFilters } = useContext(catalogContext);
     return (
-        <>
+        <div className="filter-section fade-in">
             <input
-                className="form-control mb-2"
+                className="form-control"
                 type="text"
                 placeholder="Search..."
                 defaultValue={searchText}
                 onChange={(e) => handleInput(e.target.value)}
             />
-            <div className="ml-1">
+            <div>
                 {filters
                     ? filters.map((item, index) => (
                           <Category
@@ -36,9 +37,9 @@ const FilterSection = (props) => {
                       ))
                     : null}
             </div>
-            <div className="catalog__filters input-group input-group-sm mt-3">
+            <div className="catalog__filters">
                 <input
-                    className={`form-control mr-1 ${
+                    className={`form-control  ${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="number"
@@ -47,7 +48,7 @@ const FilterSection = (props) => {
                     onChange={(e) => handleMin(e.target.value)}
                 />
                 <input
-                    className={`form-control ml-1 ${
+                    className={`form-control  ${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="number"
@@ -56,13 +57,10 @@ const FilterSection = (props) => {
                     onChange={(e) => handleMax(e.target.value)}
                 />
             </div>
-            <button
-                className="btn btn-sm btn-warning mt-4"
-                onClick={resetFilters}
-            >
+            <button className="btn btn-warning" onClick={resetFilters}>
                 Reset Filters
             </button>
-        </>
+        </div>
     );
 };
 

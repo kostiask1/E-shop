@@ -9,7 +9,7 @@
         border: none;
         cursor: pointer;
         border: 1px solid #dee2e6;
-        color: var(--primary);
+        color: var(--main);
         &:hover,
         &:focus {
             background-color: #fff;
@@ -30,7 +30,7 @@
             border: none;
             border-bottom: 1px solid #ddd;
             &:focus {
-                outline: 2px solid var(--primary);
+                outline: 2px solid var(--main);
             }
         }
         ul {
@@ -45,7 +45,7 @@
                 cursor: pointer;
                 &:hover {
                     color: white;
-                    background-color: var(--primary);
+                    background-color: var(--main);
                 }
             }
             &::-webkit-scrollbar {

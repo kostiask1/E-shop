@@ -11,6 +11,7 @@ import { catalogContext } from "../../context/catalog/catalog-context";
 import { app } from "../../base";
 import { authContext } from "../../context/Auth/auth-context";
 import InCart from "../InCart/InCart";
+import "./ShopItem.scss";
 const Modal = lazy(() => import("../Modal/Modal"));
 const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
@@ -43,6 +44,7 @@ const ShopItem = (props) => {
 
     const deleteItem = () => {
         deleteFromStorage(id);
+        setFading(false);
         let item = db.collection("All").where("id", "==", id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
@@ -58,7 +60,7 @@ const ShopItem = (props) => {
 
     return (
         <>
-            <div className="col-sm-6 col-md-4 col-xl-3 item-wrapper">
+            <div className="item-wrapper">
                 <div
                     className={`item ${fading && "pop-in"}`}
                     style={{ animationDelay: `${index * 70}ms` }}
@@ -69,6 +71,7 @@ const ShopItem = (props) => {
                                 props.hasOwnProperty("functions") &&
                                 props.functions.getCart()
                             }
+                            hide={() => setFading(false)}
                             id={id}
                             key={page}
                         />
@@ -94,7 +97,7 @@ const ShopItem = (props) => {
                                 </div>
                                 <input
                                     key={selected}
-                                    className="item-control ml-2"
+                                    className="item-control "
                                     type="checkbox"
                                     checked={selected ? "checked" : ""}
                                     onChange={handleCheckbox}

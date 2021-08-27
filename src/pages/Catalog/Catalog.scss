@@ -1,0 +1,57 @@
+.catalog {
+    background-color: var(--white);
+}
+.category label {
+    cursor: pointer;
+    transition: 0.4s all;
+}
+.btn-delete-multiple {
+    position: fixed;
+    left: 50%;
+    top: 100px;
+    border: 2px solid #ddd;
+    background-color: #fff;
+    border-radius: 100%;
+    line-height: 0;
+    padding: 30px;
+    z-index: 99999;
+    i {
+        position: absolute;
+        left: 50%;
+        width: 100%;
+        transform: translateX(-50%);
+        line-height: 0;
+        font-size: 26px;
+        color: var(--danger);
+    }
+}
+
+.main {
+    .bg {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        position: relative;
+        background: radial-gradient(var(--mainStrong) 5%, var(--mainLight) 70%);
+        width: 100%;
+        padding: 3vh 0;
+        aspect-ratio: 16 / 7.5;
+        h1 {
+            font-size: 7rem;
+            white-space: nowrap;
+            position: absolute;
+            font-family: serif;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .container {
+            position: relative;
+            p {
+                color: var(--white);
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
+            }
+        }
+    }
+}

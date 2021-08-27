@@ -46,7 +46,7 @@ const Cart = () => {
     }
     if (data && data.length > 0) {
         return (
-            <div className="container-fluid pop-in pt-4 pb-4">
+            <div className="container pop-in pt-4 pb-4">
                 <div className="row">
                     {data.map((item) => (
                         <ShopItem
@@ -65,7 +65,7 @@ const Cart = () => {
                     ))}
                 </div>
                 <button
-                    className="btn btn-sm btn-danger"
+                    className="btn  btn-danger"
                     onClick={() => handleClean()}
                 >
                     Clear cart
@@ -73,7 +73,7 @@ const Cart = () => {
             </div>
         );
     } else {
-        return <div className="container-fluid fade-in">{loading}</div>;
+        return <div className="container fade-in">{loading}</div>;
     }
 };
 

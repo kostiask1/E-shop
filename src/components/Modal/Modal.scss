@@ -1,0 +1,50 @@
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &-overlay {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    &-dialog {
+        width: clamp(300px, 100%, 80vw);
+        max-width: unset;
+    }
+    &-content {
+        height: 100%;
+    }
+    &-fullscreen {
+        width: 75vw;
+        max-width: unset;
+        min-height: unset;
+        height: 75vh;
+    }
+    &-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        max-height: 75vh;
+    }
+    &-wrapper {
+        padding: 15px;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow-y: scroll;
+        border: 4px solid transparent;
+        &.dragging {
+            border: 4px dotted #000;
+            border-radius: 20px;
+        }
+    }
+    &-controls {
+        align-self: flex-end;
+    }
+}

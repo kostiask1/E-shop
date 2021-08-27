@@ -1,19 +1,12 @@
-@import "./sass/nav.scss";
-@import "./sass/catalog.scss";
+@import "./sass/base.scss";
 @import "./sass/UI.scss";
 @import "./sass/keyframes.scss";
-@import "./sass/dropdown.scss";
 
-body {
+* {
     margin: 0;
-    overflow: hidden;
-    height: 100vh;
-    width: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
 }
 
 #root {
@@ -22,88 +15,13 @@ body {
     justify-content: space-between;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
-}
-
 :root {
-    --primary: #007bff;
-    --lightBlue: #aecde2;
-    --pink: #fd792f;
-    --black: #000;
+    --main: #007bff;
+    --mainLight: #aecde2;
+    --mainStrong: #fd792f;
+    --black: #232323;
     --white: #fdfefe;
-    --alert: red;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    text-transform: capitalize;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-input,
-option,
-a {
-    color: var(--black);
-}
-
-.footer {
-    padding: 8% 0;
-    background-color: var(--lightBlue);
-    i {
-        font-size: 2rem;
-    }
-}
-
-.main {
-    .bg {
-        display: flex;
-        justify-content: flex-end;
-        flex-direction: column;
-        position: relative;
-        background: radial-gradient(var(--pink) 5%, var(--lightBlue) 70%);
-        width: 100%;
-        padding: 3vh 0;
-        aspect-ratio: 16 / 7.5;
-        h1 {
-            font-size: 7rem;
-            white-space: nowrap;
-            position: absolute;
-            font-family: serif;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .container-fluid {
-            position: relative;
-            p {
-                color: var(--white);
-                font-size: 1rem;
-                padding: 0.5rem 1rem;
-            }
-        }
-    }
-}
-
-.title {
-    font-size: 2rem;
-    font-weight: 300;
-}
-p {
-    word-break: break-word;
-}
-
-
-.container-fluid {
-    min-height: 100%;
+    --alert: #dd0303;
+    --success: #00b400;
+    --warning: #ffd900;
 }

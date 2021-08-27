@@ -6,6 +6,7 @@ import React, {
     useRef,
     useCallback,
 } from "react";
+import "./Modal.scss";
 
 export function Modal({ children, size, defaultOpened = false }, ref) {
     const [isOpen, setIsOpen] = useState(defaultOpened);
