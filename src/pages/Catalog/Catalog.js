@@ -168,7 +168,7 @@ const Catalog = () => {
                     </div>
                     <div className="col-12 col-md-10">
                         <div className="row">
-                            {data.length && (
+                            {data.length ? (
                                 <Pagination
                                     page={page}
                                     pages={pages}
@@ -180,7 +180,7 @@ const Catalog = () => {
                                     }
                                     setOrder={(e) => setOrder(e)}
                                 ></Pagination>
-                            )}
+                            ) : null}
                             <div className="col-12">
                                 {admin && deleteArray.length ? (
                                     <button
