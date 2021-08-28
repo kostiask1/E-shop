@@ -213,6 +213,7 @@ const ItemCreator = (props) => {
                                 <textarea
                                     type="text"
                                     name="description"
+                                    rows="5"
                                     value={description}
                                     placeholder="Item description"
                                     onChange={(e) =>
@@ -280,7 +281,7 @@ const ItemCreator = (props) => {
                                 />
                             )}
                         </div>
-                        <div>
+                        <div className="text-info">
                             {title && <h4>{title}</h4>}
                             {description && <p>{description}</p>}
                             {price && <p>{price} uah</p>}

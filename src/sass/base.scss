@@ -25,6 +25,9 @@ label {
     margin-bottom: 0.5em;
     margin-right: 0.5em;
 }
+textarea {
+    resize: none;
+}
 input,
 textarea {
     width: 100%;
