@@ -23,7 +23,7 @@ const Card = (match) => {
     if (data && data.length === 1) {
         const { text, image, price, description } = data[0];
         return (
-            <div className="container pt-5 pb-5 pop-in">
+            <div className="container pop-in">
                 <div className="row">
                     {Object.keys(data).length !== 0 ? (
                         <>

@@ -1,11 +1,41 @@
 .pagination {
     width: 100%;
-    &-filters {
+    display: flex;
+    justify-content: space-between;
+    & ul {
+        align-items: center;
+        flex-wrap: nowrap;
+        display: flex;
+    }
+    &__block {
+        flex-basis: 40%;
+        span {
+            display: inline-block;
+            margin-left: 1rem;
+            margin: 0px 0.5rem;
+        }
         .page-item {
-            flex: 1 1;
             display: flex;
             align-items: center;
             justify-content: flex-end;
+            .page-link {
+                border-left: unset;
+                border-radius: 0px;
+            }
+            &:first-child .page-link {
+                border-radius: 4px 0px 0px 4px;
+                border-left: 1px solid gray;
+            }
+            &:last-child .page-link {
+                border-radius: 0px 4px 4px 0px;
+            }
+        }
+    }
+    &__filters {
+        flex: 1 1;
+        justify-content: flex-end;
+        .page-item {
+            margin-left: 1rem;
         }
     }
     @media (max-width: 767px) {
@@ -13,11 +43,18 @@
     }
     .page-link {
         white-space: nowrap;
+        background-color: var(--white);
+        border: 1px solid gray;
+        border-radius: 4px;
+        padding: 0.45rem 0.6rem;
+        color: var(--textBlack);
         &:focus {
             outline: unset;
             box-shadow: unset;
         }
-
+        &:hover {
+            background-color: #e0e0e0;
+        }
         &.active {
             background-color: #0d6efd;
             color: #fff;

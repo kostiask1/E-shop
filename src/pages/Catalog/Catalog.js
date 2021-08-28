@@ -162,7 +162,7 @@ const Catalog = () => {
                         minPrice={minPrice}
                         maxPrice={maxPrice}
                     />
-                    <div className="row">
+                    <div className="catalog__wrapper">
                         {data.length ? (
                             <Pagination
                                 page={page}
@@ -176,78 +176,52 @@ const Catalog = () => {
                                 setOrder={(e) => setOrder(e)}
                             ></Pagination>
                         ) : null}
-                        <div>
-                            {admin && deleteArray.length ? (
+                        {admin && deleteArray.length ? (
+                            <button
+                                className="btn-delete-multiple pop-in"
+                                onClick={deleteMultipleItems}
+                            >
+                                <i className="fa fa-times"></i>
+                            </button>
+                        ) : null}
+                        <div className="catalog">
+                            {admin && (
                                 <button
-                                    className="btn-delete-multiple pop-in"
-                                    onClick={deleteMultipleItems}
+                                    className="btn btn-primary"
+                                    type="submit"
+                                    onClick={() => modal.current.open()}
                                 >
-                                    <i className="fa fa-times"></i>
+                                    Create new item
                                 </button>
-                            ) : null}
-                            <div className="catalog">
-                                <div className="row">
-                                    {admin && (
-                                        <div>
-                                            <div
-                                                className="item pop-in"
-                                                onClick={() =>
-                                                    modal.current.open()
+                            )}
+                            {newData.length > 0 ? (
+                                Object.values(newData[page]).length > 0 &&
+                                Object.values(newData[page]).map(
+                                    (item, index) => {
+                                        return (
+                                            <ShopItem
+                                                key={item.id}
+                                                page={page}
+                                                index={index}
+                                                id={item.id}
+                                                text={item.text}
+                                                image={item.image}
+                                                category={item.category}
+                                                description={item.description}
+                                                handleDeleteArray={
+                                                    handleDeleteArray
                                                 }
-                                                style={{
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                <div className="a">
-                                                    <img
-                                                        className="item-img skew"
-                                                        src="/cog.png"
-                                                        alt=""
-                                                    />
-                                                </div>
-                                                <div className="item-body text-center">
-                                                    <button
-                                                        className="btn btn-primary"
-                                                        type="submit"
-                                                    >
-                                                        Create new item
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                    {newData.length > 0 ? (
-                                        Object.values(newData[page]).length >
-                                            0 &&
-                                        Object.values(newData[page]).map(
-                                            (item, index) => {
-                                                return (
-                                                    <ShopItem
-                                                        key={item.id}
-                                                        page={page}
-                                                        index={index}
-                                                        id={item.id}
-                                                        text={item.text}
-                                                        image={item.image}
-                                                        category={item.category}
-                                                        description={
-                                                            item.description
-                                                        }
-                                                        handleDeleteArray={
-                                                            handleDeleteArray
-                                                        }
-                                                        price={item.price}
-                                                    />
-                                                );
-                                            }
-                                        )
-                                    ) : (
-                                        <span className="fade-in">
-                                            No matching results found
-                                        </span>
-                                    )}
-                                </div>
-                            </div>
+                                                deleteArray={deleteArray}
+                                                price={item.price}
+                                            />
+                                        );
+                                    }
+                                )
+                            ) : (
+                                <span className="fade-in">
+                                    No matching results found
+                                </span>
+                            )}
                         </div>
                         {itemsPerPage > 7 && data.length > 6 && (
                             <Pagination

@@ -1,7 +1,7 @@
 .container {
     display: flex;
     margin: 0 auto;
-    width: clamp(300px, 100%, 90vw);
+    width: clamp(300px, 100%, 95vw);
     min-height: 100%;
 }
 .row {
@@ -17,7 +17,6 @@
     padding: 8px 12px;
     border-radius: 4px;
     color: var(--white);
-    cursor: pointer;
     &-danger {
         background-color: var(--alert);
     }
@@ -26,10 +25,12 @@
     }
 }
 .disabled {
-    color: gray;
+    color: gray !important;
+    background-color: #ddd !important;
+    cursor: not-allowed !important;
     &:hover {
-        background-color: #e0e0e0;
-        color: gray;
+        background-color: #ddd !important;
+        color: gray !important;
     }
 }
 .error {
@@ -37,16 +38,16 @@
     box-shadow: 0 0 0 0.1rem rgba(255, 0, 0, 0.3) !important;
 }
 ::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
     background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: var(--mainLight);
+    background: var(--gray);
 }
-::-webkit-scrollbar-track-piece:start {
-    background: var(--mainLight);
-}
-:is(.form-control, input, button):focus {
+// ::-webkit-scrollbar-track-piece:start {
+//     background: var(--gray);
+// }
+:is(input, button):focus {
     box-shadow: 0 0 1px 1px var(--main);
 }
 input::-webkit-outer-spin-button,

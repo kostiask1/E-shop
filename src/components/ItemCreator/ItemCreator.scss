@@ -1,0 +1,37 @@
+.page .item-creator {
+    padding: 1.5rem 2rem;
+    & > .row {
+        justify-content: space-between;
+        flex-direction: row;
+        & > div:first-child {
+            width: 35%;
+        }
+        & > div:last-child {
+            width: 62%;
+        }
+        & > div {
+            height: 100%;
+        }
+    }
+    form .row {
+        flex-direction: column;
+        div {
+            width: 100%;
+            margin-top: 1rem;
+        }
+    }
+    .btn-reset {
+        margin-right: 0.5rem;
+    }
+    .img-fluid {
+        width: 100%;
+    }
+    .item-preview {
+        .row {
+            margin-top: 1rem;
+        }
+    }
+    select {
+        width: 100%;
+    }
+}

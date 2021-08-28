@@ -19,6 +19,7 @@ const db = app.firestore();
 const ShopItem = (props) => {
     const {
         handleDeleteArray,
+        deleteArray,
         page,
         id,
         index,
@@ -27,11 +28,14 @@ const ShopItem = (props) => {
         price,
         description,
         category,
+        inCart,
     } = props;
     const { getData, deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [fading, setFading] = useState(false);
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState(
+        deleteArray && deleteArray.includes(id) ? true : false
+    );
     const modal = useRef(null);
 
     useEffect(() => {
@@ -44,7 +48,6 @@ const ShopItem = (props) => {
 
     const deleteItem = () => {
         deleteFromStorage(id);
-        setFading(false);
         let item = db.collection("All").where("id", "==", id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
@@ -71,7 +74,6 @@ const ShopItem = (props) => {
                                 props.hasOwnProperty("functions") &&
                                 props.functions.getCart()
                             }
-                            hide={() => setFading(false)}
                             id={id}
                             key={page}
                         />
@@ -95,14 +97,20 @@ const ShopItem = (props) => {
                                         <i className="fas fa-times" />
                                     </button>
                                 </div>
-                                <input
-                                    key={selected}
-                                    className="item-control "
-                                    type="checkbox"
-                                    checked={selected ? "checked" : ""}
-                                    onChange={handleCheckbox}
-                                    style={{ width: 30, height: 30 }}
-                                />
+                                {!inCart && (
+                                    <input
+                                        key={selected}
+                                        className="item-control "
+                                        type="checkbox"
+                                        checked={selected ? "checked" : ""}
+                                        onChange={handleCheckbox}
+                                        style={{
+                                            width: 50,
+                                            height: 50,
+                                            marginLeft: ".7rem",
+                                        }}
+                                    />
+                                )}
                             </>
                         ) : null}
                     </div>

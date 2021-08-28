@@ -19,7 +19,6 @@ const FilterSection = (props) => {
     return (
         <div className="filter-section fade-in">
             <input
-                className="form-control"
                 type="text"
                 placeholder="Search..."
                 defaultValue={searchText}
@@ -37,9 +36,9 @@ const FilterSection = (props) => {
                       ))
                     : null}
             </div>
-            <div className="catalog__filters">
+            <div className="price__filters">
                 <input
-                    className={`form-control  ${
+                    className={`${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="number"
@@ -48,7 +47,7 @@ const FilterSection = (props) => {
                     onChange={(e) => handleMin(e.target.value)}
                 />
                 <input
-                    className={`form-control  ${
+                    className={`${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="number"

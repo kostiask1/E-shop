@@ -1,0 +1,14 @@
+.create {
+    .row {
+        justify-content: space-between;
+        flex-direction: column;
+    }
+    .form-wrapper {
+        margin: 4rem 0          ;       
+        display: flex;
+        justify-content: space-between;
+        form {
+            width: 45%;
+        }
+    }
+}

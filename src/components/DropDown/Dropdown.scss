@@ -4,17 +4,18 @@
     &__button {
         background-color: #fff;
         color: black;
-        padding: 0.1rem 0.5rem;
+        padding: 0.45rem 0.65rem;
         font-size: 1rem;
         border: none;
-        cursor: pointer;
         border: 1px solid #dee2e6;
         color: var(--main);
+        white-space: nowrap;
         &:hover,
         &:focus {
             background-color: #fff;
         }
         i {
+            padding-left: 0.5em;
             font-size: 0.7rem;
         }
     }
@@ -22,6 +23,7 @@
         position: absolute;
         background-color: #fafafa;
         border: 2px solid #ddd;
+        width: 300px;
         z-index: 1;
         input {
             box-sizing: border-box;
@@ -35,12 +37,14 @@
         }
         ul {
             max-height: 200px;
+            flex-direction: column;
             overflow-y: scroll;
             li {
                 color: black;
                 padding: 0.4rem 0.7rem;
                 text-decoration: none;
                 display: block;
+                width: 100%;
                 border-bottom: 1px solid #ddd;
                 cursor: pointer;
                 &:hover {

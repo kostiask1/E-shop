@@ -29,7 +29,6 @@ const Auth = () => {
 
     return (
         <div className="container">
-            <h2>Authorize</h2>
             <form>
                 <div>
                     <label htmlFor="exampleInputEmail1" className="form-label">
@@ -37,11 +36,11 @@ const Auth = () => {
                     </label>
                     <input
                         type="email"
-                        className="form-control"
                         id="exampleInputEmail1"
                         aria-describedby="emailHelp"
                         autoComplete="username"
                         onChange={(e) => setLoginValue(e.target.value)}
+                        style={{ marginBottom: ".5rem" }}
                     />
                 </div>
                 <div>
@@ -53,32 +52,21 @@ const Auth = () => {
                     </label>
                     <input
                         type="password"
-                        className="form-control"
                         id="exampleInputPassword1"
                         autoComplete="current-password"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <div className=" justify-content-around">
-                    {!admin && (
-                        <>
-                            <button
-                                onClick={(e) => submitHandler(e)}
-                                className="btn btn-primary"
-                                id="login"
-                            >
-                                Log In
-                            </button>
-                            {/* <button
-                  onClick={(e) => submitHandler(e)}
-                  className="btn btn-primary"
-                  id="signup"
-                >
-                  Sign Up
-                </button> */}
-                        </>
-                    )}
-                </div>
+                {!admin && (
+                    <button
+                        onClick={(e) => submitHandler(e)}
+                        className="btn btn-primary"
+                        id="login"
+                        style={{ marginTop: "1rem" }}
+                    >
+                        Log In
+                    </button>
+                )}
             </form>
         </div>
     );

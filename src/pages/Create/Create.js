@@ -3,6 +3,7 @@ import { app } from "../../base";
 import { authContext } from "../../context/Auth/auth-context";
 import { v4 as uuidv4 } from "uuid";
 import ItemCreator from "../../components/ItemCreator/ItemCreator";
+import "./Create.scss";
 
 const db = app.firestore();
 
@@ -83,79 +84,55 @@ const Create = () => {
     };
 
     return (
-        <div className="container">
-            <div className="row ">
-                <div>
+        <div className="create">
+            <div className="container">
+                <div className="row">
                     <button onClick={(e) => createRandom(e)}>
                         Create random shit
                     </button>
-                </div>
-                <div>
-                    <div className="row">
-                        <div>
-                            <form
-                                onSubmit={(e) => newFilter(e)}
-                                className="text-center"
-                                action="/"
-                            >
-                                <p className=" title">Create category</p>
-                                <div>
-                                    <input
-                                        type="text"
-                                        value={categoryToAdd}
-                                        onChange={(e) =>
-                                            setCategoryToAdd(e.target.value)
-                                        }
-                                    />
-                                </div>
-                                <button
-                                    className="btn btn-primary"
-                                    type="submit"
-                                >
-                                    Add category
-                                </button>
-                            </form>
-                        </div>
-                        <div>
-                            <form
-                                onSubmit={(e) => deleteFilter(e)}
-                                className="text-center"
-                                action="/"
-                            >
-                                <p className=" title">Delete category</p>
-                                <select
-                                    className="form-select d-block form-select-lg m-auto"
-                                    name="category"
-                                    id="category"
-                                    value={categoryToRemove}
+                    <div className="form-wrapper">
+                        <form onSubmit={(e) => newFilter(e)} action="/">
+                            <p className=" title">Create category</p>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={categoryToAdd}
                                     onChange={(e) =>
-                                        setCategoryToRemove(e.target.value)
+                                        setCategoryToAdd(e.target.value)
                                     }
-                                >
-                                    <option value="0">Choose category:</option>
-                                    {filters
-                                        ? filters.map((el, idx) => (
-                                              <option value={el} key={idx}>
-                                                  {el}
-                                              </option>
-                                          ))
-                                        : ""}
-                                </select>
-                                <button
-                                    className="btn btn-primary"
-                                    type="submit"
-                                >
-                                    Delete category
-                                </button>
-                            </form>
-                        </div>
+                                />
+                            </div>
+                            <button className="btn btn-primary" type="submit">
+                                Add category
+                            </button>
+                        </form>
+                        <form onSubmit={(e) => deleteFilter(e)} action="/">
+                            <p className=" title">Delete category</p>
+                            <select
+                                className="   "
+                                name="category"
+                                id="category"
+                                value={categoryToRemove}
+                                onChange={(e) =>
+                                    setCategoryToRemove(e.target.value)
+                                }
+                            >
+                                <option value="0">Choose category:</option>
+                                {filters
+                                    ? filters.map((el, idx) => (
+                                          <option value={el} key={idx}>
+                                              {el}
+                                          </option>
+                                      ))
+                                    : ""}
+                            </select>
+                            <button className="btn btn-primary" type="submit">
+                                Delete category
+                            </button>
+                        </form>
                     </div>
+                    {filters.length ? <ItemCreator filters={filters} /> : null}
                 </div>
-                {filters.length ? (
-                    <div>
-                        <ItemCreator filters={filters} />
-                    </div>
-                ) : null}
             </div>
         </div>
     );

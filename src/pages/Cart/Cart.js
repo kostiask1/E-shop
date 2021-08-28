@@ -46,30 +46,32 @@ const Cart = () => {
     }
     if (data && data.length > 0) {
         return (
-            <div className="container pop-in pt-4 pb-4">
-                <div className="row">
-                    {data.map((item) => (
-                        <ShopItem
-                            key={item.id}
-                            id={item.id}
-                            text={item.text}
-                            image={item.image}
-                            category={item.category}
-                            description={item.description}
-                            price={item.price}
-                            functions={{
-                                deleteFromCart: true,
-                                getCart: getCart,
-                            }}
-                        ></ShopItem>
-                    ))}
+            <div className="container pop-in">
+                <div style={{ width: "100%" }}>
+                    <div className="catalog">
+                        {data.map((item) => (
+                            <ShopItem
+                                key={item.id}
+                                id={item.id}
+                                text={item.text}
+                                image={item.image}
+                                category={item.category}
+                                description={item.description}
+                                price={item.price}
+                                inCart={true}
+                                functions={{
+                                    getCart,
+                                }}
+                            ></ShopItem>
+                        ))}
+                    </div>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => handleClean()}
+                    >
+                        Clear cart
+                    </button>
                 </div>
-                <button
-                    className="btn  btn-danger"
-                    onClick={() => handleClean()}
-                >
-                    Clear cart
-                </button>
             </div>
         );
     } else {

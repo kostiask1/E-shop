@@ -1,3 +1,13 @@
 .filter-section {
-    flex-basis: 25%;
+    flex-basis: 20%;
+}
+.price__filters {
+    display: flex;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    input {
+        width: 49%;
+    }
 }

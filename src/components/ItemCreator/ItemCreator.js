@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Modal from "../Modal/Modal";
 import { app } from "../../base";
+import "./ItemCreator.scss";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -156,122 +157,119 @@ const ItemCreator = (props) => {
     };
 
     return (
-        <>
+        <div className="item-creator">
             <div className="row">
                 <div>
-                    <form className="text-center" onSubmit={(e) => newItem(e)}>
-                        <p className=" title">Create item</p>
-                        <div className="row justify-content-center ">
+                    <form onSubmit={(e) => newItem(e)}>
+                        <p className="title">Create item</p>
+                        <div className="row">
                             <div>
-                                <div>&nbsp;</div>
+                                <input
+                                    type="text"
+                                    name="title"
+                                    value={title}
+                                    placeholder="Item title"
+                                    onChange={(e) =>
+                                        handleTitle(e.target.value)
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <input
+                                    type="text"
+                                    name="image"
+                                    value={image}
+                                    placeholder="ImageURL"
+                                    onChange={(e) => setImage(e.target.value)}
+                                />
                                 <div>
+                                    <label
+                                        className="btn  btn-primary mb-0"
+                                        htmlFor="loadFile"
+                                    >
+                                        Load file &nbsp;{" "}
+                                        <i className="fas fa-upload" />
+                                    </label>
                                     <input
-                                        className="form-control"
-                                        type="text"
-                                        name="title"
-                                        value={title}
-                                        placeholder="Item title"
+                                        className="hidden"
+                                        type="file"
+                                        name="loadFile"
+                                        id="loadFile"
                                         onChange={(e) =>
-                                            handleTitle(e.target.value)
-                                        }
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        name="image"
-                                        value={image}
-                                        placeholder="ImageURL"
-                                        onChange={(e) =>
-                                            setImage(e.target.value)
+                                            loadImage(e.target.files[0])
                                         }
                                     />
-                                    <div>
-                                        <label
-                                            className="btn  btn-primary mb-0"
-                                            htmlFor="loadFile"
-                                        >
-                                            Load file &nbsp;{" "}
-                                            <i className="fas fa-upload" />
-                                        </label>
-                                        <input
-                                            className="hidden"
-                                            type="file"
-                                            name="loadFile"
-                                            id="loadFile"
-                                            onChange={(e) =>
-                                                loadImage(e.target.files[0])
-                                            }
-                                        />
-                                        <button
-                                            className="btn  btn-primary"
-                                            onClick={(e) => loadGallery(e)}
-                                        >
-                                            Browse gallery{" "}
-                                            <i className="far fa-share-square" />
-                                        </button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        name="description"
-                                        value={description}
-                                        placeholder="Item description"
-                                        onChange={(e) =>
-                                            setDescription(e.target.value)
-                                        }
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        className="form-control"
-                                        type="number"
-                                        name="price"
-                                        value={price}
-                                        placeholder="Item price"
-                                        onChange={(e) =>
-                                            setPrice(e.target.value)
-                                        }
-                                        required
-                                    />
+                                    <button
+                                        className="btn  btn-primary"
+                                        onClick={(e) => loadGallery(e)}
+                                    >
+                                        Browse gallery{" "}
+                                        <i className="far fa-share-square" />
+                                    </button>
                                 </div>
                             </div>
+                            <div>
+                                <textarea
+                                    type="text"
+                                    name="description"
+                                    value={description}
+                                    placeholder="Item description"
+                                    onChange={(e) =>
+                                        setDescription(e.target.value)
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    value={price}
+                                    placeholder="Item price"
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <select
+                                    name="category"
+                                    id="categoryChoose"
+                                    value={category}
+                                    onChange={(e) =>
+                                        setCategory(e.target.value)
+                                    }
+                                    required
+                                >
+                                    <option value="">Choose category:</option>
+                                    {filters
+                                        ? filters.map((el, idx) => (
+                                              <option value={el} key={idx}>
+                                                  {el}
+                                              </option>
+                                          ))
+                                        : ""}
+                                </select>
+                            </div>
+                            <div>
+                                <button
+                                    className="btn btn-reset"
+                                    onClick={(e) => clearInputs(e)}
+                                >
+                                    reset
+                                </button>
+                                <button
+                                    className="btn btn-primary"
+                                    type="submit"
+                                >
+                                    {sumBtn}
+                                </button>
+                            </div>
                         </div>
-                        <select
-                            className="form-select d-block form-select-lg m-auto"
-                            name="category"
-                            id="categoryChoose"
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value)}
-                            required
-                        >
-                            <option value="">Choose category:</option>
-                            {filters
-                                ? filters.map((el, idx) => (
-                                      <option value={el} key={idx}>
-                                          {el}
-                                      </option>
-                                  ))
-                                : ""}
-                        </select>
-                        <button
-                            className="btn btn-secondary"
-                            onClick={(e) => clearInputs(e)}
-                        >
-                            reset
-                        </button>
-                        <button className="btn btn-primary" type="submit">
-                            {sumBtn}
-                        </button>
                     </form>
                 </div>
-                <div>
-                    <p className=" title text-center">Item preview</p>
+                <div className="item-preview">
+                    <p className="title">Item preview</p>
                     <div className="row">
                         <div>
                             {image && (
@@ -303,33 +301,33 @@ const ItemCreator = (props) => {
                     onDrop={(e) => onDragLoad(e)}
                 >
                     {!drag && gallery.length > 0 ? (
-                        <div className="row" style={{ width: "100%" }}>
+                        <div className="row catalog">
                             {gallery.map((img, idx) => (
-                                <div key={idx}>
-                                    <div className="item pop-in">
-                                        <div className="item-controls">
-                                            <div className="edit"></div>
-                                            <div className="delete">
-                                                <button
-                                                    onClick={() =>
-                                                        deleteImage(img)
-                                                    }
-                                                    className="item-control item-delete"
-                                                >
-                                                    <i className="fas fa-times" />
-                                                </button>
-                                            </div>
+                                <div
+                                    className="item pop-in"
+                                    key={idx}
+                                    style={{ maxWidth: 220, maxHeight: 320 }}
+                                >
+                                    <div className="item-controls">
+                                        <div className="edit"></div>
+                                        <div className="delete">
+                                            <button
+                                                onClick={() => deleteImage(img)}
+                                                className="item-control item-delete"
+                                            >
+                                                <i className="fas fa-times" />
+                                            </button>
                                         </div>
-                                        <img
-                                            className="item-img"
-                                            src={img}
-                                            alt=""
-                                            onClick={() => {
-                                                setImage(img);
-                                                modal.current.close();
-                                            }}
-                                        />
                                     </div>
+                                    <img
+                                        className="item-img"
+                                        src={img}
+                                        alt=""
+                                        onClick={() => {
+                                            setImage(img);
+                                            modal.current.close();
+                                        }}
+                                    />
                                 </div>
                             ))}
                         </div>
@@ -359,7 +357,7 @@ const ItemCreator = (props) => {
                     </div>
                 </div>
             </Modal>
-        </>
+        </div>
     );
 };
 

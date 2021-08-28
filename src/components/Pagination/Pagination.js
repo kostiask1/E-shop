@@ -30,157 +30,137 @@ const Pagination = ({
         pagesArray.push(i);
     }
     return (
-        <div>
-            <div className="row">
-                <div>
-                    <ul className="pagination pagination-sm">
-                        <li className="page-item">
-                            <button
-                                className={`page-link ${
-                                    page === 0 ? "disabled" : ""
-                                }`}
-                                disabled={page === 0 ? true : false}
-                                onClick={() => prevPage()}
-                            >
-                                Prev {screenWidth > 450 && "page"}
-                            </button>
-                        </li>
-                        <li className="page-item">
-                            <button
-                                className={`page-link ${
-                                    page === 0 && "active"
-                                }`}
-                                onClick={() => handleSetPage(0)}
-                            >
-                                1
-                            </button>
-                        </li>
-                        {pagesArray.length > 0 &&
-                            pagesArray.map((num) => {
-                                if (pagesArray.length > 8) {
-                                    if (
-                                        page < num + 2 &&
-                                        num < page + 4 &&
-                                        num !== 1 &&
-                                        num !== pagesArray.length
-                                    ) {
-                                        return (
-                                            <li className="page-item" key={num}>
-                                                <button
-                                                    className={`page-link ${
-                                                        page + 1 === num &&
-                                                        "active"
-                                                    }`}
-                                                    onClick={() =>
-                                                        handleSetPage(num - 1)
-                                                    }
-                                                >
-                                                    {num}
-                                                </button>
-                                            </li>
-                                        );
-                                    }
-                                } else {
-                                    if (
-                                        num !== 1 &&
-                                        num !== pagesArray.length
-                                    ) {
-                                        return (
-                                            <li className="page-item" key={num}>
-                                                <button
-                                                    className={`page-link ${
-                                                        page + 1 === num &&
-                                                        "active"
-                                                    }`}
-                                                    onClick={() =>
-                                                        handleSetPage(num - 1)
-                                                    }
-                                                >
-                                                    {num}
-                                                </button>
-                                            </li>
-                                        );
-                                    }
-                                }
-                                return null;
-                            })}
-                        {pagesArray.length > 1 && (
-                            <li className="page-item">
-                                <button
-                                    className={`page-link ${
-                                        page + 1 === pagesArray.length &&
-                                        "active"
-                                    }`}
-                                    onClick={() =>
-                                        handleSetPage(pagesArray.length - 1)
-                                    }
-                                >
-                                    {pagesArray.length}
-                                </button>
-                            </li>
-                        )}
-                        <li className="page-item">
-                            <button
-                                className={`page-link ${
-                                    page + 1 >= pages ? "disabled" : ""
-                                }`}
-                                disabled={page + 1 >= pages ? true : false}
-                                onClick={() => nextPage()}
-                            >
-                                Next {screenWidth > 450 && "page"}
-                            </button>
-                        </li>
-                        {pagesArray.length > 7 && (
-                            <li className="page-item ">
-                                <span>Jump to</span>
-                                <Dropdown
-                                    key={pagesArray.length}
-                                    defaultValue={page + 1}
-                                    change={handleSetPage}
-                                    options={pagesArray}
-                                />
-                            </li>
-                        )}
-                    </ul>
-                </div>
-                <div>
-                    <ul className="pagination pagination-sm pagination-filters">
-                        <li className="page-item">
-                            <label>Items to Show</label>
-                            <select
-                                className="page-link d-inline-block "
-                                name="category"
-                                id="category"
-                                value={itemsPerPage}
-                                onChange={(e) =>
-                                    handleItemsPerPage(e.target.value)
-                                }
-                            >
-                                {[1, 3, 4, 6, 8, 12, 16, 20].map((idx) => (
-                                    <option value={idx} key={idx}>
-                                        {idx}
-                                    </option>
-                                ))}
-                            </select>
-                        </li>
-                        <li className="page-item">
-                            <label>Sort by:</label>
-                            <select
-                                className="page-link"
-                                name="order"
-                                id="order"
-                                value={order}
-                                onChange={(e) => setOrder(e.target.value)}
-                            >
-                                <option value="">Sort by:</option>
-                                <option value="newest">Newest</option>
-                                <option value="asc">Price Ascending</option>
-                                <option value="desc">Price Descending</option>
-                            </select>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div className="pagination">
+            <ul className="pagination__block">
+                <li className="page-item">
+                    <button
+                        className={`page-link ${page === 0 ? "disabled" : ""}`}
+                        disabled={page === 0 ? true : false}
+                        onClick={() => prevPage()}
+                    >
+                        Prev {screenWidth > 450 && "page"}
+                    </button>
+                </li>
+                <li className="page-item">
+                    <button
+                        className={`page-link ${page === 0 && "active"}`}
+                        onClick={() => handleSetPage(0)}
+                    >
+                        1
+                    </button>
+                </li>
+                {pagesArray.length > 0 &&
+                    pagesArray.map((num) => {
+                        if (pagesArray.length > 8) {
+                            if (
+                                page < num + 2 &&
+                                num < page + 4 &&
+                                num !== 1 &&
+                                num !== pagesArray.length
+                            ) {
+                                return (
+                                    <li className="page-item" key={num}>
+                                        <button
+                                            className={`page-link ${
+                                                page + 1 === num && "active"
+                                            }`}
+                                            onClick={() =>
+                                                handleSetPage(num - 1)
+                                            }
+                                        >
+                                            {num}
+                                        </button>
+                                    </li>
+                                );
+                            }
+                        } else {
+                            if (num !== 1 && num !== pagesArray.length) {
+                                return (
+                                    <li className="page-item" key={num}>
+                                        <button
+                                            className={`page-link ${
+                                                page + 1 === num && "active"
+                                            }`}
+                                            onClick={() =>
+                                                handleSetPage(num - 1)
+                                            }
+                                        >
+                                            {num}
+                                        </button>
+                                    </li>
+                                );
+                            }
+                        }
+                        return null;
+                    })}
+                {pagesArray.length > 1 && (
+                    <li className="page-item">
+                        <button
+                            className={`page-link ${
+                                page + 1 === pagesArray.length && "active"
+                            }`}
+                            onClick={() => handleSetPage(pagesArray.length - 1)}
+                        >
+                            {pagesArray.length}
+                        </button>
+                    </li>
+                )}
+                <li className="page-item">
+                    <button
+                        className={`page-link ${
+                            page + 1 >= pages ? "disabled" : ""
+                        }`}
+                        disabled={page + 1 >= pages ? true : false}
+                        onClick={() => nextPage()}
+                    >
+                        Next {screenWidth > 450 && "page"}
+                    </button>
+                </li>
+                {pagesArray.length > 8 && (
+                    <li className="page-item ">
+                        <span>Jump to</span>
+                        <Dropdown
+                            key={pagesArray.length}
+                            defaultValue={page + 1}
+                            change={handleSetPage}
+                            options={pagesArray}
+                        />
+                    </li>
+                )}
+            </ul>
+            <ul className="pagination__filters">
+                <li className="page-item">
+                    <label>Items to Show</label>
+                    <select
+                        className="page-link d-inline-block "
+                        name="category"
+                        id="category"
+                        value={itemsPerPage}
+                        onChange={(e) => handleItemsPerPage(e.target.value)}
+                    >
+                        {[1, 3, 4, 6, 8, 12, 16, 20].map((idx) => (
+                            <option value={idx} key={idx}>
+                                {idx}
+                            </option>
+                        ))}
+                    </select>
+                </li>
+                <li className="page-item">
+                    <label>Sort by:</label>
+                    <select
+                        className="page-link"
+                        name="order"
+                        id="order"
+                        value={order}
+                        onChange={(e) => setOrder(e.target.value)}
+                    >
+                        <option value="">Sort by:</option>
+                        <option value="newest">Newest</option>
+                        <option value="asc">Price Ascending</option>
+                        <option value="desc">Price Descending</option>
+                    </select>
+                </li>
+            </ul>
         </div>
     );
 };
