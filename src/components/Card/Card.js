@@ -22,7 +22,7 @@ const Card = (match) => {
     }, []);
 
     if (data && data.length === 1) {
-        const { text, image, price, description } = data[0];
+        const { text, image, price, description, discountPrice } = data[0];
         return (
             <div className="card container pop-in">
                 <div className="row">
@@ -37,7 +37,24 @@ const Card = (match) => {
                             </div>
                             <div className="text-info">
                                 <h1>{text}</h1>
-                                <p>{price} uah</p>
+                                {!discountPrice ? (
+                                    <p>{price} UAH</p>
+                                ) : (
+                                    <>
+                                        <del className="price-was">{price}</del>
+                                        <span className="price-now">
+                                            {discountPrice} Uah
+                                        </span>
+                                        <p className="price-discount">
+                                            {100 -
+                                                Math.ceil(
+                                                    (discountPrice / price) *
+                                                        100
+                                                )}
+                                            % discount
+                                        </p>
+                                    </>
+                                )}
                                 <p>{description}</p>
                             </div>
                             <InCart id={id} />
