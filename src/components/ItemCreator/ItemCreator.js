@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Modal from "../Modal/Modal";
 import { app } from "../../base";
 import "./ItemCreator.scss";
+import { Dropdown } from "../Dropdown/Dropdown";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -147,6 +148,7 @@ const ItemCreator = (props) => {
                     return fileRef.put(file);
                 })
             );
+            console.log("text");
             requests.then(() => {
                 setDrag(false);
                 loadGallery();
@@ -185,7 +187,7 @@ const ItemCreator = (props) => {
                                 />
                                 <div>
                                     <label
-                                        className="btn  btn-primary mb-0"
+                                        className="btn  btn-primary "
                                         htmlFor="loadFile"
                                     >
                                         Load file &nbsp;{" "}
@@ -232,26 +234,13 @@ const ItemCreator = (props) => {
                                     required
                                 />
                             </div>
-                            <div>
-                                <select
-                                    name="category"
-                                    id="categoryChoose"
-                                    value={category}
-                                    onChange={(e) =>
-                                        setCategory(e.target.value)
-                                    }
-                                    required
-                                >
-                                    <option value="">Choose category:</option>
-                                    {filters
-                                        ? filters.map((el, idx) => (
-                                              <option value={el} key={idx}>
-                                                  {el}
-                                              </option>
-                                          ))
-                                        : ""}
-                                </select>
-                            </div>
+                            <Dropdown
+                                key={filters}
+                                defaultValue={category}
+                                change={setCategory}
+                                options={filters}
+                                placeholder="Choose a category"
+                            />
                             <div>
                                 <button
                                     className="btn btn-reset"
@@ -272,15 +261,13 @@ const ItemCreator = (props) => {
                 <div className="item-preview">
                     <p className="title">Item preview</p>
                     <div className="row">
-                        <div>
-                            {image && (
-                                <img
-                                    src={image}
-                                    className="img-fluid"
-                                    alt={title ?? ""}
-                                />
-                            )}
-                        </div>
+                        {image && (
+                            <img
+                                src={image}
+                                className="img-fluid"
+                                alt={title ?? ""}
+                            />
+                        )}
                         <div className="text-info">
                             {title && <h4>{title}</h4>}
                             {description && <p>{description}</p>}
@@ -302,13 +289,9 @@ const ItemCreator = (props) => {
                     onDrop={(e) => onDragLoad(e)}
                 >
                     {!drag && gallery.length > 0 ? (
-                        <div className="row catalog">
+                        <div className="row images-catalog">
                             {gallery.map((img, idx) => (
-                                <div
-                                    className="item pop-in"
-                                    key={idx}
-                                    style={{ maxWidth: 220, maxHeight: 320 }}
-                                >
+                                <div className="item pop-in" key={idx}>
                                     <div className="item-controls">
                                         <div className="edit"></div>
                                         <div className="delete">
@@ -336,10 +319,7 @@ const ItemCreator = (props) => {
                         <div style={{ height: "100%" }}>Drop files here...</div>
                     )}
                     <div className="modal-controls">
-                        <label
-                            className="btn btn-success mb-0 "
-                            htmlFor="loadFile"
-                        >
+                        <label className="btn btn-success" htmlFor="loadFile">
                             Load file &nbsp; <i className="fas fa-upload" />
                         </label>
                         <input

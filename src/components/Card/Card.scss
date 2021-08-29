@@ -1,0 +1,13 @@
+.card {
+    margin-top: 3rem;
+    .img {
+        width: 45%;
+        img {
+            object-fit: contain;
+            width: 100%;
+        }
+    }
+    .text-info {
+        margin: 0px 1rem;
+    }
+}

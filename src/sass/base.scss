@@ -3,8 +3,8 @@ body {
     overflow: hidden;
     height: 100vh;
     width: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-        "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    font-family: -apple-system, BlinkMacSystemFont, "Arial", "Segoe UI",
+        "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
         "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -30,9 +30,10 @@ textarea {
 }
 input,
 textarea {
+    font-size: 0.9rem;
     width: 100%;
     padding: 8px 15px;
-    border: 1px solid var(--black);
+    border: 1px solid var(--gray);
     border-radius: 4px;
     outline: none;
 }

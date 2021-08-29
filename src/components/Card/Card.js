@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import InCart from "../InCart/InCart";
+import "./Card.scss";
 
 const Card = (match) => {
     const { data, getById } = useContext(catalogContext);
@@ -23,18 +24,18 @@ const Card = (match) => {
     if (data && data.length === 1) {
         const { text, image, price, description } = data[0];
         return (
-            <div className="container pop-in">
+            <div className="card container pop-in">
                 <div className="row">
                     {Object.keys(data).length !== 0 ? (
                         <>
-                            <div>
+                            <div className="img">
                                 <img
                                     src={image}
                                     className="img-fluid"
                                     alt={text}
                                 />
                             </div>
-                            <div>
+                            <div className="text-info">
                                 <h1>{text}</h1>
                                 <p>{price} uah</p>
                                 <p>{description}</p>

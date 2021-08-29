@@ -69,7 +69,6 @@ export const CatalogState = ({ children }) => {
             console.error(err);
         }
     };
-
     const getData = () => {
         getFilters();
         db.collection("All")
@@ -97,15 +96,25 @@ export const CatalogState = ({ children }) => {
     const getById = async (id) => {
         if (!id) return dispatch({ type: DATA, payload: [] });
         let payload = [];
+        let clone = [...storage];
         try {
             const promises = id.map((id) =>
                 db.collection("All").where("id", "==", id).get()
             );
             const responses = await Promise.all(promises);
-            if (responses.length > 0 && responses[0].docs.length > 0) {
+            if (responses.length > 0) {
                 responses.forEach((item) => {
-                    payload.push(item.docs[0].data());
+                    payload.push(item.docs.length && item.docs[0].data());
                 });
+                if (clone.length === payload.length) {
+                    let deletedItems = payload.length
+                        ? clone.filter(
+                              (item, index) => item !== payload[index].id
+                          )
+                        : clone;
+                    deleteFromStorage(deletedItems);
+                }
+                payload = payload.filter((item) => item);
                 dispatch({ type: DATA, payload });
                 return true;
             } else {
@@ -208,17 +217,19 @@ export const CatalogState = ({ children }) => {
     const addToStorage = (el) => {
         if (storage.includes(el)) return;
         let storageClone = [...storage];
-        storageClone = storageClone.concat(el);
+        storageClone.push(el);
         dispatch({ type: STORAGE, payload: storageClone });
     };
-    const deleteFromStorage = (el) => {
+    const deleteFromStorage = (elements) => {
+        let storageClone = [...storage];
         return new Promise((resolve) => {
-            if (findInStorage(el)) {
-                let storageClone = [...storage];
-                storageClone.splice(storageClone.indexOf(el), 1);
-                dispatch({ type: STORAGE, payload: storageClone });
-                resolve(true);
-            }
+            elements.forEach((el) => {
+                if (findInStorage(el)) {
+                    storageClone.splice(storageClone.indexOf(el), 1);
+                    resolve(true);
+                }
+            });
+            dispatch({ type: STORAGE, payload: storageClone });
             return;
         });
     };

@@ -52,7 +52,27 @@
             border-radius: 20px;
         }
     }
+    .images-catalog {
+        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 1rem;
+        margin-bottom: 0;
+        .item {
+            max-width: 300px;
+            flex: 1 1;
+            img {
+                aspect-ratio: 16 / 9;
+                object-fit: contain;
+            }
+        }
+    }
     &-controls {
-        align-self: flex-end;
+        position: absolute;
+        bottom: 1rem;
+        right: 1.5rem;
+        label {
+            cursor: pointer;
+        }
     }
 }

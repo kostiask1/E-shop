@@ -13,6 +13,9 @@
             height: 100%;
         }
     }
+    label {
+        font-size: 0.75rem;
+    }
     form .row {
         flex-direction: column;
         div {
@@ -24,13 +27,15 @@
         margin-right: 0.5rem;
     }
     .img-fluid {
-        width: 100%;
+        width: 50%;
     }
     .item-preview {
         .row {
+            flex-direction: row;
             margin-top: 1rem;
         }
         .text-info {
+            flex: 1 1;
             margin-left: 1rem;
         }
     }

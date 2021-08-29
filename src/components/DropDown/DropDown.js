@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Dropdown.scss";
 
 export const Dropdown = (props) => {
-    const { change, options, defaultValue } = props;
+    const { change, options, defaultValue, optionsLabels, placeholder } = props;
     const [visible, setVisible] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
 
@@ -42,15 +42,13 @@ export const Dropdown = (props) => {
     const handleOptionClick = (e) => {
         setVisible(false);
         setFilteredOptions(options);
-        change(e.target.value - 1);
+        change(e.target.attributes["value"].value);
     };
     return (
         <div className="dropdown">
             <button onClick={toggleDropdown} className="dropdown__button">
-                {defaultValue}
-                <i
-                    className={` fas fa-chevron-${visible ? "up" : "down"}`}
-                />
+                {defaultValue ? defaultValue : placeholder}
+                <i className={` fas fa-chevron-${visible ? "up" : "down"}`} />
             </button>
             {visible && (
                 <div className="dropdown__content">
@@ -62,7 +60,7 @@ export const Dropdown = (props) => {
                     />
                     <ul>
                         {filteredOptions.length ? (
-                            filteredOptions.map((option) => (
+                            filteredOptions.map((option, index) => (
                                 <li
                                     className={
                                         option === defaultValue
@@ -73,7 +71,9 @@ export const Dropdown = (props) => {
                                     value={option}
                                     onClick={handleOptionClick}
                                 >
-                                    {option}
+                                    {optionsLabels
+                                        ? optionsLabels[index]
+                                        : option}
                                 </li>
                             ))
                         ) : (

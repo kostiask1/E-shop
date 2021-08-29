@@ -4,6 +4,7 @@ import { authContext } from "../../context/Auth/auth-context";
 import { v4 as uuidv4 } from "uuid";
 import ItemCreator from "../../components/ItemCreator/ItemCreator";
 import "./Create.scss";
+import { Dropdown } from "../../components/Dropdown/Dropdown";
 
 const db = app.firestore();
 
@@ -14,7 +15,9 @@ const Create = () => {
     const [categoryToAdd, setCategoryToAdd] = useState("");
 
     useEffect(() => {
-        if (admin) getFilters();
+        if (admin) {
+            getFilters();
+        }
         //eslint-disable-next-line
     }, [admin]);
 
@@ -82,12 +85,11 @@ const Create = () => {
         };
         db.collection("All").doc(data.id).set(data);
     };
-
     return (
         <div className="create">
             <div className="container">
                 <div className="row">
-                    <button onClick={(e) => createRandom(e)}>
+                    <button className="btn" onClick={(e) => createRandom(e)}>
                         Create random shit
                     </button>
                     <div className="form-wrapper">
@@ -108,24 +110,13 @@ const Create = () => {
                         </form>
                         <form onSubmit={(e) => deleteFilter(e)} action="/">
                             <p className=" title">Delete category</p>
-                            <select
-                                className="   "
-                                name="category"
-                                id="category"
-                                value={categoryToRemove}
-                                onChange={(e) =>
-                                    setCategoryToRemove(e.target.value)
-                                }
-                            >
-                                <option value="0">Choose category:</option>
-                                {filters
-                                    ? filters.map((el, idx) => (
-                                          <option value={el} key={idx}>
-                                              {el}
-                                          </option>
-                                      ))
-                                    : ""}
-                            </select>
+                            <Dropdown
+                                key={filters}
+                                defaultValue={categoryToRemove}
+                                change={setCategoryToRemove}
+                                options={filters}
+                                placeholder="Choose category"
+                            />
                             <button className="btn btn-primary" type="submit">
                                 Delete category
                             </button>

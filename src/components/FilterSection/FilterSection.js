@@ -24,7 +24,7 @@ const FilterSection = (props) => {
                 defaultValue={searchText}
                 onChange={(e) => handleInput(e.target.value)}
             />
-            <div>
+            <div className="categories">
                 {filters
                     ? filters.map((item, index) => (
                           <Category

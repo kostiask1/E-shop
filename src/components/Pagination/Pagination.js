@@ -25,6 +25,9 @@ const Pagination = ({
             return handleSetPage(page - 1);
         }
     };
+    const handleDropDown = (value) => {
+        handleSetPage(value - 1);
+    };
     let pagesArray = [];
     for (let i = 1; i < pages + 1; i++) {
         pagesArray.push(i);
@@ -53,8 +56,8 @@ const Pagination = ({
                     pagesArray.map((num) => {
                         if (pagesArray.length > 8) {
                             if (
-                                page < num + 2 &&
-                                num < page + 4 &&
+                                page < num + 1 &&
+                                num < page + 3 &&
                                 num !== 1 &&
                                 num !== pagesArray.length
                             ) {
@@ -122,7 +125,7 @@ const Pagination = ({
                         <Dropdown
                             key={pagesArray.length}
                             defaultValue={page + 1}
-                            change={handleSetPage}
+                            change={handleDropDown}
                             options={pagesArray}
                         />
                     </li>
@@ -130,35 +133,25 @@ const Pagination = ({
             </ul>
             <ul className="pagination__filters">
                 <li className="page-item">
-                    <label>Items to Show</label>
-                    <select
-                        className="page-link d-inline-block "
-                        name="category"
-                        id="category"
-                        value={itemsPerPage}
-                        onChange={(e) => handleItemsPerPage(e.target.value)}
-                    >
-                        {[1, 3, 4, 6, 8, 12, 16, 20].map((idx) => (
-                            <option value={idx} key={idx}>
-                                {idx}
-                            </option>
-                        ))}
-                    </select>
+                    <label>Items</label>
+                    <Dropdown
+                        defaultValue={itemsPerPage}
+                        change={handleItemsPerPage}
+                        options={[1, 3, 4, 6, 8, 12, 16, 20]}
+                    />
                 </li>
                 <li className="page-item">
-                    <label>Sort by:</label>
-                    <select
-                        className="page-link"
-                        name="order"
-                        id="order"
-                        value={order}
-                        onChange={(e) => setOrder(e.target.value)}
-                    >
-                        <option value="">Sort by:</option>
-                        <option value="newest">Newest</option>
-                        <option value="asc">Price Ascending</option>
-                        <option value="desc">Price Descending</option>
-                    </select>
+                    <label>Sort</label>
+                    <Dropdown
+                        defaultValue={order}
+                        change={setOrder}
+                        optionsLabels={[
+                            "Newest",
+                            "Price Ascending",
+                            "Price Descending",
+                        ]}
+                        options={["newest", "asc", "desc"]}
+                    />
                 </li>
             </ul>
         </div>

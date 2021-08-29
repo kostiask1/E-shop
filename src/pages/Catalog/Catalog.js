@@ -114,7 +114,7 @@ const Catalog = () => {
         deleteArray.map((id) => {
             return promises.push(
                 new Promise((resolve, reject) => {
-                    deleteFromStorage(id);
+                    deleteFromStorage([id]);
                     let item = db.collection("All").where("id", "==", id);
                     console.log(item);
                     item.get().then((querySnapshot) => {
@@ -143,7 +143,7 @@ const Catalog = () => {
         <>
             <main className="main">
                 <div className="bg">
-                    <h1>{SHOP_NAME}</h1>
+                    <h1 style={{ fontWeight: 300 }}>{SHOP_NAME}</h1>
                     <div className="container">
                         <p>Shop by Apollin Ko</p>
                     </div>

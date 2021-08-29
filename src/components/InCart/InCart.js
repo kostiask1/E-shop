@@ -17,7 +17,7 @@ const InCart = ({ id, ...props }) => {
         setInStorage(true);
     };
     const deleteFromCart = () => {
-        deleteFromStorage(id).then(() => {
+        deleteFromStorage([id]).then(() => {
             if (props.hasOwnProperty("update")) {
                 props.update();
             }

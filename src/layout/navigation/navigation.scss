@@ -12,18 +12,19 @@
     }
     &-brand {
         font-size: 24px;
+        color: var(--gray);
         text-transform: capitalize;
     }
     .nav {
         &-link {
             position: relative;
-            margin-left: 25px;
-            color: var(--textBlack);
+            margin-left: 1rem;
+            color: var(--gray);
             transition: all 0.3s;
             letter-spacing: 0.7px;
             &.current,
             &.active {
-                text-shadow: 0px 0px 1px var(--textBlack);
+                text-shadow: 0px 0px 1px var(--gray);
                 color: var(--black);
             }
             &:after {

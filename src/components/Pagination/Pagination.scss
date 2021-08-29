@@ -2,6 +2,7 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-bottom: 2rem;
     & ul {
         align-items: center;
         flex-wrap: nowrap;
@@ -10,9 +11,11 @@
     &__block {
         flex-basis: 40%;
         span {
+            white-space: nowrap;
             display: inline-block;
             margin-left: 1rem;
-            margin: 0px 0.5rem;
+            margin-right: 0.6em;
+            font-size: 0.9rem;
         }
         .page-item {
             display: flex;
@@ -36,6 +39,14 @@
         justify-content: flex-end;
         .page-item {
             margin-left: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            label {
+                font-size: 0.9rem;
+                margin: 0;
+                margin-right: 0.6rem;
+            }
         }
     }
     @media (max-width: 767px) {

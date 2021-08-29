@@ -14,14 +14,21 @@
 .btn {
     background-color: var(--main);
     border: none;
-    padding: 8px 12px;
+    padding: 0.5rem 0.6rem;
     border-radius: 4px;
     color: var(--white);
     &-danger {
         background-color: var(--alert);
     }
+    &-warning {
+        background-color: var(--warning);
+        color: var(--black);
+    }
     &-success {
         background-color: var(--success);
+    }
+    &:hover {
+        filter: brightness(120%);
     }
 }
 .disabled {

@@ -24,7 +24,7 @@ const Navigation = () => {
                         <RLink className="navbar-brand" to="/catalog">
                             {SHOP_NAME}
                         </RLink>
-                        <ul className="navbar-nav me-auto  mb-lg-0">
+                        <ul className="navbar-nav">
                             <li className="nav-item">
                                 <RLink to="/cart">
                                     <img

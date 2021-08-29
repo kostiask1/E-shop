@@ -47,7 +47,8 @@ const ShopItem = (props) => {
     }, [page]);
 
     const deleteItem = () => {
-        deleteFromStorage(id);
+        setFading(false);
+        deleteFromStorage([id]);
         let item = db.collection("All").where("id", "==", id);
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {

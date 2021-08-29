@@ -5,8 +5,9 @@
         background-color: #fff;
         color: black;
         padding: 0.45rem 0.65rem;
-        font-size: 1rem;
+        font-size: 0.85rem;
         border: none;
+        width: 100%;
         border: 1px solid #dee2e6;
         color: var(--main);
         white-space: nowrap;
@@ -21,6 +22,7 @@
     }
     &__content {
         position: absolute;
+        right: 0;
         background-color: #fafafa;
         border: 2px solid #ddd;
         width: 300px;
