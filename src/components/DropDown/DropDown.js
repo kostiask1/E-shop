@@ -36,7 +36,8 @@ export const Dropdown = (props) => {
         return () => clearTimeout(timeOutId);
     };
 
-    const toggleDropdown = () => {
+    const toggleDropdown = (event) => {
+        event.preventDefault();
         setVisible(!visible);
     };
     const handleOptionClick = (e) => {

@@ -107,7 +107,12 @@ const Navigation = () => {
                                 </a>
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="tel:380679029584">
+                                <a
+                                    className="nav-link"
+                                    href="https://t.me/apollin_ko"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
                                     <i className="fab fa-telegram" />
                                 </a>
                             </li>

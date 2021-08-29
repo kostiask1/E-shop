@@ -213,6 +213,10 @@ const Catalog = () => {
                                                 }
                                                 deleteArray={deleteArray}
                                                 price={item.price}
+                                                discountPrice={
+                                                    item.discountPrice
+                                                }
+                                                boughtCount={item.boughtCount}
                                             />
                                         );
                                     }

@@ -55,3 +55,17 @@
         margin-top: 0.5rem;
     }
 }
+
+.price {
+    &-was {
+        color: var(--alert);
+    }
+    &-now {
+        display: inline-block;
+        margin-left: 0.4rem;
+        color: var(--success);
+    }
+    &-discount {
+        color: var(--warning);
+    }
+}

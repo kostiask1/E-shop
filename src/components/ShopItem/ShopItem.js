@@ -26,9 +26,11 @@ const ShopItem = (props) => {
         image,
         text,
         price,
+        discountPrice,
         description,
         category,
         inCart,
+        boughtCount,
     } = props;
     const { getData, deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
@@ -121,7 +123,23 @@ const ShopItem = (props) => {
                     </Link>
                     <div className="item-body">
                         <p>{text}</p>
-                        <p>{price} UAH</p>
+                        {!discountPrice ? (
+                            <p>{price} UAH</p>
+                        ) : (
+                            <>
+                                <del className="price-was">{price}</del>
+                                <span className="price-now">
+                                    {discountPrice} Uah
+                                </span>
+                                <p className="price-discount">
+                                    {100 -
+                                        Math.ceil(
+                                            (discountPrice / price) * 100
+                                        )}
+                                    % discount
+                                </p>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -134,6 +152,8 @@ const ShopItem = (props) => {
                             id={id}
                             description={description}
                             price={price}
+                            discountPrice={discountPrice}
+                            boughtCount={boughtCount}
                             category={category}
                             close={() => modal.current.close()}
                             getData={() => getData()}

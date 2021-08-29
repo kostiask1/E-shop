@@ -4,6 +4,7 @@ import Modal from "../Modal/Modal";
 import { app } from "../../base";
 import "./ItemCreator.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
+import Input from "../Input/Input";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -17,12 +18,25 @@ const ItemCreator = (props) => {
     const [drag, setDrag] = useState(false);
     const [gallery, setGallery] = useState([]);
     const [price, setPrice] = useState(props.price || "");
+    const [discountPrice, setDiscountPrice] = useState(
+        props.discountPrice || ""
+    );
+    const [discountPercent, setDiscountPercent] = useState(
+        (discountPrice && 100 - Math.ceil((discountPrice / price) * 100)) ||
+            false
+    );
+    const [boughtCount, setBoughtCount] = useState(props.boughtCount || "");
 
     const id = props.id || uuidv4();
     const modal = useRef(null);
 
     useEffect(() => {
-        if (filters.length === 0) {
+        if (discountPercent) handleDiscountPercent(discountPercent);
+        //eslint-disable-next-line
+    }, [price]);
+
+    useEffect(() => {
+        if (filters && filters.length === 0) {
             getFilters();
         }
         setFilters((prev) => (prev = props.filters));
@@ -49,6 +63,13 @@ const ItemCreator = (props) => {
         setImage(props.image ?? "");
         setDescription(props.description ?? "");
         setPrice(props.price ?? "");
+        setDiscountPrice(props.discountPrice ?? "");
+        setDiscountPercent(
+            props.discountPrice
+                ? 100 - Math.ceil((props.discountPrice / props.price) * 100)
+                : ""
+        );
+        setBoughtCount(props.boughtCount ?? "");
         setCategory(props.category ?? "");
     };
 
@@ -59,9 +80,11 @@ const ItemCreator = (props) => {
             id,
             image,
             price: +price,
+            discountPrice: +discountPrice,
             description,
             timestamp: new Date().getTime(),
             text: title,
+            boughtCount,
         };
         db.collection("All")
             .doc(data.id)
@@ -148,7 +171,6 @@ const ItemCreator = (props) => {
                     return fileRef.put(file);
                 })
             );
-            console.log("text");
             requests.then(() => {
                 setDrag(false);
                 loadGallery();
@@ -158,6 +180,28 @@ const ItemCreator = (props) => {
         }
     };
 
+    const handleDiscountPercent = (percent) => {
+        percent = +percent;
+        if (percent) {
+            let newPrice = price - (price / 100) * percent;
+            setDiscountPrice(newPrice);
+            setDiscountPercent(percent);
+        } else {
+            setDiscountPrice("");
+            setDiscountPercent("");
+        }
+    };
+    const handleDiscountPrice = (discountPrice) => {
+        discountPrice = +discountPrice;
+        if (discountPrice) {
+            let newPercent = 100 - Math.ceil((discountPrice / price) * 100);
+            setDiscountPrice(discountPrice);
+            setDiscountPercent(newPercent);
+        } else {
+            setDiscountPrice("");
+            setDiscountPercent("");
+        }
+    };
     return (
         <div className="item-creator">
             <div className="row">
@@ -166,28 +210,29 @@ const ItemCreator = (props) => {
                         <p className="title">Create item</p>
                         <div className="row">
                             <div>
-                                <input
+                                <Input
                                     type="text"
                                     name="title"
                                     value={title}
-                                    placeholder="Item title"
-                                    onChange={(e) =>
-                                        handleTitle(e.target.value)
-                                    }
+                                    placeholder="title"
+                                    change={handleTitle}
+                                    symbol="Title"
                                     required
                                 />
                             </div>
                             <div>
-                                <input
+                                <Input
                                     type="text"
                                     name="image"
                                     value={image}
                                     placeholder="ImageURL"
-                                    onChange={(e) => setImage(e.target.value)}
+                                    change={setImage}
+                                    symbol="URL"
+                                    required
                                 />
                                 <div>
                                     <label
-                                        className="btn  btn-primary "
+                                        className="btn btn-primary "
                                         htmlFor="loadFile"
                                     >
                                         Load file &nbsp;{" "}
@@ -203,10 +248,10 @@ const ItemCreator = (props) => {
                                         }
                                     />
                                     <button
-                                        className="btn  btn-primary"
+                                        className="btn btn-primary"
                                         onClick={(e) => loadGallery(e)}
                                     >
-                                        Browse gallery{" "}
+                                        Browse gallery
                                         <i className="far fa-share-square" />
                                     </button>
                                 </div>
@@ -217,7 +262,7 @@ const ItemCreator = (props) => {
                                     name="description"
                                     rows="5"
                                     value={description}
-                                    placeholder="Item description"
+                                    placeholder="description"
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
@@ -225,13 +270,44 @@ const ItemCreator = (props) => {
                                 />
                             </div>
                             <div>
-                                <input
+                                <Input
                                     type="number"
                                     name="price"
                                     value={price}
-                                    placeholder="Item price"
-                                    onChange={(e) => setPrice(e.target.value)}
+                                    placeholder="price"
+                                    change={setPrice}
+                                    symbol="UAH"
                                     required
+                                />
+                            </div>
+                            <div>
+                                <Input
+                                    type="number"
+                                    name="discount"
+                                    value={discountPrice}
+                                    placeholder="discount price (optional)"
+                                    change={handleDiscountPrice}
+                                    symbol="UAH"
+                                />
+                            </div>
+                            <div>
+                                <Input
+                                    type="number"
+                                    name="percent"
+                                    value={discountPercent}
+                                    placeholder="discount percent (optional)"
+                                    change={handleDiscountPercent}
+                                    symbol="%"
+                                />
+                            </div>
+                            <div>
+                                <Input
+                                    type="number"
+                                    name="boughtCount"
+                                    value={boughtCount}
+                                    placeholder="Times has been bought (optional)"
+                                    change={setBoughtCount}
+                                    symbol="Bought"
                                 />
                             </div>
                             <Dropdown
@@ -271,7 +347,19 @@ const ItemCreator = (props) => {
                         <div className="text-info">
                             {title && <h4>{title}</h4>}
                             {description && <p>{description}</p>}
-                            {price && <p>{price} uah</p>}
+                            {!discountPrice ? (
+                                <p>{price} UAH</p>
+                            ) : (
+                                <>
+                                    <del className="price-was">{price}</del>
+                                    <span className="price-now">
+                                        {discountPrice} Uah
+                                    </span>
+                                    <p className="price-discount">
+                                        {discountPercent}% discount
+                                    </p>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
