@@ -103,6 +103,7 @@ const Navigation = () => {
                             <li className="nav-item">
                                 <a className="nav-link" href="tel:380679029584">
                                     <i className="fa fa-phone" />
+                                    &nbsp;
                                     {screenWidth > 450 && +380679029584}
                                 </a>
                             </li>

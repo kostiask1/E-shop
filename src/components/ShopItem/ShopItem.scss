@@ -4,9 +4,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
     &-wrapper {
         max-width: 400px;
+        height: 100%;
     }
     a,
     .a {
@@ -14,9 +18,6 @@
     }
     &-img {
         cursor: pointer;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
     }
     &-controls {
         display: flex;
@@ -34,7 +35,7 @@
         margin: 0;
         margin-right: 8px;
         border-radius: 5px;
-        background-color: var(--white);
+        background-color: var(--main);
     }
     .admin {
         display: flex;
@@ -45,12 +46,13 @@
             padding: 6.5px 5px;
             margin-right: 8px;
             &:hover {
-                color: var(--mainLight);
+                color: var(--mainContrastHelper);
                 text-decoration: none;
             }
         }
         .item-delete {
-            right: 45px;
+            padding: 6px 6.5px;
+            font-size: 15px;
             &:hover {
                 color: var(--alert);
             }
@@ -58,6 +60,8 @@
     }
     &-body {
         margin-top: 0.5rem;
+        padding: 0.6rem;
+        padding-bottom: 1rem;
     }
 }
 .cart-add,
@@ -97,7 +101,7 @@
     }
     &-discount {
         pointer-events: none;
-        color: var(--white);
+        color: var(--main);
         padding: 5px;
         height: 60px;
         width: 45px;
@@ -105,7 +109,6 @@
     }
 }
 .img {
-    
     .price-discount {
         position: absolute;
     }

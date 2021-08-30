@@ -1,9 +1,12 @@
 #catalog {
     padding: 2rem 0px;
 }
+.bg .container {
+    background-color: transparent;
+}
 .catalog {
     width: 100%;
-    background-color: var(--white);
+    background-color: var(--main);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     grid-gap: 1.5rem;
@@ -44,7 +47,7 @@
         background-color: var(--alert);
         box-shadow: 0px 0px 0px 0px var(--black);
         i {
-            color: var(--white);
+            color: var(--main);
         }
     }
 }
@@ -55,7 +58,10 @@
         justify-content: flex-end;
         flex-direction: column;
         position: relative;
-        background: radial-gradient(var(--mainStrong) 5%, var(--mainLight) 70%);
+        background: radial-gradient(
+            var(--mainStrong) 5%,
+            var(--mainContrastHelper) 70%
+        );
         width: 100%;
         padding: 3vh 0;
         aspect-ratio: 16 / 7.5;
@@ -71,7 +77,7 @@
         .container {
             position: relative;
             p {
-                color: var(--white);
+                color: var(--main);
                 font-size: 1rem;
                 padding: 0.5rem 1rem;
             }

@@ -1,8 +1,8 @@
 .container {
     display: flex;
-    margin: 0 auto;
-    width: clamp(300px, 100%, 95vw);
+    padding: 0 1.5rem;
     min-height: 100%;
+    background-color: var(--main);
 }
 .row {
     width: 100%;
@@ -12,11 +12,11 @@
     display: none !important;
 }
 .btn {
-    background-color: var(--main);
+    background-color: var(--mainContrast);
     border: none;
     padding: 0.5rem 0.6rem;
     border-radius: 4px;
-    color: var(--white);
+    color: var(--main);
     &-danger {
         background-color: var(--alert);
     }
@@ -44,6 +44,11 @@
     border-color: var(--alert) !important;
     box-shadow: 0 0 0 0.1rem rgba(255, 0, 0, 0.3) !important;
 }
+.img-fluid {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+}
 ::-webkit-scrollbar {
     width: 8px;
     background-color: transparent;
@@ -55,7 +60,7 @@
 //     background: var(--gray);
 // }
 :is(input, button):focus {
-    box-shadow: 0 0 1px 1px var(--main);
+    box-shadow: 0 0 1px 1px var(--mainContrast);
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

@@ -23,12 +23,19 @@ const Card = (match) => {
 
     if (data && data.length === 1) {
         const { text, image, price, description, discountPrice } = data[0];
+        const discountPercent =
+            discountPrice && 100 - Math.ceil((discountPrice / price) * 100);
         return (
             <div className="card container pop-in">
                 <div className="row">
                     {Object.keys(data).length !== 0 ? (
                         <>
                             <div className="img">
+                                {discountPercent && (
+                                    <span className="price-discount">
+                                        {discountPercent}%
+                                    </span>
+                                )}
                                 <img
                                     src={image}
                                     className="img-fluid"
@@ -45,19 +52,11 @@ const Card = (match) => {
                                         <span className="price-now">
                                             {discountPrice} Uah
                                         </span>
-                                        <p className="price-discount">
-                                            {100 -
-                                                Math.ceil(
-                                                    (discountPrice / price) *
-                                                        100
-                                                )}
-                                            % discount
-                                        </p>
                                     </>
                                 )}
                                 <p>{description}</p>
+                                <InCart id={id} />
                             </div>
-                            <InCart id={id} />
                         </>
                     ) : (
                         <div>

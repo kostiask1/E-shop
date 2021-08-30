@@ -1,6 +1,9 @@
 .footer {
     padding: 8% 0;
-    background-color: var(--mainLight);
+    background-color: var(--mainContrastHelper);
+    .container {
+        background-color: transparent;
+    }
     i {
         font-size: 2rem;
     }

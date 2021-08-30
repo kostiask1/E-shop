@@ -145,97 +145,103 @@ const Catalog = () => {
                     </div>
                 </div>
             </main>
-            <div id="catalog" className="container">
-                <div className="row">
-                    <FilterSection
-                        searchText={searchText}
-                        category={category}
-                        filters={filters}
-                        handleInput={handleInput}
-                        handleCheckbox={handleCheckbox}
-                        handleMin={setMinPrice}
-                        handleMax={setMaxPrice}
-                        minPrice={minPrice}
-                        maxPrice={maxPrice}
-                    />
-                    <div className="catalog__wrapper">
-                        {data.length ? (
-                            <Pagination
-                                page={page}
-                                pages={pages}
-                                itemsPerPage={itemsPerPage}
-                                order={order}
-                                handleSetPage={(e) => handleSetPage(e)}
-                                handleItemsPerPage={(e) =>
-                                    handleItemsPerPage(e)
-                                }
-                                setOrder={(e) => setOrder(e)}
-                            ></Pagination>
-                        ) : null}
-                        {admin && deleteArray.length ? (
-                            <button
-                                className="btn-delete-multiple pop-in"
-                                onClick={deleteMultipleItems}
-                            >
-                                <i className="fa fa-times"></i>
-                            </button>
-                        ) : null}
-                        <div className="catalog">
-                            {admin && (
-                                <button
-                                    className="btn btn-primary"
-                                    type="submit"
-                                    onClick={() => modal.current.open()}
-                                >
-                                    Create new item
-                                </button>
-                            )}
-                            {newData.length > 0 ? (
-                                Object.values(newData[page]).length > 0 &&
-                                Object.values(newData[page]).map(
-                                    (item, index) => {
-                                        return (
-                                            <ShopItem
-                                                key={item.id}
-                                                page={page}
-                                                index={index}
-                                                id={item.id}
-                                                text={item.text}
-                                                image={item.image}
-                                                category={item.category}
-                                                description={item.description}
-                                                handleDeleteArray={
-                                                    handleDeleteArray
-                                                }
-                                                deleteArray={deleteArray}
-                                                price={item.price}
-                                                discountPrice={
-                                                    item.discountPrice
-                                                }
-                                                boughtCount={item.boughtCount}
-                                            />
-                                        );
+            <div id="catalog">
+                <div className="container">
+                    <div className="row">
+                        <FilterSection
+                            searchText={searchText}
+                            category={category}
+                            filters={filters}
+                            handleInput={handleInput}
+                            handleCheckbox={handleCheckbox}
+                            handleMin={setMinPrice}
+                            handleMax={setMaxPrice}
+                            minPrice={minPrice}
+                            maxPrice={maxPrice}
+                        />
+                        <div className="catalog__wrapper">
+                            {data.length ? (
+                                <Pagination
+                                    page={page}
+                                    pages={pages}
+                                    itemsPerPage={itemsPerPage}
+                                    order={order}
+                                    handleSetPage={(e) => handleSetPage(e)}
+                                    handleItemsPerPage={(e) =>
+                                        handleItemsPerPage(e)
                                     }
-                                )
-                            ) : (
-                                <span className="fade-in">
-                                    No matching results found
-                                </span>
+                                    setOrder={(e) => setOrder(e)}
+                                ></Pagination>
+                            ) : null}
+                            {admin && deleteArray.length ? (
+                                <button
+                                    className="btn-delete-multiple pop-in"
+                                    onClick={deleteMultipleItems}
+                                >
+                                    <i className="fa fa-times"></i>
+                                </button>
+                            ) : null}
+                            <div className="catalog">
+                                {admin && (
+                                    <button
+                                        className="btn btn-primary"
+                                        type="submit"
+                                        onClick={() => modal.current.open()}
+                                    >
+                                        Create new item
+                                    </button>
+                                )}
+                                {newData.length > 0 ? (
+                                    Object.values(newData[page]).length > 0 &&
+                                    Object.values(newData[page]).map(
+                                        (item, index) => {
+                                            return (
+                                                <ShopItem
+                                                    key={item.id}
+                                                    page={page}
+                                                    index={index}
+                                                    id={item.id}
+                                                    text={item.text}
+                                                    image={item.image}
+                                                    category={item.category}
+                                                    description={
+                                                        item.description
+                                                    }
+                                                    handleDeleteArray={
+                                                        handleDeleteArray
+                                                    }
+                                                    deleteArray={deleteArray}
+                                                    price={item.price}
+                                                    discountPrice={
+                                                        item.discountPrice
+                                                    }
+                                                    boughtCount={
+                                                        item.boughtCount
+                                                    }
+                                                />
+                                            );
+                                        }
+                                    )
+                                ) : (
+                                    <span className="fade-in">
+                                        No matching results found
+                                    </span>
+                                )}
+                            </div>
+                            {itemsPerPage > 7 && data.length > 6 && (
+                                <Pagination
+                                    page={page}
+                                    pages={pages}
+                                    itemsPerPage={itemsPerPage}
+                                    order={order}
+                                    handleSetPage={(e) => handleSetPage(e)}
+                                    handleItemsPerPage={(e) =>
+                                        handleItemsPerPage(e)
+                                    }
+                                    setOrder={(e) => setOrder(e)}
+                                ></Pagination>
                             )}
                         </div>
-                        {itemsPerPage > 7 && data.length > 6 && (
-                            <Pagination
-                                page={page}
-                                pages={pages}
-                                itemsPerPage={itemsPerPage}
-                                order={order}
-                                handleSetPage={(e) => handleSetPage(e)}
-                                handleItemsPerPage={(e) =>
-                                    handleItemsPerPage(e)
-                                }
-                                setOrder={(e) => setOrder(e)}
-                            ></Pagination>
-                        )}
                     </div>
                 </div>
             </div>

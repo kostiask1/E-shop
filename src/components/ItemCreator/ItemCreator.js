@@ -153,7 +153,7 @@ const ItemCreator = (props) => {
 
     const onDragStart = (e) => {
         e.preventDefault();
-        setDrag(true);
+        if (!e.target.classList.contains("img-fluid")) setDrag(true);
     };
     const onDragLeave = (e) => {
         e.preventDefault();
@@ -395,8 +395,11 @@ const ItemCreator = (props) => {
                                             </button>
                                         </div>
                                     </div>
+                                    <span className="image-format">
+                                        {/\b(?:.jpg|.webp|.png)\b/gi.exec(img)}
+                                    </span>
                                     <img
-                                        className="item-img"
+                                        className="item-img img-fluid"
                                         src={img}
                                         alt=""
                                         onClick={() => {

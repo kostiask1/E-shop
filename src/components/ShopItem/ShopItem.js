@@ -117,7 +117,7 @@ const ShopItem = (props) => {
                     </div>
 
                     <Link to={"/catalog/" + id}>
-                        <img src={image} className="item-img" alt={text} />
+                        <img src={image} className="item-img img-fluid" alt={text} />
                     </Link>
                     <div className="item-body">
                         <p>{text}</p>

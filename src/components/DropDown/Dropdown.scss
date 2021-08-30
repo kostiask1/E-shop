@@ -9,7 +9,7 @@
         border: none;
         width: 100%;
         border: 1px solid #dee2e6;
-        color: var(--main);
+        color: var(--mainContrast);
         white-space: nowrap;
         &:hover,
         &:focus {
@@ -34,7 +34,7 @@
             border: none;
             border-bottom: 1px solid #ddd;
             &:focus {
-                outline: 2px solid var(--main);
+                outline: 2px solid var(--mainContrast);
             }
         }
         ul {
@@ -51,7 +51,7 @@
                 cursor: pointer;
                 &:hover {
                     color: white;
-                    background-color: var(--main);
+                    background-color: var(--mainContrast);
                 }
             }
             &::-webkit-scrollbar {
