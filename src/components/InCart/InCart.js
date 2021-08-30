@@ -26,23 +26,25 @@ const InCart = ({ id, ...props }) => {
     };
 
     return inStorage ? (
-        <div className="delete">
+        <div className="cart-delete">
             <button
                 onClick={() => deleteFromCart()}
                 className="item-control item-edit"
             >
-                <img src="/shopping-cart-remove.svg" alt="remove" width="45" />
+                {/* <img src="/shopping-cart-remove.svg" alt="remove" width="35" /> */}
+                <i className="fas fa-shopping-basket" />
             </button>
         </div>
     ) : (
-        <div className="cart">
+        <div className="cart-add">
             <button
                 className="item-control item-edit"
                 data-bs-toggle="modal"
                 data-bs-target="#Edit"
                 onClick={() => addToCart()}
             >
-                <img src="/shopping-cart-add.svg" alt="add" width="45" />
+                {/* <img src="/shopping-cart-add.svg" alt="add" width="35" /> */}
+                <i className="fas fa-shopping-basket" />
             </button>
         </div>
     );

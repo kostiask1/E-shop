@@ -110,15 +110,12 @@ const Catalog = () => {
     };
     const deleteMultipleItems = () => {
         let promises = [];
-        console.log(deleteArray);
         deleteArray.map((id) => {
             return promises.push(
                 new Promise((resolve, reject) => {
                     deleteFromStorage([id]);
                     let item = db.collection("All").where("id", "==", id);
-                    console.log(item);
                     item.get().then((querySnapshot) => {
-                        console.log(querySnapshot);
                         resolve(querySnapshot.docs[0].ref.delete());
                     });
                 })
@@ -131,7 +128,6 @@ const Catalog = () => {
     };
     const handleDeleteArray = (id) => {
         if (deleteArray.includes(id)) {
-            console.log(true);
             let clone = [...deleteArray];
             clone = clone.filter((item) => item !== id);
             setDeleteArray(clone);

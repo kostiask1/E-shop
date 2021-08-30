@@ -7,7 +7,6 @@ const Input = (props) => {
         type,
         label,
         change,
-        defaultValue,
         value,
         placeholder,
         required,
@@ -24,7 +23,6 @@ const Input = (props) => {
                 <input
                     className="input-component"
                     type={type ?? "text"}
-                    defaultValue={defaultValue ?? ""}
                     value={value ?? ""}
                     placeholder={placeholder ?? ""}
                     onChange={(e) => change(e.target.value)}

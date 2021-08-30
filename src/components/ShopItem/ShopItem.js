@@ -72,16 +72,14 @@ const ShopItem = (props) => {
                     style={{ animationDelay: `${index * 70}ms` }}
                 >
                     <div className="item-controls">
-                        <InCart
-                            update={() =>
-                                props.hasOwnProperty("functions") &&
-                                props.functions.getCart()
-                            }
-                            id={id}
-                            key={page}
-                        />
+                        <span className={discountPrice && "price-discount"}>
+                            {discountPrice &&
+                                100 -
+                                    Math.ceil((discountPrice / price) * 100) +
+                                    "%"}
+                        </span>
                         {admin ? (
-                            <>
+                            <div className="admin">
                                 <div className="edit">
                                     <button
                                         className="item-control item-edit"
@@ -114,7 +112,7 @@ const ShopItem = (props) => {
                                         }}
                                     />
                                 )}
-                            </>
+                            </div>
                         ) : null}
                     </div>
 
@@ -124,22 +122,23 @@ const ShopItem = (props) => {
                     <div className="item-body">
                         <p>{text}</p>
                         {!discountPrice ? (
-                            <p>{price} UAH</p>
+                            <span>{price} UAH</span>
                         ) : (
                             <>
                                 <del className="price-was">{price}</del>
                                 <span className="price-now">
                                     {discountPrice} Uah
                                 </span>
-                                <p className="price-discount">
-                                    {100 -
-                                        Math.ceil(
-                                            (discountPrice / price) * 100
-                                        )}
-                                    % discount
-                                </p>
                             </>
                         )}
+                        <InCart
+                            update={() =>
+                                props.hasOwnProperty("functions") &&
+                                props.functions.getCart()
+                            }
+                            id={id}
+                            key={page}
+                        />
                     </div>
                 </div>
             </div>

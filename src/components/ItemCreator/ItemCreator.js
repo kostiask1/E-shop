@@ -183,7 +183,7 @@ const ItemCreator = (props) => {
     const handleDiscountPercent = (percent) => {
         percent = +percent;
         if (percent) {
-            let newPrice = price - (price / 100) * percent;
+            let newPrice = Math.floor(price - (price / 100) * percent);
             setDiscountPrice(newPrice);
             setDiscountPercent(percent);
         } else {
