@@ -61,6 +61,7 @@
         align-items: flex-start;
         margin-bottom: 0;
         overflow-y: scroll;
+        padding-right: 1rem;
         .item {
             max-height: 400px;
             flex: 1 1;
@@ -87,7 +88,7 @@
     &-controls {
         position: absolute;
         bottom: 1rem;
-        right: 1.5rem;
+        right: 3rem;
         label {
             cursor: pointer;
         }
