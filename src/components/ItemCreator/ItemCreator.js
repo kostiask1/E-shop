@@ -338,11 +338,18 @@ const ItemCreator = (props) => {
                     <p className="title">Item preview</p>
                     <div className="row">
                         {image && (
-                            <img
-                                src={image}
-                                className="img-fluid"
-                                alt={title ?? ""}
-                            />
+                            <div className="img">
+                                {discountPercent && (
+                                    <span className="price-discount">
+                                        {discountPercent}%
+                                    </span>
+                                )}
+                                <img
+                                    src={image}
+                                    className="img-fluid"
+                                    alt={title ?? ""}
+                                />
+                            </div>
                         )}
                         <div className="text-info">
                             {title && <h4>{title}</h4>}
@@ -355,9 +362,6 @@ const ItemCreator = (props) => {
                                     <span className="price-now">
                                         {discountPrice} Uah
                                     </span>
-                                    <p className="price-discount">
-                                        {discountPercent}% discount
-                                    </p>
                                 </>
                             )}
                         </div>

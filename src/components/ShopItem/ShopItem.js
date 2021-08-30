@@ -108,7 +108,7 @@ const ShopItem = (props) => {
                                         style={{
                                             width: 50,
                                             height: 50,
-                                            marginLeft: ".7rem",
+                                            marginLeft: ".4rem",
                                         }}
                                     />
                                 )}
