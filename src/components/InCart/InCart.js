@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
-import { CartIcon } from "../../icons";
+import { CartIcon, CartRemoveIcon } from '../../icons';
 
 const InCart = ({ id, ...props }) => {
     const { findInStorage, addToStorage, deleteFromStorage } =
@@ -43,7 +43,7 @@ const InCart = ({ id, ...props }) => {
                 data-bs-target="#Edit"
                 onClick={() => addToCart()}
             >
-                <CartIcon fill="var(--alert)" viewbox="0 0 24 20" />
+                <CartRemoveIcon fill="var(--alert)" viewbox="0 0 24 20" />
             </button>
         </div>
     );
