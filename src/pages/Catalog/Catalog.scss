@@ -29,25 +29,15 @@
     background-color: #fff;
     border-radius: 100%;
     line-height: 0;
-    padding: 30px;
+    padding: 15px;
     z-index: 99999;
     box-shadow: 0px 0px 50px 0px var(--black);
     transition: all 0.3s;
-    i {
-        position: absolute;
-        left: 50%;
-        width: 100%;
-        transform: translateX(-50%);
-        line-height: 0;
-        font-size: 26px;
-        color: var(--danger);
-        transition: all 0.3s;
-    }
     &:hover {
         background-color: var(--alert);
         box-shadow: 0px 0px 0px 0px var(--black);
-        i {
-            color: var(--main);
+        svg {
+            fill: var(--main);
         }
     }
 }

@@ -34,7 +34,7 @@ export const CatalogState = ({ children }) => {
         minPrice: +JSON.parse(localStorage.getItem(local_minPrice)) || 0,
         maxPrice: +JSON.parse(localStorage.getItem(local_maxPrice)) || 0,
         searchText: JSON.parse(localStorage.getItem(local_searchText)) || "",
-        order: JSON.parse(localStorage.getItem(local_order)) || "newest",
+        order: JSON.parse(localStorage.getItem(local_order)) || "popular",
     };
     const [state, dispatch] = useReducer(catalogReducer, initialState);
     const {
@@ -173,6 +173,18 @@ export const CatalogState = ({ children }) => {
                     return 1;
                 }
                 if (a.price > b.price) {
+                    return -1;
+                }
+                return 0;
+            }
+            dataNew.sort(compare);
+        }
+        if (order === "popular") {
+            function compare(a, b) {
+                if (a.boughtCount < b.boughtCount) {
+                    return 1;
+                }
+                if (a.boughtCount > b.boughtCount) {
                     return -1;
                 }
                 return 0;

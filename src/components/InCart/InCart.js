@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
+import { CartIcon } from "../../icons";
 
 const InCart = ({ id, ...props }) => {
     const { findInStorage, addToStorage, deleteFromStorage } =
@@ -31,8 +32,7 @@ const InCart = ({ id, ...props }) => {
                 onClick={() => deleteFromCart()}
                 className="item-control item-edit"
             >
-                {/* <img src="/shopping-cart-remove.svg" alt="remove" width="35" /> */}
-                <i className="fas fa-shopping-basket" />
+                <CartIcon fill="var(--success)" viewbox="0 0 24 20" />
             </button>
         </div>
     ) : (
@@ -43,8 +43,7 @@ const InCart = ({ id, ...props }) => {
                 data-bs-target="#Edit"
                 onClick={() => addToCart()}
             >
-                {/* <img src="/shopping-cart-add.svg" alt="add" width="35" /> */}
-                <i className="fas fa-shopping-basket" />
+                <CartIcon fill="var(--alert)" viewbox="0 0 24 20" />
             </button>
         </div>
     );

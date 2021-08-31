@@ -146,11 +146,12 @@ const Pagination = ({
                         defaultValue={order}
                         change={setOrder}
                         optionsLabels={[
+                            "Most popular",
                             "Newest",
                             "Price Ascending",
                             "Price Descending",
                         ]}
-                        options={["newest", "asc", "desc"]}
+                        options={["popular","newest", "asc", "desc"]}
                     />
                 </li>
             </ul>

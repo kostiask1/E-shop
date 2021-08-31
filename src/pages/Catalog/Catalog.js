@@ -14,6 +14,7 @@ import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import { app } from "../../base";
 import "./Catalog.scss";
+import { DeleteIcon } from "../../icons";
 const Modal = lazy(() => import("../../components/Modal/Modal"));
 const ItemCreator = lazy(() =>
     import("../../components/ItemCreator/ItemCreator")
@@ -178,7 +179,7 @@ const Catalog = () => {
                                     className="btn-delete-multiple pop-in"
                                     onClick={deleteMultipleItems}
                                 >
-                                    <i className="fa fa-times"></i>
+                                    <DeleteIcon width={42} height={42} />
                                 </button>
                             ) : null}
                             <div className="catalog">

@@ -5,6 +5,7 @@ import { app } from "../../base";
 import "./ItemCreator.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
 import Input from "../Input/Input";
+import { DeleteIcon, UploadIcon } from "../../icons";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -319,13 +320,13 @@ const ItemCreator = (props) => {
                             />
                             <div>
                                 <button
-                                    className="btn btn-reset"
+                                    className="btn btn-warning"
                                     onClick={(e) => clearInputs(e)}
                                 >
                                     reset
                                 </button>
                                 <button
-                                    className="btn btn-primary"
+                                    className="btn btn-success"
                                     type="submit"
                                 >
                                     {sumBtn}
@@ -391,7 +392,7 @@ const ItemCreator = (props) => {
                                                 onClick={() => deleteImage(img)}
                                                 className="item-control item-delete"
                                             >
-                                                <i className="fas fa-times" />
+                                                <DeleteIcon />
                                             </button>
                                         </div>
                                     </div>
@@ -415,7 +416,9 @@ const ItemCreator = (props) => {
                     )}
                     <div className="modal-controls">
                         <label className="btn btn-success" htmlFor="loadFile">
-                            Load file &nbsp; <i className="fas fa-upload" />
+                            Load file &nbsp;
+                            <UploadIcon />
+                            <i className="fas fa-upload" />
                         </label>
                         <input
                             className="hidden"

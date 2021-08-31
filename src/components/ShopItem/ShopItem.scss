@@ -4,7 +4,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
@@ -36,6 +36,9 @@
         margin-right: 8px;
         border-radius: 5px;
         background-color: var(--main);
+        &:focus {
+            box-shadow: unset;
+        }
     }
     .admin {
         display: flex;
@@ -46,15 +49,18 @@
             padding: 6.5px 5px;
             margin-right: 8px;
             &:hover {
-                color: var(--mainContrastHelper);
-                text-decoration: none;
+                svg {
+                    fill: var(--mainContrastHelper);
+                }
             }
         }
         .item-delete {
             padding: 6px 6.5px;
             font-size: 15px;
             &:hover {
-                color: var(--alert);
+                svg {
+                    fill: var(--alert);
+                }
             }
         }
     }
@@ -62,6 +68,10 @@
         margin-top: 0.5rem;
         padding: 0.6rem;
         padding-bottom: 1rem;
+        flex: 1 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 }
 .cart-add,
@@ -72,23 +82,13 @@
         border: unset;
         padding: 0;
         margin: 0;
-        i {
-            display: inline-block;
-            font-size: 1.6rem;
-        }
-    }
-}
-.cart-add {
-    i {
-        color: var(--alert);
-    }
-}
-.cart-delete {
-    i {
-        color: var(--success);
     }
 }
 .price {
+    &-default {
+        display: inline-block;
+        margin-top: 0.8rem;
+    }
     &-was {
         display: block;
         font-size: 0.8rem;

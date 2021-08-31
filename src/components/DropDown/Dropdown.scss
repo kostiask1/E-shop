@@ -20,6 +20,9 @@
             font-size: 0.7rem;
         }
     }
+    svg {
+        fill: var(--mainContrast);
+    }
     &__content {
         position: absolute;
         right: 0;

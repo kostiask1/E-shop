@@ -12,6 +12,7 @@ import { app } from "../../base";
 import { authContext } from "../../context/Auth/auth-context";
 import InCart from "../InCart/InCart";
 import "./ShopItem.scss";
+import { DeleteIcon, EditIcon } from "../../icons";
 const Modal = lazy(() => import("../Modal/Modal"));
 const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
@@ -73,10 +74,11 @@ const ShopItem = (props) => {
                 >
                     <div className="item-controls">
                         <span className={discountPrice && "price-discount"}>
-                            {discountPrice &&
-                                100 -
-                                    Math.ceil((discountPrice / price) * 100) +
-                                    "%"}
+                            {discountPrice
+                                ? 100 -
+                                  Math.ceil((discountPrice / price) * 100) +
+                                  "%"
+                                : null}
                         </span>
                         {admin ? (
                             <div className="admin">
@@ -87,7 +89,7 @@ const ShopItem = (props) => {
                                         data-bs-target="#Edit"
                                         onClick={() => modal.current.open()}
                                     >
-                                        <i className="fas fa-pen" />
+                                        <EditIcon height="18px" width="18px" />
                                     </button>
                                 </div>
                                 <div className="delete">
@@ -95,7 +97,7 @@ const ShopItem = (props) => {
                                         onClick={() => deleteItem()}
                                         className="item-control item-delete"
                                     >
-                                        <i className="fas fa-times" />
+                                        <DeleteIcon width="18" height="18" />
                                     </button>
                                 </div>
                                 {!inCart && (
@@ -117,28 +119,36 @@ const ShopItem = (props) => {
                     </div>
 
                     <Link to={"/catalog/" + id}>
-                        <img src={image} className="item-img img-fluid" alt={text} />
+                        <img
+                            src={image}
+                            className="item-img img-fluid"
+                            alt={text}
+                        />
                     </Link>
                     <div className="item-body">
                         <p>{text}</p>
-                        {!discountPrice ? (
-                            <span>{price} UAH</span>
-                        ) : (
-                            <>
-                                <del className="price-was">{price}</del>
-                                <span className="price-now">
-                                    {discountPrice} Uah
+                        <div>
+                            {!discountPrice ? (
+                                <span className="price-default">
+                                    {price} UAH
                                 </span>
-                            </>
-                        )}
-                        <InCart
-                            update={() =>
-                                props.hasOwnProperty("functions") &&
-                                props.functions.getCart()
-                            }
-                            id={id}
-                            key={page}
-                        />
+                            ) : (
+                                <>
+                                    <del className="price-was">{price}</del>
+                                    <span className="price-now">
+                                        {discountPrice} Uah
+                                    </span>
+                                </>
+                            )}
+                            <InCart
+                                update={() =>
+                                    props.hasOwnProperty("functions") &&
+                                    props.functions.getCart()
+                                }
+                                id={id}
+                                key={page}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
