@@ -5,7 +5,7 @@ import { app } from "../../base";
 import "./ItemCreator.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
 import Input from "../Input/Input";
-import { DeleteIcon, UploadIcon } from "../../icons";
+import { DeleteIcon, UploadIcon, ShareIcon } from '../../icons';
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -237,7 +237,7 @@ const ItemCreator = (props) => {
                                         htmlFor="loadFile"
                                     >
                                         Load file &nbsp;{" "}
-                                        <i className="fas fa-upload" />
+                                        <UploadIcon fill="var(--main)" />
                                     </label>
                                     <input
                                         className="hidden"
@@ -253,7 +253,7 @@ const ItemCreator = (props) => {
                                         onClick={(e) => loadGallery(e)}
                                     >
                                         Browse gallery
-                                        <i className="far fa-share-square" />
+                                        <ShareIcon fill="var(--main)" />
                                     </button>
                                 </div>
                             </div>
@@ -397,7 +397,7 @@ const ItemCreator = (props) => {
                                         </div>
                                     </div>
                                     <span className="image-format">
-                                        {/\b(?:.jpg|.webp|.png)\b/gi.exec(img)}
+                                        {/\b(?:.jpg|.webp|.png|.svg)\b/gi.exec(img)}
                                     </span>
                                     <img
                                         className="item-img img-fluid"
@@ -417,8 +417,7 @@ const ItemCreator = (props) => {
                     <div className="modal-controls">
                         <label className="btn btn-success" htmlFor="loadFile">
                             Load file &nbsp;
-                            <UploadIcon />
-                            <i className="fas fa-upload" />
+                            <UploadIcon fill="var(--main)" />
                         </label>
                         <input
                             className="hidden"

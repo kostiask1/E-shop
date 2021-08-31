@@ -82,6 +82,7 @@ const Create = () => {
             description: "Lorem ipsum dolor",
             timestamp: new Date().getTime(),
             text: "Placeholder Item",
+            boughtCount: null,
         };
         db.collection("All").doc(data.id).set(data);
     };

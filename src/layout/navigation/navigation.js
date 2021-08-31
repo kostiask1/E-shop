@@ -4,6 +4,12 @@ import { Link } from "react-scroll";
 import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import "./navigation.scss";
+import {
+    TelegramIcon,
+    InstagramIcon,
+    PowerOffIcon,
+    PhoneIcon,
+} from "../../icons";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Navigation = () => {
@@ -102,7 +108,7 @@ const Navigation = () => {
                             )}
                             <li className="nav-item">
                                 <a className="nav-link" href="tel:380679029584">
-                                    <i className="fa fa-phone" />
+                                    <PhoneIcon />
                                     &nbsp;
                                     {screenWidth > 450 && +380679029584}
                                 </a>
@@ -114,7 +120,7 @@ const Navigation = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <i className="fab fa-telegram" />
+                                    <TelegramIcon width="28" height="28" />
                                 </a>
                             </li>
                             <li className="nav-item">
@@ -124,7 +130,7 @@ const Navigation = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <i className="fab fa-instagram" />
+                                    <InstagramIcon width="24" height="24" />
                                 </a>
                             </li>
                             {admin && (
@@ -134,7 +140,11 @@ const Navigation = () => {
                                             onClick={() => logout()}
                                             className="btn btn-danger"
                                         >
-                                            <i className="fas fa-power-off" />
+                                            <PowerOffIcon
+                                                width="20"
+                                                height="20"
+                                                fill="var(--main)"
+                                            />
                                         </button>
                                     </div>
                                 </li>
