@@ -33,7 +33,7 @@
 }
 .disabled {
     color: gray !important;
-    background-color: #ddd !important;
+    background-color: #eee !important;
     cursor: not-allowed !important;
     &:hover {
         background-color: #ddd !important;
@@ -65,28 +65,4 @@
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
-}
-input.input-component {
-    display: inline-block;
-    border-right: unset;
-    padding: 0.5rem 0.6rem;
-    border-radius: 4px 0px 0px 4px;
-    width: 82%;
-}
-.input-component-wrapper {
-    margin: 0 !important;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-span.input-component {
-    display: inline-block;
-    text-align: center;
-    color: var(--gray);
-    border: 1px solid var(--gray);
-    border-radius: 0px 4px 4px 0px;
-    padding: 1.03rem 0.3rem;
-    font-size: 0.7rem;
-    width: 18%;
-    line-height: 0;
 }

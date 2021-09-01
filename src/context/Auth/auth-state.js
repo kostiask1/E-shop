@@ -15,7 +15,7 @@ export const AuthState = ({ children }) => {
         return () => {
             window.removeEventListener("storage", auth);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     const [state, dispatch] = useReducer(authReducer, initialState);
     const encryptWithCryptoJS = (plainText) => {

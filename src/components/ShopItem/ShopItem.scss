@@ -18,6 +18,7 @@
     }
     &-img {
         cursor: pointer;
+        padding: 1rem;
     }
     &-controls {
         display: flex;
@@ -65,17 +66,14 @@
         }
     }
     &-body {
-        margin-top: 0.5rem;
-        padding: 0.6rem;
-        padding-bottom: 1rem;
+        padding: 1rem 0.6rem;
         flex: 1 1;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
 }
-.cart-add,
-.cart-delete {
+.cart-control {
     display: inline-block;
     margin-left: 0.7rem;
     button {
@@ -104,8 +102,8 @@
         color: var(--main);
         padding: 5px;
         height: 60px;
-        width: 45px;
-        background: linear-gradient(165deg, red 50%, transparent 50%);
+        background: linear-gradient(165deg, red 50%, transparent 53%);
+        filter: drop-shadow(1px 2px 5px rgba(120, 0, 0, 0.55));
     }
 }
 .img {

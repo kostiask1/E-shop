@@ -8,10 +8,18 @@ const Input = (props) => {
         label,
         change,
         value,
+        defaultValue,
         placeholder,
         required,
         symbol,
+        important,
     } = props;
+    const values =
+        important === "defaultValue"
+            ? {
+                  defaultValue,
+              }
+            : important === "value" || (!important && { value: value ?? "" });
     return (
         <>
             {label ? (
@@ -23,7 +31,7 @@ const Input = (props) => {
                 <input
                     className="input-component"
                     type={type ?? "text"}
-                    value={value ?? ""}
+                    {...values}
                     placeholder={placeholder ?? ""}
                     onChange={(e) => change(e.target.value)}
                     name={name ?? "input"}

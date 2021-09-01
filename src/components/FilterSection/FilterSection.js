@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import Category from "../Category/Category";
 import "./FilterSection.scss";
+import { SearchIcon } from "../../icons";
+import Input from "../Input/Input";
 
 const FilterSection = (props) => {
     const {
@@ -18,11 +20,14 @@ const FilterSection = (props) => {
     const { resetFilters } = useContext(catalogContext);
     return (
         <div className="filter-section fade-in">
-            <input
-                type="text"
+            <Input
                 placeholder="Search..."
+                important="defaultValue"
                 defaultValue={searchText}
-                onChange={(e) => handleInput(e.target.value)}
+                change={handleInput}
+                symbol={
+                    <SearchIcon width="18px" height="18px" fill="var(--gray)" />
+                }
             />
             <div className="categories">
                 {filters

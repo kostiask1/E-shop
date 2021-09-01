@@ -12,8 +12,7 @@ import About from "./pages/About/About";
 import Card from "./components/Card/Card";
 import Cart from "./pages/Cart/Cart";
 import Create from "./pages/Create/Create";
-import Auth from './pages/Auth/Auth';
-
+import Auth from "./pages/Auth/Auth";
 const mainRoutes = [
     { path: "/", Component: Catalog },
     { path: "/catalog", Component: Catalog },

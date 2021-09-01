@@ -69,3 +69,8 @@ a {
 p {
     word-break: break-word;
 }
+hr {
+    height: 1px;
+    border: unset;
+    background-color: var(--gray);
+}

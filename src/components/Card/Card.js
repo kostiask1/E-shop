@@ -31,11 +31,11 @@ const Card = (match) => {
                     {Object.keys(data).length !== 0 ? (
                         <>
                             <div className="img">
-                                {discountPercent && (
+                                {discountPercent ? (
                                     <span className="price-discount">
                                         {discountPercent}%
                                     </span>
-                                )}
+                                ) : null}
                                 <img
                                     src={image}
                                     className="img-fluid"
@@ -54,8 +54,11 @@ const Card = (match) => {
                                         </span>
                                     </>
                                 )}
-                                <p>{description}</p>
-                                <InCart id={id} />
+                                <p className="description">{description}</p>
+                                <span>
+                                    add to cart ->
+                                    <InCart id={id} />
+                                </span>
                             </div>
                         </>
                     ) : (

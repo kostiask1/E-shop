@@ -5,7 +5,7 @@ import { app } from "../../base";
 import "./ItemCreator.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
 import Input from "../Input/Input";
-import { DeleteIcon, UploadIcon, ShareIcon } from '../../icons';
+import { DeleteIcon, UploadIcon, ShareIcon } from "../../icons";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -27,7 +27,6 @@ const ItemCreator = (props) => {
             false
     );
     const [boughtCount, setBoughtCount] = useState(props.boughtCount || "");
-
     const id = props.id || uuidv4();
     const modal = useRef(null);
 
@@ -160,7 +159,6 @@ const ItemCreator = (props) => {
         e.preventDefault();
         setDrag(false);
     };
-
     const onDragLoad = (e) => {
         e.preventDefault();
         try {
@@ -183,7 +181,7 @@ const ItemCreator = (props) => {
 
     const handleDiscountPercent = (percent) => {
         percent = +percent;
-        if (percent) {
+        if (percent && percent > 0) {
             let newPrice = Math.floor(price - (price / 100) * percent);
             setDiscountPrice(newPrice);
             setDiscountPercent(percent);
@@ -194,7 +192,7 @@ const ItemCreator = (props) => {
     };
     const handleDiscountPrice = (discountPrice) => {
         discountPrice = +discountPrice;
-        if (discountPrice) {
+        if (discountPrice && discountPrice > 0) {
             let newPercent = 100 - Math.ceil((discountPrice / price) * 100);
             setDiscountPrice(discountPrice);
             setDiscountPercent(newPercent);
@@ -253,7 +251,11 @@ const ItemCreator = (props) => {
                                         onClick={(e) => loadGallery(e)}
                                     >
                                         Browse gallery
-                                        <ShareIcon fill="var(--main)" />
+                                        <ShareIcon
+                                            fill="var(--main)"
+                                            height="12"
+                                            viewbox="0 0 20 20"
+                                        />
                                     </button>
                                 </div>
                             </div>
@@ -354,9 +356,11 @@ const ItemCreator = (props) => {
                         )}
                         <div className="text-info">
                             {title && <h4>{title}</h4>}
-                            {description && <p>{description}</p>}
+                            {description && (
+                                <p className="description">{description}</p>
+                            )}
                             {!discountPrice ? (
-                                <p>{price} UAH</p>
+                                <p>{price && price + " UAH"}</p>
                             ) : (
                                 <>
                                     <del className="price-was">{price}</del>
@@ -397,7 +401,9 @@ const ItemCreator = (props) => {
                                         </div>
                                     </div>
                                     <span className="image-format">
-                                        {/\b(?:.jpg|.webp|.png|.svg)\b/gi.exec(img)}
+                                        {/\b(?:.jpg|.webp|.png|.svg)\b/gi.exec(
+                                            img
+                                        )}
                                     </span>
                                     <img
                                         className="item-img img-fluid"

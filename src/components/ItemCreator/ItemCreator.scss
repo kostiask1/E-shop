@@ -37,6 +37,9 @@
         .text-info {
             flex: 1 1;
             margin-left: 1rem;
+            .description {
+                padding: 0.7rem 0;
+            }
         }
     }
     select {
