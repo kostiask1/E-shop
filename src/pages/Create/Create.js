@@ -112,11 +112,10 @@ const Create = () => {
         <div className="create">
             <div className="container">
                 <div className="row">
-                    <div>
+                    <div className="btns-wrapper">
                         <button className="btn" onClick={createRandom}>
                             Create filler item
                         </button>
-                        &nbsp;&nbsp;&nbsp;
                         <button
                             className="btn btn-danger"
                             onClick={getUncategorized}
@@ -136,7 +135,12 @@ const Create = () => {
                                     }
                                 />
                             </div>
-                            <button className="btn btn-primary" type="submit">
+                            <button
+                                className={
+                                    categoryToAdd ? "btn-success" : "disabled"
+                                }
+                                type="submit"
+                            >
                                 Add category
                             </button>
                         </form>
@@ -151,9 +155,7 @@ const Create = () => {
                             />
                             <button
                                 className={
-                                    categoryToRemove
-                                        ? "btn-primary"
-                                        : "disabled"
+                                    categoryToRemove ? "btn-danger" : "disabled"
                                 }
                                 type="submit"
                             >

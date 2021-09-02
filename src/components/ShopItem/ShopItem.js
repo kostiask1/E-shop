@@ -32,6 +32,7 @@ const ShopItem = (props) => {
         category,
         inCart,
         boughtCount,
+        disabledControls,
     } = props;
     const { getData, deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
@@ -80,7 +81,7 @@ const ShopItem = (props) => {
                                   "%"
                                 : null}
                         </span>
-                        {admin ? (
+                        {!disabledControls && admin ? (
                             <div className="admin">
                                 <div className="edit">
                                     <button

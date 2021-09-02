@@ -6,6 +6,7 @@ import "./ItemCreator.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
 import Input from "../Input/Input";
 import { DeleteIcon, UploadIcon, ImageIcon } from "../../icons";
+import ShopItem from "../ShopItem/ShopItem";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -27,6 +28,7 @@ const ItemCreator = (props) => {
             false
     );
     const [boughtCount, setBoughtCount] = useState(props.boughtCount || "");
+    const [tab, setTab] = useState("big");
     const id = props.id || uuidv4();
     const modal = useRef(null);
 
@@ -201,6 +203,13 @@ const ItemCreator = (props) => {
             setDiscountPercent("");
         }
     };
+    const handleTabs = (tab) => {
+        if (tab === "card") {
+            setTab(tab);
+        } else {
+            setTab("big");
+        }
+    };
     return (
         <div className="item-creator">
             <div className="row">
@@ -344,38 +353,72 @@ const ItemCreator = (props) => {
                 </div>
                 <div className="item-preview">
                     <p className="title">Item preview</p>
-                    <div className="row">
-                        {image && (
-                            <div className="img">
-                                {discountPercent && (
-                                    <span className="price-discount">
-                                        {discountPercent}%
-                                    </span>
-                                )}
-                                <img
-                                    src={image}
-                                    className="img-fluid"
-                                    alt={title ?? ""}
-                                />
-                            </div>
-                        )}
-                        <div className="text-info">
-                            {title && <h4>{title}</h4>}
-                            {description && (
-                                <p className="description">{description}</p>
-                            )}
-                            {!discountPrice ? (
-                                <p>{price && price + " UAH"}</p>
-                            ) : (
-                                <>
-                                    <del className="price-was">{price}</del>
-                                    <span className="price-now">
-                                        {discountPrice} Uah
-                                    </span>
-                                </>
-                            )}
-                        </div>
+                    <div className="btns-wrapper">
+                        <button
+                            className={tab !== "card" ? "btn-success" : ""}
+                            onClick={() => handleTabs("big")}
+                        >
+                            Full master
+                        </button>
+                        <button
+                            className={tab === "card" ? "btn-success" : ""}
+                            onClick={() => handleTabs("card")}
+                        >
+                            Small card
+                        </button>
                     </div>
+                    <div className="row">
+                        {tab === "card" ? (
+                            <ShopItem
+                                id={id}
+                                text={title}
+                                image={image}
+                                category={category}
+                                description={description}
+                                price={price}
+                                discountPrice={discountPrice}
+                                disabledControls={true}
+                            />
+                        ) : (
+                            <>
+                                {image && (
+                                    <div className="img">
+                                        {discountPercent && (
+                                            <span className="price-discount">
+                                                {discountPercent}%
+                                            </span>
+                                        )}
+                                        <img
+                                            src={image}
+                                            className="img-fluid"
+                                            alt={title ?? ""}
+                                        />
+                                    </div>
+                                )}
+                                <div className="text-info">
+                                    {title && <h4>{title}</h4>}
+                                    {description && (
+                                        <p className="description">
+                                            {description}
+                                        </p>
+                                    )}
+                                    {!discountPrice ? (
+                                        <p>{price && price + " UAH"}</p>
+                                    ) : (
+                                        <>
+                                            <del className="price-was">
+                                                {price}
+                                            </del>
+                                            <span className="price-now">
+                                                {discountPrice} Uah
+                                            </span>
+                                        </>
+                                    )}
+                                </div>
+                            </>
+                        )}
+                    </div>
+                    <div className="row"></div>
                 </div>
             </div>
 
