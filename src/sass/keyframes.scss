@@ -26,7 +26,11 @@
     opacity: 0;
     transition: opacity 400ms, transform 400ms;
 }
-
+.item.show {
+    display: flex;
+    opacity: 1;
+    transform: scale(1);
+}
 .pop-in {
     opacity: 0;
     animation: 0.25s popIn ease-in-out forwards;

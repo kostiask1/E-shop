@@ -358,13 +358,13 @@ const ItemCreator = (props) => {
                             className={tab !== "card" ? "btn-success" : ""}
                             onClick={() => handleTabs("big")}
                         >
-                            Full master
+                            Whole card
                         </button>
                         <button
                             className={tab === "card" ? "btn-success" : ""}
                             onClick={() => handleTabs("card")}
                         >
-                            Small card
+                            Catalog card
                         </button>
                     </div>
                     <div className="row">

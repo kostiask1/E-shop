@@ -44,7 +44,7 @@ const ShopItem = (props) => {
 
     useEffect(() => {
         setFading(false);
-        setTimeout(() => setFading(true), 300);
+        if (!disabledControls) setTimeout(() => setFading(true), 300);
         return () => {
             setFading(false);
         };
@@ -70,7 +70,9 @@ const ShopItem = (props) => {
         <>
             <div className="item-wrapper">
                 <div
-                    className={`item ${fading && "pop-in"}`}
+                    className={`item ${fading && "pop-in"} ${
+                        disabledControls && "show"
+                    }`}
                     style={{ animationDelay: `${index * 70}ms` }}
                 >
                     <div className="item-controls">

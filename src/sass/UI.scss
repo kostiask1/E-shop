@@ -11,6 +11,14 @@
 .hidden {
     display: none !important;
 }
+.btns-wrapper {
+    padding-top: 0.8rem;
+    display: flex;
+    align-items: center;
+    button:first-child {
+        margin-right: 0.6rem;
+    }
+}
 .btn,
 button {
     position: relative;
