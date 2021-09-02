@@ -60,6 +60,10 @@
     .fa-phone {
         transform: rotate(90deg);
     }
+    .btn-danger {
+        padding: 0.2rem;
+        padding-bottom: 0;
+    }
     @media (max-width: 767px) {
         .navbar-brand.active {
             position: absolute;
