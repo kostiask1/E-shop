@@ -15,11 +15,11 @@ import { catalogContext } from "../../context/catalog/catalog-context";
 import { app } from "../../base";
 import "./Catalog.scss";
 import { DeleteIcon } from "../../icons";
+import Cta from "../../components/Cta/Cta";
 const Modal = lazy(() => import("../../components/Modal/Modal"));
 const ItemCreator = lazy(() =>
     import("../../components/ItemCreator/ItemCreator")
 );
-const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 const db = app.firestore();
 
 const Catalog = () => {
@@ -138,14 +138,7 @@ const Catalog = () => {
     };
     return (
         <>
-            <main className="main">
-                <div className="bg">
-                    <h1 style={{ fontWeight: 300 }}>{SHOP_NAME}</h1>
-                    <div className="container">
-                        <p>Shop by Apollin Ko</p>
-                    </div>
-                </div>
-            </main>
+            <Cta />
             <div id="catalog">
                 <div className="container">
                     <div className="row">

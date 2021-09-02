@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Redirect, NavLink } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import ShopItem from "../../components/ShopItem/ShopItem";
+import "./Cart.scss";
 
 const Cart = () => {
     const { data, getById, clearStorage, getStorage } =
@@ -41,42 +42,52 @@ const Cart = () => {
             setRedirect(true);
         });
     };
+
+    const buyAll = () => {};
     if (redirect) {
         return <Redirect to="/catalog" />;
     }
-    if (data && data.length > 0) {
-        return (
+    return (
+        <div className="cart">
             <div className="container pop-in">
-                <div style={{ width: "100%" }}>
-                    <div className="catalog">
-                        {data.map((item) => (
-                            <ShopItem
-                                key={item.id}
-                                id={item.id}
-                                text={item.text}
-                                image={item.image}
-                                category={item.category}
-                                description={item.description}
-                                price={item.price}
-                                inCart={true}
-                                functions={{
-                                    getCart,
-                                }}
-                            ></ShopItem>
-                        ))}
+                {data && data.length > 0 ? (
+                    <div style={{ width: "100%" }}>
+                        <div className="catalog">
+                            {data.map((item) => (
+                                <ShopItem
+                                    key={item.id}
+                                    id={item.id}
+                                    text={item.text}
+                                    image={item.image}
+                                    category={item.category}
+                                    description={item.description}
+                                    price={item.price}
+                                    inCart={true}
+                                    functions={{
+                                        getCart,
+                                    }}
+                                ></ShopItem>
+                            ))}
+                        </div>
+                        <button
+                            className="btn btn-success"
+                            onClick={() => buyAll()}
+                        >
+                            Buy all
+                        </button>
+                        <button
+                            className="btn btn-danger"
+                            onClick={() => handleClean()}
+                        >
+                            Clear cart
+                        </button>
                     </div>
-                    <button
-                        className="btn btn-danger"
-                        onClick={() => handleClean()}
-                    >
-                        Clear cart
-                    </button>
-                </div>
+                ) : (
+                    <div>{loading}</div>
+                )}
             </div>
-        );
-    } else {
-        return <div className="container fade-in">{loading}</div>;
-    }
+        </div>
+    );
 };
 
 export default Cart;

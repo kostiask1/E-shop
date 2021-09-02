@@ -5,7 +5,7 @@ import { app } from "../../base";
 import "./ItemCreator.scss";
 import { Dropdown } from "../Dropdown/Dropdown";
 import Input from "../Input/Input";
-import { DeleteIcon, UploadIcon, ShareIcon } from "../../icons";
+import { DeleteIcon, UploadIcon, ImageIcon } from "../../icons";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -231,11 +231,15 @@ const ItemCreator = (props) => {
                                 />
                                 <div>
                                     <label
-                                        className="btn btn-primary "
+                                        className="btn btn-primary btn-expanded"
                                         htmlFor="loadFile"
                                     >
                                         Load file &nbsp;{" "}
-                                        <UploadIcon fill="var(--main)" />
+                                        <UploadIcon
+                                            fill="var(--main)"
+                                            height="20"
+                                            viewbox="0 0 20 24"
+                                        />
                                     </label>
                                     <input
                                         className="hidden"
@@ -247,14 +251,15 @@ const ItemCreator = (props) => {
                                         }
                                     />
                                     <button
-                                        className="btn btn-primary"
+                                        className="btn btn-primary btn-expanded"
                                         onClick={(e) => loadGallery(e)}
                                     >
                                         Browse gallery
-                                        <ShareIcon
+                                        <ImageIcon
                                             fill="var(--main)"
-                                            height="12"
-                                            viewbox="0 0 20 20"
+                                            width="18"
+                                            height="15"
+                                            viewbox="0 0 20 22"
                                         />
                                     </button>
                                 </div>
@@ -421,9 +426,16 @@ const ItemCreator = (props) => {
                         <div style={{ height: "100%" }}>Drop files here...</div>
                     )}
                     <div className="modal-controls">
-                        <label className="btn btn-success" htmlFor="loadFile">
-                            Load file &nbsp;
-                            <UploadIcon fill="var(--main)" />
+                        <label
+                            className="btn btn-success btn-expanded"
+                            htmlFor="loadFile"
+                        >
+                            Load file&nbsp;
+                            <UploadIcon
+                                fill="var(--main)"
+                                height="20"
+                                viewbox="0 0 20 24"
+                            />
                         </label>
                         <input
                             className="hidden"

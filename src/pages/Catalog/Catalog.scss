@@ -41,36 +41,3 @@
         }
     }
 }
-
-.main {
-    .bg {
-        display: flex;
-        justify-content: flex-end;
-        flex-direction: column;
-        position: relative;
-        background: radial-gradient(
-            var(--mainStrong) 5%,
-            var(--mainContrastHelper) 70%
-        );
-        width: 100%;
-        padding: 3vh 0;
-        aspect-ratio: 16 / 7.5;
-        h1 {
-            font-size: 7rem;
-            white-space: nowrap;
-            position: absolute;
-            font-family: serif;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .container {
-            position: relative;
-            p {
-                color: var(--main);
-                font-size: 1rem;
-                padding: 0.5rem 1rem;
-            }
-        }
-    }
-}

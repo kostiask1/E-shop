@@ -28,7 +28,8 @@
         right: 0;
         background-color: #fafafa;
         border: 2px solid #ddd;
-        width: 300px;
+        min-width: 300px;
+        width: 100%;
         z-index: 1;
         input {
             box-sizing: border-box;

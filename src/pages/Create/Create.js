@@ -5,10 +5,12 @@ import { v4 as uuidv4 } from "uuid";
 import ItemCreator from "../../components/ItemCreator/ItemCreator";
 import "./Create.scss";
 import { Dropdown } from "../../components/Dropdown/Dropdown";
+import { catalogContext } from "../../context/catalog/catalog-context";
 
 const db = app.firestore();
 
 const Create = () => {
+    const { deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [filters, setFilters] = useState([]);
     const [categoryToRemove, setCategoryToRemove] = useState("");
@@ -38,6 +40,24 @@ const Create = () => {
         }
     };
 
+    const getUncategorized = async () => {
+        let items = [];
+        const response = await db
+            .collection("All")
+            .where("category", "==", "")
+            .get();
+        response.docs.forEach((item) => {
+            items.push(item.data().id);
+        });
+        deleteFromStorage(items);
+        items.forEach((id) => {
+            let item = db.collection("All").where("id", "==", id);
+            item.get().then((querySnapshot) => {
+                querySnapshot.docs[0].ref.delete();
+            });
+        });
+    };
+
     const newFilter = (e) => {
         e.preventDefault();
         const value = e.target[0].value;
@@ -47,7 +67,6 @@ const Create = () => {
             return false;
         }
         const data = filters.concat(value);
-
         db.collection("categories")
             .doc("categories")
             .set({ categories: data })
@@ -59,17 +78,20 @@ const Create = () => {
 
     const deleteFilter = (e) => {
         e.preventDefault();
-        const value = e.target[0].value;
-        const data = filters.filter((el) => el !== value);
+        const value = e.target[0].innerText;
+        if (value !== "Choose category") {
+            const data = filters.filter((el) => el !== value);
+            db.collection("categories")
+                .doc("categories")
+                .set({ categories: data });
 
-        db.collection("categories").doc("categories").set({ categories: data });
-
-        db.collection("categories")
-            .doc("categories")
-            .onSnapshot((doc) => {
-                setCategoryToAdd("");
-                return getFilters();
-            });
+            db.collection("categories")
+                .doc("categories")
+                .onSnapshot(() => {
+                    setCategoryToRemove("");
+                    return getFilters();
+                });
+        }
     };
 
     const createRandom = (e) => {
@@ -90,9 +112,18 @@ const Create = () => {
         <div className="create">
             <div className="container">
                 <div className="row">
-                    <button className="btn" onClick={(e) => createRandom(e)}>
-                        Create random shit
-                    </button>
+                    <div>
+                        <button className="btn" onClick={createRandom}>
+                            Create filler item
+                        </button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button
+                            className="btn btn-danger"
+                            onClick={getUncategorized}
+                        >
+                            Delete items without category (fillers)
+                        </button>
+                    </div>
                     <div className="form-wrapper">
                         <form onSubmit={(e) => newFilter(e)} action="/">
                             <p className=" title">Create category</p>
@@ -118,7 +149,14 @@ const Create = () => {
                                 options={filters}
                                 placeholder="Choose category"
                             />
-                            <button className="btn btn-primary" type="submit">
+                            <button
+                                className={
+                                    categoryToRemove
+                                        ? "btn-primary"
+                                        : "disabled"
+                                }
+                                type="submit"
+                            >
                                 Delete category
                             </button>
                         </form>

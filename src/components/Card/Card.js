@@ -54,11 +54,10 @@ const Card = (match) => {
                                         </span>
                                     </>
                                 )}
-                                <p className="description">{description}</p>
-                                <span>
-                                    add to cart ->
+                                <div className="description">
+                                    {description}
                                     <InCart id={id} />
-                                </span>
+                                </div>
                             </div>
                         </>
                     ) : (

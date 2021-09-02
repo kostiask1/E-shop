@@ -11,12 +11,23 @@
 .hidden {
     display: none !important;
 }
-.btn {
+.btn,
+button {
+    position: relative;
     background-color: var(--mainContrast);
     border: none;
     padding: 0.5rem 0.6rem;
     border-radius: 4px;
     color: var(--main);
+    &-expanded {
+        padding-right: 1.3rem;
+        svg {
+            position: absolute;
+            top: 50%;
+            right: 0%;
+            transform: translate(-20%, -50%);
+        }
+    }
     &-danger {
         background-color: var(--alert);
     }
@@ -27,7 +38,7 @@
     &-success {
         background-color: var(--success);
     }
-    &:hover {
+    &:not(.disabled):hover {
         filter: brightness(120%);
     }
 }
