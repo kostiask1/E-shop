@@ -2,6 +2,7 @@
     z-index: 9990;
     background-color: var(--main);
     padding: 1rem 0;
+    height: 71px;
     width: calc(100% - 7px);
     box-shadow: -10px 8px 10px 1px rgba(0, 0, 0, 0.1);
     &__wrapper {
@@ -18,6 +19,9 @@
     }
     .nav {
         &-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
             margin-left: 1rem;
             color: var(--gray);
@@ -65,17 +69,8 @@
         padding-bottom: 0;
     }
     @media (max-width: 767px) {
-        .navbar-brand.active {
-            position: absolute;
-            top: 9px;
-            left: 18px;
-        }
-        .container {
-            justify-content: flex-end;
-        }
         .nav-link {
-            padding-left: 8px;
-            font-size: 15px;
+            font-size: 1rem;
         }
     }
 }

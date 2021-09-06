@@ -26,6 +26,7 @@ button {
     border: none;
     padding: 0.5rem 0.6rem;
     border-radius: 4px;
+    font-size: 1rem;
     color: var(--main);
     &-expanded {
         padding-right: 1.3rem;
@@ -45,6 +46,11 @@ button {
     }
     &-success {
         background-color: var(--success);
+    }
+    &-outline {
+        border: 1px solid var(--mainContrast);
+        background-color: transparent;
+        color: var(--mainContrast);
     }
     &:not(.disabled):hover {
         filter: brightness(120%);

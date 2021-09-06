@@ -1,0 +1,21 @@
+.submenu {
+    @media (max-width: 767px) {
+        position: absolute;
+        top: 71px;
+        flex-direction: column;
+        background: var(--main);
+        border: 1px solid var(--gray);
+        z-index: 100;
+        .nav-item {
+            .nav-link {
+                margin: 0 auto;
+                padding: 0.6rem 1rem;
+                &:after {
+                    bottom: 2px;
+                    width: 80%;
+                    background-color: var(--gray);
+                }
+            }
+        }
+    }
+}

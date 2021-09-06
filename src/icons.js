@@ -3,8 +3,8 @@ import React from "react";
 export const CartIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -15,8 +15,8 @@ export const CartIcon = ({ width, height, fill, viewbox }) => (
 export const CartRemoveIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -27,8 +27,8 @@ export const CartRemoveIcon = ({ width, height, fill, viewbox }) => (
 export const DeleteIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -40,8 +40,8 @@ export const DeleteIcon = ({ width, height, fill, viewbox }) => (
 export const EditIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -53,8 +53,8 @@ export const EditIcon = ({ width, height, fill, viewbox }) => (
 export const UploadIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 16"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -70,8 +70,8 @@ export const UploadIcon = ({ width, height, fill, viewbox }) => (
 export const ShareIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 16"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -82,8 +82,8 @@ export const ShareIcon = ({ width, height, fill, viewbox }) => (
 export const PhoneIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 20"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -94,8 +94,8 @@ export const PhoneIcon = ({ width, height, fill, viewbox }) => (
 export const TelegramIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -111,8 +111,8 @@ export const TelegramIcon = ({ width, height, fill, viewbox }) => (
 export const InstagramIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 512 512"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -125,8 +125,8 @@ export const InstagramIcon = ({ width, height, fill, viewbox }) => (
 export const PowerOffIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill={fill ?? "var(--textBlack)"}
     >
@@ -137,8 +137,8 @@ export const PowerOffIcon = ({ width, height, fill, viewbox }) => (
 export const SearchIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill="none"
         stroke={fill ?? "var(--textBlack)"}
@@ -153,8 +153,8 @@ export const SearchIcon = ({ width, height, fill, viewbox }) => (
 export const ImageIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        width={width ?? "24px"}
-        height={height ?? "24px"}
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
         viewBox={viewbox ?? "0 0 24 24"}
         fill="none"
         stroke={fill ?? "var(--textBlack)"}
@@ -165,5 +165,29 @@ export const ImageIcon = ({ width, height, fill, viewbox }) => (
         <rect x={3} y={3} width={18} height={18} rx={2} ry={2} />
         <circle cx="8.5" cy="8.5" r="1.5" />
         <polyline points="21 15 16 10 5 21" />
+    </svg>
+);
+export const ArrowUpIcon = ({ width, height, fill, viewbox }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width ?? "1.2em"}
+        height={height ?? "1.2em"}
+        viewBox={viewbox ?? "0 0 24 24"}
+        fill={fill ?? "var(--textBlack)"}
+    >
+        <path d="M0 0h24v24H0V0z" fill="none"></path>
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6 1.41 1.41z"></path>
+    </svg>
+);
+export const ArrowDownIcon = ({ width, height, fill, viewbox }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width ?? "1.2em"}
+        height={height ?? "1.2em"}
+        viewBox={viewbox ?? "0 0 24 24"}
+        fill={fill ?? "var(--textBlack)"}
+    >
+        <path d="M0 0h24v24H0V0z" fill="none"></path>
+        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
     </svg>
 );

@@ -40,7 +40,7 @@ const Auth = () => {
                         aria-describedby="emailHelp"
                         autoComplete="username"
                         onChange={(e) => setLoginValue(e.target.value)}
-                        style={{ marginBottom: ".5rem" }}
+                        style={{ marginBottom: ".5em" }}
                     />
                 </div>
                 <div>
@@ -62,7 +62,7 @@ const Auth = () => {
                         onClick={(e) => submitHandler(e)}
                         className="btn btn-primary"
                         id="login"
-                        style={{ marginTop: "1rem" }}
+                        style={{ marginTop: "1em" }}
                     >
                         Log In
                     </button>

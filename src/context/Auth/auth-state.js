@@ -5,6 +5,7 @@ import { authContext } from "./auth-context";
 import CryptoJS from "crypto-js";
 import { local_expirationDate } from "../../localStorage";
 const LOGIN = "LOGIN";
+const KEY = process.env.REACT_APP_KEY;
 
 export const AuthState = ({ children }) => {
     const initialState = {
@@ -19,21 +20,20 @@ export const AuthState = ({ children }) => {
     }, []);
     const [state, dispatch] = useReducer(authReducer, initialState);
     const encryptWithCryptoJS = (plainText) => {
-        const key = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
-        const iv1 = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
+        const key = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
+        const iv1 = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
         const encrypted = CryptoJS.AES.encrypt(plainText, key, {
             keySize: 16,
             iv: iv1,
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7,
         });
-
         return encrypted + "";
     };
 
     const decryptionWithCryptoJS = (cipher) => {
-        const key = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
-        const iv1 = CryptoJS.enc.Utf8.parse("hf8685nfhfhjs9h8");
+        const key = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
+        const iv1 = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
         const plainText = CryptoJS.AES.decrypt(cipher, key, {
             keySize: 16,
             iv: iv1,

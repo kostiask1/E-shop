@@ -35,6 +35,14 @@
     opacity: 0;
     animation: 0.25s popIn ease-in-out forwards;
 }
+.slide-in {
+    transform: scaleY(0);
+    animation: 0.2s 0.2s slideIn ease-in-out forwards;
+}
+.slide-out {
+    transform: scaleY(1);
+    animation: 0.2s 0.2s slideIn ease-in-out reverse forwards;
+}
 .fade-in {
     opacity: 0;
     animation: 0.25s fadeIn ease-in-out forwards;
@@ -89,5 +97,16 @@
     }
     100% {
         opacity: 0;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform-origin: top center;
+        transform: scaleY(0);
+    }
+    100% {
+        transform-origin: top center;
+        transform: scaleY(1);
     }
 }

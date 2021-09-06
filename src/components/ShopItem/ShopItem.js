@@ -48,6 +48,7 @@ const ShopItem = (props) => {
         return () => {
             setFading(false);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [page]);
 
     const deleteItem = () => {
@@ -92,7 +93,7 @@ const ShopItem = (props) => {
                                         data-bs-target="#Edit"
                                         onClick={() => modal.current.open()}
                                     >
-                                        <EditIcon height="18px" width="18px" />
+                                        <EditIcon height="1em" width="1em" />
                                     </button>
                                 </div>
                                 <div className="delete">
@@ -100,7 +101,7 @@ const ShopItem = (props) => {
                                         onClick={() => deleteItem()}
                                         className="item-control item-delete"
                                     >
-                                        <DeleteIcon width="18" height="18" />
+                                        <DeleteIcon width="1em" height="1em" />
                                     </button>
                                 </div>
                                 {!inCart && (
@@ -113,7 +114,7 @@ const ShopItem = (props) => {
                                         style={{
                                             width: 50,
                                             height: 50,
-                                            marginLeft: ".4rem",
+                                            marginLeft: ".4em",
                                         }}
                                     />
                                 )}

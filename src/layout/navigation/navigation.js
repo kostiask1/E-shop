@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { NavLink as RLink, useLocation } from "react-router-dom";
-import { Link } from "react-scroll";
 import { authContext } from "../../context/Auth/auth-context";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import "./navigation.scss";
@@ -10,18 +9,32 @@ import {
     PowerOffIcon,
     PhoneIcon,
 } from "../../icons";
+import NavLinks from "../../components/NavLinks/NavLinks";
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME;
 
 const Navigation = () => {
     const { storage } = useContext(catalogContext);
     const { admin, logout } = useContext(authContext);
+    const [width, setWidth] = useState(() => window.innerWidth);
     let props = useLocation();
-    let screenWidth = document.documentElement.clientWidth;
     let routes = [
         { to: "about", name: "About" },
         { to: "delivery", name: "Delivery" },
         { to: "contacts", name: "Contacts" },
     ];
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (width < 767 && window.innerWidth > 767) {
+                return setWidth(window.innerWidth);
+            } else if (width >= 767 && window.innerWidth <= 767) {
+                return setWidth(window.innerWidth);
+            }
+        };
+        window.removeEventListener("resize", handleResize);
+        window.addEventListener("resize", handleResize);
+        return (_) => window.removeEventListener("resize", handleResize);
+    }, [width]);
     return (
         <>
             <nav className="navbar">
@@ -47,54 +60,11 @@ const Navigation = () => {
                                     )}
                                 </RLink>
                             </li>
-                            <li className="nav-item">
-                                {props.pathname === "/catalog" ? (
-                                    <Link
-                                        to="catalog"
-                                        spy={true}
-                                        smooth={true}
-                                        offset={-78}
-                                        duration={500}
-                                        containerId="page"
-                                        activeClass="active"
-                                        className="nav-link"
-                                    >
-                                        Catalog
-                                    </Link>
-                                ) : (
-                                    <RLink
-                                        className="nav-link"
-                                        activeClassName="current"
-                                        to="/catalog"
-                                    >
-                                        Catalog
-                                    </RLink>
-                                )}
-                            </li>
-                            {routes.map(({ to, name }) => {
-                                if (
-                                    props.pathname === "/catalog" &&
-                                    screenWidth > 767
-                                ) {
-                                    return (
-                                        <li className="nav-item" key={name}>
-                                            <Link
-                                                to={to}
-                                                spy={true}
-                                                smooth={true}
-                                                offset={-125}
-                                                duration={500}
-                                                containerId="page"
-                                                activeClass="active"
-                                                className="nav-link"
-                                            >
-                                                {name}
-                                            </Link>
-                                        </li>
-                                    );
-                                }
-                                return null;
-                            })}
+                            <NavLinks
+                                width={width}
+                                routes={routes}
+                                catalog={props.pathname === "/catalog"}
+                            />
                             {admin && (
                                 <li className="nav-item">
                                     <RLink
@@ -108,9 +78,8 @@ const Navigation = () => {
                             )}
                             <li className="nav-item">
                                 <a className="nav-link" href="tel:380679029584">
-                                    <PhoneIcon />
-                                    &nbsp;
-                                    {screenWidth > 450 && +380679029584}
+                                    <PhoneIcon width="1.5em" height="1.5em" />
+                                    {width > 767 && "\xa0+380679029584"}
                                 </a>
                             </li>
                             <li className="nav-item">
@@ -120,7 +89,7 @@ const Navigation = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <TelegramIcon width="28" height="28" />
+                                    <TelegramIcon width="2em" height="2em" />
                                 </a>
                             </li>
                             <li className="nav-item">
@@ -130,7 +99,10 @@ const Navigation = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <InstagramIcon width="24" height="24" />
+                                    <InstagramIcon
+                                        width="1.8em"
+                                        height="1.8em"
+                                    />
                                 </a>
                             </li>
                             {admin && (
@@ -141,8 +113,8 @@ const Navigation = () => {
                                             className="btn btn-danger"
                                         >
                                             <PowerOffIcon
-                                                width="20"
-                                                height="20"
+                                                width="1.5em"
+                                                height="1.5em"
                                                 fill="var(--main)"
                                             />
                                         </button>

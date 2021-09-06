@@ -246,7 +246,7 @@ const ItemCreator = (props) => {
                                         Load file &nbsp;{" "}
                                         <UploadIcon
                                             fill="var(--main)"
-                                            height="20"
+                                            height="2em"
                                             viewbox="0 0 20 24"
                                         />
                                     </label>
@@ -266,8 +266,8 @@ const ItemCreator = (props) => {
                                         Browse gallery
                                         <ImageIcon
                                             fill="var(--main)"
-                                            width="18"
-                                            height="15"
+                                            width="1.8em"
+                                            height="1.5em"
                                             viewbox="0 0 20 22"
                                         />
                                     </button>
@@ -476,7 +476,7 @@ const ItemCreator = (props) => {
                             Load file&nbsp;
                             <UploadIcon
                                 fill="var(--main)"
-                                height="20"
+                                height="2em"
                                 viewbox="0 0 20 24"
                             />
                         </label>
