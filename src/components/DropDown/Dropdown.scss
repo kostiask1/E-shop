@@ -53,8 +53,12 @@
                 width: 100%;
                 border-bottom: 1px solid #ddd;
                 cursor: pointer;
+                &.selected {
+                    color: var(--main);
+                    background-color: var(--mainContrastHelper);
+                }
                 &:hover {
-                    color: white;
+                    color: var(--main);
                     background-color: var(--mainContrast);
                 }
             }

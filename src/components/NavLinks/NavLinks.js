@@ -28,7 +28,7 @@ const NavLinks = ({ width, routes, catalog }) => {
         <>
             {width < 768 && catalog && (
                 <button className="btn-outline" onClick={handleBtnClick}>
-                    {open ? "-" : "x"}
+                    {open ? "x" : "="}
                 </button>
             )}
             <div

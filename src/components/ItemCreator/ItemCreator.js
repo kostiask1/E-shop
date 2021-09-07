@@ -246,7 +246,7 @@ const ItemCreator = (props) => {
                                         Load file &nbsp;{" "}
                                         <UploadIcon
                                             fill="var(--main)"
-                                            height="2em"
+                                            height="1.4em"
                                             viewbox="0 0 20 24"
                                         />
                                     </label>
@@ -263,11 +263,11 @@ const ItemCreator = (props) => {
                                         className="btn btn-primary btn-expanded"
                                         onClick={(e) => loadGallery(e)}
                                     >
-                                        Browse gallery
+                                        Browse gallery&nbsp;
                                         <ImageIcon
                                             fill="var(--main)"
-                                            width="1.8em"
-                                            height="1.5em"
+                                            width="1.6em"
+                                            height="1.2em"
                                             viewbox="0 0 20 22"
                                         />
                                     </button>
@@ -473,10 +473,10 @@ const ItemCreator = (props) => {
                             className="btn btn-success btn-expanded"
                             htmlFor="loadFile"
                         >
-                            Load file&nbsp;
+                            Load file&nbsp;&nbsp;
                             <UploadIcon
                                 fill="var(--main)"
-                                height="2em"
+                                height="1.4em"
                                 viewbox="0 0 20 24"
                             />
                         </label>

@@ -63,6 +63,7 @@
         overflow-y: scroll;
         padding-right: 1rem;
         .item {
+            max-width: 300px;
             max-height: 400px;
             flex: 1 1;
             border: 3px solid transparent;

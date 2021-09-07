@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { authContext } from "../../context/Auth/auth-context";
+import "./Auth.scss";
 
 const Auth = () => {
     const { login, admin } = useContext(authContext);
@@ -28,8 +29,9 @@ const Auth = () => {
     };
 
     return (
-        <div className="container">
+        <div className="auth container">
             <form>
+                <h3>Enter your credentials</h3>
                 <div>
                     <label htmlFor="exampleInputEmail1" className="form-label">
                         Email address

@@ -138,6 +138,7 @@ const Pagination = ({
                         defaultValue={itemsPerPage}
                         change={handleItemsPerPage}
                         options={[1, 3, 4, 6, 8, 12, 16, 20]}
+                        searchable={false}
                     />
                 </li>
                 <li className="page-item">
@@ -151,7 +152,8 @@ const Pagination = ({
                             "Price Ascending",
                             "Price Descending",
                         ]}
-                        options={["popular","newest", "asc", "desc"]}
+                        options={["popular", "newest", "asc", "desc"]}
+                        searchable={false}
                     />
                 </li>
             </ul>

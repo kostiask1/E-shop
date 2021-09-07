@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import "./Dropdown.scss";
 import { ArrowDownIcon, ArrowUpIcon } from "../../icons";
 
 export const Dropdown = (props) => {
-    const { change, options, defaultValue, optionsLabels, placeholder } = props;
+    const {
+        change,
+        options,
+        defaultValue,
+        optionsLabels,
+        placeholder,
+        searchable = true,
+    } = props;
     const [visible, setVisible] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
-
+    const [key] = useState(() => "drop-" + uuidv4());
+    console.log(key);
     useEffect(() => {
         document.addEventListener("mouseup", clickHandler);
         return () => {
@@ -16,7 +25,7 @@ export const Dropdown = (props) => {
     }, []);
 
     const clickHandler = (e) => {
-        let inComponent = e.target.matches(".dropdown *");
+        let inComponent = e.target.matches(`.${key} *`);
         if (!inComponent) {
             setFilteredOptions(options);
             setVisible(false);
@@ -47,7 +56,7 @@ export const Dropdown = (props) => {
         change(e.target.attributes["value"].value);
     };
     return (
-        <div className="dropdown">
+        <div className={"dropdown " + key}>
             <button onClick={toggleDropdown} className="dropdown__button">
                 {defaultValue ? defaultValue : placeholder}
                 {visible ? (
@@ -58,12 +67,14 @@ export const Dropdown = (props) => {
             </button>
             {visible && (
                 <div className="dropdown__content">
-                    <input
-                        autoFocus
-                        type="text"
-                        placeholder="Search.."
-                        onKeyUp={filterFunction}
-                    />
+                    {searchable && (
+                        <input
+                            autoFocus
+                            type="text"
+                            placeholder="Search.."
+                            onKeyUp={filterFunction}
+                        />
+                    )}
                     <ul>
                         {filteredOptions.length ? (
                             filteredOptions.map((option, index) => (
