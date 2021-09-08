@@ -18,8 +18,10 @@
     }
     &-dialog {
         position: relative;
-        width: clamp(300px, 100%, 80vw);
         max-width: unset;
+    }
+    &-lg {
+        width: clamp(300px, 100%, 80vw);
         height: 90%;
     }
     &-content {

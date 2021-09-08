@@ -1,9 +1,18 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {
+    useEffect,
+    useState,
+    useRef,
+    useContext,
+    Suspense,
+    lazy,
+} from "react";
 import { Redirect, NavLink } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import ShopItem from "../../components/ShopItem/ShopItem";
 import "./Cart.scss";
 import axios from "axios";
+import PurchaseForm from "../../components/PurchaseForm/PurchaseForm";
+const Modal = lazy(() => import("../../components/Modal/Modal"));
 
 const Cart = () => {
     const { data, getById, clearStorage, getStorage } =
@@ -12,7 +21,7 @@ const Cart = () => {
     const [redirect, setRedirect] = useState(false);
     //const link = "https://"+window.location.hostname+"/catalog";
     const link = "https://e-shop-d051e.web.app/catalog";
-    console.log(link);
+    const modal = useRef(null);
 
     const sendRequest = ({
         data: items,
@@ -106,7 +115,7 @@ const Cart = () => {
                         </div>
                         <button
                             className="btn btn-success"
-                            onClick={() => buyAll()}
+                            onClick={() => modal.current.open()}
                         >
                             Buy all
                         </button>
@@ -121,6 +130,11 @@ const Cart = () => {
                     <div>{loading}</div>
                 )}
             </div>
+            <Suspense fallback={<p></p>}>
+                <Modal ref={modal}>
+                    <PurchaseForm buy={buyAll} />
+                </Modal>
+            </Suspense>
         </div>
     );
 };
