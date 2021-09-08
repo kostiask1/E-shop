@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import Modal from "../Modal/Modal";
 import { app } from "../../base";
 import "./ItemCreator.scss";
-import { Dropdown } from "../Dropdown/Dropdown";
+import { DropDown } from "../DropDown/DropDown";
 import Input from "../Input/Input";
 import { DeleteIcon, UploadIcon, ImageIcon } from "../../icons";
 import ShopItem from "../ShopItem/ShopItem";
@@ -327,7 +327,7 @@ const ItemCreator = (props) => {
                                     symbol="Bought"
                                 />
                             </div>
-                            <Dropdown
+                            <DropDown
                                 key={filters}
                                 defaultValue={category}
                                 change={setCategory}

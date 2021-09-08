@@ -23,7 +23,6 @@ const NavLinks = ({ width, routes, catalog }) => {
         e.preventDefault();
         setOpen(!open);
     };
-    console.log(open);
     return (
         <>
             {width < 768 && catalog && (

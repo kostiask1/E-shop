@@ -4,7 +4,7 @@ import { authContext } from "../../context/Auth/auth-context";
 import { v4 as uuidv4 } from "uuid";
 import ItemCreator from "../../components/ItemCreator/ItemCreator";
 import "./Create.scss";
-import { Dropdown } from "../../components/Dropdown/Dropdown";
+import { DropDown } from "../../components/DropDown/DropDown";
 import { catalogContext } from "../../context/catalog/catalog-context";
 
 const db = app.firestore();
@@ -146,7 +146,7 @@ const Create = () => {
                         </form>
                         <form onSubmit={(e) => deleteFilter(e)} action="/">
                             <p className=" title">Delete category</p>
-                            <Dropdown
+                            <DropDown
                                 key={filters}
                                 defaultValue={categoryToRemove}
                                 change={setCategoryToRemove}

@@ -1,6 +1,6 @@
 import React from "react";
 import { local_page } from "../../localStorage";
-import { Dropdown } from "../Dropdown/Dropdown";
+import { DropDown } from "../DropDown/DropDown";
 import "./Pagination.scss";
 
 const Pagination = ({
@@ -122,7 +122,7 @@ const Pagination = ({
                 {pagesArray.length > 8 && (
                     <li className="page-item ">
                         <span>Jump to</span>
-                        <Dropdown
+                        <DropDown
                             key={pagesArray.length}
                             defaultValue={page + 1}
                             change={handleDropDown}
@@ -134,7 +134,7 @@ const Pagination = ({
             <ul className="pagination__filters">
                 <li className="page-item">
                     <label>Items</label>
-                    <Dropdown
+                    <DropDown
                         defaultValue={itemsPerPage}
                         change={handleItemsPerPage}
                         options={[1, 3, 4, 6, 8, 12, 16, 20]}
@@ -143,7 +143,7 @@ const Pagination = ({
                 </li>
                 <li className="page-item">
                     <label>Sort</label>
-                    <Dropdown
+                    <DropDown
                         defaultValue={order}
                         change={setOrder}
                         optionsLabels={[

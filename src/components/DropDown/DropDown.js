@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-import "./Dropdown.scss";
+import "./DropDown.scss";
 import { ArrowDownIcon, ArrowUpIcon } from "../../icons";
 
-export const Dropdown = (props) => {
+export const DropDown = (props) => {
     const {
         change,
         options,
@@ -15,7 +15,6 @@ export const Dropdown = (props) => {
     const [visible, setVisible] = useState(false);
     const [filteredOptions, setFilteredOptions] = useState(options);
     const [key] = useState(() => "drop-" + uuidv4());
-    console.log(key);
     useEffect(() => {
         document.addEventListener("mouseup", clickHandler);
         return () => {
@@ -46,7 +45,7 @@ export const Dropdown = (props) => {
         return () => clearTimeout(timeOutId);
     };
 
-    const toggleDropdown = (event) => {
+    const toggleDropDown = (event) => {
         event.preventDefault();
         setVisible(!visible);
     };
@@ -56,8 +55,8 @@ export const Dropdown = (props) => {
         change(e.target.attributes["value"].value);
     };
     return (
-        <div className={"dropdown " + key}>
-            <button onClick={toggleDropdown} className="dropdown__button">
+        <div className={"DropDown " + key}>
+            <button onClick={toggleDropDown} className="DropDown__button">
                 {defaultValue ? defaultValue : placeholder}
                 {visible ? (
                     <ArrowUpIcon viewbox="0 0 20 12" />
@@ -66,7 +65,7 @@ export const Dropdown = (props) => {
                 )}
             </button>
             {visible && (
-                <div className="dropdown__content">
+                <div className="DropDown__content">
                     {searchable && (
                         <input
                             autoFocus
