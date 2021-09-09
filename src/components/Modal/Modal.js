@@ -17,7 +17,6 @@ export function Modal({ children, size, defaultOpened = false }, ref) {
     useEffect(() => {
         visible.current = isOpen;
     }, [isOpen]);
-    console.log(size);
 
     useImperativeHandle(
         ref,

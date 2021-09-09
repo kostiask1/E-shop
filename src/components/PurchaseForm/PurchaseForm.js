@@ -9,6 +9,8 @@ import {
     local_userCode,
     local_userService,
     local_userPayment,
+    local_userDepartment,
+    local_userEmail,
 } from "../../localStorage";
 const PurchaseForm = ({ buy, modal }) => {
     const [name, setName] = useState(
@@ -17,11 +19,17 @@ const PurchaseForm = ({ buy, modal }) => {
     const [phone, setPhone] = useState(
         JSON.parse(localStorage.getItem(local_userPhone)) || ""
     );
+    const [email, setEmail] = useState(
+        JSON.parse(localStorage.getItem(local_userEmail)) || ""
+    );
     const [address, setAddress] = useState(
         JSON.parse(localStorage.getItem(local_userAddress)) || ""
     );
     const [code, setCode] = useState(
         JSON.parse(localStorage.getItem(local_userCode)) || ""
+    );
+    const [department, setDepartment] = useState(
+        JSON.parse(localStorage.getItem(local_userDepartment)) || ""
     );
     const [service, setService] = useState(
         JSON.parse(localStorage.getItem(local_userService)) || "Nova Poshta"
@@ -29,19 +37,38 @@ const PurchaseForm = ({ buy, modal }) => {
     const [payment, setPayment] = useState(
         JSON.parse(localStorage.getItem(local_userPayment)) || "Card"
     );
+    const [deliveryType, setDeliveryType] = useState("department");
     const [message, setMessage] = useState("");
     const [memorize, setMemorize] = useState(true);
 
     const handleModal = (event) => {
         event.preventDefault();
         if (memorize) rememberUser();
-        buy({ name, phone, address, code, service, payment, message });
+        let params = {
+            name,
+            phone,
+            address,
+            service,
+            payment,
+            message,
+            deliveryType,
+            email,
+        };
+        console.log(params);
+        service === "Nova Poshta"
+            ? (params["department"] = department)
+            : (params["code"] = code);
+        buy({
+            ...params,
+        });
     };
     const rememberUser = () => {
         localStorage.setItem(local_userName, JSON.stringify(name));
         localStorage.setItem(local_userPhone, JSON.stringify(phone));
+        localStorage.setItem(local_userEmail, JSON.stringify(email));
         localStorage.setItem(local_userAddress, JSON.stringify(address));
         localStorage.setItem(local_userCode, JSON.stringify(code));
+        localStorage.setItem(local_userDepartment, JSON.stringify(department));
         localStorage.setItem(local_userService, JSON.stringify(service));
         localStorage.setItem(local_userPayment, JSON.stringify(payment));
     };
@@ -69,29 +96,12 @@ const PurchaseForm = ({ buy, modal }) => {
                 </div>
                 <div>
                     <Input
-                        name="tel"
-                        type="tel"
-                        value={phone}
-                        label="Enter your email number"
-                        change={setPhone}
+                        name="email"
+                        type="email"
+                        value={email}
+                        label="Enter your e-mail"
+                        change={setEmail}
                         required={true}
-                    />
-                </div>
-                <div>
-                    <Input
-                        name="address"
-                        value={address}
-                        label="Enter your delivery address"
-                        change={setAddress}
-                        required={true}
-                    />
-                </div>
-                <div>
-                    <Input
-                        name="postal_code"
-                        value={code}
-                        label="Enter your postal code"
-                        change={setCode}
                     />
                 </div>
                 <div>
@@ -99,15 +109,67 @@ const PurchaseForm = ({ buy, modal }) => {
                     <DropDown
                         defaultValue={service}
                         change={setService}
+                        optionsLabels={["Новая почта", "Укр почта"]}
                         options={["Nova Poshta", "Ukr Poshta"]}
                         searchable={false}
                     />
                 </div>
                 <div>
+                    <label className="service">Choose delivery type</label>
+                    <DropDown
+                        defaultValue={deliveryType}
+                        change={setDeliveryType}
+                        optionsLabels={["Отделение почты", "Курьер"]}
+                        options={["department", "courier"]}
+                        searchable={false}
+                    />
+                </div>
+                {deliveryType === "department" && service === "Nova Poshta" ? (
+                    <div>
+                        <Input
+                            name="address"
+                            value={address}
+                            label="Enter your post office address"
+                            change={setAddress}
+                            required={true}
+                        />
+                    </div>
+                ) : deliveryType === "department" &&
+                  service === "Ukr Poshta" ? null : (
+                    <div>
+                        <Input
+                            name="address"
+                            value={address}
+                            label="Enter your home address"
+                            change={setAddress}
+                            required={true}
+                        />
+                    </div>
+                )}
+                {deliveryType === "department" &&
+                    (service === "Ukr Poshta" ? (
+                        <div>
+                            <Input
+                                name="postal_code"
+                                value={code}
+                                label="Enter your postal code"
+                                change={setCode}
+                            />
+                        </div>
+                    ) : (
+                        <Input
+                            name="department"
+                            value={department}
+                            label="Enter your department"
+                            change={setDepartment}
+                        />
+                    ))}
+                <div>
                     <label className="service">Choose payment type</label>
                     <DropDown
                         defaultValue={payment}
                         change={setPayment}
+                        optionsLabels={["Карта", "Наличные"]}
                         options={["Card", "Cash"]}
                         searchable={false}
                     />

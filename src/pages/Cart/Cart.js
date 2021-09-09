@@ -30,6 +30,9 @@ const Cart = () => {
         service,
         payment,
         message,
+        department,
+        deliveryType,
+        email,
     }) =>
         axios
             .get(
@@ -46,11 +49,19 @@ const Cart = () => {
                                               ? `${item.discountPrice} грн. (со скидкой)`
                                               : `${item.price} грн.`
                                       }`
-                              )}\nПолучатель <b>${name}</b>:\nТелефон: <i>${phone}</i>\nАдрес: <i>${address}</i>\nПочтовый индекс: <i>${
-                                  code ?? "не выбран"
-                              }</i>\nТип почты: ${
+                              )}\n\nПолучатель <b>${name}</b>:\nТелефон: <i>${phone}</i>\n${
+                                  email && `E-mail: <i>${email}</i>`
+                              }\nТип Доставки: ${
+                                  deliveryType === "department"
+                                      ? "<i>Отделение почты</i>"
+                                      : "<i>Курьерская доставка</i>"
+                              }\nАдрес доставки: <i>${address}</i>\nТип почты: ${
                                   service ?? `не выбран`
-                              }\nТип платежа: <i>${payment}</i>\nОбщая сумма заказа: <b>${data.reduce(
+                              }\n${
+                                  code
+                                      ? `Почтовый индекс: <i>${code}</i>\n`
+                                      : `Отделение новой почты: <i>${department}</i>\n`
+                              }Тип платежа: <i>${payment}</i>\nОбщая сумма заказа: <b>${data.reduce(
                                   (acc, obj) => {
                                       return (
                                           acc +

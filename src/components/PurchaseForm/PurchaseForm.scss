@@ -9,13 +9,16 @@
     justify-content: center;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
     form {
-        overflow: scroll;
+        overflow-y: auto;
         width: 100%;
         max-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
         padding: 1.4rem 2.5rem;
+        .DropDown__content {
+            transform: translateX(30%);
+        }
         & > * {
             margin: 0.5rem 0;
         }

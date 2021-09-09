@@ -65,7 +65,11 @@ export const DropDown = (props) => {
     return (
         <div className={"DropDown " + key}>
             <button onClick={toggleDropDown} className="DropDown__button">
-                {defaultValue ? defaultValue : placeholder}
+                {defaultValue
+                    ? optionsLabels
+                        ? optionsLabels[options.indexOf(defaultValue)]
+                        : defaultValue
+                    : placeholder}
                 {visible ? (
                     <ArrowUpIcon viewbox="0 0 20 12" />
                 ) : (
