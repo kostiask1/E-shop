@@ -37,20 +37,20 @@ const Cart = () => {
                 {
                     params: {
                         text: data.length
-                            ? `<b>${name} has ordered:</b>${data.map(
+                            ? `<b>${name} заказал(а):</b>${data.map(
                                   (item) =>
                                       `\n<a href="${link}/${item.id}">${
                                           item.text
                                       }</a>: ${
                                           item.discountPrice
-                                              ? `${item.discountPrice} UAH (with discount)`
-                                              : `${item.price} UAH`
+                                              ? `${item.discountPrice} грн. (со скидкой)`
+                                              : `${item.price} грн.`
                                       }`
-                              )}\n\nSend to <b>${name}</b>:\nPhone: <i>${phone}</i>\nAddress: <i>${address}</i>\nIndex: <i>${
-                                  code ?? "unchosen"
-                              }</i>\nPrefered post service: ${
-                                  service ?? `unchosen`
-                              }\nPayment type: <i>${payment}</i>\nTotal price: <b>${data.reduce(
+                              )}\nПолучатель <b>${name}</b>:\nТелефон: <i>${phone}</i>\nАдрес: <i>${address}</i>\nПочтовый индекс: <i>${
+                                  code ?? "не выбран"
+                              }</i>\nТип почты: ${
+                                  service ?? `не выбран`
+                              }\nТип платежа: <i>${payment}</i>\nОбщая сумма заказа: <b>${data.reduce(
                                   (acc, obj) => {
                                       return (
                                           acc +
@@ -60,9 +60,9 @@ const Cart = () => {
                                       );
                                   },
                                   0
-                              )} UAH</b>\n${
+                              )} грн.</b>\n${
                                   message &&
-                                  `${name} has left message: "<i>${message}</i>"`
+                                  `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
                               }`
                             : null,
                         parse_mode: "HTML",
