@@ -41,7 +41,15 @@ export const DropDown = (props) => {
                 return option.includes(e.target.value);
             });
             setFilteredOptions(clone);
+            if (clone.length === 1) {
+                change(clone[0]);
+                setVisible(false);
+            }
         }, 350);
+        if (e.key === "Enter" && options.includes(+e.target.value)) {
+            change(e.target.value);
+            setVisible(false);
+        }
         return () => clearTimeout(timeOutId);
     };
 

@@ -17,6 +17,8 @@
         background-color: rgba(0, 0, 0, 0.5);
     }
     &-dialog {
+        display: flex;
+        align-items: center;
         position: relative;
         max-width: unset;
     }
@@ -24,11 +26,18 @@
         width: clamp(300px, 100%, 80vw);
         height: 90%;
     }
+    &-xl {
+        width: clamp(300px, 100%, 80vw);
+        height: 90%;
+        .modal-content {
+            height: 100%;
+        }
+    }
     &-content {
+        width: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        height: 100%;
     }
     &-body {
         background-color: var(--main);

@@ -243,7 +243,7 @@ const ItemCreator = (props) => {
                                         className="btn btn-primary btn-expanded"
                                         htmlFor="loadFile"
                                     >
-                                        Load file &nbsp;{" "}
+                                        Load file &nbsp;&nbsp;&nbsp;
                                         <UploadIcon
                                             fill="var(--main)"
                                             height="1.4em"
@@ -263,7 +263,7 @@ const ItemCreator = (props) => {
                                         className="btn btn-primary btn-expanded"
                                         onClick={(e) => loadGallery(e)}
                                     >
-                                        Browse gallery&nbsp;
+                                        Browse gallery&nbsp;&nbsp;
                                         <ImageIcon
                                             fill="var(--main)"
                                             width="1.6em"
@@ -422,7 +422,7 @@ const ItemCreator = (props) => {
                 </div>
             </div>
 
-            <Modal ref={modal} size="fullscreen">
+            <Modal ref={modal} size="xl">
                 <div
                     className={`modal-wrapper ${
                         drag || !gallery.length ? "dragging" : ""
@@ -473,7 +473,7 @@ const ItemCreator = (props) => {
                             className="btn btn-success btn-expanded"
                             htmlFor="loadFile"
                         >
-                            Load file&nbsp;&nbsp;
+                            Load file&nbsp;&nbsp;&nbsp;&nbsp;
                             <UploadIcon
                                 fill="var(--main)"
                                 height="1.4em"

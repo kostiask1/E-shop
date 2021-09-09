@@ -17,7 +17,7 @@ const Modal = lazy(() => import("../../components/Modal/Modal"));
 const Cart = () => {
     const { data, getById, clearStorage, getStorage } =
         useContext(catalogContext);
-    const [loading, setLoading] = useState("Loading cart");
+    const [loading, setLoading] = useState("");
     const [redirect, setRedirect] = useState(false);
     const link = "https://" + window.location.hostname + "/catalog";
     const modal = useRef(null);
@@ -53,7 +53,10 @@ const Cart = () => {
                               }\nPayment type: <i>${payment}</i>\nTotal price: <b>${data.reduce(
                                   (acc, obj) => {
                                       return (
-                                          acc + obj.discountPrice ?? obj.price
+                                          acc +
+                                          (obj.discountPrice
+                                              ? obj.discountPrice
+                                              : obj.price)
                                       );
                                   },
                                   0
@@ -82,9 +85,7 @@ const Cart = () => {
                         (prev = (
                             <div className="fade-in">
                                 <h1>Cart is empty</h1>
-                                <NavLink to="/catalog">
-                                    Go back shoping ->
-                                </NavLink>
+                                <NavLink to="/catalog">Go back shoping</NavLink>
                             </div>
                         ))
                 ),
@@ -114,9 +115,10 @@ const Cart = () => {
                 {data && data.length > 0 ? (
                     <div style={{ width: "100%" }}>
                         <div className="catalog">
-                            {data.map((item) => (
+                            {data.map((item, index) => (
                                 <ShopItem
                                     key={item.id}
+                                    index={index}
                                     id={item.id}
                                     text={item.text}
                                     image={item.image}
@@ -131,6 +133,17 @@ const Cart = () => {
                                 ></ShopItem>
                             ))}
                         </div>
+                        <p className="total-price">
+                            {data.reduce(
+                                (acc, obj) =>
+                                    acc +
+                                    (obj.discountPrice
+                                        ? obj.discountPrice
+                                        : obj.price),
+                                0
+                            )}
+                            &nbsp;Uah's to pay
+                        </p>
                         <button
                             className="btn btn-success"
                             onClick={() => modal.current.open()}

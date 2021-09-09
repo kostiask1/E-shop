@@ -44,22 +44,22 @@ const Navigation = () => {
                             {SHOP_NAME}
                         </RLink>
                         <ul className="navbar-nav">
-                            <li className="nav-item">
-                                <RLink to="/cart">
-                                    <img
-                                        src="/cart.png"
-                                        alt=""
-                                        width="30"
-                                        height="30"
-                                        style={{
-                                            filter: "brightness(0%)",
-                                        }}
-                                    />
-                                    {storage.length > 0 && (
+                            {storage.length > 0 && (
+                                <li className="nav-item pop-in">
+                                    <RLink to="/cart">
+                                        <img
+                                            src="/cart.png"
+                                            alt=""
+                                            width="30"
+                                            height="30"
+                                            style={{
+                                                filter: "brightness(0%)",
+                                            }}
+                                        />
                                         <span>{storage.length}</span>
-                                    )}
-                                </RLink>
-                            </li>
+                                    </RLink>
+                                </li>
+                            )}
                             <NavLinks
                                 width={width}
                                 routes={routes}
