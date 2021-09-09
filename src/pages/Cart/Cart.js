@@ -19,8 +19,7 @@ const Cart = () => {
         useContext(catalogContext);
     const [loading, setLoading] = useState("Loading cart");
     const [redirect, setRedirect] = useState(false);
-    //const link = "https://"+window.location.hostname+"/catalog";
-    const link = "https://e-shop-d051e.web.app/catalog";
+    const link = "https://" + window.location.hostname + "/catalog";
     const modal = useRef(null);
 
     const sendRequest = ({
@@ -34,7 +33,7 @@ const Cart = () => {
     }) =>
         axios
             .get(
-                "https://api.telegram.org/bot1967107151:AAEok-UReU_z4E4ntFBIp3jbKCk9v-uYbhE/sendMessage?chat_id=-494447850",
+                `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
                 {
                     params: {
                         text: data.length
@@ -60,7 +59,7 @@ const Cart = () => {
                                   0
                               )} UAH</b>\n${
                                   message &&
-                                  `User left message: "<i>${message}</i>"`
+                                  `${name} has left message: "<i>${message}</i>"`
                               }`
                             : null,
                         parse_mode: "HTML",
