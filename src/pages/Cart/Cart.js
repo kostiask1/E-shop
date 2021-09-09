@@ -24,33 +24,55 @@ const Cart = () => {
     const modal = useRef(null);
 
     const sendRequest = ({
-        data: items,
         name,
-        index,
+        code,
         phone,
         address,
         service,
         payment,
+        message,
     }) =>
-        axios.get(
-            "https://api.telegram.org/bot1967107151:AAEok-UReU_z4E4ntFBIp3jbKCk9v-uYbhE/sendMessage?chat_id=-494447850",
-            {
-                params: {
-                    text: items.length
-                        ? `<b>${name} has ordered:</b>${items.map(
-                              (item) =>
-                                  `\n<a href="${link}/${item.id}">${item.text}</a>: ${item.price} UAH`
-                          )}\n\nSend to <b>${name}</b>:\nPhone: <i>${phone}"
-                          }</i>\nAddress: <i>${address}</i>\nIndex: <i>${
-                              index ?? "unchosen"
-                          }</i>\nPrefered post service: ${
-                              service ?? `unchosen`
-                          }\nPayment type: <i>${payment}`
-                        : null,
-                    parse_mode: "HTML",
-                },
-            }
-        );
+        axios
+            .get(
+                "https://api.telegram.org/bot1967107151:AAEok-UReU_z4E4ntFBIp3jbKCk9v-uYbhE/sendMessage?chat_id=-494447850",
+                {
+                    params: {
+                        text: data.length
+                            ? `<b>${name} has ordered:</b>${data.map(
+                                  (item) =>
+                                      `\n<a href="${link}/${item.id}">${
+                                          item.text
+                                      }</a>: ${
+                                          item.discountPrice
+                                              ? `${item.discountPrice} UAH (with discount)`
+                                              : `${item.price} UAH`
+                                      }`
+                              )}\n\nSend to <b>${name}</b>:\nPhone: <i>${phone}</i>\nAddress: <i>${address}</i>\nIndex: <i>${
+                                  code ?? "unchosen"
+                              }</i>\nPrefered post service: ${
+                                  service ?? `unchosen`
+                              }\nPayment type: <i>${payment}</i>\nTotal price: <b>${data.reduce(
+                                  (acc, obj) => {
+                                      return (
+                                          acc + obj.discountPrice ?? obj.price
+                                      );
+                                  },
+                                  0
+                              )} UAH</b>\n${
+                                  message &&
+                                  `User left message: "<i>${message}</i>"`
+                              }`
+                            : null,
+                        parse_mode: "HTML",
+                    },
+                }
+            )
+            .then((response) => {
+                if (response.status === 200) {
+                    modal.current.close();
+                    handleClean();
+                }
+            });
 
     useEffect(() => {
         getCart();
@@ -84,10 +106,6 @@ const Cart = () => {
             setRedirect(true);
         });
     };
-
-    const buyAll = () => {
-        sendRequest({ data, name: "John", index: null });
-    };
     if (redirect) {
         return <Redirect to="/catalog" />;
     }
@@ -106,6 +124,7 @@ const Cart = () => {
                                     category={item.category}
                                     description={item.description}
                                     price={item.price}
+                                    discountPrice={item.discountPrice}
                                     inCart={true}
                                     functions={{
                                         getCart,
@@ -132,7 +151,7 @@ const Cart = () => {
             </div>
             <Suspense fallback={<p></p>}>
                 <Modal ref={modal}>
-                    <PurchaseForm buy={buyAll} />
+                    <PurchaseForm buy={sendRequest} />
                 </Modal>
             </Suspense>
         </div>

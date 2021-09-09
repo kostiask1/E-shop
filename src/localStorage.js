@@ -13,3 +13,4 @@ export const local_userPhone = `${SHOP_NAME}_userPhone`;
 export const local_userAddress = `${SHOP_NAME}_userAddress`;
 export const local_userCode = `${SHOP_NAME}_userCode`;
 export const local_userService = `${SHOP_NAME}_userService`;
+export const local_userPayment = `${SHOP_NAME}_userPayment`;
