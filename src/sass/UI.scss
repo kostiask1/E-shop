@@ -81,6 +81,10 @@ button {
     aspect-ratio: 4 / 3;
     object-fit: contain;
 }
+.page .carousel.carousel-slider .control-arrow {
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.1);
+}
 .slide {
     cursor: pointer;
 }

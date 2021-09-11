@@ -30,6 +30,7 @@
         margin-right: 0.7rem;
     }
     .img {
+        position: relative;
         max-width: 60%;
     }
     .item-preview {
@@ -48,4 +49,8 @@
     select {
         width: 100%;
     }
+}
+.modal .item-creator {
+    overflow: scroll;
+    height: 85vh;
 }
