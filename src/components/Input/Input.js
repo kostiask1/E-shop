@@ -3,6 +3,7 @@ import "./Input.scss";
 
 const Input = (props) => {
     const {
+        className,
         name,
         type,
         label,
@@ -12,6 +13,7 @@ const Input = (props) => {
         placeholder,
         required,
         symbol,
+        symbolClick,
         important,
     } = props;
     const values =
@@ -27,9 +29,13 @@ const Input = (props) => {
                     {label}
                 </label>
             ) : null}
-            <div className="input-component-wrapper">
+            <div
+                className={`input-component-wrapper${
+                    symbol ? " input-component-wrapper-with-symbol" : ""
+                }`}
+            >
                 <input
-                    className="input-component"
+                    className={`${className ?? ""} input-component`}
                     type={type ?? "text"}
                     {...values}
                     placeholder={placeholder ?? ""}
@@ -37,12 +43,25 @@ const Input = (props) => {
                     name={name ?? "input"}
                     required={required ? "required" : false}
                 />
-                <span
-                    className="input-component"
-                    style={!symbol ? { borderLeft: "unset" } : null}
-                >
-                    {symbol ?? "\u00a0"}
-                </span>
+                {symbol && (
+                    <span
+                        onClick={() =>
+                            props.hasOwnProperty("symbolClick")
+                                ? symbolClick()
+                                : false
+                        }
+                        className="input-component"
+                        style={
+                            props.hasOwnProperty("symbolClick")
+                                ? {
+                                      cursor: "pointer",
+                                  }
+                                : {}
+                        }
+                    >
+                        {symbol}
+                    </span>
+                )}
             </div>
         </>
     );

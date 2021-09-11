@@ -7,6 +7,8 @@ import { DropDown } from "../DropDown/DropDown";
 import Input from "../Input/Input";
 import { DeleteIcon, UploadIcon, ImageIcon } from "../../icons";
 import ShopItem from "../ShopItem/ShopItem";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -14,7 +16,7 @@ const ItemCreator = (props) => {
         props.filters || props.new ? "Add item to shop" : "Update item";
     const [filters, setFilters] = useState(props.filters || []);
     const [title, setTitle] = useState(props.title || "");
-    const [image, setImage] = useState(props.image || "");
+    const [imagesArray, setImagesArray] = useState(props.imagesArray || [""]);
     const [description, setDescription] = useState(props.description || "");
     const [category, setCategory] = useState(props.category || "");
     const [drag, setDrag] = useState(false);
@@ -62,7 +64,7 @@ const ItemCreator = (props) => {
     const clearInputs = (e) => {
         if (e) e.preventDefault();
         setTitle(props.title ?? "");
-        setImage(props.image ?? "");
+        setImagesArray(props.imagesArray ?? "");
         setDescription(props.description ?? "");
         setPrice(props.price ?? "");
         setDiscountPrice(props.discountPrice ?? "");
@@ -80,7 +82,7 @@ const ItemCreator = (props) => {
         const data = {
             category,
             id,
-            image,
+            imagesArray,
             price: +price,
             discountPrice: +discountPrice,
             description,
@@ -100,22 +102,28 @@ const ItemCreator = (props) => {
             });
     };
 
-    const loadImage = async (e) => {
+    const loadImages = async (e) => {
         try {
-            const file = e;
+            let files = Array.from(e);
+            let links = [];
             const storageRef = app.storage().ref().child("images");
-            const fileRef = storageRef.child(file.name);
-            await fileRef.put(file);
-            const fileUrl = await fileRef.getDownloadURL();
-            if (modal.current.visible.current) {
-                loadGallery();
-            }
-            setImage(fileUrl);
+            let requests = Promise.all(
+                files.map(async (file) => {
+                    const fileRef = storageRef.child(file.name);
+                    await fileRef.put(file);
+                    links.push(await fileRef.getDownloadURL());
+                })
+            );
+            requests.then(() => {
+                setImagesArray(links);
+                if (modal.current.visible.current) {
+                    loadGallery();
+                }
+            });
         } catch (err) {
             console.error(err);
         }
     };
-
     const deleteImage = async (file) => {
         const storageRef = app.storage();
         storageRef
@@ -124,6 +132,9 @@ const ItemCreator = (props) => {
             .then(() => {
                 loadGallery();
             });
+    };
+    const clearImages = () => {
+        setImagesArray([]);
     };
 
     const loadGallery = async (e) => {
@@ -165,22 +176,13 @@ const ItemCreator = (props) => {
         e.preventDefault();
         try {
             let files = [...e.dataTransfer.files];
-            const storageRef = app.storage().ref().child("images");
-            let requests = Promise.all(
-                files.map((file) => {
-                    const fileRef = storageRef.child(file.name);
-                    return fileRef.put(file);
-                })
-            );
-            requests.then(() => {
+            loadImages(files).then(() => {
                 setDrag(false);
-                loadGallery();
             });
         } catch (err) {
             console.log(err);
         }
     };
-
     const handleDiscountPercent = (percent) => {
         percent = +percent;
         if (percent && percent > 0) {
@@ -210,6 +212,26 @@ const ItemCreator = (props) => {
             setTab("big");
         }
     };
+    const handleImageSet = (index, url) => {
+        setImagesArray((prevArray) =>
+            prevArray.splice(prevArray.splice(index, 1, url))
+        );
+    };
+    const deleteImg = (index) => {
+        setImagesArray((prevArray) =>
+            prevArray.splice(prevArray.splice(index, 1))
+        );
+    };
+    const addToImgArray = (event) => {
+        event.preventDefault();
+        setImagesArray((prevArray) => prevArray.concat(""));
+    };
+    const swapItems = (event, a, b) => {
+        event.preventDefault();
+        let clone = [...imagesArray];
+        [clone[a], clone[b]] = [clone[b], clone[a]];
+        setImagesArray(clone);
+    };
     return (
         <div className="item-creator">
             <div className="row">
@@ -228,50 +250,93 @@ const ItemCreator = (props) => {
                                     required
                                 />
                             </div>
+                            {imagesArray.map((img, index) => (
+                                <React.Fragment key={img + index}>
+                                    <div>
+                                        <Input
+                                            type="text"
+                                            name="image"
+                                            value={imagesArray[index]}
+                                            placeholder="ImageURL"
+                                            change={handleImageSet.bind(
+                                                null,
+                                                index
+                                            )}
+                                            symbol={
+                                                <DeleteIcon width=".7rem" />
+                                            }
+                                            symbolClick={deleteImg.bind(
+                                                null,
+                                                index
+                                            )}
+                                            required={
+                                                index === 0 ? true : false
+                                            }
+                                        />
+                                    </div>
+                                    {++index < imagesArray.length && (
+                                        <div className="swap-wrap">
+                                            <button
+                                                className="btn btn-sm"
+                                                onClick={(e) =>
+                                                    swapItems(
+                                                        e,
+                                                        --index,
+                                                        ++index
+                                                    )
+                                                }
+                                            >
+                                                swap
+                                            </button>
+                                        </div>
+                                    )}
+                                </React.Fragment>
+                            ))}
                             <div>
-                                <Input
-                                    type="text"
-                                    name="image"
-                                    value={image}
-                                    placeholder="ImageURL"
-                                    change={setImage}
-                                    symbol="URL"
-                                    required
-                                />
-                                <div>
-                                    <label
-                                        className="btn btn-primary btn-expanded"
-                                        htmlFor="loadFile"
-                                    >
-                                        Load file &nbsp;&nbsp;&nbsp;
-                                        <UploadIcon
-                                            fill="var(--main)"
-                                            height="1.4em"
-                                            viewbox="0 0 20 24"
-                                        />
-                                    </label>
-                                    <input
-                                        className="hidden"
-                                        type="file"
-                                        name="loadFile"
-                                        id="loadFile"
-                                        onChange={(e) =>
-                                            loadImage(e.target.files[0])
-                                        }
+                                <button className="btn" onClick={addToImgArray}>
+                                    Add img
+                                </button>
+                            </div>
+                            <div>
+                                <label
+                                    className="btn btn-primary btn-expanded"
+                                    htmlFor="loadFile"
+                                >
+                                    Load file &nbsp;&nbsp;&nbsp;
+                                    <UploadIcon
+                                        fill="var(--main)"
+                                        height="1.4em"
+                                        viewbox="0 0 20 24"
                                     />
-                                    <button
-                                        className="btn btn-primary btn-expanded"
-                                        onClick={(e) => loadGallery(e)}
-                                    >
-                                        Browse gallery&nbsp;&nbsp;
-                                        <ImageIcon
-                                            fill="var(--main)"
-                                            width="1.6em"
-                                            height="1.2em"
-                                            viewbox="0 0 20 22"
-                                        />
-                                    </button>
-                                </div>
+                                </label>
+                                <input
+                                    className="hidden"
+                                    type="file"
+                                    name="loadFile"
+                                    id="loadFile"
+                                    multiple="multiple"
+                                    onChange={(e) => loadImages(e.target.files)}
+                                />
+                                <button
+                                    className="btn btn-primary btn-expanded"
+                                    onClick={(e) => loadGallery(e)}
+                                >
+                                    Browse gallery&nbsp;&nbsp;
+                                    <ImageIcon
+                                        fill="var(--main)"
+                                        width="1.6em"
+                                        height="1.2em"
+                                        viewbox="0 0 20 22"
+                                    />
+                                </button>
+                            </div>
+                            <div>
+                                <button
+                                    className="btn btn-danger btn-expanded"
+                                    onClick={clearImages}
+                                >
+                                    Clear images
+                                </button>
                             </div>
                             <div>
                                 <textarea
@@ -372,7 +437,7 @@ const ItemCreator = (props) => {
                             <ShopItem
                                 id={id}
                                 text={title}
-                                image={image}
+                                imagesArray={imagesArray}
                                 category={category}
                                 description={description}
                                 price={price}
@@ -381,18 +446,39 @@ const ItemCreator = (props) => {
                             />
                         ) : (
                             <>
-                                {image && (
+                                {imagesArray && (
                                     <div className="img">
                                         {discountPercent && (
                                             <span className="price-discount">
                                                 {discountPercent}%
                                             </span>
                                         )}
-                                        <img
-                                            src={image}
-                                            className="img-fluid"
-                                            alt={title ?? ""}
-                                        />
+                                        {imagesArray &&
+                                        imagesArray.length > 1 ? (
+                                            <Carousel
+                                                showStatus={false}
+                                                infiniteLoop={true}
+                                                emulateTouch={true}
+                                            >
+                                                {imagesArray.map((img) => (
+                                                    <img
+                                                        src={img}
+                                                        className="img-fluid"
+                                                        alt={title}
+                                                        key={img}
+                                                    />
+                                                ))}
+                                            </Carousel>
+                                        ) : (
+                                            <img
+                                                src={
+                                                    imagesArray &&
+                                                    imagesArray[0]
+                                                }
+                                                className="img-fluid"
+                                                alt={title}
+                                            />
+                                        )}
                                     </div>
                                 )}
                                 <div className="text-info">
@@ -458,7 +544,9 @@ const ItemCreator = (props) => {
                                         src={img}
                                         alt=""
                                         onClick={() => {
-                                            setImage(img);
+                                            setImagesArray((prevArray) =>
+                                                prevArray.concat(img)
+                                            );
                                             modal.current.close();
                                         }}
                                     />
@@ -485,7 +573,7 @@ const ItemCreator = (props) => {
                             type="file"
                             name="loadFile"
                             id="loadFile"
-                            onChange={(e) => loadImage(e.target.files[0])}
+                            onChange={(e) => loadImages(e.target.files)}
                         />
                         <button
                             className="btn btn-primary"

@@ -3,7 +3,6 @@
     .img {
         width: 45%;
         img {
-            padding: 2rem;
             border-radius: 10px;
             box-shadow: 0px 0px 20px 1px rgba(0, 0, 0, 0.1);
         }
@@ -18,5 +17,8 @@
     .cart-delete {
         margin-left: unset;
         margin-top: 0.6rem;
+    }
+    .carousel.carousel-slider .control-arrow {
+        padding: 1rem;
     }
 }

@@ -42,23 +42,25 @@ const FilterSection = (props) => {
                     : null}
             </div>
             <div className="price__filters">
-                <input
+                <Input
                     className={`${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="number"
                     placeholder="Min"
+                    important="defaultValue"
                     defaultValue={minPrice ? minPrice : ""}
-                    onChange={(e) => handleMin(e.target.value)}
+                    change={handleMin}
                 />
-                <input
+                <Input
                     className={`${
                         minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
                     }`}
                     type="number"
                     placeholder="Max"
+                    important="defaultValue"
                     defaultValue={maxPrice ? maxPrice : ""}
-                    onChange={(e) => handleMax(e.target.value)}
+                    change={handleMax}
                 />
             </div>
             <button className="btn btn-warning" onClick={resetFilters}>

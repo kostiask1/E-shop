@@ -28,6 +28,13 @@ button {
     border-radius: 4px;
     font-size: 1rem;
     color: var(--main);
+    &-sm {
+        font-size: 0.7em;
+        color: var(--mainContrast);
+        background-color: transparent;
+        padding: 0;
+        border: none;
+    }
     &-expanded {
         padding-right: 1.3rem;
         svg {
@@ -73,6 +80,9 @@ button {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: contain;
+}
+.slide {
+    cursor: pointer;
 }
 ::-webkit-scrollbar {
     width: 8px;

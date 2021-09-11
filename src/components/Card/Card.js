@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import InCart from "../InCart/InCart";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Card.scss";
 
 const Card = (match) => {
@@ -22,7 +24,8 @@ const Card = (match) => {
     }, []);
 
     if (data && data.length === 1) {
-        const { text, image, price, description, discountPrice } = data[0];
+        const { text, imagesArray, price, description, discountPrice } =
+            data[0];
         const discountPercent =
             discountPrice && 100 - Math.ceil((discountPrice / price) * 100);
         return (
@@ -36,11 +39,28 @@ const Card = (match) => {
                                         {discountPercent}%
                                     </span>
                                 ) : null}
-                                <img
-                                    src={image}
-                                    className="img-fluid"
-                                    alt={text}
-                                />
+                                {imagesArray && imagesArray.length > 1 ? (
+                                    <Carousel
+                                        showStatus={false}
+                                        infiniteLoop={true}
+                                        emulateTouch={true}
+                                    >
+                                        {imagesArray.map((img) => (
+                                            <img
+                                                src={img}
+                                                className="img-fluid"
+                                                alt={text}
+                                                key={img}
+                                            />
+                                        ))}
+                                    </Carousel>
+                                ) : (
+                                    <img
+                                        src={imagesArray && imagesArray[0]}
+                                        className="img-fluid"
+                                        alt={text}
+                                    />
+                                )}
                             </div>
                             <div className="text-info">
                                 <h1>{text}</h1>

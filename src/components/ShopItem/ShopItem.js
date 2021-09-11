@@ -13,6 +13,9 @@ import { authContext } from "../../context/Auth/auth-context";
 import InCart from "../InCart/InCart";
 import "./ShopItem.scss";
 import { DeleteIcon, EditIcon } from "../../icons";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { useHistory } from "react-router-dom";
 const Modal = lazy(() => import("../Modal/Modal"));
 const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
 const db = app.firestore();
@@ -24,7 +27,7 @@ const ShopItem = (props) => {
         page,
         id,
         index,
-        image,
+        imagesArray,
         text,
         price,
         discountPrice,
@@ -40,6 +43,8 @@ const ShopItem = (props) => {
     const [selected, setSelected] = useState(
         deleteArray && deleteArray.includes(id) ? true : false
     );
+    const history = useHistory();
+    const [mouseMoved, setMouseMoved] = useState(false);
     const modal = useRef(null);
 
     useEffect(() => {
@@ -65,6 +70,11 @@ const ShopItem = (props) => {
         event.preventDefault();
         setSelected(!selected);
         handleDeleteArray(id);
+    };
+    const handleClick = () => {
+        if (!mouseMoved && !disabledControls) {
+            history.push("/catalog/" + id);
+        }
     };
 
     return (
@@ -121,14 +131,37 @@ const ShopItem = (props) => {
                             </div>
                         ) : null}
                     </div>
-
-                    <Link to={"/catalog/" + id}>
-                        <img
-                            src={image}
-                            className="item-img img-fluid"
-                            alt={text}
-                        />
-                    </Link>
+                    {imagesArray && imagesArray.length > 1 ? (
+                        <Carousel
+                            showThumbs={false}
+                            showStatus={false}
+                            infiniteLoop={true}
+                            emulateTouch={true}
+                        >
+                            {imagesArray.map((img) => (
+                                <div
+                                    onMouseMove={() => setMouseMoved(true)}
+                                    onMouseDown={() => setMouseMoved(false)}
+                                    onMouseUp={() => handleClick()}
+                                    key={img}
+                                >
+                                    <img
+                                        src={img}
+                                        className="item-img img-fluid"
+                                        alt={text}
+                                    />
+                                </div>
+                            ))}
+                        </Carousel>
+                    ) : (
+                        <Link to={!disabledControls && "/catalog/" + id}>
+                            <img
+                                src={imagesArray && imagesArray[0]}
+                                className="item-img img-fluid"
+                                alt={text}
+                            />
+                        </Link>
+                    )}
                     <div className="item-body">
                         <p>{text}</p>
                         <div>
@@ -161,7 +194,7 @@ const ShopItem = (props) => {
                     <Modal ref={modal} size="lg">
                         <ItemCreator
                             title={text}
-                            image={image}
+                            imagesArray={imagesArray}
                             id={id}
                             description={description}
                             price={price}

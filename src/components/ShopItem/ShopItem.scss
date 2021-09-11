@@ -20,6 +20,9 @@
         max-width: 400px;
         height: 100%;
     }
+    .carousel.carousel-slider .control-arrow {
+        padding: 1rem;
+    }
     a,
     .a {
         overflow: hidden;
@@ -36,6 +39,7 @@
         top: 0;
         position: absolute;
         width: 100%;
+        z-index: 1;
     }
     &-control {
         cursor: pointer;
@@ -113,6 +117,7 @@
         height: 60px;
         background: linear-gradient(165deg, red 50%, transparent 53%);
         filter: drop-shadow(1px 2px 5px rgba(120, 0, 0, 0.55));
+        z-index: 1;
     }
 }
 .img {

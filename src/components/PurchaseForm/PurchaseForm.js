@@ -32,7 +32,7 @@ const PurchaseForm = ({ buy, modal }) => {
         JSON.parse(localStorage.getItem(local_userDepartment)) || ""
     );
     const [service, setService] = useState(
-        JSON.parse(localStorage.getItem(local_userService)) || "Nova Poshta"
+        JSON.parse(localStorage.getItem(local_userService)) || "nova"
     );
     const [payment, setPayment] = useState(
         JSON.parse(localStorage.getItem(local_userPayment)) || "Card"
@@ -54,13 +54,10 @@ const PurchaseForm = ({ buy, modal }) => {
             deliveryType,
             email,
         };
-        console.log(params);
-        service === "Nova Poshta"
+        service === "nova"
             ? (params["department"] = department)
             : (params["code"] = code);
-        buy({
-            ...params,
-        });
+        //buy(params);
     };
     const rememberUser = () => {
         localStorage.setItem(local_userName, JSON.stringify(name));
@@ -110,7 +107,7 @@ const PurchaseForm = ({ buy, modal }) => {
                         defaultValue={service}
                         change={setService}
                         optionsLabels={["Новая почта", "Укр почта"]}
-                        options={["Nova Poshta", "Ukr Poshta"]}
+                        options={["nova", "ukr"]}
                         searchable={false}
                     />
                 </div>
@@ -124,7 +121,7 @@ const PurchaseForm = ({ buy, modal }) => {
                         searchable={false}
                     />
                 </div>
-                {deliveryType === "department" && service === "Nova Poshta" ? (
+                {deliveryType === "department" && service === "nova" ? (
                     <div>
                         <Input
                             name="address"
@@ -135,7 +132,7 @@ const PurchaseForm = ({ buy, modal }) => {
                         />
                     </div>
                 ) : deliveryType === "department" &&
-                  service === "Ukr Poshta" ? null : (
+                  service === "ukr" ? null : (
                     <div>
                         <Input
                             name="address"
@@ -147,21 +144,25 @@ const PurchaseForm = ({ buy, modal }) => {
                     </div>
                 )}
                 {deliveryType === "department" &&
-                    (service === "Ukr Poshta" ? (
+                    (service === "ukr" ? (
                         <div>
                             <Input
+                                type="number"
                                 name="postal_code"
                                 value={code}
                                 label="Enter your postal code"
                                 change={setCode}
+                                required={true}
                             />
                         </div>
                     ) : (
                         <Input
+                            type="number"
                             name="department"
                             value={department}
                             label="Enter your department"
                             change={setDepartment}
+                            required={true}
                         />
                     ))}
                 <div>
@@ -187,7 +188,7 @@ const PurchaseForm = ({ buy, modal }) => {
                 </div>
 
                 <div className="memorize-wrap">
-                    <label htmlFor="memorize">Remember me</label>
+                    <label htmlFor="memorize">Remember my creadentials</label>
                     <input
                         className="memorize"
                         id="memorize"

@@ -1,16 +1,9 @@
 input.input-component {
     display: inline-block;
-    border-right: unset;
+    border: 1px solid var(--gray);
     padding: 0.5rem 0.6rem;
     padding-bottom: 0.25rem;
-    border-radius: 4px 0px 0px 4px;
-    width: 82%;
-}
-.input-component-wrapper {
-    margin: 0 !important;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
+    border-radius: 4px;
 }
 span.input-component {
     display: flex;
@@ -24,4 +17,17 @@ span.input-component {
     font-size: 0.7rem;
     width: 18%;
     line-height: 0;
+}
+.input-component-wrapper {
+    margin: 0 !important;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    border-radius: 4px 0px 0px 4px;
+    &-with-symbol {
+        input {
+            border-right: unset;
+            width: 82%;
+        }
+    }
 }

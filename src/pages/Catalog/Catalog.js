@@ -196,6 +196,9 @@ const Catalog = () => {
                                                     index={index}
                                                     id={item.id}
                                                     text={item.text}
+                                                    imagesArray={
+                                                        item.imagesArray
+                                                    }
                                                     image={item.image}
                                                     category={item.category}
                                                     description={

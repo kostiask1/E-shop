@@ -1,5 +1,16 @@
 .cart {
     padding: 2rem 0;
+    .catalog {
+        display: flex;
+        flex-wrap: wrap;
+        grid-gap: 1.5rem;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        .item-wrapper {
+            flex: 1 0 250px;
+            max-width: 400px;
+        }
+    }
     .btn {
         &-success {
             margin-right: 1rem;

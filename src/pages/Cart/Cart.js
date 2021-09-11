@@ -56,7 +56,9 @@ const Cart = () => {
                                       ? "<i>Отделение почты</i>"
                                       : "<i>Курьерская доставка</i>"
                               }\nАдрес доставки: <i>${address}</i>\nТип почты: ${
-                                  service ?? `не выбран`
+                                  service === "nova"
+                                      ? "Нова пошта"
+                                      : "Укр пошта"
                               }\n${
                                   code
                                       ? `Почтовый индекс: <i>${code}</i>\n`
@@ -132,7 +134,7 @@ const Cart = () => {
                                     index={index}
                                     id={item.id}
                                     text={item.text}
-                                    image={item.image}
+                                    imagesArray={item.imagesArray}
                                     category={item.category}
                                     description={item.description}
                                     price={item.price}
@@ -153,7 +155,7 @@ const Cart = () => {
                                         : obj.price),
                                 0
                             )}
-                            &nbsp;Uah's to pay
+                            &nbsp;Uah's to pay (+ delivery)
                         </p>
                         <button
                             className="btn btn-success"

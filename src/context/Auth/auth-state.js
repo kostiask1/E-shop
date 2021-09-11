@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import axios from "axios";
 import { authReducer } from "./auth-reducer";
 import { authContext } from "./auth-context";
@@ -11,13 +11,6 @@ export const AuthState = ({ children }) => {
     const initialState = {
         admin: false,
     };
-    useEffect(() => {
-        window.addEventListener("storage", auth);
-        return () => {
-            window.removeEventListener("storage", auth);
-        };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     const [state, dispatch] = useReducer(authReducer, initialState);
     const encryptWithCryptoJS = (plainText) => {
         const key = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
