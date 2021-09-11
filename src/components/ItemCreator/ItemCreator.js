@@ -134,7 +134,7 @@ const ItemCreator = (props) => {
             });
     };
     const clearImages = () => {
-        setImagesArray([]);
+        setImagesArray([""]);
     };
 
     const loadGallery = async (e) => {

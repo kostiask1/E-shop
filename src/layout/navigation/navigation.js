@@ -95,7 +95,7 @@ const Navigation = () => {
                             <li className="nav-item">
                                 <a
                                     className="nav-link"
-                                    href="https://www.instagram.com/apollin_ko_shop/"
+                                    href="https://www.instagram.com/apollinko_shop/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >

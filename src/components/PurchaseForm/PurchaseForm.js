@@ -57,7 +57,7 @@ const PurchaseForm = ({ buy, modal }) => {
         service === "nova"
             ? (params["department"] = department)
             : (params["code"] = code);
-        //buy(params);
+        buy(params);
     };
     const rememberUser = () => {
         localStorage.setItem(local_userName, JSON.stringify(name));

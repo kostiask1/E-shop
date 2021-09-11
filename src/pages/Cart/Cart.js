@@ -63,7 +63,9 @@ const Cart = () => {
                                   code
                                       ? `Почтовый индекс: <i>${code}</i>\n`
                                       : `Отделение новой почты: <i>${department}</i>\n`
-                              }Тип платежа: <i>${payment}</i>\nОбщая сумма заказа: <b>${data.reduce(
+                              }Тип платежа: <i>${
+                                  payment === "Cash" ? "Наличными" : "Картой"
+                              }</i>\nОбщая сумма заказа: <b>${data.reduce(
                                   (acc, obj) => {
                                       return (
                                           acc +
