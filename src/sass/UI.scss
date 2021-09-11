@@ -81,9 +81,19 @@ button {
     aspect-ratio: 4 / 3;
     object-fit: contain;
 }
-.page .carousel.carousel-slider .control-arrow {
-    padding: 1rem;
-    background-color: rgba(0, 0, 0, 0.1);
+.page .carousel.carousel-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .control-dots {
+        width: unset;
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 100px;
+    }
+    .control-arrow {
+        padding: 0.8rem;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
 }
 .slide {
     cursor: pointer;
