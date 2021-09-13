@@ -19,6 +19,7 @@ const Cart = () => {
         useContext(catalogContext);
     const [loading, setLoading] = useState("");
     const [redirect, setRedirect] = useState(false);
+    const [requestFinished, setRequestFinished] = useState(false);
     const link = "https://" + window.location.hostname + "/catalog";
     const modal = useRef(null);
 
@@ -86,8 +87,9 @@ const Cart = () => {
             )
             .then((response) => {
                 if (response.status === 200) {
-                    modal.current.close();
-                    handleClean();
+                    setRequestFinished(true);
+                    clearStorage();
+                    getCart();
                 }
             });
 
@@ -178,7 +180,23 @@ const Cart = () => {
             </div>
             <Suspense fallback={<p></p>}>
                 <Modal ref={modal}>
-                    <PurchaseForm buy={sendRequest} />
+                    {requestFinished ? (
+                        <div className="purchase-form">
+                            <h3>
+                                Your purchase was successfully send, you will
+                                receive a letter soon
+                            </h3>
+                            <button
+                                onClick={() => setRedirect(true)}
+                                className="btn-success"
+                                style={{ marginTop: "1.5rem" }}
+                            >
+                                Go shopping
+                            </button>
+                        </div>
+                    ) : (
+                        <PurchaseForm buy={sendRequest} />
+                    )}
                 </Modal>
             </Suspense>
         </div>

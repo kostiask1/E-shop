@@ -40,11 +40,12 @@ export const DropDown = (props) => {
                 }
                 return option.includes(e.target.value);
             });
-            setFilteredOptions(clone);
             if (clone.length === 1) {
                 change(clone[0]);
                 setVisible(false);
+                return true;
             }
+            setFilteredOptions(clone);
         }, 350);
         if (e.key === "Enter" && options.includes(+e.target.value)) {
             change(e.target.value);
