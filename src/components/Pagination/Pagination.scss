@@ -36,7 +36,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                &:hover:not(.active) {
+                &:hover:not(.active):not(.disabled-link) {
                     background-color: rgba(0, 0, 0, 0.1);
                 }
             }
