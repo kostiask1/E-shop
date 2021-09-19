@@ -189,3 +189,34 @@ export const ArrowDownIcon = ({ width, height, fill, viewbox }) => (
         <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"></path>
     </svg>
 );
+export const ArrowRightIcon = ({ width, height, fill, viewbox }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width ?? "1.2em"}
+        height={height ?? "1.2em"}
+        viewBox={viewbox ?? "0 0 24 24"}
+        stroke={fill ?? "var(--textBlack)"}
+        fill="none"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <polyline points="9 18 15 12 9 6" />
+    </svg>
+);
+
+export const ArrowLeftIcon = ({ width, height, fill, viewbox }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width ?? "1.2em"}
+        height={height ?? "1.2em"}
+        viewBox={viewbox ?? "0 0 24 24"}
+        stroke={fill ?? "var(--textBlack)"}
+        fill="none"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    >
+        <polyline points="15 18 9 12 15 6" />
+    </svg>
+);

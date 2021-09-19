@@ -2,6 +2,7 @@ import React from "react";
 import { local_page } from "../../localStorage";
 import { DropDown } from "../DropDown/DropDown";
 import "./Pagination.scss";
+import { ArrowLeftIcon, ArrowRightIcon } from "../../icons";
 
 const Pagination = ({
     handleSetPage,
@@ -12,7 +13,6 @@ const Pagination = ({
     setOrder,
     order,
 }) => {
-    let screenWidth = document.documentElement.clientWidth;
     const nextPage = () => {
         if (page < pages) {
             JSON.stringify(localStorage.setItem(local_page, page + 1));
@@ -37,11 +37,13 @@ const Pagination = ({
             <ul className="pagination__block">
                 <li className="page-item">
                     <button
-                        className={`page-link ${page === 0 ? "disabled" : ""}`}
+                        className={`page-link page-arrow ${
+                            page === 0 ? "disabled-link" : ""
+                        }`}
                         disabled={page === 0 ? true : false}
                         onClick={() => prevPage()}
                     >
-                        Prev {screenWidth > 450 && "page"}
+                        <ArrowLeftIcon />
                     </button>
                 </li>
                 <li className="page-item">
@@ -110,13 +112,13 @@ const Pagination = ({
                 )}
                 <li className="page-item">
                     <button
-                        className={`page-link ${
-                            page + 1 >= pages ? "disabled" : ""
+                        className={`page-link page-arrow ${
+                            page + 1 >= pages ? "disabled-link" : ""
                         }`}
                         disabled={page + 1 >= pages ? true : false}
                         onClick={() => nextPage()}
                     >
-                        Next {screenWidth > 450 && "page"}
+                        <ArrowRightIcon />
                     </button>
                 </li>
                 {pagesArray.length > 8 && (

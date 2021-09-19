@@ -24,15 +24,27 @@
             justify-content: flex-end;
             .page-link {
                 border-left: unset;
-                border-radius: 0px;
+                border-radius: 0.2rem;
                 font-size: 1rem;
+                background-color: transparent;
+                border: unset;
+                line-height: 0px;
+                padding: 0.8rem;
+                margin: 0 0.15rem;
+                letter-spacing: 1px;
+                width: 0px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                &:hover:not(.active) {
+                    background-color: rgba(0, 0, 0, 0.1);
+                }
             }
-            &:first-child .page-link {
-                border-radius: 4px 0px 0px 4px;
-                border-left: 1px solid gray;
-            }
-            &:last-child .page-link {
-                border-radius: 0px 4px 4px 0px;
+            .page-arrow {
+                width: unset;
+                margin: 0;
+                margin: 0 0.4rem;
+                padding: 0.5rem;
             }
         }
     }

@@ -154,7 +154,7 @@ const ShopItem = (props) => {
                             ))}
                         </Carousel>
                     ) : (
-                        <Link to={!disabledControls && "/catalog/" + id}>
+                        <Link {...!disabledControls ? {to: "/catalog/" + id} : {}}>
                             <img
                                 src={imagesArray && imagesArray[0]}
                                 className="item-img img-fluid"
