@@ -127,12 +127,10 @@ const ItemCreator = (props) => {
     };
     const deleteImage = async (file) => {
         const storageRef = app.storage();
+        setGallery((gallery) => gallery.filter((img) => img !== file));
         storageRef
             .refFromURL(file)
             .delete(file)
-            .then(() => {
-                loadGallery();
-            });
     };
     const clearImages = (event) => {
         event.preventDefault();
