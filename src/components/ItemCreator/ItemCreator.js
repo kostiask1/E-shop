@@ -134,7 +134,8 @@ const ItemCreator = (props) => {
                 loadGallery();
             });
     };
-    const clearImages = () => {
+    const clearImages = (event) => {
+        event.preventDefault();
         setImagesArray([""]);
     };
     const loadGallery = async (e) => {
