@@ -9,6 +9,7 @@ import { DeleteIcon, UploadIcon, ImageIcon } from "../../icons";
 import ShopItem from "../ShopItem/ShopItem";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import DragAndDrop from "../DragAndDrop/DragAndDrop";
 const db = app.firestore();
 
 const ItemCreator = (props) => {
@@ -136,7 +137,6 @@ const ItemCreator = (props) => {
     const clearImages = () => {
         setImagesArray([""]);
     };
-
     const loadGallery = async (e) => {
         if (e) {
             e.preventDefault();
@@ -156,14 +156,12 @@ const ItemCreator = (props) => {
         });
         modal.current.open();
     };
-
     const handleTitle = (e) => {
         if (!e) return setTitle("");
         let newTitle = e[0].toUpperCase();
         newTitle = newTitle + e.slice(1);
         setTitle(newTitle);
     };
-
     const onDragStart = (e) => {
         e.preventDefault();
         if (!e.target.classList.contains("img-fluid")) setDrag(true);
@@ -226,12 +224,6 @@ const ItemCreator = (props) => {
         event.preventDefault();
         setImagesArray((prevArray) => prevArray.concat(""));
     };
-    const swapItems = (event, a, b) => {
-        event.preventDefault();
-        let clone = [...imagesArray];
-        [clone[a], clone[b]] = [clone[b], clone[a]];
-        setImagesArray(clone);
-    };
     return (
         <div className="item-creator">
             <div className="row">
@@ -250,48 +242,13 @@ const ItemCreator = (props) => {
                                     required
                                 />
                             </div>
-                            {imagesArray.map((img, index) => (
-                                <React.Fragment key={img + index}>
-                                    <div>
-                                        <Input
-                                            type="text"
-                                            name="image"
-                                            value={imagesArray[index]}
-                                            placeholder="ImageURL"
-                                            change={handleImageSet.bind(
-                                                null,
-                                                index
-                                            )}
-                                            symbol={
-                                                <DeleteIcon width=".7rem" />
-                                            }
-                                            symbolClick={deleteImg.bind(
-                                                null,
-                                                index
-                                            )}
-                                            required={
-                                                index === 0 ? true : false
-                                            }
-                                        />
-                                    </div>
-                                    {++index < imagesArray.length && (
-                                        <div className="swap-wrap">
-                                            <button
-                                                className="btn btn-sm"
-                                                onClick={(e) =>
-                                                    swapItems(
-                                                        e,
-                                                        --index,
-                                                        ++index
-                                                    )
-                                                }
-                                            >
-                                                swap
-                                            </button>
-                                        </div>
-                                    )}
-                                </React.Fragment>
-                            ))}
+                            <DragAndDrop
+                                key={imagesArray}
+                                list={imagesArray}
+                                setImagesArray={setImagesArray}
+                                handleImageSet={handleImageSet}
+                                deleteImg={deleteImg}
+                            />
                             <div>
                                 <button className="btn" onClick={addToImgArray}>
                                     Add img
