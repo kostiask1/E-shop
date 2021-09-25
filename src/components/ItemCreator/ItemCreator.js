@@ -64,7 +64,7 @@ const ItemCreator = (props) => {
     const clearInputs = (e) => {
         if (e) e.preventDefault();
         setTitle(props.title ?? "");
-        setImagesArray(props.imagesArray ?? "");
+        setImagesArray(props.imagesArray ?? [""]);
         setDescription(props.description ?? "");
         setPrice(props.price ?? "");
         setDiscountPrice(props.discountPrice ?? "");
@@ -130,6 +130,10 @@ const ItemCreator = (props) => {
     const clearImages = (event) => {
         event.preventDefault();
         setImagesArray([""]);
+    };
+    const resetImages = (event) => {
+        event.preventDefault();
+        setImagesArray(props.imagesArray ?? [""]);
     };
     const loadGallery = async (e) => {
         if (e) {
@@ -289,6 +293,12 @@ const ItemCreator = (props) => {
                                 </button>
                             </div>
                             <div>
+                                <label
+                                    className="btn btn-warning btn-expanded"
+                                    onClick={resetImages}
+                                >
+                                    Reset images
+                                </label>
                                 <button
                                     className="btn btn-danger btn-expanded"
                                     onClick={clearImages}
