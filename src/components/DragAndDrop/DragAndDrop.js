@@ -3,14 +3,16 @@ import Input from "../Input/Input";
 import { DeleteIcon } from "../../icons";
 
 const DragAndDrop = ({ list, handleImageSet, deleteImg, setImagesArray }) => {
-    const [orderedList, setOrderedList] = useState(() =>
-        list.map((item, index) => {
-            return {
-                order: index,
-                id: index,
-                link: item,
-            };
-        })
+    const [orderedList, setOrderedList] = useState(
+        () =>
+            list &&
+            list.map((item, index) => {
+                return {
+                    order: index,
+                    id: index,
+                    link: item,
+                };
+            })
     );
     const [currentCard, setCurrentCard] = useState(null);
 
@@ -43,28 +45,30 @@ const DragAndDrop = ({ list, handleImageSet, deleteImg, setImagesArray }) => {
     };
     return (
         <>
-            {orderedList.map((item, index) => (
-                <div
-                    draggable={true}
-                    onDragStart={(e) => dragStartHandler(e, item)}
-                    onDragOver={(e) => dragEndHandler(e)}
-                    onDragEnd={(e) => dragEndHandler(e)}
-                    onDragLeave={(e) => dragEndHandler(e)}
-                    onDrop={(e) => dropHandler(e, item)}
-                    key={item.link + index}
-                >
-                    <Input
-                        type="text"
-                        name="image"
-                        value={list[index]}
-                        placeholder="ImageURL"
-                        change={handleImageSet.bind(null, index)}
-                        symbol={<DeleteIcon width=".7rem" />}
-                        symbolClick={deleteImg.bind(null, index)}
-                        required={index === 0 ? true : false}
-                    />
-                </div>
-            ))}
+            {orderedList
+                ? orderedList.map((item, index) => (
+                      <div
+                          draggable={true}
+                          onDragStart={(e) => dragStartHandler(e, item)}
+                          onDragOver={(e) => dragEndHandler(e)}
+                          onDragEnd={(e) => dragEndHandler(e)}
+                          onDragLeave={(e) => dragEndHandler(e)}
+                          onDrop={(e) => dropHandler(e, item)}
+                          key={item.link + index}
+                      >
+                          <Input
+                              type="text"
+                              name="image"
+                              value={list[index]}
+                              placeholder="ImageURL"
+                              change={handleImageSet.bind(null, index)}
+                              symbol={<DeleteIcon width=".7rem" />}
+                              symbolClick={deleteImg.bind(null, index)}
+                              required={index === 0 ? true : false}
+                          />
+                      </div>
+                  ))
+                : null}
         </>
     );
 };

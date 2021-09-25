@@ -116,7 +116,7 @@ const ItemCreator = (props) => {
                 })
             );
             requests.then(() => {
-                setImagesArray(links);
+                setImagesArray((array) => array.concat(links));
                 if (modal.current.visible.current) {
                     loadGallery();
                 }
@@ -128,9 +128,7 @@ const ItemCreator = (props) => {
     const deleteImage = async (file) => {
         const storageRef = app.storage();
         setGallery((gallery) => gallery.filter((img) => img !== file));
-        storageRef
-            .refFromURL(file)
-            .delete(file)
+        storageRef.refFromURL(file).delete(file);
     };
     const clearImages = (event) => {
         event.preventDefault();
@@ -173,8 +171,8 @@ const ItemCreator = (props) => {
         e.preventDefault();
         try {
             let files = [...e.dataTransfer.files];
-            loadImages(files).then(() => {
-                setDrag(false);
+            files.map((file) => {
+                return loadImages([file]).then(setDrag(false));
             });
         } catch (err) {
             console.log(err);
@@ -215,9 +213,9 @@ const ItemCreator = (props) => {
         );
     };
     const deleteImg = (index) => {
-        setImagesArray((prevArray) =>
-            prevArray.splice(prevArray.splice(index, 1))
-        );
+        let clone = [...imagesArray];
+        clone = clone.splice(clone.splice(index, 1));
+        setImagesArray(clone);
     };
     const addToImgArray = (event) => {
         event.preventDefault();
@@ -349,7 +347,7 @@ const ItemCreator = (props) => {
                                 />
                             </div>
                             <DropDown
-                                key={filters}
+                                key={filters + "sas"}
                                 defaultValue={category}
                                 change={setCategory}
                                 options={filters}

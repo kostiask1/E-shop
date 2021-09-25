@@ -90,19 +90,20 @@ button {
         background: rgba(0, 0, 0, 0.1);
         border-radius: 100px;
         opacity: 0.2;
-        transition: .3s all;
+        transition: 0.3s all;
     }
     .control-arrow {
+        box-shadow: unset;
         padding: 0.8rem;
-        transition: .3s all;
+        transition: 0.3s all;
     }
     &:hover {
-    .control-arrow {
-        background-color: rgba(0, 0, 0, 0.1);
-    }
-    .control-dots {
-        opacity: 1;
-    }
+        .control-arrow {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        .control-dots {
+            opacity: 1;
+        }
     }
 }
 .slide {
