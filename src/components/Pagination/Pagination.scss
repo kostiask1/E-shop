@@ -4,6 +4,14 @@
     align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 2rem;
+    &:first-child {
+        position: sticky;
+        background-color: var(--main);
+        z-index: 10;
+        top: 0;
+        padding: 1em 0px;
+    }
+
     & ul {
         align-items: center;
         flex-wrap: nowrap;

@@ -1,5 +1,9 @@
 .filter-section {
     flex-basis: 20%;
+    padding-top: 1.5em;
+    position: sticky;
+    top: 0px;
+    height: fit-content;
     .price__filters {
         display: flex;
         margin-bottom: 1rem;

@@ -12,6 +12,7 @@ export const AuthState = ({ children }) => {
         admin: false,
     };
     const [state, dispatch] = useReducer(authReducer, initialState);
+    const duration = 1000 * 3600 * 24;
     const encryptWithCryptoJS = (plainText) => {
         const key = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
         const iv1 = CryptoJS.enc.Utf8.parse(JSON.stringify({ KEY }));
@@ -50,7 +51,7 @@ export const AuthState = ({ children }) => {
 
         const request = axios.post(url, credits);
         request.then(() => {
-            const expirationDate = new Date(new Date().getTime() + 36 * 1000)
+            const expirationDate = new Date(new Date().getTime() + duration)
                 .getTime()
                 .toString();
             localStorage.setItem(
@@ -73,7 +74,7 @@ export const AuthState = ({ children }) => {
                 localStorage.getItem(local_expirationDate)
             ) >= new Date().getTime()
         ) {
-            let expirationDate = new Date(new Date().getTime() + 3600 * 1000)
+            let expirationDate = new Date(new Date().getTime() + duration)
                 .getTime()
                 .toString();
             localStorage.setItem(

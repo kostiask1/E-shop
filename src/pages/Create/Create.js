@@ -119,6 +119,16 @@ const Create = () => {
                             Create filler item
                         </button>
                         <button
+                            className="btn"
+                            onClick={(e) =>
+                                [1, 2, 3, 4, 5].forEach((counter) =>
+                                    createRandom(e)
+                                )
+                            }
+                        >
+                            Create filler items
+                        </button>
+                        <button
                             className="btn btn-danger"
                             onClick={getUncategorized}
                         >
