@@ -61,7 +61,6 @@ const ItemCreator = (props) => {
             console.error(err);
         }
     };
-
     const clearInputs = (e) => {
         if (e) e.preventDefault();
         setTitle(props.title ?? "");
@@ -77,7 +76,6 @@ const ItemCreator = (props) => {
         setBoughtCount(props.boughtCount ?? "");
         setCategory(props.category ?? "");
     };
-
     const newItem = (e) => {
         e.preventDefault();
         const data = {
@@ -102,7 +100,6 @@ const ItemCreator = (props) => {
                 clearInputs();
             });
     };
-
     const loadImages = async (e) => {
         try {
             let files = Array.from(e);
@@ -180,10 +177,14 @@ const ItemCreator = (props) => {
     };
     const handleDiscountPercent = (percent) => {
         percent = +percent;
-        if (percent && percent > 0) {
+        if (percent && percent > 0 && percent < 100) {
             let newPrice = Math.floor(price - (price / 100) * percent);
             setDiscountPrice(newPrice);
             setDiscountPercent(percent);
+        } else if (percent && percent >= 100) {
+            let newPrice = Math.floor(price - (price / 100) * 99);
+            setDiscountPrice(newPrice);
+            setDiscountPercent(99);
         } else {
             setDiscountPrice("");
             setDiscountPercent("");
@@ -191,10 +192,13 @@ const ItemCreator = (props) => {
     };
     const handleDiscountPrice = (discountPrice) => {
         discountPrice = +discountPrice;
-        if (discountPrice && discountPrice > 0) {
+        if (discountPrice && discountPrice > 0 && discountPrice < price) {
             let newPercent = 100 - Math.ceil((discountPrice / price) * 100);
             setDiscountPrice(discountPrice);
             setDiscountPercent(newPercent);
+        } else if (discountPrice && discountPrice > price) {
+            setDiscountPrice(price - 1);
+            setDiscountPercent(1);
         } else {
             setDiscountPrice("");
             setDiscountPercent("");
