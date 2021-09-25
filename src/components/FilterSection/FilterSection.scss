@@ -1,9 +1,12 @@
 .filter-section {
     flex-basis: 20%;
     padding-top: 1.5em;
+    padding-bottom: 1em;
     position: sticky;
     top: 0px;
     height: fit-content;
+    background-color: var(--main);
+    z-index: 10;
     .price__filters {
         display: flex;
         margin-bottom: 1rem;
