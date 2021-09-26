@@ -21,6 +21,7 @@
 }
 .btn,
 button {
+    cursor: pointer;
     position: relative;
     background-color: var(--mainContrast);
     border: 1px solid var(--mainContrast);
