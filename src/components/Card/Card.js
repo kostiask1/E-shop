@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
 import InCart from "../InCart/InCart";
 import { Carousel } from "react-responsive-carousel";
@@ -7,10 +7,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Card.scss";
 
 const Card = (match) => {
-    const { data, getById } = useContext(catalogContext);
+    const { data, getById, addToStorage } = useContext(catalogContext);
     const [loading, setLoading] = useState("");
     const id = match && match.params && match.params.name;
-
+    let history = useHistory();
     useEffect(() => {
         getById([id]);
         const timeout = setTimeout(
@@ -22,6 +22,10 @@ const Card = (match) => {
         };
         //eslint-disable-next-line
     }, []);
+    const instantBuy = () => {
+        addToStorage(id);
+        history.push("/cart");
+    };
 
     if (data && data.length === 1) {
         const { text, imagesArray, price, description, discountPrice } =
@@ -78,6 +82,9 @@ const Card = (match) => {
                                     {description}
                                     <InCart id={id} />
                                 </div>
+                                <button onClick={() => instantBuy()}>
+                                    Buy now!
+                                </button>
                             </div>
                         </>
                     ) : (

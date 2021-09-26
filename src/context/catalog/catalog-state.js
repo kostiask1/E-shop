@@ -50,6 +50,11 @@ export const CatalogState = ({ children }) => {
     } = state;
 
     useEffect(() => {
+        checkStorage();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [storage, rowData]);
+
+    useEffect(() => {
         filterData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [rowData, category, minPrice, maxPrice, searchText, order]);
@@ -96,7 +101,6 @@ export const CatalogState = ({ children }) => {
     const getById = async (id) => {
         if (!id) return dispatch({ type: DATA, payload: [] });
         let payload = [];
-        let clone = [...storage];
         try {
             const promises = id.map((id) =>
                 db.collection("All").where("id", "==", id).get()
@@ -106,23 +110,29 @@ export const CatalogState = ({ children }) => {
                 responses.forEach((item) => {
                     payload.push(item.docs.length && item.docs[0].data());
                 });
-                if (clone.length === payload.length) {
-                    let deletedItems = payload.length
-                        ? clone.filter(
-                              (item, index) => item !== payload[index].id
-                          )
-                        : clone;
-                    deleteFromStorage(deletedItems);
-                }
                 payload = payload.filter((item) => item);
                 dispatch({ type: DATA, payload });
+                dispatch({ type: RESPONSE, payload });
                 return true;
             } else {
                 dispatch({ type: DATA, payload: [] });
+                dispatch({ type: RESPONSE, payload: [] });
                 return false;
             }
         } catch (err) {
             console.error(err);
+        }
+    };
+
+    const checkStorage = () => {
+        if (rowData.length && storage.length) {
+            let clone = [...rowData];
+            let storageClone = [...storage];
+            let data = clone.map((item) => item.id);
+            let itemsToDelete = storageClone.filter(
+                (item) => !data.includes(item)
+            );
+            if (itemsToDelete.length) return deleteFromStorage(itemsToDelete);
         }
     };
 
