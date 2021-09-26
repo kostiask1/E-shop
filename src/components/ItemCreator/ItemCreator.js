@@ -173,6 +173,12 @@ const ItemCreator = (props) => {
         try {
             let files = [...e.dataTransfer.files];
             files.map((file) => {
+                if (
+                    !imagesArray.length ||
+                    (imagesArray.length === 1 && imagesArray[0] === "")
+                ) {
+                    modal.current.close();
+                }
                 return loadImages([file]).then(setDrag(false));
             });
         } catch (err) {
