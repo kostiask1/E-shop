@@ -218,15 +218,17 @@ const Catalog = () => {
                     </div>
                 </div>
             </div>
-            {admin && modal.current && (
+            {admin && (
                 <Suspense fallback={<p>Loading...</p>}>
                     <Modal ref={modal} size="lg">
-                        <ItemCreator
-                            new={true}
-                            category={category}
-                            close={() => modal.current.close()}
-                            getData={() => getData()}
-                        />
+                        {modal.current && (
+                            <ItemCreator
+                                new={true}
+                                category={category}
+                                close={() => modal.current.close()}
+                                getData={() => getData()}
+                            />
+                        )}
                     </Modal>
                 </Suspense>
             )}

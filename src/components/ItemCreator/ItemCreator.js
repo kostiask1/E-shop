@@ -492,80 +492,86 @@ const ItemCreator = (props) => {
             </div>
 
             <Modal ref={modal} size="xl">
-                <div
-                    className={`modal-wrapper ${
-                        drag || !gallery.length ? "dragging" : ""
-                    }`}
-                    onDragStart={(e) => onDragStart(e)}
-                    onDragLeave={(e) => onDragLeave(e)}
-                    onDragOver={(e) => onDragStart(e)}
-                    onMouseUp={() => setDrag(false)}
-                    onDrop={(e) => onDragLoad(e)}
-                >
-                    {!drag && gallery.length > 0 ? (
-                        <div className="row images-catalog">
-                            {gallery.map((img, idx) => (
-                                <div className="item pop-in" key={idx}>
-                                    <div className="item-controls">
-                                        <div className="edit"></div>
-                                        <div className="delete">
-                                            <button
-                                                onClick={() => deleteImage(img)}
-                                                className="item-control item-delete"
-                                            >
-                                                <DeleteIcon />
-                                            </button>
+                {modal.current && modal.current.visible.current && (
+                    <div
+                        className={`modal-wrapper ${
+                            drag || !gallery.length ? "dragging" : ""
+                        }`}
+                        onDragStart={(e) => onDragStart(e)}
+                        onDragLeave={(e) => onDragLeave(e)}
+                        onDragOver={(e) => onDragStart(e)}
+                        onMouseUp={() => setDrag(false)}
+                        onDrop={(e) => onDragLoad(e)}
+                    >
+                        {!drag && gallery.length > 0 ? (
+                            <div className="row images-catalog">
+                                {gallery.map((img, idx) => (
+                                    <div className="item pop-in" key={idx}>
+                                        <div className="item-controls">
+                                            <div className="edit"></div>
+                                            <div className="delete">
+                                                <button
+                                                    onClick={() =>
+                                                        deleteImage(img)
+                                                    }
+                                                    className="item-control item-delete"
+                                                >
+                                                    <DeleteIcon />
+                                                </button>
+                                            </div>
                                         </div>
+                                        <span className="image-format">
+                                            {/\b(?:.jpg|.webp|.png|.svg)\b/gi.exec(
+                                                img
+                                            )}
+                                        </span>
+                                        <img
+                                            className="item-img img-fluid"
+                                            src={img}
+                                            alt=""
+                                            onClick={() => {
+                                                setImagesArray((prevArray) =>
+                                                    prevArray.concat(img)
+                                                );
+                                                modal.current.close();
+                                            }}
+                                        />
                                     </div>
-                                    <span className="image-format">
-                                        {/\b(?:.jpg|.webp|.png|.svg)\b/gi.exec(
-                                            img
-                                        )}
-                                    </span>
-                                    <img
-                                        className="item-img img-fluid"
-                                        src={img}
-                                        alt=""
-                                        onClick={() => {
-                                            setImagesArray((prevArray) =>
-                                                prevArray.concat(img)
-                                            );
-                                            modal.current.close();
-                                        }}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div style={{ height: "100%" }}>Drop files here...</div>
-                    )}
-                    <div className="modal-controls">
-                        <label
-                            className="btn btn-success btn-expanded"
-                            htmlFor="loadFile"
-                        >
-                            Load file&nbsp;&nbsp;&nbsp;&nbsp;
-                            <UploadIcon
-                                fill="var(--main)"
-                                height="1.4em"
-                                viewbox="0 0 20 24"
+                                ))}
+                            </div>
+                        ) : (
+                            <div style={{ height: "100%" }}>
+                                Drop files here...
+                            </div>
+                        )}
+                        <div className="modal-controls">
+                            <label
+                                className="btn btn-success btn-expanded"
+                                htmlFor="loadFile"
+                            >
+                                Load file&nbsp;&nbsp;&nbsp;&nbsp;
+                                <UploadIcon
+                                    fill="var(--main)"
+                                    height="1.4em"
+                                    viewbox="0 0 20 24"
+                                />
+                            </label>
+                            <input
+                                className="hidden"
+                                type="file"
+                                name="loadFile"
+                                id="loadFile"
+                                onChange={(e) => loadImages(e.target.files)}
                             />
-                        </label>
-                        <input
-                            className="hidden"
-                            type="file"
-                            name="loadFile"
-                            id="loadFile"
-                            onChange={(e) => loadImages(e.target.files)}
-                        />
-                        <button
-                            className="btn btn-primary"
-                            onClick={() => modal.current.close()}
-                        >
-                            Close
-                        </button>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => modal.current.close()}
+                            >
+                                Close
+                            </button>
+                        </div>
                     </div>
-                </div>
+                )}
             </Modal>
         </div>
     );
