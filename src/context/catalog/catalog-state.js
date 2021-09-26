@@ -110,13 +110,12 @@ export const CatalogState = ({ children }) => {
                 responses.forEach((item) => {
                     payload.push(item.docs.length && item.docs[0].data());
                 });
+                checkStorage(payload);
                 payload = payload.filter((item) => item);
                 dispatch({ type: DATA, payload });
-                dispatch({ type: RESPONSE, payload });
                 return true;
             } else {
                 dispatch({ type: DATA, payload: [] });
-                dispatch({ type: RESPONSE, payload: [] });
                 return false;
             }
         } catch (err) {
@@ -124,15 +123,32 @@ export const CatalogState = ({ children }) => {
         }
     };
 
-    const checkStorage = () => {
-        if (rowData.length && storage.length) {
-            let clone = [...rowData];
-            let storageClone = [...storage];
-            let data = clone.map((item) => item.id);
-            let itemsToDelete = storageClone.filter(
-                (item) => !data.includes(item)
-            );
-            if (itemsToDelete.length) return deleteFromStorage(itemsToDelete);
+    const checkStorage = (gotElements) => {
+        if (storage.length) {
+            if (rowData.length) {
+                let clone = [...rowData];
+                let storageClone = [...storage];
+                let data = clone.map((item) => item.id);
+                let itemsToDelete = storageClone.filter(
+                    (item) => !data.includes(item)
+                );
+                if (itemsToDelete.length)
+                    return deleteFromStorage(itemsToDelete);
+            } else if (
+                gotElements &&
+                gotElements.length &&
+                !(gotElements.length === 1 && !gotElements[0])
+            ) {
+                let storageClone = [...storage];
+                if (gotElements.length === storageClone.length) {
+                    let deletedItems = gotElements.length
+                        ? storageClone.filter(
+                              (item, index) => !gotElements[index]
+                          )
+                        : storageClone;
+                    deleteFromStorage(deletedItems);
+                }
+            }
         }
     };
 
