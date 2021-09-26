@@ -15,6 +15,7 @@ const Input = (props) => {
         symbol,
         symbolClick,
         important,
+        check,
     } = props;
     const values =
         important === "defaultValue"
@@ -25,7 +26,12 @@ const Input = (props) => {
     return (
         <>
             {label ? (
-                <label className="input-component" htmlFor={name ?? "input"}>
+                <label
+                    className={`input-component ${
+                        value === check ? "checked" : ""
+                    }`}
+                    htmlFor={name ?? "input"}
+                >
                     {label}
                 </label>
             ) : null}
@@ -35,12 +41,15 @@ const Input = (props) => {
                 }`}
             >
                 <input
-                    className={`${className ?? ""} input-component`}
+                    className={`${className ?? ""} input-component ${
+                        symbol ? "input-component-with-symbol" : ""
+                    }`}
                     type={type ?? "text"}
                     {...values}
                     placeholder={placeholder ?? ""}
                     onChange={(e) => change(e.target.value)}
                     name={name ?? "input"}
+                    {...(name ? { id: name } : null)}
                     required={required ? "required" : false}
                 />
                 {symbol && (

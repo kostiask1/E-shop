@@ -24,19 +24,12 @@ const db = app.firestore();
 
 const Catalog = () => {
     const {
-        filters,
         data,
         getData,
         category,
         setCategory,
         order,
         setOrder,
-        minPrice,
-        setMinPrice,
-        maxPrice,
-        setMaxPrice,
-        searchText,
-        setSearchText,
         deleteFromStorage,
     } = useContext(catalogContext);
     const { admin } = useContext(authContext);
@@ -69,16 +62,9 @@ const Catalog = () => {
         //eslint-disable-next-line
     }, [data, itemsPerPage]);
 
-    const handleInput = (e) => {
-        const timeOutId = setTimeout(() => {
-            setSearchText(e);
-        }, 350);
-        return () => clearTimeout(timeOutId);
-    };
-
     const handleCheckbox = (e) => {
         handleSetPage(0);
-        setCategory(e.target.id);
+        setCategory(e);
     };
 
     let pages = Math.ceil(data.length / itemsPerPage);
@@ -142,17 +128,7 @@ const Catalog = () => {
             <div id="catalog">
                 <div className="container">
                     <div className="row">
-                        <FilterSection
-                            searchText={searchText}
-                            category={category}
-                            filters={filters}
-                            handleInput={handleInput}
-                            handleCheckbox={handleCheckbox}
-                            handleMin={setMinPrice}
-                            handleMax={setMaxPrice}
-                            minPrice={minPrice}
-                            maxPrice={maxPrice}
-                        />
+                        <FilterSection handleCheckbox={handleCheckbox} />
                         <div className="catalog__wrapper">
                             {data.length ? (
                                 <Pagination
@@ -204,8 +180,8 @@ const Catalog = () => {
                                                     description={
                                                         item.description
                                                     }
-                                                    handleDeleteArray={
-                                                        handleDeleteArray
+                                                    handleDeleteArray={() =>
+                                                        handleDeleteArray()
                                                     }
                                                     deleteArray={deleteArray}
                                                     price={item.price}
@@ -242,7 +218,7 @@ const Catalog = () => {
                     </div>
                 </div>
             </div>
-            {admin && (
+            {admin && modal.current && (
                 <Suspense fallback={<p>Loading...</p>}>
                     <Modal ref={modal} size="lg">
                         <ItemCreator

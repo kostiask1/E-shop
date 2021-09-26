@@ -1,17 +1,19 @@
 import React from "react";
 import "./Category.scss";
+import Input from "../Input/Input";
 
 const Category = (props) => {
     const { item, change, category } = props;
 
     return (
         <div className="category">
-            <input
-                className="hidden"
+            <Input
+                key={category}
                 type="radio"
-                name={category}
-                id={item}
-                onChange={(e) => change(e)}
+                className="hidden"
+                name={item}
+                value={item}
+                change={change}
             />
             <label
                 className={`${item === category ? "checked" : ""}`}

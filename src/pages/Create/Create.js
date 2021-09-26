@@ -115,10 +115,10 @@ const Create = () => {
             <div className="container">
                 <div className="row">
                     <div className="btns-wrapper">
-                        <button className="btn" onClick={createRandom}>
+                        <label className="btn" onClick={createRandom}>
                             Create filler item
-                        </button>
-                        <button
+                        </label>
+                        <label
                             className="btn"
                             onClick={(e) =>
                                 [1, 2, 3, 4, 5].forEach((counter) =>
@@ -127,13 +127,13 @@ const Create = () => {
                             }
                         >
                             Create filler items
-                        </button>
-                        <button
+                        </label>
+                        <label
                             className="btn btn-danger"
                             onClick={getUncategorized}
                         >
                             Delete items without category (fillers)
-                        </button>
+                        </label>
                     </div>
                     <div className="form-wrapper">
                         <form onSubmit={(e) => newFilter(e)} action="/">

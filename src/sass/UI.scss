@@ -23,7 +23,7 @@
 button {
     position: relative;
     background-color: var(--mainContrast);
-    border: none;
+    border: 1px solid var(--mainContrast);
     padding: 0.5rem 0.6rem;
     border-radius: 4px;
     font-size: 1rem;
@@ -33,7 +33,7 @@ button {
         color: var(--mainContrast);
         background-color: transparent;
         padding: 0;
-        border: none;
+        border: 1px solid transparent;
     }
     &-expanded {
         padding-right: 1.3rem;
@@ -46,18 +46,33 @@ button {
     }
     &-danger {
         background-color: var(--alert);
+        border: 1px solid var(--alert);
     }
     &-warning {
         background-color: var(--warning);
+        border: 1px solid var(--warning);
         color: var(--black);
     }
     &-success {
         background-color: var(--success);
+        border: 1px solid var(--success);
     }
     &-outline {
-        border: 1px solid var(--mainContrast);
         background-color: transparent;
         color: var(--mainContrast);
+        &.btn-primary,
+        &.btn {
+            color: var(--mainContrast);
+        }
+        &.btn-danger {
+            color: var(--alert);
+        }
+        &.btn-success {
+            color: var(--success);
+        }
+        &.btn-warning {
+            color: var(--warning);
+        }
     }
     &:not(.disabled):hover {
         filter: brightness(120%);

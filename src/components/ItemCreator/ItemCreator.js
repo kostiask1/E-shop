@@ -255,9 +255,20 @@ const ItemCreator = (props) => {
                                 deleteImg={deleteImg}
                             />
                             <div>
-                                <button className="btn" onClick={addToImgArray}>
-                                    Add img
-                                </button>
+                                <label
+                                    className="btn btn-outline"
+                                    onClick={addToImgArray}
+                                >
+                                    + image
+                                </label>
+                                <label
+                                    className="btn btn-outline btn-danger"
+                                    onClick={() =>
+                                        deleteImg(imagesArray.length - 1)
+                                    }
+                                >
+                                    - image
+                                </label>
                             </div>
                             <div>
                                 <label
@@ -388,13 +399,17 @@ const ItemCreator = (props) => {
                     <p className="title">Item preview</p>
                     <div className="btns-wrapper">
                         <button
-                            className={tab !== "card" ? "btn-success" : ""}
+                            className={
+                                tab !== "card" ? "btn-primary" : "btn-outline"
+                            }
                             onClick={() => handleTabs("big")}
                         >
                             Whole card
                         </button>
                         <button
-                            className={tab === "card" ? "btn-success" : ""}
+                            className={
+                                tab === "card" ? "btn-primary" : "btn-outline"
+                            }
                             onClick={() => handleTabs("card")}
                         >
                             Catalog card
