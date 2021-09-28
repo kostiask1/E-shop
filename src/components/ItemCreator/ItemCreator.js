@@ -126,6 +126,9 @@ const ItemCreator = (props) => {
         const storageRef = app.storage();
         setGallery((gallery) => gallery.filter((img) => img !== file));
         storageRef.refFromURL(file).delete(file);
+        let clone = [...imagesArray];
+        clone = clone.filter((img) => img !== file);
+        setImagesArray(clone);
     };
     const clearImages = (event) => {
         event.preventDefault();

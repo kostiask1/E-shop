@@ -119,6 +119,9 @@ button {
         }
         .control-dots {
             opacity: 1;
+            .dot:nth-child(1n + 8) {
+                display: none;
+            }
         }
     }
 }
@@ -141,4 +144,10 @@ button {
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
+}
+.divider {
+    width: 100%;
+    margin: 0.5rem 0;
+    height: 1px;
+    background-color: var(--gray);
 }
