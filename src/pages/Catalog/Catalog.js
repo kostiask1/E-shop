@@ -52,6 +52,7 @@ const Catalog = () => {
     const [newData, setNewData] = useState([]);
     const [deleteArray, setDeleteArray] = useState([]);
     const modal = useRef(null);
+    const modalFilters = useRef(null);
 
     useEffect(() => {
         getData(); //eslint-disable-next-line
@@ -128,8 +129,20 @@ const Catalog = () => {
             <div id="catalog">
                 <div className="container">
                     <div className="row">
-                        <FilterSection handleCheckbox={handleCheckbox} />
+                        {window.innerWidth > 767 && (
+                            <FilterSection handleCheckbox={handleCheckbox} />
+                        )}
+
                         <div className="catalog__wrapper">
+                            {window.innerWidth <= 767 && (
+                                <button
+                                    className="btn btn-filters"
+                                    onClick={() => modalFilters.current.open()}
+                                >
+                                    Filters
+                                </button>
+                            )}
+
                             {data.length ? (
                                 <Pagination
                                     page={page}
@@ -229,6 +242,13 @@ const Catalog = () => {
                                 getData={() => getData()}
                             />
                         )}
+                    </Modal>
+                </Suspense>
+            )}
+            {admin && (
+                <Suspense fallback={<p></p>}>
+                    <Modal ref={modalFilters} size="lg">
+                        <FilterSection handleCheckbox={handleCheckbox} />
                     </Modal>
                 </Suspense>
             )}

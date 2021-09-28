@@ -6,7 +6,13 @@
     top: 0px;
     height: fit-content;
     background-color: var(--main);
-    z-index: 10;
+    z-index: 11;
+    @media (max-width: 767px) {
+        top: 7em;
+        // max-width: 300px;
+        padding: 1em;
+        box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.3);
+    }
     .price__filters {
         display: flex;
         margin-bottom: 1rem;
@@ -19,4 +25,10 @@
     .categories {
         margin: 1rem 0px;
     }
+}
+
+.btn-filters {
+    position: sticky;
+    top: 4.5em;
+    z-index: 11;
 }
