@@ -2,6 +2,8 @@
     position: relative;
     display: inline-block;
     &__button {
+        display: flex;
+        align-items: center;
         background-color: #fff;
         color: black;
         padding: 0.45rem 0.65rem;
@@ -22,7 +24,12 @@
         }
     }
     svg {
+        min-width: 10px;
         fill: var(--mainContrast);
+    }
+    img {
+        width: 32px;
+        padding-right: 5px;
     }
     &__content {
         position: absolute;
@@ -50,7 +57,8 @@
                 color: black;
                 padding: 0.4rem 0.7rem;
                 text-decoration: none;
-                display: block;
+                display: flex;
+                align-items: center;
                 width: 100%;
                 border-bottom: 1px solid #ddd;
                 cursor: pointer;

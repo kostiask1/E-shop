@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from "react";
-import "./NavLinks.scss";
-import { Link } from "react-scroll";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import "./NavLinks.scss"
+import { Link } from "react-scroll"
+import { NavLink } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 
 const NavLinks = ({ width, routes, catalog }) => {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
+    const { t, i18n } = useTranslation()
     useEffect(() => {
-        document.addEventListener("mouseup", clickHandler);
+        document.addEventListener("mouseup", clickHandler)
         return () => {
-            document.removeEventListener("mouseup", clickHandler);
-        };
+            document.removeEventListener("mouseup", clickHandler)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
 
     const clickHandler = (e) => {
-        let inComponent = e.target.matches([".submenu *", ".btn-outline"]);
+        let inComponent = e.target.matches([".submenu *", ".btn-outline"])
         if (!inComponent) {
-            setOpen(false);
+            setOpen(false)
         }
-    };
+    }
     const handleBtnClick = (e) => {
-        e.preventDefault();
-        setOpen(!open);
-    };
+        e.preventDefault()
+        setOpen(!open)
+    }
     return (
         <>
             {width < 768 && catalog && (
@@ -49,7 +51,7 @@ const NavLinks = ({ width, routes, catalog }) => {
                                     activeClass="active"
                                     className="nav-link"
                                 >
-                                    Catalog
+                                    {t("catalog")}
                                 </Link>
                             ) : (
                                 <NavLink
@@ -57,7 +59,7 @@ const NavLinks = ({ width, routes, catalog }) => {
                                     activeClassName="current"
                                     to="/catalog"
                                 >
-                                    Catalog
+                                    {t("catalog")}
                                 </NavLink>
                             )}
                         </li>
@@ -78,15 +80,15 @@ const NavLinks = ({ width, routes, catalog }) => {
                                             {name}
                                         </Link>
                                     </li>
-                                );
+                                )
                             }
-                            return null;
+                            return null
                         })}
                     </>
                 )}
             </div>
         </>
-    );
-};
+    )
+}
 
-export default NavLinks;
+export default NavLinks
