@@ -1,6 +1,8 @@
 {
     "loading": "Loading",
     "noResultsFound": "No matching results found",
+    "uah": "Uah",
+    "close": "close",
     "nav": {
         "catalog": "Catalog",
         "about": "About",
@@ -12,6 +14,7 @@
         "create": "Create new item",
         "filters": "Filters"
     },
+
     "auth": {
         "credentials": "Enter your credentials",
         "email": "Email address",
@@ -26,5 +29,25 @@
         "addCategory": "Add category",
         "deleteCategory": "Delete category"
     },
-    "creater": {}
+    "creator": {
+        "create": "Create item",
+        "image": "image",
+        "load_file": "Load file",
+        "browse_gallery": "Browse gallery",
+        "reset_images": "Reset images",
+        "clear_images": "Clear images",
+        "reset": "reset",
+        "preview": "Item preview",
+        "card_whole": "Whole card",
+        "card_catalog": "Catalog card",
+        "drop_here": "Drop files here",
+        "title": "Title",
+        "placeholder": "placeholder",
+        "price": "price",
+        "discount_price": "discount price (optional)",
+        "discount_percent": "discount percent (optional)",
+        "bought_count": "Times has been bought (optional)",
+        "choose_category": "Choose a category",
+        "image_url": "ImageURL"
+    }
 }

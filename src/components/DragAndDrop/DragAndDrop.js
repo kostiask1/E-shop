@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import Input from "../Input/Input";
 import { DeleteIcon } from "../../icons";
+import { useTranslation } from 'react-i18next';
 
 const DragAndDrop = ({ list, handleImageSet, deleteImg, setImagesArray }) => {
+    const { t, i18n } = useTranslation()
     const [orderedList, setOrderedList] = useState(
         () =>
             list &&
@@ -60,7 +62,7 @@ const DragAndDrop = ({ list, handleImageSet, deleteImg, setImagesArray }) => {
                               type="text"
                               name="image"
                               value={list[index]}
-                              placeholder="ImageURL"
+                              placeholder={t("creator.image_url")}
                               change={handleImageSet.bind(null, index)}
                               symbol={<DeleteIcon width=".7rem" />}
                               symbolClick={deleteImg.bind(null, index)}

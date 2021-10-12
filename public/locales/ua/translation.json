@@ -1,6 +1,53 @@
 {
-    "catalog": "Каталог",
-    "about": "Про нас",
-    "delivery": "Доставка",
-    "contacts": "Контакти"
+    "loading": "Навантаження",
+    "noResultsFound": "Не знайдено відповідних результатів",
+    "uah": "Грн",
+    "close": "закрити",
+    "nav": {
+        "catalog": "Каталог",
+        "about": "Про",
+        "delivery": "Доставка",
+        "contacts": "Контакти",
+        "create": "Створити"
+    },
+    "catalog": {
+        "create": "Створіть новий елемент",
+        "filters": "Фільтри"
+    },
+
+    "auth": {
+        "credentials": "Введіть свої облікові дані",
+        "email": "Адреса електронної пошти",
+        "password": "Пароль",
+        "logIn": "Журнал in"
+    },
+    "create": {
+        "createFillerItem": "Створіть елемент наповнювача",
+        "createFillerItems": "Створіть елементи наповнювача",
+        "deleteWithoutCategory": "Видалити елементи без категорії (наповнювачі)",
+        "createCategory": "Створити категорію",
+        "addCategory": "Додати категорію",
+        "deleteCategory": "Видалити категорію"
+    },
+    "creator": {
+        "create": "Створити елемент",
+        "image": "образ",
+        "load_file": "Завантажте файл",
+        "browse_gallery": "Переглянути галерею",
+        "reset_images": "Скинути зображення",
+        "clear_images": "Очистити зображення",
+        "reset": "скидання",
+        "preview": "Попередній перегляд товару",
+        "card_whole": "Цільна карта",
+        "card_catalog": "Каталог картки",
+        "drop_here": "Падіння файлів тут",
+        "title": "Заголовок",
+        "placeholder": "заповнювач",
+        "price": "ціна",
+        "discount_price": "Ціна знижки (необов'язково)",
+        "discount_percent": "Відсоток знижки (необов'язково)",
+        "bought_count": "Час купив (необов'язково)",
+        "choose_category": "Виберіть категорію",
+        "image_url": "Imageurl"
+    }
 }

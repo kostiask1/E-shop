@@ -1,6 +1,53 @@
 {
-    "catalog": "Каталог",
-    "about": "Про нас",
-    "delivery": "Доставка",
-    "contacts": "Контакты"
+    "loading": "Загрузка",
+    "noResultsFound": "Не найдено совпадающих результатов",
+    "uah": "Грн",
+    "close": "близко",
+    "nav": {
+        "catalog": "Каталог",
+        "about": "О",
+        "delivery": "Доставка",
+        "contacts": "Контакты",
+        "create": "Создавать"
+    },
+    "catalog": {
+        "create": "Создать новый элемент",
+        "filters": "Фильтрs"
+    },
+
+    "auth": {
+        "credentials": "Введите свои учетные данные",
+        "email": "Адрес электронной почты",
+        "password": "Пароль",
+        "logIn": "Журнал I.n"
+    },
+    "create": {
+        "createFillerItem": "Создать элемент наполнителя",
+        "createFillerItems": "Создание наполнителя",
+        "deleteWithoutCategory": "Удалить элементы без категории (наполнители)",
+        "createCategory": "Создать категорию",
+        "addCategory": "Добавить категорию",
+        "deleteCategory": "Удалить категориюy"
+    },
+    "creator": {
+        "create": "Создать элемент",
+        "image": "изображение",
+        "load_file": "Загрузить файл",
+        "browse_gallery": "Обзор галереи",
+        "reset_images": "Сбросить изображения",
+        "clear_images": "Прозрачные изображения",
+        "reset": "сброс настроек",
+        "preview": "Предварительный просмотр товара",
+        "card_whole": "Целая карта",
+        "card_catalog": "Каталог карта",
+        "drop_here": "Выпадение файлов здесь",
+        "title": "Заголовок",
+        "placeholder": "заполнитель",
+        "price": "цена",
+        "discount_price": "Цена скидки (необязательно)",
+        "discount_percent": "Процент скидки (необязательно)",
+        "bought_count": "Времена были куплены (необязательно)",
+        "choose_category": "Выберите категорию",
+        "image_url": "URL изображения"
+    }
 }

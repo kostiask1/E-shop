@@ -1,103 +1,105 @@
-import React, { useEffect, useState, useContext } from "react";
-import { app } from "../../base";
-import { authContext } from "../../context/Auth/auth-context";
-import { v4 as uuidv4 } from "uuid";
-import ItemCreator from "../../components/ItemCreator/ItemCreator";
-import "./Create.scss";
-import { DropDown } from "../../components/DropDown/DropDown";
-import { catalogContext } from "../../context/catalog/catalog-context";
-import { useTranslation } from 'react-i18next';
+import React, { useEffect, useState, useContext } from "react"
+import { app } from "../../base"
+import { authContext } from "../../context/Auth/auth-context"
+import { v4 as uuidv4 } from "uuid"
+import ItemCreator from "../../components/ItemCreator/ItemCreator"
+import "./Create.scss"
+import { DropDown } from "../../components/DropDown/DropDown"
+import { catalogContext } from "../../context/catalog/catalog-context"
+import { useTranslation } from "react-i18next"
 
-const db = app.firestore();
+const db = app.firestore()
 
 const Create = () => {
     const { t, i18n } = useTranslation()
-    const { deleteFromStorage } = useContext(catalogContext);
-    const { admin } = useContext(authContext);
-    const [filters, setFilters] = useState([]);
-    const [categoryToRemove, setCategoryToRemove] = useState("");
-    const [categoryToAdd, setCategoryToAdd] = useState("");
-
+    const { deleteFromStorage } = useContext(catalogContext)
+    const { admin } = useContext(authContext)
+    const [filters, setFilters] = useState([])
+    const [categoryToRemove, setCategoryToRemove] = useState("")
+    const [categoryToAdd, setCategoryToAdd] = useState("")
+    i18n.on("languageChanged", function (lng) {
+        console.log(lng)
+    })
     useEffect(() => {
         if (admin) {
-            getFilters();
+            getFilters()
         }
         //eslint-disable-next-line
-    }, [admin]);
+    }, [admin])
 
-    if (!admin) return null;
+    if (!admin) return null
 
     const getFilters = async () => {
         try {
-            let filt = await db.collection("categories").get();
-            filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = []);
+            let filt = await db.collection("categories").get()
+            filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = [])
             if (filt.length) {
-                filt = Object.values(filt[0].categories);
+                filt = Object.values(filt[0].categories)
             }
 
-            setFilters(filt);
-            return filters;
+            setFilters(filt)
+            return filters
         } catch (err) {
-            console.error(err);
+            console.error(err)
         }
-    };
+    }
 
     const getUncategorized = async () => {
-        let items = [];
+        let items = []
         const response = await db
             .collection("All")
             .where("category", "==", "")
-            .get();
+            .get()
         response.docs.forEach((item) => {
-            items.push(item.data().id);
-        });
-        deleteFromStorage(items);
+            items.push(item.data().id)
+        })
+        deleteFromStorage(items)
         items.forEach((id) => {
-            let item = db.collection("All").where("id", "==", id);
+            let item = db.collection("All").where("id", "==", id)
             item.get().then((querySnapshot) => {
-                querySnapshot.docs[0].ref.delete();
-            });
-        });
-    };
+                querySnapshot.docs[0].ref.delete()
+            })
+        })
+    }
 
     const newFilter = (e) => {
-        e.preventDefault();
-        const value = e.target[0].value;
-        if (!value) return false;
+        e.preventDefault()
+        const value = e.target[0].value
+        if (!value) return false
         if (filters && filters.includes(value)) {
-            alert("create.This category already exists");
-            return false;
+            alert("create.This category already exists")
+            return false
         }
-        const data = filters.concat(value);
+        const data = filters.concat(value)
         db.collection("categories")
             .doc("categories")
             .set({ categories: data })
             .then(() => {
-                setCategoryToAdd("");
-                return getFilters();
-            });
-    };
+                setCategoryToAdd("")
+                return getFilters()
+            })
+    }
 
     const deleteFilter = (e) => {
-        e.preventDefault();
-        const value = e.target[0].innerText;
+        e.preventDefault()
+        const value = e.target[0].innerText
         if (value !== "Choose category") {
-            const data = filters.filter((el) => el !== value);
+            const data = filters.filter((el) => el !== value)
             db.collection("categories")
                 .doc("categories")
-                .set({ categories: data });
+                .set({ categories: data })
 
             db.collection("categories")
                 .doc("categories")
                 .onSnapshot(() => {
-                    setCategoryToRemove("");
-                    return getFilters();
-                });
+                    setCategoryToRemove("")
+                    return getFilters()
+                })
         }
-    };
+    }
 
     const createRandom = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const data = {
             category: "",
             id: uuidv4(),
@@ -109,9 +111,9 @@ const Create = () => {
             timestamp: new Date().getTime(),
             text: "Placeholder Item",
             boughtCount: null,
-        };
-        db.collection("All").doc(data.id).set(data);
-    };
+        }
+        db.collection("All").doc(data.id).set(data)
+    }
     return (
         <div className="create">
             <div className="container">
@@ -139,7 +141,9 @@ const Create = () => {
                     </div>
                     <div className="form-wrapper">
                         <form onSubmit={(e) => newFilter(e)} action="/">
-                            <p className=" title">{t("create.createCategory")}</p>
+                            <p className=" title">
+                                {t("create.createCategory")}
+                            </p>
                             <div>
                                 <input
                                     type="text"
@@ -159,7 +163,9 @@ const Create = () => {
                             </button>
                         </form>
                         <form onSubmit={(e) => deleteFilter(e)} action="/">
-                            <p className=" title">{t("create.deleteCategory")}</p>
+                            <p className=" title">
+                                {t("create.deleteCategory")}
+                            </p>
                             <DropDown
                                 key={filters}
                                 defaultValue={categoryToRemove}
@@ -182,6 +188,6 @@ const Create = () => {
             </div>
         </div>
     )
-};
+}
 
-export default Create;
+export default Create
