@@ -1,40 +1,42 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { authContext } from "../../context/Auth/auth-context";
-import "./Auth.scss";
+import React, { useState, useEffect, useContext } from "react"
+import { useHistory } from "react-router-dom"
+import { authContext } from "../../context/Auth/auth-context"
+import "./Auth.scss"
+import { useTranslation } from "react-i18next"
 
 const Auth = () => {
-    const { login, admin } = useContext(authContext);
-    const [loginValue, setLoginValue] = useState("");
-    const [password, setPassword] = useState("");
-    const history = useHistory();
+    const { t, i18n } = useTranslation()
+    const { login, admin } = useContext(authContext)
+    const [loginValue, setLoginValue] = useState("")
+    const [password, setPassword] = useState("")
+    const history = useHistory()
 
     useEffect(() => {
         if (admin) {
-            let path = `/catalog`;
-            history.push(path);
+            let path = `/catalog`
+            history.push(path)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [admin]);
+    }, [admin])
 
     const submitHandler = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const authData = {
             email: loginValue,
             password,
             returnSecureToken: true,
             type: e.target.id,
-        };
-        login(authData);
-    };
+        }
+        login(authData)
+    }
 
     return (
         <div className="auth container">
             <form>
-                <h3>Enter your credentials</h3>
+                <h3>{t("auth.credentials")}</h3>
                 <div>
                     <label htmlFor="exampleInputEmail1" className="form-label">
-                        Email address
+                        {t("auth.email")}
                     </label>
                     <input
                         type="email"
@@ -50,7 +52,7 @@ const Auth = () => {
                         htmlFor="exampleInputPassword1"
                         className="form-label"
                     >
-                        Password
+                        {t("auth.password")}
                     </label>
                     <input
                         type="password"
@@ -66,12 +68,12 @@ const Auth = () => {
                         id="login"
                         style={{ marginTop: "1em" }}
                     >
-                        Log In
+                        {t("auth.logIn")}
                     </button>
                 )}
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default Auth;
+export default Auth

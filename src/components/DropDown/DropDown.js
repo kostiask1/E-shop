@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { v4 as uuidv4 } from "uuid"
 import "./DropDown.scss"
 import { ArrowDownIcon, ArrowUpIcon } from "../../icons"
+import { useTranslation } from "react-i18next"
 
 export const DropDown = (props) => {
     const {
@@ -13,6 +14,7 @@ export const DropDown = (props) => {
         placeholder,
         searchable = true,
     } = props
+    const { t, i18n } = useTranslation()
     const [visible, setVisible] = useState(false)
     const [filteredOptions, setFilteredOptions] = useState(options)
     const [key] = useState(() => "drop-" + uuidv4())
@@ -124,7 +126,7 @@ export const DropDown = (props) => {
                                 </li>
                             ))
                         ) : (
-                            <li className="disabled">Nothing found</li>
+                            <li className="disabled">{t("noResultsFound")}</li>
                         )}
                     </ul>
                 </div>

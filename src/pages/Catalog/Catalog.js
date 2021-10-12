@@ -5,22 +5,23 @@ import React, {
     useEffect,
     useRef,
     useState,
-} from "react";
-import { local_itemsPerPage, local_page } from "../../localStorage";
-import FilterSection from "../../components/FilterSection/FilterSection";
-import Pagination from "../../components/Pagination/Pagination";
-import ShopItem from "../../components/ShopItem/ShopItem";
-import { authContext } from "../../context/Auth/auth-context";
-import { catalogContext } from "../../context/catalog/catalog-context";
-import { app } from "../../base";
-import "./Catalog.scss";
-import { DeleteIcon } from "../../icons";
-import Cta from "../../components/Cta/Cta";
-const Modal = lazy(() => import("../../components/Modal/Modal"));
+} from "react"
+import { local_itemsPerPage, local_page } from "../../localStorage"
+import FilterSection from "../../components/FilterSection/FilterSection"
+import Pagination from "../../components/Pagination/Pagination"
+import ShopItem from "../../components/ShopItem/ShopItem"
+import { authContext } from "../../context/Auth/auth-context"
+import { catalogContext } from "../../context/catalog/catalog-context"
+import { app } from "../../base"
+import "./Catalog.scss"
+import { DeleteIcon } from "../../icons"
+import Cta from "../../components/Cta/Cta"
+import { useTranslation } from "react-i18next"
+const Modal = lazy(() => import("../../components/Modal/Modal"))
 const ItemCreator = lazy(() =>
     import("../../components/ItemCreator/ItemCreator")
-);
-const db = app.firestore();
+)
+const db = app.firestore()
 
 const Catalog = () => {
     const {
@@ -31,98 +32,99 @@ const Catalog = () => {
         order,
         setOrder,
         deleteFromStorage,
-    } = useContext(catalogContext);
-    const { admin } = useContext(authContext);
+    } = useContext(catalogContext)
+    const { t, i18n } = useTranslation()
+    const { admin } = useContext(authContext)
     const [itemsPerPage, setItemsPerPage] = useState(() => {
         const itemsCount =
-            JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0;
+            JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0
         if (!itemsCount) {
             if (window.innerWidth > 1850) {
-                return 12;
-            } else if (window.innerWidth > 1200) return 8;
-            else if (window.innerWidth > 500) return 6;
-            else if (window.innerWidth < 500) return 4;
+                return 12
+            } else if (window.innerWidth > 1200) return 8
+            else if (window.innerWidth > 500) return 6
+            else if (window.innerWidth < 500) return 4
         } else {
-            return itemsCount;
+            return itemsCount
         }
-    });
+    })
     const [page, setPage] = useState(
         JSON.parse(localStorage.getItem(local_page)) || 0
-    );
-    const [newData, setNewData] = useState([]);
-    const [deleteArray, setDeleteArray] = useState([]);
-    const modal = useRef(null);
-    const modalFilters = useRef(null);
+    )
+    const [newData, setNewData] = useState([])
+    const [deleteArray, setDeleteArray] = useState([])
+    const modal = useRef(null)
+    const modalFilters = useRef(null)
 
     useEffect(() => {
-        getData(); //eslint-disable-next-line
-    }, []);
+        getData() //eslint-disable-next-line
+    }, [])
 
     useEffect(() => {
-        genNewData();
+        genNewData()
         //eslint-disable-next-line
-    }, [data, itemsPerPage]);
+    }, [data, itemsPerPage])
 
     const handleCheckbox = (e) => {
-        handleSetPage(0);
-        setCategory(e);
-    };
+        handleSetPage(0)
+        setCategory(e)
+    }
 
-    let pages = Math.ceil(data.length / itemsPerPage);
+    let pages = Math.ceil(data.length / itemsPerPage)
     const handleItemsPerPage = (value) => {
         if (page < pages) {
-            JSON.stringify(localStorage.setItem(local_itemsPerPage, value));
-            setItemsPerPage(value);
+            JSON.stringify(localStorage.setItem(local_itemsPerPage, value))
+            setItemsPerPage(value)
         }
-    };
+    }
     const handleSetPage = (e) => {
-        JSON.stringify(localStorage.setItem(local_page, e));
-        setPage(e);
-    };
+        JSON.stringify(localStorage.setItem(local_page, e))
+        setPage(e)
+    }
     const genNewData = () => {
         if (page >= pages) {
             if (pages > 0) {
-                setPage(pages - 1);
-                JSON.stringify(localStorage.setItem(local_page, pages - 1));
+                setPage(pages - 1)
+                JSON.stringify(localStorage.setItem(local_page, pages - 1))
             }
         }
-        let clone = [...data];
+        let clone = [...data]
         let chunks = function (array, size) {
-            let results = [];
+            let results = []
             while (array.length) {
-                results.push(array.splice(0, size));
+                results.push(array.splice(0, size))
             }
-            return results;
-        };
-        setNewData(chunks(clone, itemsPerPage));
-    };
+            return results
+        }
+        setNewData(chunks(clone, itemsPerPage))
+    }
     const deleteMultipleItems = () => {
-        let promises = [];
+        let promises = []
         deleteArray.map((id) => {
             return promises.push(
                 new Promise((resolve, reject) => {
-                    deleteFromStorage([id]);
-                    let item = db.collection("All").where("id", "==", id);
+                    deleteFromStorage([id])
+                    let item = db.collection("All").where("id", "==", id)
                     item.get().then((querySnapshot) => {
-                        resolve(querySnapshot.docs[0].ref.delete());
-                    });
+                        resolve(querySnapshot.docs[0].ref.delete())
+                    })
                 })
-            );
-        });
+            )
+        })
         Promise.all(promises).then(() => {
-            getData();
-            setDeleteArray([]);
-        });
-    };
+            getData()
+            setDeleteArray([])
+        })
+    }
     const handleDeleteArray = (id) => {
         if (deleteArray.includes(id)) {
-            let clone = [...deleteArray];
-            clone = clone.filter((item) => item !== id);
-            setDeleteArray(clone);
+            let clone = [...deleteArray]
+            clone = clone.filter((item) => item !== id)
+            setDeleteArray(clone)
         } else {
-            setDeleteArray([...deleteArray, id]);
+            setDeleteArray([...deleteArray, id])
         }
-    };
+    }
     return (
         <>
             <Cta />
@@ -139,7 +141,7 @@ const Catalog = () => {
                                     className="btn btn-filters"
                                     onClick={() => modalFilters.current.open()}
                                 >
-                                    Filters
+                                    {t("catalog.filters")}
                                 </button>
                             )}
 
@@ -171,7 +173,7 @@ const Catalog = () => {
                                         type="submit"
                                         onClick={() => modal.current.open()}
                                     >
-                                        Create new item
+                                        {t("catalog.create")}
                                     </button>
                                 )}
                                 {newData.length > 0 ? (
@@ -205,12 +207,12 @@ const Catalog = () => {
                                                         item.boughtCount
                                                     }
                                                 />
-                                            );
+                                            )
                                         }
                                     )
                                 ) : (
                                     <span className="fade-in">
-                                        No matching results found
+                                        {t("noResultsFound")}
                                     </span>
                                 )}
                             </div>
@@ -232,7 +234,7 @@ const Catalog = () => {
                 </div>
             </div>
             {admin && (
-                <Suspense fallback={<p>Loading...</p>}>
+                <Suspense fallback={<p>{t("loading")}...</p>}>
                     <Modal ref={modal} size="lg">
                         {modal.current && (
                             <ItemCreator
@@ -253,7 +255,7 @@ const Catalog = () => {
                 </Suspense>
             )}
         </>
-    );
-};
+    )
+}
 
-export default Catalog;
+export default Catalog

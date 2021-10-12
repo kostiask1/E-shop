@@ -6,10 +6,12 @@ import ItemCreator from "../../components/ItemCreator/ItemCreator";
 import "./Create.scss";
 import { DropDown } from "../../components/DropDown/DropDown";
 import { catalogContext } from "../../context/catalog/catalog-context";
+import { useTranslation } from 'react-i18next';
 
 const db = app.firestore();
 
 const Create = () => {
+    const { t, i18n } = useTranslation()
     const { deleteFromStorage } = useContext(catalogContext);
     const { admin } = useContext(authContext);
     const [filters, setFilters] = useState([]);
@@ -63,7 +65,7 @@ const Create = () => {
         const value = e.target[0].value;
         if (!value) return false;
         if (filters && filters.includes(value)) {
-            alert("This category already exists");
+            alert("create.This category already exists");
             return false;
         }
         const data = filters.concat(value);
@@ -116,7 +118,7 @@ const Create = () => {
                 <div className="row">
                     <div className="btns-wrapper">
                         <label className="btn" onClick={createRandom}>
-                            Create filler item
+                            {t("create.createFillerItem")}
                         </label>
                         <label
                             className="btn"
@@ -126,18 +128,18 @@ const Create = () => {
                                 )
                             }
                         >
-                            Create filler items
+                            {t("create.createFillerItems")}
                         </label>
                         <label
                             className="btn btn-danger"
                             onClick={getUncategorized}
                         >
-                            Delete items without category (fillers)
+                            {t("create.deleteWithoutCategory")}
                         </label>
                     </div>
                     <div className="form-wrapper">
                         <form onSubmit={(e) => newFilter(e)} action="/">
-                            <p className=" title">Create category</p>
+                            <p className=" title">{t("create.createCategory")}</p>
                             <div>
                                 <input
                                     type="text"
@@ -153,11 +155,11 @@ const Create = () => {
                                 }
                                 type="submit"
                             >
-                                Add category
+                                {t("create.addCategory")}
                             </button>
                         </form>
                         <form onSubmit={(e) => deleteFilter(e)} action="/">
-                            <p className=" title">Delete category</p>
+                            <p className=" title">{t("create.deleteCategory")}</p>
                             <DropDown
                                 key={filters}
                                 defaultValue={categoryToRemove}
@@ -171,7 +173,7 @@ const Create = () => {
                                 }
                                 type="submit"
                             >
-                                Delete category
+                                {t("create.deleteCategory")}
                             </button>
                         </form>
                     </div>
@@ -179,7 +181,7 @@ const Create = () => {
                 </div>
             </div>
         </div>
-    );
+    )
 };
 
 export default Create;

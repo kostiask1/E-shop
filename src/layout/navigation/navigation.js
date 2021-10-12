@@ -23,9 +23,9 @@ const Navigation = () => {
     const [width, setWidth] = useState(() => window.innerWidth)
     let props = useLocation()
     let routes = [
-        { to: "about", name: t("about") },
-        { to: "delivery", name: t("delivery") },
-        { to: "contacts", name: t("contacts") },
+        { to: "about", name: t("nav.about") },
+        { to: "delivery", name: t("nav.delivery") },
+        { to: "contacts", name: t("nav.contacts") },
     ]
 
     useEffect(() => {
@@ -101,7 +101,7 @@ const Navigation = () => {
                                         activeClassName="current"
                                         to="/create"
                                     >
-                                        Create
+                                        {t('nav.create')}
                                     </RLink>
                                 </li>
                             )}

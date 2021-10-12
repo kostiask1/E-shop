@@ -1,6 +1,30 @@
 {
-    "catalog": "Catalog",
-    "about": "About",
-    "delivery": "Delivery",
-    "contacts": "Contacts"
+    "loading": "Loading",
+    "noResultsFound": "No matching results found",
+    "nav": {
+        "catalog": "Catalog",
+        "about": "About",
+        "delivery": "Delivery",
+        "contacts": "Contacts",
+        "create": "Create"
+    },
+    "catalog": {
+        "create": "Create new item",
+        "filters": "Filters"
+    },
+    "auth": {
+        "credentials": "Enter your credentials",
+        "email": "Email address",
+        "password": "Password",
+        "logIn": "Log in"
+    },
+    "create": {
+        "createFillerItem": "Create filler item",
+        "createFillerItems": "Create filler items",
+        "deleteWithoutCategory": "Delete items without category (fillers)",
+        "createCategory": "Create category",
+        "addCategory": "Add category",
+        "deleteCategory": "Delete category"
+    },
+    "creater": {}
 }

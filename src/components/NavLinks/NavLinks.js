@@ -51,7 +51,7 @@ const NavLinks = ({ width, routes, catalog }) => {
                                     activeClass="active"
                                     className="nav-link"
                                 >
-                                    {t("catalog")}
+                                    {t("nav.catalog")}
                                 </Link>
                             ) : (
                                 <NavLink
@@ -59,7 +59,7 @@ const NavLinks = ({ width, routes, catalog }) => {
                                     activeClassName="current"
                                     to="/catalog"
                                 >
-                                    {t("catalog")}
+                                    {t("nav.catalog")}
                                 </NavLink>
                             )}
                         </li>
