@@ -1,21 +1,43 @@
 .navbar {
+    position: sticky;
+    top: var(--sticky-offset);
     z-index: 9990;
     background-color: var(--main);
     padding: 1rem 0;
-    height: 71px;
-    width: calc(100% - 7px);
+    width: 100%;
     box-shadow: -10px 8px 10px 1px rgba(0, 0, 0, 0.1);
     &__wrapper {
         width: 100%;
         display: flex;
+        flex-direction: column;
         margin-left: 7px;
         align-items: center;
         justify-content: space-between;
     }
     &-brand {
-        font-size: 24px;
-        color: var(--gray);
-        text-transform: capitalize;
+        font-family: Cormorant Garamond;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 4rem;
+        padding-bottom: 1rem;
+        color: rgba(var(--main-1), 1);
+    }
+    .cart-link {
+        font-size: 1rem;
+    }
+    .cart-counter {
+        background-color: gray;
+        border-radius: 50%;
+        font-size: 14px;
+        padding: 0.5rem;
+        position: absolute;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 0px;
+        height: 0px;
+        transform: translateY(-60%);
+        color: var(--main);
     }
     .nav {
         &-link {

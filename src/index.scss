@@ -12,6 +12,8 @@
 #root {
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    height: 100%;
     justify-content: space-between;
 }
 
@@ -27,4 +29,7 @@
     --alert: #dd0303;
     --success: #00b400;
     --warning: #ffc107;
+    --main-1: 229, 73, 0; // rgb(229, 73, 0)
+    --main-2: 3, 39, 179; // rgb(3, 39, 179)
+    --main-3: 225, 170, 198; // rgb(225, 170, 198)
 }

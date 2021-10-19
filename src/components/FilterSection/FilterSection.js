@@ -1,12 +1,12 @@
-import React, { useContext, useMemo } from "react";
-import { catalogContext } from "../../context/catalog/catalog-context";
-import Category from "../Category/Category";
-import "./FilterSection.scss";
-import { SearchIcon } from "../../icons";
-import Input from "../Input/Input";
+import React, { useContext, useMemo } from "react"
+import { catalogContext } from "../../context/catalog/catalog-context"
+import Category from "../Category/Category"
+import "./FilterSection.scss"
+import { SearchIcon } from "../../icons"
+import Input from "../Input/Input"
 
 const FilterSection = (props) => {
-    const { handleCheckbox } = props;
+    const { handleCheckbox } = props
     const {
         setSearchText,
         resetFilters,
@@ -17,14 +17,14 @@ const FilterSection = (props) => {
         setMaxPrice,
         minPrice,
         maxPrice,
-    } = useContext(catalogContext);
+    } = useContext(catalogContext)
 
     const handleInput = (e) => {
         const timeOutId = setTimeout(() => {
-            setSearchText(e);
-        }, 350);
-        return () => clearTimeout(timeOutId);
-    };
+            setSearchText(e)
+        }, 350)
+        return () => clearTimeout(timeOutId)
+    }
 
     return useMemo(
         () => (
@@ -83,7 +83,10 @@ const FilterSection = (props) => {
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [filters, category, minPrice, maxPrice]
-    );
-};
+    )
+}
 
-export default FilterSection;
+function arePropsEqual() {
+    return true
+}
+export default React.memo(FilterSection, arePropsEqual)

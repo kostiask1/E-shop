@@ -1,37 +1,39 @@
-import React, { useContext, useEffect } from "react";
-import { Route, withRouter, Redirect } from "react-router-dom";
-import { CSSTransition } from "react-transition-group";
-import { Footer } from "./layout/footer/footer";
-import { CatalogState } from "./context/catalog/catalog-state";
-import { authContext } from "./context/Auth/auth-context";
-import Navigation from "./layout/navigation/navigation";
-import Catalog from "./pages/Catalog/Catalog";
-import Contacts from "./pages/Contacts/Contacts";
-import Delivery from "./pages/Delivery/Delivery";
-import About from "./pages/About/About";
-import Card from "./components/Card/Card";
-import Cart from "./pages/Cart/Cart";
-import Create from "./pages/Create/Create";
-import Auth from "./pages/Auth/Auth";
+import React, { useContext, useEffect } from "react"
+import { Route, withRouter, Redirect } from "react-router-dom"
+import { CSSTransition } from "react-transition-group"
+import { Footer } from "./layout/footer/footer"
+import { CatalogState } from "./context/catalog/catalog-state"
+import { authContext } from "./context/Auth/auth-context"
+import Navigation from "./layout/navigation/navigation"
+import Catalog from "./pages/Catalog/Catalog"
+import Contacts from "./pages/Contacts/Contacts"
+import Delivery from "./pages/Delivery/Delivery"
+import About from "./pages/About/About"
+import Card from "./components/Card/Card"
+import Cart from "./pages/Cart/Cart"
+import Create from "./pages/Create/Create"
+import Auth from "./pages/Auth/Auth"
+import Main from "./pages/Main/Main"
 const mainRoutes = [
     { path: "/", Component: Catalog },
-    { path: "/catalog", Component: Catalog },
-];
+    { path: "/main", Component: Main },
+]
 
-const routes = [
+const routesSub = [
+    { path: "/catalog", Component: Catalog },
     { path: "/auth", Component: Auth },
     { path: "/cart", Component: Cart },
     { path: "/create", Component: Create },
     { path: "/catalog/:name", Component: Card },
-];
+]
 
 function App() {
-    const { auth } = useContext(authContext);
+    const { auth } = useContext(authContext)
 
     useEffect(() => {
-        auth();
+        auth()
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
     return (
         <CatalogState>
             <Navigation />
@@ -40,12 +42,12 @@ function App() {
                     {({ match }) => (
                         <CSSTransition
                             in={match != null}
-                            timeout={400}
+                            timeout={300}
                             classNames="page"
                             unmountOnExit
                         >
                             <>
-                                <Redirect to="/catalog" />
+                                <Redirect to="/main" />
                                 <div id="page" className="page">
                                     <Component {...match} />
                                     <About></About>
@@ -58,7 +60,7 @@ function App() {
                     )}
                 </Route>
             ))}
-            {routes.map(({ path, Component }) => (
+            {routesSub.map(({ path, Component }) => (
                 <Route path={path} exact key={path}>
                     {({ match }) => (
                         <CSSTransition
@@ -75,7 +77,7 @@ function App() {
                 </Route>
             ))}
         </CatalogState>
-    );
+    )
 }
 
-export default withRouter(App);
+export default withRouter(App)

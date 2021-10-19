@@ -257,7 +257,7 @@ const ItemCreator = (props) => {
                                 />
                             </div>
                             <DragAndDrop
-                                key={imagesArray}
+                                key={imagesArray.length}
                                 list={imagesArray}
                                 setImagesArray={setImagesArray}
                                 handleImageSet={handleImageSet}
