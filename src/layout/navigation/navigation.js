@@ -41,6 +41,19 @@ const Navigation = () => {
                         <RLink ref={ref} className="navbar-brand" to="/catalog">
                             {SHOP_NAME}
                         </RLink>
+                        <DropDown
+                            key={language}
+                            defaultValue={language}
+                            change={(e) => i18n.changeLanguage(e)}
+                            imagesArray={languages.map(
+                                (lang) => `/flags/${lang.code}.svg`
+                            )}
+                            optionsLabels={languages.map((lang) => lang.name)}
+                            options={languages.map((lang) => lang.code)}
+                            searchable={false}
+                            placeholder="Choose a category"
+                        ></DropDown>
+
                         <ul className="navbar-nav">
                             {storage.length > 0 && (
                                 <li className="nav-item pop-in">
@@ -64,7 +77,7 @@ const Navigation = () => {
                                         activeClassName="current"
                                         to="/create"
                                     >
-                                        Create
+                                        {t('nav.create')}
                                     </RLink>
                                 </li>
                             )}

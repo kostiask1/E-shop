@@ -137,7 +137,7 @@ const Catalog = () => {
                                     className="btn btn-filters"
                                     onClick={() => modalFilters.current.open()}
                                 >
-                                    Filters
+                                    {t("catalog.filters")}
                                 </button>
                             )}
 
@@ -169,7 +169,7 @@ const Catalog = () => {
                                         type="submit"
                                         onClick={() => modal.current.open()}
                                     >
-                                        Create new item
+                                        {t("catalog.create")}
                                     </button>
                                 )}
                                 {newData.length > 0 ? (
@@ -208,7 +208,7 @@ const Catalog = () => {
                                     )
                                 ) : (
                                     <span className="fade-in">
-                                        No matching results found
+                                        {t("noResultsFound")}
                                     </span>
                                 )}
                             </div>
@@ -230,7 +230,7 @@ const Catalog = () => {
                 </div>
             </div>
             {admin && (
-                <Suspense fallback={<p>Loading...</p>}>
+                <Suspense fallback={<p>{t("loading")}...</p>}>
                     <Modal ref={modal} size="lg">
                         {modal.current && (
                             <ItemCreator
