@@ -14,6 +14,7 @@ import Cart from "./pages/Cart/Cart"
 import Create from "./pages/Create/Create"
 import Auth from "./pages/Auth/Auth"
 import Main from "./pages/Main/Main"
+const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
 const mainRoutes = [
     { path: "/", Component: Catalog },
     { path: "/main", Component: Main },
@@ -31,6 +32,7 @@ function App() {
     const { auth } = useContext(authContext)
 
     useEffect(() => {
+        document.title = SHOP_NAME.charAt(0).toUpperCase() + SHOP_NAME.slice(1)
         auth()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])

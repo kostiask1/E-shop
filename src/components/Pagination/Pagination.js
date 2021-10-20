@@ -1,8 +1,8 @@
-import React from "react";
-import { local_page } from "../../localStorage";
-import { DropDown } from "../DropDown/DropDown";
-import "./Pagination.scss";
-import { ArrowLeftIcon, ArrowRightIcon } from "../../icons";
+import React from "react"
+import { local_page } from "../../localStorage"
+import { DropDown } from "../DropDown/DropDown"
+import "./Pagination.scss"
+import { ArrowLeftIcon, ArrowRightIcon } from "../../icons"
 
 const Pagination = ({
     handleSetPage,
@@ -15,22 +15,35 @@ const Pagination = ({
 }) => {
     const nextPage = () => {
         if (page < pages) {
-            JSON.stringify(localStorage.setItem(local_page, page + 1));
-            return handleSetPage(page + 1);
+            JSON.stringify(localStorage.setItem(local_page, page + 1))
+            return handleSetPage(page + 1)
         }
-    };
+    }
     const prevPage = () => {
         if (page > 0) {
-            JSON.stringify(localStorage.setItem(local_page, page - 1));
-            return handleSetPage(page - 1);
+            JSON.stringify(localStorage.setItem(local_page, page - 1))
+            return handleSetPage(page - 1)
         }
-    };
+    }
     const handleDropDown = (value) => {
-        handleSetPage(value - 1);
-    };
-    let pagesArray = [];
+        handleSetPage(value - 1)
+    }
+    let pagesArray = []
     for (let i = 1; i < pages + 1; i++) {
-        pagesArray.push(i);
+        pagesArray.push(i)
+    }
+
+    const PageBtn = ({ num }) => {
+        return (
+            <li className="page-item" key={num}>
+                <button
+                    className={`page-link ${page + 1 === num && "active"}`}
+                    onClick={() => handleSetPage(num - 1)}
+                >
+                    {num}
+                </button>
+            </li>
+        )
     }
     return (
         <div className="pagination">
@@ -56,59 +69,28 @@ const Pagination = ({
                 </li>
                 {pagesArray.length > 0 &&
                     pagesArray.map((num) => {
-                        if (pagesArray.length > 8) {
+                        if (
+                            pagesArray.length > 8 &&
+                            num !== pagesArray.length &&
+                            num !== 1
+                        ) {
                             if (
-                                page < num + 1 &&
-                                num < page + 3 &&
-                                num !== 1 &&
-                                num !== pagesArray.length
+                                (page < 4 && num < 7) ||
+                                (page > pagesArray.length - 5 &&
+                                    num > pagesArray.length - 6)
                             ) {
-                                return (
-                                    <li className="page-item" key={num}>
-                                        <button
-                                            className={`page-link ${
-                                                page + 1 === num && "active"
-                                            }`}
-                                            onClick={() =>
-                                                handleSetPage(num - 1)
-                                            }
-                                        >
-                                            {num}
-                                        </button>
-                                    </li>
-                                );
+                                return <PageBtn key={num} num={num}></PageBtn>
                             }
-                        } else {
-                            if (num !== 1 && num !== pagesArray.length) {
-                                return (
-                                    <li className="page-item" key={num}>
-                                        <button
-                                            className={`page-link ${
-                                                page + 1 === num && "active"
-                                            }`}
-                                            onClick={() =>
-                                                handleSetPage(num - 1)
-                                            }
-                                        >
-                                            {num}
-                                        </button>
-                                    </li>
-                                );
+                            if (page < num + 2 && num < page + 4) {
+                                return <PageBtn key={num} num={num}></PageBtn>
                             }
+                        } else if (num !== pagesArray.length && num !== 1) {
+                            return <PageBtn key={num} num={num}></PageBtn>
                         }
-                        return null;
+                        return null
                     })}
                 {pagesArray.length > 1 && (
-                    <li className="page-item">
-                        <button
-                            className={`page-link ${
-                                page + 1 === pagesArray.length && "active"
-                            }`}
-                            onClick={() => handleSetPage(pagesArray.length - 1)}
-                        >
-                            {pagesArray.length}
-                        </button>
-                    </li>
+                    <PageBtn num={pagesArray.length}></PageBtn>
                 )}
                 <li className="page-item">
                     <button
@@ -137,7 +119,7 @@ const Pagination = ({
                 <li className="page-item">
                     <label>Items</label>
                     <DropDown
-                        defaultValue={itemsPerPage}
+                        defaultValue={+itemsPerPage}
                         change={handleItemsPerPage}
                         options={[1, 3, 4, 6, 8, 12, 16, 20]}
                         searchable={false}
@@ -160,8 +142,8 @@ const Pagination = ({
                 </li>
             </ul>
         </div>
-    );
-};
+    )
+}
 
 function arePropsEqual(prevProps, nextProps) {
     return (
@@ -169,7 +151,7 @@ function arePropsEqual(prevProps, nextProps) {
         prevProps.page === nextProps.page &&
         prevProps.itemsPerPage === nextProps.itemsPerPage &&
         prevProps.order === nextProps.order
-    );
+    )
 }
 
-export default React.memo(Pagination, arePropsEqual);
+export default React.memo(Pagination, arePropsEqual)

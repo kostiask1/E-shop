@@ -3,7 +3,7 @@ import "./NavLinks.scss"
 import { Link } from "react-scroll"
 import { NavLink } from "react-router-dom"
 
-const NavLinks = ({ width, routes, main }) => {
+const NavLinks = ({ width, routes, main, storage }) => {
     const [open, setOpen] = useState(false)
     useEffect(() => {
         document.addEventListener("mouseup", clickHandler)
@@ -43,9 +43,9 @@ const NavLinks = ({ width, routes, main }) => {
                                     to="main"
                                     spy={true}
                                     smooth={true}
-                                    offset={-78}
+                                    offset={-150}
                                     duration={500}
-                                    containerId="page"
+                                    containerId="root"
                                     activeClass="active"
                                     className="nav-link"
                                 >
@@ -54,7 +54,7 @@ const NavLinks = ({ width, routes, main }) => {
                             ) : (
                                 <NavLink
                                     className="nav-link"
-                                    activeClassName="current"
+                                    activeClassName="active"
                                     to="/main"
                                 >
                                     Main
@@ -64,7 +64,7 @@ const NavLinks = ({ width, routes, main }) => {
                         <div className="nav-item">
                             <NavLink
                                 className="nav-link"
-                                activeClassName="current"
+                                activeClassName="active"
                                 to="/catalog"
                             >
                                 Catalog
@@ -79,15 +79,25 @@ const NavLinks = ({ width, routes, main }) => {
                                           smooth={true}
                                           offset={-125}
                                           duration={500}
-                                          containerId="page"
+                                          containerId="root"
                                           activeClass="active"
-                                          className="nav-link"
+                                          className="nav-link fade-in"
                                       >
                                           {name}
                                       </Link>
                                   </li>
                               ))
                             : null}
+                        {storage.length > 0 && (
+                            <li className="nav-item pop-in">
+                                <NavLink activeClassName="active" to="/cart">
+                                    <span className="cart-link">Cart</span>
+                                    <span className="cart-counter">
+                                        {storage.length}
+                                    </span>
+                                </NavLink>
+                            </li>
+                        )}
                     </>
                 )}
             </div>

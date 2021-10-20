@@ -38,21 +38,12 @@ const Navigation = () => {
             <nav className="navbar">
                 <div className="container">
                     <div className="navbar__wrapper">
-                        <RLink ref={ref} className="navbar-brand" to="/catalog">
+                        <RLink ref={ref} className="navbar-brand" to="/main">
                             {SHOP_NAME}
                         </RLink>
                         <ul className="navbar-nav">
-                            {storage.length > 0 && (
-                                <li className="nav-item pop-in">
-                                    <RLink to="/cart">
-                                        <span className="cart-link">Cart</span>
-                                        <span className="cart-counter">
-                                            {storage.length}
-                                        </span>
-                                    </RLink>
-                                </li>
-                            )}
                             <NavLinks
+                                storage={storage}
                                 width={width}
                                 routes={routes}
                                 main={props.pathname === "/main"}

@@ -1,13 +1,12 @@
-import React from "react";
-import "./Main.scss";
+import React from "react"
+import "./Main.scss"
 
 const Main = () => {
-  return (
-    <>
-      <div></div>
-    </>
-  );
-};
+    return (
+        <>
+            <div id="main"></div>
+        </>
+    )
+}
 
-
-export default Main;
+export default Main

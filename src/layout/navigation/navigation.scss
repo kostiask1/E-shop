@@ -21,12 +21,16 @@
         font-size: 4rem;
         padding-bottom: 1rem;
         color: rgba(var(--main-1), 1);
+        @media (max-width: 768px) {
+            text-align: center;
+            font-size: 2rem;
+        }
     }
     .cart-link {
         font-size: 1rem;
     }
     .cart-counter {
-        background-color: gray;
+        background-color: rgba(var(--main-2), 1);
         border-radius: 50%;
         font-size: 14px;
         padding: 0.5rem;
@@ -36,48 +40,48 @@
         justify-content: center;
         width: 0px;
         height: 0px;
-        transform: translateY(-60%);
+        transform: translateY(-60%) translateX(150%);
         color: var(--main);
     }
     .nav {
-        &-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            margin-left: 1rem;
-            color: var(--gray);
-            transition: all 0.3s;
-            letter-spacing: 0.7px;
-            &.current,
-            &.active {
-                text-shadow: 0px 0px 1px var(--gray);
-                color: var(--black);
-            }
-            &:after {
-                display: block;
-                content: " ";
-                position: absolute;
-                bottom: -4px;
-                width: 100%;
-                height: 2px;
-                background-color: var(--black);
-                transform: scaleX(0);
-                transform-origin: left;
-                transition: all 0.3s;
-            }
-            &:hover:after,
-            &.active:after {
-                transform-origin: right;
-                transform: scaleX(1);
-            }
-        }
         &-item {
             display: flex;
             align-items: center;
+            a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                padding: 0 0.5rem;
+                color: rgba(var(--main-2), 1);
+                transition: all 0.3s;
+                letter-spacing: 0.7px;
+                &.current,
+                &.active {
+                    color: rgba(var(--main-1), 1);
+                }
+                &:after {
+                    display: block;
+                    content: " ";
+                    position: absolute;
+                    bottom: -4px;
+                    width: 100%;
+                    height: 4px;
+                    background-color: rgba(var(--main-1), 1);
+                    transform: scaleX(0);
+                    transform-origin: left;
+                    transition: all 0.3s;
+                }
+                &:hover:after,
+                &.active:after {
+                    transform-origin: right;
+                    transform: scaleX(1);
+                }
+            }
         }
     }
     &-nav {
+        border-bottom: 1px solid rgba(var(--main-2), 1);
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;

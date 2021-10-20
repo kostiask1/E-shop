@@ -1,5 +1,5 @@
 #catalog {
-    padding-bottom: 2rem;
+    padding: 2rem 0;
     @media screen and (max-width: 768px) {
         & > .container > .row {
             flex-direction: column;

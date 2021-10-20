@@ -94,39 +94,65 @@ button {
 }
 .img-fluid {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: 100%;
+    aspect-ratio: 1/1;
     object-fit: contain;
 }
-.page .carousel.carousel-slider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .control-dots {
-        width: unset;
-        background: rgba(0, 0, 0, 0.1);
-        border-radius: 100px;
-        opacity: 0.2;
-        transition: 0.3s all;
-    }
-    .control-arrow {
-        box-shadow: unset;
-        padding: 0.8rem;
-        transition: 0.3s all;
-    }
-    &:hover {
-        .control-arrow {
-            background-color: rgba(0, 0, 0, 0.1);
+.carousel-root {
+    display: contents;
+    .thumbs {
+        text-align: center;
+        .thumb:hover {
+            border-color: #ddd;
+            border-color: rgba(var(--main-1), 1);
         }
+        .thumb.selected {
+            border-color: #999;
+            border-color: rgba(var(--main-2), 1);
+        }
+    }
+    .carousel.carousel-slider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         .control-dots {
-            opacity: 1;
-            .dot:nth-child(1n + 8) {
-                display: none;
+            width: unset;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 100px;
+            opacity: 0.2;
+            transition: 0.3s all;
+        }
+        .slider-wrapper {
+            margin: unset;
+            height: 100%;
+            .slider {
+                height: 100%;
+            }
+        }
+        .control-arrow {
+            box-shadow: unset;
+            padding: 0.8rem;
+            transition: 0.3s all;
+        }
+        &:hover {
+            .control-arrow {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
+            .control-dots {
+                opacity: 1;
+                .dot:nth-child(1n + 8) {
+                    display: none;
+                }
             }
         }
     }
-}
-.slide {
-    cursor: pointer;
+    .slide {
+        cursor: pointer;
+        div {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }
 ::-webkit-scrollbar {
     width: 8px;
