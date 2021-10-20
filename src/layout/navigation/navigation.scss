@@ -20,7 +20,7 @@
         text-transform: uppercase;
         font-size: 4rem;
         padding-bottom: 1rem;
-        color: rgba(var(--main-1), 1);
+        color: rgba(var(--main-1-transparent), 1);
         @media (max-width: 768px) {
             text-align: center;
             font-size: 2rem;
@@ -30,7 +30,7 @@
         font-size: 1rem;
     }
     .cart-counter {
-        background-color: rgba(var(--main-2), 1);
+        background-color: rgba(var(--main-2-transparent), 1);
         border-radius: 50%;
         font-size: 14px;
         padding: 0.5rem;
@@ -53,35 +53,35 @@
                 justify-content: center;
                 position: relative;
                 padding: 0 0.5rem;
-                color: rgba(var(--main-2), 1);
+                color: rgba(var(--main-2-transparent), 1);
                 transition: all 0.3s;
                 letter-spacing: 0.7px;
                 &.current,
-                &.active {
-                    color: rgba(var(--main-1), 1);
+                &.active,
+                &:hover {
+                    color: rgba(var(--main-1-transparent), 1);
                 }
                 &:after {
                     display: block;
                     content: " ";
                     position: absolute;
-                    bottom: -4px;
+                    bottom: -2px;
                     width: 100%;
-                    height: 4px;
-                    background-color: rgba(var(--main-1), 1);
+                    height: 2px;
+                    background-color: rgba(var(--main-1-transparent), 1);
                     transform: scaleX(0);
-                    transform-origin: left;
+                    transform-origin: center;
                     transition: all 0.3s;
                 }
                 &:hover:after,
                 &.active:after {
-                    transform-origin: right;
                     transform: scaleX(1);
                 }
             }
         }
     }
     &-nav {
-        border-bottom: 1px solid rgba(var(--main-2), 1);
+        border-bottom: 1px solid rgba(var(--main-2-transparent), 1);
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;

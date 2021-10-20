@@ -1,0 +1,44 @@
+/* your css code */
+.MainCarousel {
+    text-align: center;
+    h4 {
+        display: inline-block;
+        font-family: Roboto;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 6rem;
+        color: transparent;
+        -webkit-text-stroke: 2px black;
+        padding-bottom: 0.4rem;
+        border-bottom: 5px solid var(--main-1);
+    }
+    .carousel.carousel-slider {
+        margin-top: 5rem;
+        overflow: visible;
+    }
+    p {
+        background-color: rgba(var(--main-1-transparent), 1);
+        padding: 0 2rem;
+        border-bottom: 1px solid #fff;
+        color: #fff;
+        position: absolute;
+        top: 100%;
+        font-family: Roboto;
+        font-style: italic;
+    }
+    .prev {
+        transform: translateX(-90%);
+    }
+    .next {
+        transform: translateX(90%);
+    }
+    .slide {
+        transition: all 0.3s;
+        height: 80%;
+        margin: 0 0.5rem;
+    }
+    .slide.selected {
+        margin: 0 3rem;
+        height: 100%;
+    }
+}

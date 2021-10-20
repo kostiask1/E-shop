@@ -1,6 +1,9 @@
 @import "./sass/base.scss";
 @import "./sass/UI.scss";
 @import "./sass/keyframes.scss";
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,500&display=swap"); // Roboto
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap"); // Cormorant Garamond
+@import url("https://fonts.googleapis.com/css2?family=Mulish:ital,wght@1,300;1,400;1,700&display=swap"); // Mulish
 
 * {
     margin: 0;
@@ -29,7 +32,10 @@
     --alert: #dd0303;
     --success: #00b400;
     --warning: #ffc107;
-    --main-1: 229, 73, 0; // rgb(229, 73, 0)
-    --main-2: 3, 39, 179; // rgb(3, 39, 179)
-    --main-3: 225, 170, 198; // rgb(225, 170, 198)
+    --main-1: #e54900;
+    --main-2: #0327b3;
+    --main-3: #e1aac6;
+    --main-1-transparent: 229, 73, 0; // rgb(229, 73, 0)
+    --main-2-transparent: 3, 39, 179; // rgb(3, 39, 179)
+    --main-3-transparent: 225, 170, 198; // rgb(225, 170, 198)
 }
