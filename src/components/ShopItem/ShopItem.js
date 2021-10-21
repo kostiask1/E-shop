@@ -5,20 +5,20 @@ import React, {
     useRef,
     lazy,
     Suspense,
-} from "react";
-import { Link } from "react-router-dom";
-import { catalogContext } from "../../context/catalog/catalog-context";
-import { app } from "../../base";
-import { authContext } from "../../context/Auth/auth-context";
-import InCart from "../InCart/InCart";
-import "./ShopItem.scss";
-import { DeleteIcon, EditIcon } from "../../icons";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useHistory } from "react-router-dom";
-const Modal = lazy(() => import("../Modal/Modal"));
-const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"));
-const db = app.firestore();
+} from "react"
+import { Link } from "react-router-dom"
+import { catalogContext } from "../../context/catalog/catalog-context"
+import { app } from "../../base"
+import { authContext } from "../../context/Auth/auth-context"
+import InCart from "../InCart/InCart"
+import "./ShopItem.scss"
+import { DeleteIcon, EditIcon } from "../../icons"
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import { useHistory } from "react-router-dom"
+const Modal = lazy(() => import("../Modal/Modal"))
+const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"))
+const db = app.firestore()
 
 const ShopItem = (props) => {
     const {
@@ -36,46 +36,46 @@ const ShopItem = (props) => {
         inCart,
         boughtCount,
         disabledControls,
-    } = props;
-    const { getData, deleteFromStorage } = useContext(catalogContext);
-    const { admin } = useContext(authContext);
-    const [fading, setFading] = useState(false);
+    } = props
+    const { getData, deleteFromStorage } = useContext(catalogContext)
+    const { admin } = useContext(authContext)
+    const [fading, setFading] = useState(false)
     const [selected, setSelected] = useState(
         deleteArray && deleteArray.includes(id) ? true : false
-    );
-    const history = useHistory();
-    const [mouseMoved, setMouseMoved] = useState(false);
-    const modal = useRef(null);
+    )
+    const history = useHistory()
+    const [mouseMoved, setMouseMoved] = useState(false)
+    const modal = useRef(null)
 
     useEffect(() => {
-        setFading(false);
-        if (!disabledControls) setTimeout(() => setFading(true), 300);
+        setFading(false)
+        if (!disabledControls) setTimeout(() => setFading(true), 300)
         return () => {
-            setFading(false);
-        };
+            setFading(false)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
+    }, [page])
 
     const deleteItem = () => {
-        setFading(false);
-        deleteFromStorage([id]);
-        let item = db.collection("All").where("id", "==", id);
+        setFading(false)
+        deleteFromStorage([id])
+        let item = db.collection("All").where("id", "==", id)
         item.get().then(function (querySnapshot) {
             querySnapshot.docs[0].ref.delete().then(() => {
-                getData();
-            });
-        });
-    };
+                getData()
+            })
+        })
+    }
     const handleCheckbox = (event) => {
-        event.preventDefault();
-        setSelected(!selected);
-        handleDeleteArray(id);
-    };
+        event.preventDefault()
+        setSelected(!selected)
+        handleDeleteArray(id)
+    }
     const handleClick = () => {
         if (!mouseMoved && !disabledControls) {
-            history.push("/catalog/" + id);
+            history.push("/catalog/" + id)
         }
-    };
+    }
 
     return (
         <>
@@ -208,7 +208,7 @@ const ShopItem = (props) => {
                 </Suspense>
             )}
         </>
-    );
-};
+    )
+}
 
-export default ShopItem;
+export default ShopItem

@@ -1,6 +1,11 @@
 /* your css code */
+
 .MainCarousel {
     text-align: center;
+    background-repeat: no-repeat;
+    background-size: 120% 80%;
+    background-position: 0 100%;
+    padding-bottom: 13rem;
     h4 {
         display: inline-block;
         font-family: Roboto;
@@ -13,12 +18,16 @@
         border-bottom: 5px solid var(--main-1);
     }
     .carousel.carousel-slider {
+        max-width: 1300px;
+        margin: 0 auto;
         margin-top: 5rem;
+        padding-bottom: 2rem;
         overflow: visible;
     }
     p {
-        background-color: rgba(var(--main-1-transparent), 1);
+        cursor: pointer;
         padding: 0 2rem;
+        font-size: 2rem;
         border-bottom: 1px solid #fff;
         color: #fff;
         position: absolute;
@@ -34,11 +43,14 @@
     }
     .slide {
         transition: all 0.3s;
-        height: 80%;
-        margin: 0 0.5rem;
+        max-height: 400px;
+        img {
+            // padding: 0px 1rem;
+            height: 100%;
+            object-fit: contain;
+        }
     }
     .slide.selected {
-        margin: 0 3rem;
-        height: 100%;
+        max-height: 500px;
     }
 }
