@@ -1,37 +1,45 @@
 .counter {
     position: absolute;
-    right: 10px;
-    transform: translateY(-60%) translateX(200%);
-}
-.cart-counter {
-    font-family: serif;
-    font-size: 11px;
-    padding: 0.45rem;
-    position: absolute;
+    right: 0px;
+    top: 0;
+    transform: translateY(-15%) translateX(120%);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 0px;
-    top: 0;
-    height: 0px;
+}
+.cart-counter {
+    font-family: sans-serif;
+    font-size: 0.8rem;
+    line-height: 1;
+    position: absolute;
     color: var(--main);
 }
 #burst-8 {
     background: var(--main-2);
-    width: 14px;
-    height: 14px;
+    width: 1rem;
+    height: 1rem;
     position: relative;
     text-align: center;
     transform: rotate(20deg);
+    animation: 10s spin linear infinite;
     &:before {
         content: "";
         position: absolute;
         top: 0;
         left: 0;
-        height: 14px;
-        width: 14px;
+        height: 1rem;
+        width: 1rem;
         background: var(--main-2);
         transform: rotate(135deg);
+        animation: 2s 10s spin linear infinite;
+    }
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
     }
 }
 a.active {

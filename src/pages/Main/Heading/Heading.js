@@ -4,8 +4,12 @@ import CallToAction from "../../../components/CallToAction/CallToAction"
 
 const Heading = () => {
     return (
-        <div className="container">
+        <div id="main" className="container">
             <div className="heading">
+                <div className="circle">
+                    made by <br />
+                    Apollin Ko
+                </div>
                 <div className="img-wrapper">
                     <div>
                         <img

@@ -1,0 +1,42 @@
+#about {
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: 50% 50%;
+    padding: 1rem 0;
+    margin-bottom: 12rem;
+    position: relative;
+    .img {
+        width: 35%;
+        margin: 0 auto;
+        img {
+            width: 100%;
+        }
+    }
+    .text {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        text-align: left;
+        width: 50%;
+        margin: 0 auto;
+        transform: translate(-50%, 25%);
+        h3,
+        b {
+            display: inline-block;
+            font-size: 6rem;
+            font-style: italic;
+        }
+        h3 {
+            color: transparent;
+            -webkit-text-stroke: 2px var(--main-1);
+        }
+        b {
+            color: var(--main-1);
+            -webkit-text-stroke: unset;
+            &:before {
+                content: "\00a0";
+            }
+        }
+    }
+}

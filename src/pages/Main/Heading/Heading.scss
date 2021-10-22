@@ -4,14 +4,19 @@
     margin-top: 8rem;
     position: relative;
     text-align: center;
-    width: 80%;
+    width: 75%;
     .img-wrapper {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
-        img {
-            padding: 0 20px;
+        img,
+        div {
             width: 100%;
+        }
+        img:first-child {
+            padding-right: 10px;
+        }
+        img:last-child {
+            padding-left: 10px;
         }
         @media (max-width: 767px) {
             flex-direction: column;
@@ -21,6 +26,25 @@
         position: absolute;
         right: 0;
         bottom: 0;
+        transform: translateX(50%);
+    }
+    .circle {
+        position: absolute;
+        display: flex;
+        top: 0;
+        left: 0;
+        border-radius: 100%;
+        background-color: var(--main-1);
+        width: 10rem;
+        height: 10rem;
+        align-items: center;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-family: Cormorant Garamond;
+        font-weight: 600;
+        font-size: 1.5rem;
+        line-height: 1.3;
     }
     p.call-to-action {
         text-align: left;
@@ -29,5 +53,16 @@
         font-size: 4rem;
         color: transparent;
         -webkit-text-stroke: 2px var(--main-1);
+        animation: 3s CTA ease-in-out infinite;
+        @keyframes CTA {
+            0%,
+            100% {
+                opacity: 0;
+            }
+            25%,
+            75% {
+                opacity: 1;
+            }
+        }
     }
 }
