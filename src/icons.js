@@ -35,6 +35,23 @@ export const DeleteIcon = ({ width, height, fill, viewbox }) => (
     </svg>
 )
 
+export const BarsIcon = ({ width, height, fill, viewbox }) => (
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
+        viewBox={viewbox ?? "0 0 24 24"}
+        fill="none"
+        stroke={fill ?? "var(--textBlack)"}
+        strokeWidth="2"
+        strokeLinecap="round"
+    >
+        <line x1={3} y1={12} x2={21} y2={12} />
+        <line x1={3} y1={6} x2={21} y2={6} />
+        <line x1={3} y1={18} x2={21} y2={18} />
+    </svg>
+)
+
 export const EditIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"

@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react"
+import { useLocation } from "react-router"
 import { Route, withRouter, Redirect } from "react-router-dom"
 import { CSSTransition } from "react-transition-group"
 import { Footer } from "./layout/footer/footer"
@@ -30,12 +31,18 @@ const routesSub = [
 
 function App() {
     const { auth } = useContext(authContext)
+    const location = useLocation()
 
     useEffect(() => {
         document.title = SHOP_NAME.charAt(0).toUpperCase() + SHOP_NAME.slice(1)
         auth()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        const root = document.getElementById("root")
+        root.scrollTop = 0
+    }, [location.pathname])
     return (
         <CatalogState>
             <Navigation />

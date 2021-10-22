@@ -7,6 +7,7 @@
     width: 100%;
     box-shadow: -10px 8px 10px 1px rgba(0, 0, 0, 0.1);
     &__wrapper {
+        position: relative;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -24,10 +25,8 @@
         @media (max-width: 768px) {
             text-align: center;
             font-size: 2rem;
+            padding-bottom: 0rem;
         }
-    }
-    .cart-link {
-        font-size: 1rem;
     }
     .nav {
         &-item {
@@ -65,6 +64,10 @@
                     transform: scaleX(1);
                 }
             }
+            &:first-child a,
+            &:last-child a {
+                padding: 0;
+            }
         }
     }
     &-nav {
@@ -72,8 +75,39 @@
         display: flex;
         align-items: baseline;
         flex-direction: row;
-        flex-wrap: wrap;
-        flex-direction: row;
+        @media (max-width: 768px) {
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            padding-left: 2rem;
+            padding-right: 5rem;
+            padding-top: 4rem;
+            background: #fff;
+            z-index: 190;
+            transform: translateX(-300px);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0px 0px 70px 25px rgba(0, 0, 0, 0.4);
+            .nav-item {
+                &:first-child a,
+                &:last-child a,
+                a {
+                    font-size: 1.8rem;
+                    padding-top: 2rem;
+                    padding-left: 0.4rem;
+                    .cart-counter {
+                        padding: 0.6rem;
+                    }
+                    &:after {
+                        content: unset;
+                    }
+                }
+            }
+            &.opened {
+                transform: translateX(0);
+            }
+        }
     }
     .fa-phone {
         transform: rotate(90deg);
@@ -87,4 +121,21 @@
             font-size: 1rem;
         }
     }
+}
+.menu-toggler {
+    position: absolute;
+    top: 50%;
+    left: 0px;
+    font-size: 8px;
+    cursor: pointer;
+    color: #000;
+    z-index: 9999;
+    transition: 0.3s all;
+    transform: translateY(-50%);
+}
+.menu-toggler:hover {
+    opacity: 0.7;
+}
+.menu-toggler.open {
+    left: 320px;
 }

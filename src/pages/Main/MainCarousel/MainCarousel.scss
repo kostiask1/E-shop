@@ -18,11 +18,16 @@
         border-bottom: 5px solid var(--main-1);
     }
     .carousel.carousel-slider {
-        max-width: 1300px;
+        min-width: 300px;
+        max-width: 90vw;
+        height: 500px;
         margin: 0 auto;
         margin-top: 5rem;
         padding-bottom: 2rem;
         overflow: visible;
+    }
+    .slider {
+        align-items: center;
     }
     p {
         cursor: pointer;
@@ -43,14 +48,17 @@
     }
     .slide {
         transition: all 0.3s;
-        max-height: 400px;
         img {
-            // padding: 0px 1rem;
-            height: 100%;
+            max-height: 400px;
+            width: 75%;
             object-fit: contain;
+            transition: width 0.3s;
         }
     }
     .slide.selected {
-        max-height: 500px;
+        img {
+            width: 100%;
+            max-height: 500px;
+        }
     }
 }

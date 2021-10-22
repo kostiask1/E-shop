@@ -17,7 +17,7 @@
         "uuid": "^8.3.2"
     },
     "scripts": {
-        "watch": "react-scripts start",
+        "watch": "react-scripts start --host 0.0.0.0",
         "build": "react-scripts build",
         "deploy": "firebase deploy",
         "release": "react-scripts build && firebase deploy",

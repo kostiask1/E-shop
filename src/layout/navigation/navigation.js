@@ -3,7 +3,7 @@ import { NavLink as RLink, useLocation } from "react-router-dom"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
 import "./navigation.scss"
-import { PowerOffIcon } from "../../icons"
+import { PowerOffIcon, DeleteIcon, BarsIcon } from "../../icons"
 import NavLinks from "./NavLinks/NavLinks"
 import { routes } from "../../pages/routes"
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
@@ -12,16 +12,30 @@ const Navigation = () => {
     const { storage } = useContext(catalogContext)
     const { admin, logout } = useContext(authContext)
     const [width, setWidth] = useState(() => window.innerWidth)
+    const [isOpen, setIsOpen] = useState(false)
     let props = useLocation()
     const ref = useRef()
+
+    useEffect(() => {
+        document.addEventListener("mouseup", clickMenuListener)
+        return () => {
+            document.removeEventListener("mouseup", clickMenuListener)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    const clickMenuListener = (e) => {
+        let inComponent = e.target.matches(`.navbar__wrapper *`)
+        if (!inComponent) {
+            setIsOpen(false)
+        }
+    }
+
     useEffect(() => {
         document.documentElement.style.setProperty(
             "--sticky-offset",
-            -ref.current.clientHeight + "px"
+            width > 767 ? -ref.current.clientHeight + "px" : 0
         )
-    }, [])
-
-    useEffect(() => {
         const handleResize = () => {
             if (width < 767 && window.innerWidth > 767) {
                 return setWidth(window.innerWidth)
@@ -33,18 +47,27 @@ const Navigation = () => {
         window.addEventListener("resize", handleResize)
         return (_) => window.removeEventListener("resize", handleResize)
     }, [width])
+
     return (
         <>
             <nav className="navbar">
                 <div className="container">
                     <div className="navbar__wrapper">
+                        {width < 767 && (
+                            <div
+                                className="menu-toggler"
+                                onClick={() => setIsOpen(!isOpen)}
+                            >
+                                {isOpen ? <DeleteIcon /> : <BarsIcon />}
+                            </div>
+                        )}
                         <RLink ref={ref} className="navbar-brand" to="/main">
                             {SHOP_NAME}
                         </RLink>
-                        <ul className="navbar-nav">
+                        <ul className={`navbar-nav ${isOpen ? "opened" : ""}`}>
                             <NavLinks
+                                setIsOpen={setIsOpen}
                                 storage={storage}
-                                width={width}
                                 routes={routes}
                                 main={props.pathname === "/main"}
                             />
