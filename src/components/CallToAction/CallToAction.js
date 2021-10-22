@@ -2,13 +2,20 @@ import React, { useState, useEffect } from "react"
 
 const CallToAction = () => {
     const [action, setAction] = useState("")
-    const actions = ["buy our shoppers", "buy our rings", "only the best goods"]
+    const actions = [
+        "Streetstyle. Youth. Eco-friendly.",
+        "Beauty. Quality. Comfort",
+    ]
     useEffect(() => {
-        let index = Math.floor(Math.random() * actions.length)
-        setAction(actions[index])
+        setAction(actions[0])
+        let interval = setInterval(() => {
+            let index = Math.floor(Math.random() * actions.length)
+            setAction(actions[index])
+            return (_) => clearTimeout(interval)
+        }, 2000)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    return <p>{action}</p>
+    return <p className="call-to-action">{action}</p>
 }
 
 export default CallToAction

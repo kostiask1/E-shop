@@ -8,6 +8,7 @@ const MainCarousel = () => {
     const { data, getData } = useContext(catalogContext)
     const [clone, setClone] = useState([])
     const [mouseMoved, setMouseMoved] = useState(false)
+    const [width, setWidth] = useState(() => window.innerWidth)
     const history = useHistory()
     useEffect(() => {
         getData()
@@ -22,13 +23,26 @@ const MainCarousel = () => {
             if (+a.boughtCount > +b.boughtCount) {
                 return -1
             }
-            // a должно быть равным b
             return 0
         })
         newClone = newClone.splice(0, 5)
         setClone(newClone)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data])
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (width < 767 && window.innerWidth > 767) {
+                return setWidth(window.innerWidth)
+            } else if (width >= 767 && window.innerWidth <= 767) {
+                return setWidth(window.innerWidth)
+            }
+        }
+        window.removeEventListener("resize", handleResize)
+        window.addEventListener("resize", handleResize)
+        return (_) => window.removeEventListener("resize", handleResize)
+    }, [width])
+
     const handleClick = (id) => {
         if (!mouseMoved) {
             history.push("/catalog/" + id)
@@ -51,7 +65,7 @@ const MainCarousel = () => {
                     dynamicHeight={false}
                     renderIndicator={false}
                     selectedItem={1}
-                    renderArrowPrev={(clickHandler, hasPrev, labelNext) => (
+                    renderArrowPrev={(clickHandler, hasPrev) => (
                         <p
                             className="prev"
                             onClick={hasPrev ? clickHandler : null}
@@ -59,7 +73,7 @@ const MainCarousel = () => {
                             Prev
                         </p>
                     )}
-                    renderArrowNext={(clickHandler, hasNext, labelNext) => (
+                    renderArrowNext={(clickHandler, hasNext) => (
                         <p
                             className="next"
                             onClick={hasNext ? clickHandler : null}
@@ -68,7 +82,7 @@ const MainCarousel = () => {
                         </p>
                     )}
                     centerMode
-                    centerSlidePercentage={35}
+                    centerSlidePercentage={width > 767 ? 35 : 100}
                 >
                     {clone.map((item) => (
                         <div

@@ -1,0 +1,33 @@
+.heading {
+    margin: 0 auto;
+    margin-bottom: 12rem;
+    margin-top: 8rem;
+    position: relative;
+    text-align: center;
+    width: 80%;
+    .img-wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        img {
+            padding: 0 20px;
+            width: 100%;
+        }
+        @media (max-width: 767px) {
+            flex-direction: column;
+        }
+    }
+    .sticker {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+    p.call-to-action {
+        text-align: left;
+        font-family: Cormorant Garamond;
+        font-weight: 600;
+        font-size: 4rem;
+        color: transparent;
+        -webkit-text-stroke: 2px var(--main-1);
+    }
+}

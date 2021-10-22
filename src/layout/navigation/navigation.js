@@ -38,6 +38,7 @@ const Navigation = () => {
         )
         const handleResize = () => {
             if (width < 767 && window.innerWidth > 767) {
+                setIsOpen(false)
                 return setWidth(window.innerWidth)
             } else if (width >= 767 && window.innerWidth <= 767) {
                 return setWidth(window.innerWidth)
