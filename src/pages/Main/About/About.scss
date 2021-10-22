@@ -18,7 +18,7 @@
         bottom: 0;
         left: 50%;
         text-align: left;
-        width: 50%;
+        width: 55%;
         margin: 0 auto;
         transform: translate(-50%, 25%);
         h3,
@@ -37,6 +37,11 @@
             &:before {
                 content: "\00a0";
             }
+        }
+        p {
+            font-style: italic;
+            font-weight: 600;
+            font-size: 1.3rem;
         }
     }
 }
