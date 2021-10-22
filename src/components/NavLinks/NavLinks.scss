@@ -19,3 +19,45 @@
         }
     }
 }
+.counter {
+    position: absolute;
+    right: 10px;
+    transform: translateY(-60%) translateX(175%);
+}
+.cart-counter {
+    font-size: 13px;
+    padding: 0.42rem;
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0px;
+    top: 0;
+    height: 0px;
+    color: var(--main);
+}
+#burst-8 {
+    background: var(--main-2);
+    width: 13px;
+    height: 13px;
+    position: relative;
+    text-align: center;
+    transform: rotate(20deg);
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 13px;
+        width: 13px;
+        background: var(--main-2);
+        transform: rotate(135deg);
+    }
+}
+a.active {
+    #burst-8,
+    #burst-8:before,
+    #burst-8:after {
+        background: var(--main-1);
+    }
+}

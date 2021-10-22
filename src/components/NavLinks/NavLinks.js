@@ -92,9 +92,12 @@ const NavLinks = ({ width, routes, main, storage }) => {
                             <li className="nav-item pop-in">
                                 <NavLink activeClassName="active" to="/cart">
                                     <span className="cart-link">Cart</span>
-                                    <span className="cart-counter">
-                                        {storage.length}
-                                    </span>
+                                    <div className="counter">
+                                        <div id="burst-8"></div>
+                                        <span className="cart-counter">
+                                            {storage.length}
+                                        </span>
+                                    </div>
                                 </NavLink>
                             </li>
                         )}
