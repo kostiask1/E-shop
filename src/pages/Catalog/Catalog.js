@@ -4,21 +4,19 @@ import React, {
     useContext,
     useEffect,
     useRef,
-    useState,
+    useState
 } from "react"
-import { local_itemsPerPage, local_page } from "../../localStorage"
-import FilterSection from "../../components/FilterSection/FilterSection"
-import Pagination from "../../components/Pagination/Pagination"
+import { app } from "../../base"
 import ShopItem from "../../components/ShopItem/ShopItem"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
-import { app } from "../../base"
-import "./Catalog.scss"
 import { DeleteIcon } from "../../icons"
+import { local_itemsPerPage, local_page } from "../../localStorage"
+import "./Catalog.scss"
+import FilterSection from "./FilterSection/FilterSection"
+import Pagination from "./Pagination/Pagination"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
-const ItemCreator = lazy(() =>
-    import("../../components/ItemCreator/ItemCreator")
-)
+const ItemCreator = lazy(() => import("../Create/ItemCreator/ItemCreator"))
 const db = app.firestore()
 
 const Catalog = () => {

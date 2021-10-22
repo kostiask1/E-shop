@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import Modal from "../Modal/Modal";
-import { app } from "../../base";
+import Modal from "../../../components/Modal/Modal";
+import { app } from "../../../base";
 import "./ItemCreator.scss";
-import { DropDown } from "../DropDown/DropDown";
-import Input from "../Input/Input";
-import { DeleteIcon, UploadIcon, ImageIcon } from "../../icons";
-import ShopItem from "../ShopItem/ShopItem";
+import { DropDown } from "../../../components/DropDown/DropDown";
+import Input from "../../../components/Input/Input";
+import { DeleteIcon, UploadIcon, ImageIcon } from "../../../icons";
+import ShopItem from "../../../components/ShopItem/ShopItem";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import DragAndDrop from "../DragAndDrop/DragAndDrop";
+import DragAndDrop from "../../../components/DragAndDrop/DragAndDrop";
 const db = app.firestore();
 
 const ItemCreator = (props) => {

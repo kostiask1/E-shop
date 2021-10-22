@@ -1,8 +1,8 @@
 import React from "react"
-import { local_page } from "../../localStorage"
-import { DropDown } from "../DropDown/DropDown"
+import { ArrowLeftIcon, ArrowRightIcon } from "../../../icons"
+import { local_page } from "../../../localStorage"
+import { DropDown } from "../../../components/DropDown/DropDown"
 import "./Pagination.scss"
-import { ArrowLeftIcon, ArrowRightIcon } from "../../icons"
 
 const Pagination = ({
     handleSetPage,

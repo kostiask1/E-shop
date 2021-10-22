@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import "./PurchaseForm.scss";
-import { DropDown } from "../DropDown/DropDown";
-import Input from "../Input/Input";
+import React, { useState } from "react"
+import "./PurchaseForm.scss"
+import { DropDown } from "../../../components/DropDown/DropDown"
+import Input from "../../../components/Input/Input"
 import {
     local_userName,
     local_userPhone,
@@ -11,39 +11,39 @@ import {
     local_userPayment,
     local_userDepartment,
     local_userEmail,
-} from "../../localStorage";
+} from "../../../localStorage"
 const PurchaseForm = ({ buy, modal }) => {
     const [name, setName] = useState(
         JSON.parse(localStorage.getItem(local_userName)) || ""
-    );
+    )
     const [phone, setPhone] = useState(
         JSON.parse(localStorage.getItem(local_userPhone)) || ""
-    );
+    )
     const [email, setEmail] = useState(
         JSON.parse(localStorage.getItem(local_userEmail)) || ""
-    );
+    )
     const [address, setAddress] = useState(
         JSON.parse(localStorage.getItem(local_userAddress)) || ""
-    );
+    )
     const [code, setCode] = useState(
         JSON.parse(localStorage.getItem(local_userCode)) || ""
-    );
+    )
     const [department, setDepartment] = useState(
         JSON.parse(localStorage.getItem(local_userDepartment)) || ""
-    );
+    )
     const [service, setService] = useState(
         JSON.parse(localStorage.getItem(local_userService)) || "nova"
-    );
+    )
     const [payment, setPayment] = useState(
         JSON.parse(localStorage.getItem(local_userPayment)) || "Card"
-    );
-    const [deliveryType, setDeliveryType] = useState("department");
-    const [message, setMessage] = useState("");
-    const [memorize, setMemorize] = useState(true);
+    )
+    const [deliveryType, setDeliveryType] = useState("department")
+    const [message, setMessage] = useState("")
+    const [memorize, setMemorize] = useState(true)
 
     const handleModal = (event) => {
-        event.preventDefault();
-        if (memorize) rememberUser();
+        event.preventDefault()
+        if (memorize) rememberUser()
         let params = {
             name,
             phone,
@@ -53,22 +53,22 @@ const PurchaseForm = ({ buy, modal }) => {
             message,
             deliveryType,
             email,
-        };
+        }
         service === "nova"
             ? (params["department"] = department)
-            : (params["code"] = code);
-        buy(params);
-    };
+            : (params["code"] = code)
+        buy(params)
+    }
     const rememberUser = () => {
-        localStorage.setItem(local_userName, JSON.stringify(name));
-        localStorage.setItem(local_userPhone, JSON.stringify(phone));
-        localStorage.setItem(local_userEmail, JSON.stringify(email));
-        localStorage.setItem(local_userAddress, JSON.stringify(address));
-        localStorage.setItem(local_userCode, JSON.stringify(code));
-        localStorage.setItem(local_userDepartment, JSON.stringify(department));
-        localStorage.setItem(local_userService, JSON.stringify(service));
-        localStorage.setItem(local_userPayment, JSON.stringify(payment));
-    };
+        localStorage.setItem(local_userName, JSON.stringify(name))
+        localStorage.setItem(local_userPhone, JSON.stringify(phone))
+        localStorage.setItem(local_userEmail, JSON.stringify(email))
+        localStorage.setItem(local_userAddress, JSON.stringify(address))
+        localStorage.setItem(local_userCode, JSON.stringify(code))
+        localStorage.setItem(local_userDepartment, JSON.stringify(department))
+        localStorage.setItem(local_userService, JSON.stringify(service))
+        localStorage.setItem(local_userPayment, JSON.stringify(payment))
+    }
     return (
         <div className="purchase-form">
             <form onSubmit={handleModal}>
@@ -204,7 +204,7 @@ const PurchaseForm = ({ buy, modal }) => {
                 </button>
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default PurchaseForm;
+export default PurchaseForm

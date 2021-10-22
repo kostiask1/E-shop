@@ -4,7 +4,7 @@ import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
 import "./navigation.scss"
 import { PowerOffIcon } from "../../icons"
-import NavLinks from "../../components/NavLinks/NavLinks"
+import NavLinks from "./NavLinks/NavLinks"
 import { routes } from "../../pages/routes"
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
 

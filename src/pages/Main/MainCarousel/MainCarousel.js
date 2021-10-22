@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react"
 import { Carousel } from "react-responsive-carousel"
 import "./MainCarousel.scss"
-import { catalogContext } from "../../context/catalog/catalog-context"
 import { useHistory } from "react-router-dom"
+import { catalogContext } from '../../../context/catalog/catalog-context';
 
 const MainCarousel = () => {
     const { data, getData } = useContext(catalogContext)

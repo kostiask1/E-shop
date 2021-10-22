@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { catalogContext } from "../../context/catalog/catalog-context";
-import InCart from "../InCart/InCart";
+import InCart from "../../components/InCart/InCart";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "./Card.scss";

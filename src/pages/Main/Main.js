@@ -1,6 +1,6 @@
 import React from "react"
 import "./Main.scss"
-import MainCarousel from "../../components/MainCarousel/MainCarousel"
+import MainCarousel from "./MainCarousel/MainCarousel"
 
 const Main = () => {
     return (

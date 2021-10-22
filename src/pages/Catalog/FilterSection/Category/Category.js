@@ -1,9 +1,9 @@
-import React from "react";
-import "./Category.scss";
-import Input from "../Input/Input";
+import React from "react"
+import "./Category.scss"
+import Input from "../../../../components/Input/Input"
 
 const Category = (props) => {
-    const { item, change, category } = props;
+    const { item, change, category } = props
 
     return (
         <>
@@ -25,7 +25,7 @@ const Category = (props) => {
             </div>
             {item === "all" && <div className="divider" />}
         </>
-    );
-};
+    )
+}
 
-export default Category;
+export default Category

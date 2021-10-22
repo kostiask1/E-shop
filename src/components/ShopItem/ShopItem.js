@@ -17,7 +17,7 @@ import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { useHistory } from "react-router-dom"
 const Modal = lazy(() => import("../Modal/Modal"))
-const ItemCreator = lazy(() => import("../ItemCreator/ItemCreator"))
+const ItemCreator = lazy(() => import("../../pages/Create/ItemCreator/ItemCreator"))
 const db = app.firestore()
 
 const ShopItem = (props) => {

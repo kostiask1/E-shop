@@ -1,9 +1,9 @@
 import React, { useContext, useMemo } from "react"
-import { catalogContext } from "../../context/catalog/catalog-context"
-import Category from "../Category/Category"
+import { catalogContext } from "../../../context/catalog/catalog-context"
+import Category from "./Category/Category"
 import "./FilterSection.scss"
-import { SearchIcon } from "../../icons"
-import Input from "../Input/Input"
+import { SearchIcon } from "../../../icons"
+import Input from "../../../components/Input/Input"
 
 const FilterSection = (props) => {
     const { handleCheckbox } = props

@@ -5,23 +5,23 @@ import React, {
     useContext,
     Suspense,
     lazy,
-} from "react";
-import { Redirect, NavLink } from "react-router-dom";
-import { catalogContext } from "../../context/catalog/catalog-context";
-import ShopItem from "../../components/ShopItem/ShopItem";
-import "./Cart.scss";
-import axios from "axios";
-import PurchaseForm from "../../components/PurchaseForm/PurchaseForm";
-const Modal = lazy(() => import("../../components/Modal/Modal"));
+} from "react"
+import { Redirect, NavLink } from "react-router-dom"
+import { catalogContext } from "../../context/catalog/catalog-context"
+import ShopItem from "../../components/ShopItem/ShopItem"
+import "./Cart.scss"
+import axios from "axios"
+import PurchaseForm from "./PurchaseForm/PurchaseForm"
+const Modal = lazy(() => import("../../components/Modal/Modal"))
 
 const Cart = () => {
     const { data, getById, clearStorage, getStorage } =
-        useContext(catalogContext);
-    const [loading, setLoading] = useState("");
-    const [redirect, setRedirect] = useState(false);
-    const [requestFinished, setRequestFinished] = useState(false);
-    const link = "https://" + window.location.hostname + "/catalog";
-    const modal = useRef(null);
+        useContext(catalogContext)
+    const [loading, setLoading] = useState("")
+    const [redirect, setRedirect] = useState(false)
+    const [requestFinished, setRequestFinished] = useState(false)
+    const link = "https://" + window.location.hostname + "/catalog"
+    const modal = useRef(null)
 
     const sendRequest = ({
         name,
@@ -73,7 +73,7 @@ const Cart = () => {
                                           (obj.discountPrice
                                               ? obj.discountPrice
                                               : obj.price)
-                                      );
+                                      )
                                   },
                                   0
                               )} грн.</b>\n${
@@ -87,14 +87,14 @@ const Cart = () => {
             )
             .then((response) => {
                 if (response.status === 200) {
-                    setRequestFinished(true);
-                    clearStorage();
-                    getCart();
+                    setRequestFinished(true)
+                    clearStorage()
+                    getCart()
                 }
-            });
+            })
 
     useEffect(() => {
-        getCart();
+        getCart()
         const timeout = setTimeout(
             () =>
                 setLoading(
@@ -107,24 +107,24 @@ const Cart = () => {
                         ))
                 ),
             2000
-        );
+        )
         return () => {
-            clearTimeout(timeout);
-        };
+            clearTimeout(timeout)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [])
 
     const getCart = () => {
-        getById(getStorage());
-    };
+        getById(getStorage())
+    }
 
     const handleClean = () => {
         clearStorage().then(() => {
-            setRedirect(true);
-        });
-    };
+            setRedirect(true)
+        })
+    }
     if (redirect) {
-        return <Redirect to="/catalog" />;
+        return <Redirect to="/catalog" />
     }
     return (
         <div className="cart">
@@ -200,7 +200,7 @@ const Cart = () => {
                 </Modal>
             </Suspense>
         </div>
-    );
-};
+    )
+}
 
-export default Cart;
+export default Cart
