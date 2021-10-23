@@ -4,6 +4,7 @@ import MainCarousel from "./MainCarousel/MainCarousel"
 import Heading from "./Heading/Heading"
 import About from "./About/About"
 import Tout from "./Tout/Tout"
+import { Footer } from "../../layout/footer/footer"
 
 const Main = () => {
     return (
@@ -13,6 +14,7 @@ const Main = () => {
                 <About />
                 <MainCarousel />
                 <Tout />
+                <Footer />
             </div>
         </>
     )
