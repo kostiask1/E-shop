@@ -31,7 +31,6 @@
         width: 1rem;
         background: var(--main-2);
         transform: rotate(135deg);
-        animation: 2s 10s spin linear infinite;
     }
     @keyframes spin {
         0% {
