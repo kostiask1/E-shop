@@ -32,7 +32,6 @@ export const Footer = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, width])
 
-    console.log(clone)
     if (clone.length) {
         return (
             <div className="footer">

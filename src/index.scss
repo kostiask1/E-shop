@@ -16,6 +16,7 @@
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
+    overflow-x: hidden;
     height: 100%;
     justify-content: flex-start;
 }
