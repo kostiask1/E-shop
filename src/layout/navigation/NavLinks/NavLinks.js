@@ -3,7 +3,7 @@ import "./NavLinks.scss"
 import { Link } from "react-scroll"
 import { NavLink } from "react-router-dom"
 
-const NavLinks = ({ routes, main, storage, setIsOpen }) => {
+const NavLinks = ({ routes, main, storage, close }) => {
     return (
         <>
             <li className="nav-item">
@@ -17,7 +17,7 @@ const NavLinks = ({ routes, main, storage, setIsOpen }) => {
                         containerId="root"
                         activeClass="active"
                         className="nav-link"
-                        onClick={() => setIsOpen(false)}
+                        onClick={close}
                     >
                         Main
                     </Link>
@@ -26,7 +26,7 @@ const NavLinks = ({ routes, main, storage, setIsOpen }) => {
                         className="nav-link"
                         activeClassName="active"
                         to="/main"
-                        onClick={() => setIsOpen(false)}
+                        onClick={close}
                     >
                         Main
                     </NavLink>
@@ -37,7 +37,7 @@ const NavLinks = ({ routes, main, storage, setIsOpen }) => {
                     className="nav-link"
                     activeClassName="active"
                     to="/catalog"
-                    onClick={() => setIsOpen(false)}
+                    onClick={close}
                 >
                     Catalog
                 </NavLink>
@@ -54,7 +54,7 @@ const NavLinks = ({ routes, main, storage, setIsOpen }) => {
                               containerId="root"
                               activeClass="active"
                               className="nav-link fade-in"
-                              onClick={() => setIsOpen(false)}
+                              onClick={close}
                           >
                               {name}
                           </Link>
@@ -66,7 +66,7 @@ const NavLinks = ({ routes, main, storage, setIsOpen }) => {
                     <NavLink
                         activeClassName="active"
                         to="/cart"
-                        onClick={() => setIsOpen(false)}
+                        onClick={close}
                     >
                         Cart
                         <div className="counter">

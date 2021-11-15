@@ -1,0 +1,42 @@
+.drawer {
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    padding-left: 2rem;
+    padding-right: 5rem;
+    padding-top: 4rem;
+    background: #fff;
+    z-index: 9999;
+    transform: translateX(-300px);
+    width: clamp(250px, 25%, 500px);
+    transition: all 0.2s ease-in-out;
+    .close {
+        font-size: 0.8rem;
+        cursor: pointer;
+        position: absolute;
+        top: 0.2rem;
+        right: 0.4rem;
+    }
+    &.exit-done {
+        transform: translateX(-300px);
+    }
+    &.enter-done {
+        transform: translateX(0px);
+        .backdrop {
+            width: 100vw;
+            transform: translateX(clamp(250px, 25%, 500px));
+            opacity: 1;
+        }
+    }
+    .backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        opacity: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition: all 0.4s ease-in-out;
+    }
+}

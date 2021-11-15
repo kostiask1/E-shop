@@ -3,18 +3,19 @@ import { NavLink as RLink, useLocation } from "react-router-dom"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
 import "./navigation.scss"
-import { PowerOffIcon, DeleteIcon, BarsIcon } from "../../icons"
+import { PowerOffIcon, BarsIcon, CartIcon } from "../../icons"
 import NavLinks from "./NavLinks/NavLinks"
 import { routes } from "../../pages/routes"
+import Drawer from "../../components/Drawer/Drawer"
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
 
 const Navigation = () => {
     const { storage } = useContext(catalogContext)
     const { admin, logout } = useContext(authContext)
     const [width, setWidth] = useState(() => window.innerWidth)
-    const [isOpen, setIsOpen] = useState(false)
     let props = useLocation()
     const ref = useRef()
+    const drawer = useRef()
 
     useEffect(() => {
         document.addEventListener("mouseup", clickMenuListener)
@@ -27,18 +28,14 @@ const Navigation = () => {
     const clickMenuListener = (e) => {
         let inComponent = e.target.matches(`.navbar__wrapper *`)
         if (!inComponent) {
-            setIsOpen(false)
+            drawer.current.close()
         }
     }
 
     useEffect(() => {
-        document.documentElement.style.setProperty(
-            "--sticky-offset",
-            width > 767 ? -ref.current.clientHeight + "px" : 0
-        )
         const handleResize = () => {
             if (width < 767 && window.innerWidth > 767) {
-                setIsOpen(false)
+                drawer.current.close()
                 return setWidth(window.innerWidth)
             } else if (width >= 767 && window.innerWidth <= 767) {
                 return setWidth(window.innerWidth)
@@ -49,61 +46,68 @@ const Navigation = () => {
         return (_) => window.removeEventListener("resize", handleResize)
     }, [width])
 
+    const handleClose = () => {
+        drawer.current.close()
+    }
+    const handleOpen = () => {
+        drawer.current.open()
+    }
+
     return (
-        <>
-            <nav className="navbar">
-                <div className="container">
-                    <div className="navbar__wrapper">
-                        {width < 767 && (
-                            <div
-                                className="menu-toggler"
-                                onClick={() => setIsOpen(!isOpen)}
-                            >
-                                {isOpen ? <DeleteIcon /> : <BarsIcon />}
-                            </div>
-                        )}
-                        <RLink ref={ref} className="navbar-brand" to="/main">
-                            {SHOP_NAME}
-                        </RLink>
-                        <ul className={`navbar-nav ${isOpen ? "opened" : ""}`}>
-                            <NavLinks
-                                setIsOpen={setIsOpen}
-                                storage={storage}
-                                routes={routes}
-                                main={props.pathname === "/main"}
-                            />
-                            {admin && (
-                                <li className="nav-item">
-                                    <RLink
-                                        className="nav-link"
-                                        activeClassName="current"
-                                        to="/create"
-                                    >
-                                        Create
-                                    </RLink>
-                                </li>
-                            )}
-                            {admin && (
-                                <li className="nav-item">
-                                    <div className="nav-link">
-                                        <button
-                                            onClick={() => logout()}
-                                            className="btn btn-danger"
-                                        >
-                                            <PowerOffIcon
-                                                width="1.5em"
-                                                height="1.5em"
-                                                fill="var(--main)"
-                                            />
-                                        </button>
-                                    </div>
-                                </li>
-                            )}
-                        </ul>
+        <nav className="navbar">
+            <div className="container">
+                <div className="navbar__wrapper">
+                    <div className="menu-toggler" onClick={handleOpen}>
+                        <BarsIcon
+                            fill="var(--main-2)"
+                            width="3em"
+                            height="3em"
+                        />
                     </div>
+                    <RLink ref={ref} className="navbar-brand" to="/main">
+                        {SHOP_NAME}
+                    </RLink>
+                    <RLink className="nav-cart" to="/cart">
+                        <CartIcon fill="var(--main-2)" />
+                    </RLink>
                 </div>
-            </nav>
-        </>
+            </div>
+            <Drawer ref={drawer}>
+                <NavLinks
+                    close={handleClose}
+                    storage={storage}
+                    routes={routes}
+                    main={props.pathname === "/main"}
+                />
+                {admin && (
+                    <li className="nav-item">
+                        <RLink
+                            className="nav-link"
+                            activeClassName="current"
+                            to="/create"
+                        >
+                            Create
+                        </RLink>
+                    </li>
+                )}
+                {admin && (
+                    <li className="nav-item">
+                        <div className="nav-link">
+                            <button
+                                onClick={() => logout()}
+                                className="btn btn-danger"
+                            >
+                                <PowerOffIcon
+                                    width="1.5em"
+                                    height="1.5em"
+                                    fill="var(--main)"
+                                />
+                            </button>
+                        </div>
+                    </li>
+                )}
+            </Drawer>
+        </nav>
     )
 }
 function arePropsEqual(prevProps, nextProps) {
