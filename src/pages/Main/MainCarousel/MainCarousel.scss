@@ -2,20 +2,25 @@
 
 .MainCarousel {
     text-align: center;
-    background-repeat: no-repeat;
-    background-size: 120% 80%;
-    background-position: 0 100%;
     padding-bottom: 13rem;
     h4 {
+        position: relative;
         display: inline-block;
-        font-family: Roboto;
-        font-style: italic;
-        font-weight: 500;
+        font-family: "Cormorant Garamond";
+        font-weight: 300;
         font-size: 6rem;
-        color: transparent;
-        -webkit-text-stroke: 2px black;
         padding-bottom: 0.4rem;
-        border-bottom: 5px solid var(--main-1);
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 85%;
+            height: 4px;
+            background-color: var(--main-1);
+            transform: translateX(-50%);
+        }
     }
     .carousel.carousel-slider {
         min-width: 300px;
@@ -31,14 +36,15 @@
     }
     p {
         cursor: pointer;
-        padding: 0 2rem;
+        padding: 0;
         font-size: 2rem;
-        border-bottom: 1px solid #fff;
-        color: #fff;
+        border-bottom: 3px solid #000;
+        color: #000;
         position: absolute;
         top: 100%;
-        font-family: Roboto;
-        font-style: italic;
+        font-family: Manrope;
+        font-style: normal;
+        font-weight: 500;
     }
     .prev {
         transform: translateX(-90%);

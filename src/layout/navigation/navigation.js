@@ -18,12 +18,26 @@ const Navigation = () => {
     const drawer = useRef()
 
     useEffect(() => {
+        let root = document.getElementById("root")
         document.addEventListener("mouseup", clickMenuListener)
+        root.addEventListener("scroll", handleSize)
         return () => {
             document.removeEventListener("mouseup", clickMenuListener)
+            root.removeEventListener("scroll", handleSize)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleSize = () => {
+        let root = document.getElementById("root")
+        const distanceY = root.scrollTop,
+            shrinkOn = 200
+        if (distanceY > shrinkOn) {
+            ref.current.classList.add("smaller")
+        } else {
+            ref.current.classList.remove("smaller")
+        }
+    }
 
     const clickMenuListener = (e) => {
         let inComponent = e.target.matches(`.navbar__wrapper *`)

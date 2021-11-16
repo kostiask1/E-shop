@@ -35,6 +35,18 @@ export const DeleteIcon = ({ width, height, fill, viewbox }) => (
     </svg>
 )
 
+export const Times = ({ width, height, fill, strokeWidth }) => (
+    <svg
+        width={width ?? "2.4em"}
+        height={height ?? "2.4em"}
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <line x1={0} y1={100} x2={100} y2={0} strokeWidth={strokeWidth} stroke={fill} />
+        <line x1={0} y1={0} x2={100} y2={100} strokeWidth={strokeWidth} stroke={fill} />
+    </svg>
+)
+
 export const BarsIcon = ({ width, height, fill, viewbox }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +55,7 @@ export const BarsIcon = ({ width, height, fill, viewbox }) => (
         viewBox={viewbox ?? "0 0 24 24"}
         fill="none"
         stroke={fill ?? "var(--textBlack)"}
-        strokeWidth="2"
+        strokeWidth="1"
         strokeLinecap="round"
     >
         <line x1={3} y1={12} x2={21} y2={12} />

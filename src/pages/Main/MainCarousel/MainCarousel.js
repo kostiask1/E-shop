@@ -53,7 +53,6 @@ const MainCarousel = () => {
         return (
             <div
                 className="MainCarousel"
-                style={{ backgroundImage: "url(./main/wave.png)" }}
             >
                 <h4>Our bags</h4>
                 <Carousel

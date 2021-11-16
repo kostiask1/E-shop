@@ -8,7 +8,7 @@ import React, {
 } from "react"
 import "./Drawer.scss"
 import { CSSTransition } from "react-transition-group"
-import { DeleteIcon } from "../../icons"
+import { Times } from "../../icons"
 
 function Drawer({ children }, ref) {
     const [isOpen, setIsOpen] = useState(false)
@@ -53,7 +53,7 @@ function Drawer({ children }, ref) {
                     <div className="backdrop" onClick={close}></div>
                 ) : null}
                 <div className="close" onClick={close}>
-                    <DeleteIcon fill="var(--main-2)" />
+                    <Times strokeWidth="7px" fill="var(--main-2)" />
                 </div>
                 {children}
             </div>
