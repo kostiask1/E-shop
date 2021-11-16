@@ -32,6 +32,7 @@ const Navigation = () => {
         let root = document.getElementById("root")
         const distanceY = root.scrollTop,
             shrinkOn = 200
+        console.log(distanceY)
         if (distanceY > shrinkOn) {
             ref.current.classList.add("smaller")
         } else {
