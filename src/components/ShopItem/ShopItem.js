@@ -14,7 +14,6 @@ import InCart from "../InCart/InCart"
 import "./ShopItem.scss"
 import { DeleteIcon, EditIcon } from "../../icons"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
-import { useHistory } from "react-router-dom"
 const Modal = lazy(() => import("../Modal/Modal"))
 const ItemCreator = lazy(() =>
     import("../../pages/Create/ItemCreator/ItemCreator")
@@ -44,8 +43,6 @@ const ShopItem = (props) => {
     const [selected, setSelected] = useState(
         deleteArray && deleteArray.includes(id) ? true : false
     )
-    const history = useHistory()
-    const [mouseMoved, setMouseMoved] = useState(false)
     const modal = useRef(null)
 
     useEffect(() => {
@@ -71,11 +68,6 @@ const ShopItem = (props) => {
         event.preventDefault()
         setSelected(!selected)
         handleDeleteArray(id)
-    }
-    const handleClick = () => {
-        if (!mouseMoved && !disabledControls) {
-            history.push("/catalog/" + id)
-        }
     }
 
     return (

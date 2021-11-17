@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
-import { Carousel } from "react-responsive-carousel"
+import Slider from "react-slick"
+import "slick-carousel/slick/slick.css"
 import "./MainCarousel.scss"
 import { useHistory } from "react-router-dom"
 import { catalogContext } from "../../../context/catalog/catalog-context"
@@ -49,40 +50,38 @@ const MainCarousel = () => {
         }
     }
 
+    const SampleNextArrow = (props) => {
+        const { className, onClick } = props
+        return (
+            <p className={className + " next"} onClick={onClick}>
+                next
+            </p>
+        )
+    }
+
+    const SamplePrevArrow = (props) => {
+        const { className, onClick } = props
+        return (
+            <p className={className + " prev"} onClick={onClick}>
+                prev
+            </p>
+        )
+    }
+    const settings = {
+        infinite: true,
+        slidesToShow: 3,
+        speed: 400,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        nextArrow: <SampleNextArrow />,
+        prevArrow: <SamplePrevArrow />,
+    }
+
     if (clone.length) {
         return (
-            <div
-                className="MainCarousel"
-            >
-                <h4>Our bags</h4>
-                <Carousel
-                    showThumbs={false}
-                    showStatus={false}
-                    autoPlay={true}
-                    emulateTouch
-                    infiniteLoop={true}
-                    dynamicHeight={false}
-                    renderIndicator={false}
-                    selectedItem={1}
-                    renderArrowPrev={(clickHandler, hasPrev) => (
-                        <p
-                            className="prev"
-                            onClick={hasPrev ? clickHandler : null}
-                        >
-                            Prev
-                        </p>
-                    )}
-                    renderArrowNext={(clickHandler, hasNext) => (
-                        <p
-                            className="next"
-                            onClick={hasNext ? clickHandler : null}
-                        >
-                            Next
-                        </p>
-                    )}
-                    centerMode
-                    centerSlidePercentage={width > 767 ? 35 : 100}
-                >
+            <div className="MainCarousel">
+                <h4>Popular products</h4>
+                <Slider {...settings}>
                     {clone.map((item) => (
                         <div
                             key={item.id}
@@ -96,7 +95,7 @@ const MainCarousel = () => {
                             />
                         </div>
                     ))}
-                </Carousel>
+                </Slider>
             </div>
         )
     } else return null

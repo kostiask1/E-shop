@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import "./Strokes.scss"
 
 const Strokes = ({ refferer }) => {
     const [width, setWidth] = useState(() => window.innerWidth)
