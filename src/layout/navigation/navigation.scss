@@ -3,7 +3,7 @@
     top: 0;
     z-index: 9990;
     background-color: var(--main);
-    width: 100%;
+    width: calc(100% - 8px);
     border-bottom: 1px solid var(--main-2);
     &__wrapper {
         position: relative;

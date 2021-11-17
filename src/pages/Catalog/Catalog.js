@@ -4,95 +4,61 @@ import React, {
     useContext,
     useEffect,
     useRef,
-    useState
+    useState,
 } from "react"
 import { app } from "../../base"
 import ShopItem from "../../components/ShopItem/ShopItem"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
 import { DeleteIcon } from "../../icons"
-import { local_itemsPerPage, local_page } from "../../localStorage"
 import "./Catalog.scss"
 import FilterSection from "./FilterSection/FilterSection"
-import Pagination from "./Pagination/Pagination"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 const ItemCreator = lazy(() => import("../Create/ItemCreator/ItemCreator"))
 const db = app.firestore()
 
 const Catalog = () => {
-    const {
-        data,
-        getData,
-        category,
-        setCategory,
-        order,
-        setOrder,
-        deleteFromStorage,
-    } = useContext(catalogContext)
+    const { data, getData, category, setCategory, deleteFromStorage } =
+        useContext(catalogContext)
     const { admin } = useContext(authContext)
-    const [itemsPerPage, setItemsPerPage] = useState(() => {
-        const itemsCount =
-            JSON.parse(localStorage.getItem(local_itemsPerPage)) || 0
-        if (!itemsCount) {
-            if (window.innerWidth > 1850) {
-                return 12
-            } else if (window.innerWidth > 1200) return 8
-            else if (window.innerWidth > 500) return 6
-            else if (window.innerWidth < 500) return 4
-        } else {
-            return itemsCount
-        }
-    })
-    const [page, setPage] = useState(
-        JSON.parse(localStorage.getItem(local_page)) || 0
-    )
-    const [newData, setNewData] = useState([])
     const [deleteArray, setDeleteArray] = useState([])
     const modal = useRef(null)
     const modalFilters = useRef(null)
+    const [dataSlice, setDataSlice] = useState([])
+    const catalogRef = useRef(null)
+
+    const callback = (entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                concatSlices()
+            }
+        })
+    }
+    const options = { threshold: 0.5 }
+    const observer = new IntersectionObserver(callback, options)
 
     useEffect(() => {
         getData() //eslint-disable-next-line
     }, [])
 
     useEffect(() => {
-        genNewData()
-        //eslint-disable-next-line
-    }, [data, itemsPerPage])
+        if (data.length > 0) {
+            genNewData()
+        } //eslint-disable-next-line
+    }, [data])
+
+    useEffect(() => {
+        observer.observe(catalogRef.current)
+        return () => {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            if (catalogRef.current) observer.unobserve(catalogRef.current)
+        } //eslint-disable-next-line
+    }, [dataSlice, catalogRef])
 
     const handleCheckbox = (e) => {
-        handleSetPage(0)
         setCategory(e)
     }
 
-    let pages = Math.ceil(data.length / itemsPerPage)
-    const handleItemsPerPage = (value) => {
-        if (page < pages) {
-            JSON.stringify(localStorage.setItem(local_itemsPerPage, value))
-            setItemsPerPage(value)
-        }
-    }
-    const handleSetPage = (e) => {
-        JSON.stringify(localStorage.setItem(local_page, e))
-        setPage(e)
-    }
-    const genNewData = () => {
-        if (page >= pages) {
-            if (pages > 0) {
-                setPage(pages - 1)
-                JSON.stringify(localStorage.setItem(local_page, pages - 1))
-            }
-        }
-        let clone = [...data]
-        let chunks = function (array, size) {
-            let results = []
-            while (array.length) {
-                results.push(array.splice(0, size))
-            }
-            return results
-        }
-        setNewData(chunks(clone, itemsPerPage))
-    }
     const deleteMultipleItems = () => {
         let promises = []
         deleteArray.map((id) => {
@@ -120,6 +86,29 @@ const Catalog = () => {
             setDeleteArray([...deleteArray, id])
         }
     }
+
+    const genNewData = () => {
+        const size = 12
+        const clone = [...data]
+        let chunks = function (array, size) {
+            let results = []
+            while (array.length) {
+                results.push(array.splice(0, size))
+            }
+            return results
+        }
+        setDataSlice(chunks(clone, size))
+    }
+
+    const concatSlices = () => {
+        let clone = [...dataSlice]
+        if (clone.length > 1) {
+            let newData = clone[0].concat(clone[1])
+            clone.splice(0, 2)
+            clone.unshift(newData)
+            setDataSlice(clone)
+        }
+    }
     return (
         <>
             <div id="catalog">
@@ -138,20 +127,6 @@ const Catalog = () => {
                                     Filters
                                 </button>
                             )}
-
-                            {data.length ? (
-                                <Pagination
-                                    page={page}
-                                    pages={pages}
-                                    itemsPerPage={itemsPerPage}
-                                    order={order}
-                                    handleSetPage={(e) => handleSetPage(e)}
-                                    handleItemsPerPage={(e) =>
-                                        handleItemsPerPage(e)
-                                    }
-                                    setOrder={(e) => setOrder(e)}
-                                ></Pagination>
-                            ) : null}
                             {admin && deleteArray.length ? (
                                 <button
                                     className="btn-delete-multiple pop-in"
@@ -170,59 +145,40 @@ const Catalog = () => {
                                         Create new item
                                     </button>
                                 )}
-                                {newData.length > 0 ? (
-                                    Object.values(newData[page]).length > 0 &&
-                                    Object.values(newData[page]).map(
-                                        (item, index) => {
-                                            return (
-                                                <ShopItem
-                                                    key={item.id}
-                                                    page={page}
-                                                    index={index}
-                                                    id={item.id}
-                                                    text={item.text}
-                                                    imagesArray={
-                                                        item.imagesArray
-                                                    }
-                                                    image={item.image}
-                                                    category={item.category}
-                                                    description={
-                                                        item.description
-                                                    }
-                                                    handleDeleteArray={() =>
-                                                        handleDeleteArray()
-                                                    }
-                                                    deleteArray={deleteArray}
-                                                    price={item.price}
-                                                    discountPrice={
-                                                        item.discountPrice
-                                                    }
-                                                    boughtCount={
-                                                        item.boughtCount
-                                                    }
-                                                />
-                                            )
-                                        }
-                                    )
+                                {dataSlice.length > 0 ? (
+                                    dataSlice[0].length &&
+                                    dataSlice[0].map((item, index) => {
+                                        return (
+                                            <ShopItem
+                                                key={item.id}
+                                                index={0}
+                                                id={item.id}
+                                                text={item.text}
+                                                imagesArray={item.imagesArray}
+                                                image={item.image}
+                                                category={item.category}
+                                                description={item.description}
+                                                handleDeleteArray={() =>
+                                                    handleDeleteArray()
+                                                }
+                                                deleteArray={deleteArray}
+                                                price={item.price}
+                                                discountPrice={
+                                                    item.discountPrice
+                                                }
+                                                boughtCount={item.boughtCount}
+                                            />
+                                        )
+                                    })
                                 ) : (
                                     <span className="fade-in">
                                         No matching results found
                                     </span>
                                 )}
                             </div>
-                            {itemsPerPage > 7 && data.length > 6 && (
-                                <Pagination
-                                    page={page}
-                                    pages={pages}
-                                    itemsPerPage={itemsPerPage}
-                                    order={order}
-                                    handleSetPage={(e) => handleSetPage(e)}
-                                    handleItemsPerPage={(e) =>
-                                        handleItemsPerPage(e)
-                                    }
-                                    setOrder={(e) => setOrder(e)}
-                                ></Pagination>
-                            )}
+                            <div ref={catalogRef} className="end">
+                                ENd
+                            </div>
                         </div>
                     </div>
                 </div>

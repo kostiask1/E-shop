@@ -4,11 +4,8 @@ import {
     RESPONSE,
     CATEGORY,
     SEARCHTEXT,
-    ORDER,
     DATA,
     STORAGE,
-    MINPRICE,
-    MAXPRICE,
 } from "./types";
 import { catalogReducer } from "./catalog-reducer";
 import { catalogContext } from "./catalog-context";
@@ -17,9 +14,6 @@ import { app } from "../../base";
 import {
     local_cart_storage,
     local_category,
-    local_maxPrice,
-    local_minPrice,
-    local_order,
     local_searchText,
 } from "../../localStorage";
 const db = app.firestore();
@@ -31,10 +25,7 @@ export const CatalogState = ({ children }) => {
         rowData: [],
         data: [],
         category: JSON.parse(localStorage.getItem(local_category)) || "all",
-        minPrice: +JSON.parse(localStorage.getItem(local_minPrice)) || 0,
-        maxPrice: +JSON.parse(localStorage.getItem(local_maxPrice)) || 0,
-        searchText: JSON.parse(localStorage.getItem(local_searchText)) || "",
-        order: JSON.parse(localStorage.getItem(local_order)) || "popular",
+        searchText: JSON.parse(localStorage.getItem(local_searchText)) || ""
     };
     const [state, dispatch] = useReducer(catalogReducer, initialState);
     const {
@@ -43,10 +34,7 @@ export const CatalogState = ({ children }) => {
         storage,
         rowData,
         category,
-        minPrice,
-        maxPrice,
-        searchText,
-        order,
+        searchText
     } = state;
 
     useEffect(() => {
@@ -57,7 +45,7 @@ export const CatalogState = ({ children }) => {
     useEffect(() => {
         filterData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [rowData, category, minPrice, maxPrice, searchText, order]);
+    }, [rowData, category, searchText]);
 
     const getFilters = async () => {
         try {
@@ -164,59 +152,6 @@ export const CatalogState = ({ children }) => {
                 return item.category === category;
             });
         }
-        if (dataNew.length >= 0) {
-            let cloneMaxPrice = maxPrice === 0 ? 99999999999999999 : maxPrice;
-            dataNew = dataNew.filter((item) => {
-                if (cloneMaxPrice < minPrice) {
-                    return item.price >= minPrice;
-                } else {
-                    return (
-                        item.price >= minPrice && item.price <= cloneMaxPrice
-                    );
-                }
-            });
-        }
-        if (order === "newest") {
-            dataNew.sort(function (x, y) {
-                return y.timestamp - x.timestamp;
-            });
-        }
-        if (order === "asc") {
-            function compare(a, b) {
-                if (a.price < b.price) {
-                    return -1;
-                }
-                if (a.price > b.price) {
-                    return 1;
-                }
-                return 0;
-            }
-            dataNew.sort(compare);
-        }
-        if (order === "desc") {
-            function compare(a, b) {
-                if (a.price < b.price) {
-                    return 1;
-                }
-                if (a.price > b.price) {
-                    return -1;
-                }
-                return 0;
-            }
-            dataNew.sort(compare);
-        }
-        if (order === "popular") {
-            function compare(a, b) {
-                if (a.boughtCount < b.boughtCount) {
-                    return 1;
-                }
-                if (a.boughtCount > b.boughtCount) {
-                    return -1;
-                }
-                return 0;
-            }
-            dataNew.sort(compare);
-        }
         return dispatch({ type: DATA, payload: dataNew });
     };
 
@@ -224,23 +159,10 @@ export const CatalogState = ({ children }) => {
         localStorage.setItem(local_category, JSON.stringify(value));
         return dispatch({ type: CATEGORY, payload: value });
     };
-    const setMinPrice = (min) => {
-        localStorage.setItem(local_minPrice, JSON.stringify(+min));
-        return dispatch({ type: MINPRICE, payload: +min });
-    };
-    const setMaxPrice = (max) => {
-        localStorage.setItem(local_maxPrice, JSON.stringify(+max));
-        return dispatch({ type: MAXPRICE, payload: +max });
-    };
     const setSearchText = (value) => {
         localStorage.setItem(local_searchText, JSON.stringify(value));
         return dispatch({ type: SEARCHTEXT, payload: value.toLowerCase() });
     };
-    const setOrder = (value) => {
-        localStorage.setItem(local_order, JSON.stringify(value));
-        return dispatch({ type: ORDER, payload: value });
-    };
-
     const clearStorage = () => {
         dispatch({ type: STORAGE, payload: [] });
         return new Promise((resolve) => {
@@ -275,19 +197,10 @@ export const CatalogState = ({ children }) => {
         return JSON.parse(localStorage.getItem(local_cart_storage)) || [];
     };
 
-    const resetFilters = () => {
-        localStorage.removeItem(local_category);
-        localStorage.removeItem(local_minPrice);
-        localStorage.removeItem(local_maxPrice);
-        localStorage.removeItem(local_searchText);
-        return window.location.reload();
-    };
-
     return (
         <catalogContext.Provider
             value={{
                 getData,
-                resetFilters,
                 getById,
                 clearStorage,
                 findInStorage,
@@ -296,16 +209,10 @@ export const CatalogState = ({ children }) => {
                 getStorage,
                 setCategory,
                 setSearchText,
-                setOrder,
-                setMinPrice,
-                setMaxPrice,
                 data,
                 filters,
-                minPrice,
-                maxPrice,
                 searchText,
                 category,
-                order,
                 storage,
             }}
         >

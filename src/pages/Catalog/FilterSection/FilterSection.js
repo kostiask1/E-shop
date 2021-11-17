@@ -7,17 +7,8 @@ import Input from "../../../components/Input/Input"
 
 const FilterSection = (props) => {
     const { handleCheckbox } = props
-    const {
-        setSearchText,
-        resetFilters,
-        searchText,
-        category,
-        filters,
-        setMinPrice,
-        setMaxPrice,
-        minPrice,
-        maxPrice,
-    } = useContext(catalogContext)
+    const { setSearchText, searchText, category, filters } =
+        useContext(catalogContext)
 
     const handleInput = (e) => {
         const timeOutId = setTimeout(() => {
@@ -54,35 +45,10 @@ const FilterSection = (props) => {
                           ))
                         : null}
                 </div>
-                <div className="price__filters">
-                    <Input
-                        className={`${
-                            minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
-                        }`}
-                        type="number"
-                        placeholder="Min"
-                        important="defaultValue"
-                        defaultValue={minPrice ? minPrice : ""}
-                        change={setMinPrice}
-                    />
-                    <Input
-                        className={`${
-                            minPrice > maxPrice && maxPrice !== 0 ? "error" : ""
-                        }`}
-                        type="number"
-                        placeholder="Max"
-                        important="defaultValue"
-                        defaultValue={maxPrice ? maxPrice : ""}
-                        change={setMaxPrice}
-                    />
-                </div>
-                <button className="btn btn-warning" onClick={resetFilters}>
-                    Reset Filters
-                </button>
             </div>
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        [filters, category, minPrice, maxPrice]
+        [filters, category]
     )
 }
 

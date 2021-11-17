@@ -5,11 +5,8 @@ import {
     CART,
     CATEGORY,
     SEARCHTEXT,
-    ORDER,
     DATA,
     STORAGE,
-    MINPRICE,
-    MAXPRICE,
 } from "./types";
 
 const handlers = {
@@ -33,21 +30,9 @@ const handlers = {
         ...state,
         category: payload,
     }),
-    [MINPRICE]: (state, { payload }) => ({
-        ...state,
-        minPrice: payload,
-    }),
-    [MAXPRICE]: (state, { payload }) => ({
-        ...state,
-        maxPrice: payload,
-    }),
     [SEARCHTEXT]: (state, { payload }) => ({
         ...state,
         searchText: payload,
-    }),
-    [ORDER]: (state, { payload }) => ({
-        ...state,
-        order: payload,
     }),
     [STORAGE]: (state, { payload }) => {
         localStorage.setItem(local_cart_storage, JSON.stringify(payload));
