@@ -176,9 +176,7 @@ const Catalog = () => {
                                     </span>
                                 )}
                             </div>
-                            <div ref={catalogRef} className="end">
-                                ENd
-                            </div>
+                            <div ref={catalogRef} className="end"></div>
                         </div>
                     </div>
                 </div>

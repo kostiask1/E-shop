@@ -184,7 +184,7 @@ const Cart = () => {
                         <div className="purchase-form">
                             <h3>
                                 Your purchase was successfully send, you will
-                                receive a letter soon
+                                receive a message soon
                             </h3>
                             <button
                                 onClick={() => setRedirect(true)}

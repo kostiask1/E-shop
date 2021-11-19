@@ -12,7 +12,7 @@ import {
     local_userDepartment,
     local_userEmail,
 } from "../../../localStorage"
-const PurchaseForm = ({ buy, modal }) => {
+const PurchaseForm = ({ buy }) => {
     const [name, setName] = useState(
         JSON.parse(localStorage.getItem(local_userName)) || ""
     )
