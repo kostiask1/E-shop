@@ -116,7 +116,7 @@ const Catalog = () => {
                         <FilterSection handleCheckbox={handleCheckbox} />
                         {admin && deleteArray.length ? (
                             <button
-                                className="btn-delete-multiple pop-in"
+                                className="btn-delete-multiple fade-in"
                                 onClick={deleteMultipleItems}
                             >
                                 <DeleteIcon width={42} height={42} />
@@ -134,24 +134,15 @@ const Catalog = () => {
                             )}
                             {dataSlice.length > 0 ? (
                                 dataSlice[0].length &&
-                                dataSlice[0].map((item, index) => {
+                                dataSlice[0].map((item) => {
                                     return (
                                         <ShopItem
                                             key={item.id}
-                                            index={0}
-                                            id={item.id}
-                                            text={item.text}
-                                            imagesArray={item.imagesArray}
-                                            image={item.image}
-                                            category={item.category}
-                                            description={item.description}
-                                            handleDeleteArray={() =>
-                                                handleDeleteArray()
+                                            item={item}
+                                            handleDeleteArray={
+                                                handleDeleteArray
                                             }
                                             deleteArray={deleteArray}
-                                            price={item.price}
-                                            discountPrice={item.discountPrice}
-                                            boughtCount={item.boughtCount}
                                         />
                                     )
                                 })

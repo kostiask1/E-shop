@@ -25,18 +25,21 @@ const ShopItem = (props) => {
         handleDeleteArray,
         deleteArray,
         page,
+        index = 0,
+        inCart,
+        disabledControls,
+        item,
+    } = props
+    const {
         id,
-        index,
         imagesArray,
         text,
         price,
         discountPrice,
         description,
         category,
-        inCart,
         boughtCount,
-        disabledControls,
-    } = props
+    } = item
     const { getData, deleteFromStorage } = useContext(catalogContext)
     const { admin } = useContext(authContext)
     const [fading, setFading] = useState(false)
@@ -44,7 +47,6 @@ const ShopItem = (props) => {
         deleteArray && deleteArray.includes(id) ? true : false
     )
     const modal = useRef(null)
-
     useEffect(() => {
         setFading(false)
         if (!disabledControls) setTimeout(() => setFading(true), 300)

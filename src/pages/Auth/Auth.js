@@ -1,32 +1,31 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { authContext } from "../../context/Auth/auth-context";
-import "./Auth.scss";
+import React, { useState, useEffect, useContext } from "react"
+import { useHistory } from "react-router-dom"
+import { authContext } from "../../context/Auth/auth-context"
+import "./Auth.scss"
 
 const Auth = () => {
-    const { login, admin } = useContext(authContext);
-    const [loginValue, setLoginValue] = useState("");
-    const [password, setPassword] = useState("");
-    const history = useHistory();
-
+    const { login, admin } = useContext(authContext)
+    const [loginValue, setLoginValue] = useState("")
+    const [password, setPassword] = useState("")
+    const history = useHistory()
     useEffect(() => {
         if (admin) {
-            let path = `/catalog`;
-            history.push(path);
+            let path = `/catalog`
+            history.push(path)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [admin]);
+    }, [admin])
 
     const submitHandler = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const authData = {
             email: loginValue,
             password,
             returnSecureToken: true,
             type: e.target.id,
-        };
-        login(authData);
-    };
+        }
+        login(authData)
+    }
 
     return (
         <div className="auth container">
@@ -71,7 +70,7 @@ const Auth = () => {
                 )}
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default Auth;
+export default Auth

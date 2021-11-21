@@ -185,7 +185,7 @@ const ItemCreator = (props) => {
                 return loadImages([file]).then(setDrag(false))
             })
         } catch (err) {
-            console.log(err)
+            console.error(err)
         }
     }
     const handleDiscountPercent = (percent) => {

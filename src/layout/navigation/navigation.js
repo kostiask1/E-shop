@@ -44,6 +44,7 @@ const Navigation = () => {
     }
 
     const mouseMoveListener = (e) => {
+        if (e.path[0].classList[0] === "modal-overlay") return
         if (e.screenX === 0) {
             navigationRef.current && navigationRef.current.open()
         }

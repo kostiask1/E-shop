@@ -69,7 +69,7 @@ const Card = (match) => {
                             <div className="text-info">
                                 <h1>{text}</h1>
                                 {!discountPrice ? (
-                                    <p>{price} UAH</p>
+                                    <p className="price-now">{price} UAH</p>
                                 ) : (
                                     <>
                                         <del className="price-was">{price}</del>
