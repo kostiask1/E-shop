@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
     useImperativeHandle,
     useState,
@@ -10,7 +11,7 @@ import "./Drawer.scss"
 import { CSSTransition } from "react-transition-group"
 import { Times } from "../../icons"
 
-function Drawer({ children }, ref) {
+function Drawer({ children, position }, ref) {
     const [isOpen, setIsOpen] = useState(false)
 
     const close = useCallback(() => setIsOpen(false), [])
@@ -18,8 +19,21 @@ function Drawer({ children }, ref) {
 
     let visible = useRef(false)
     useEffect(() => {
+        if (isOpen) {
+            document
+                .querySelector(".backdrop")
+                .addEventListener("mouseenter", mouseOverListener)
+        }
         visible.current = isOpen
     }, [isOpen])
+
+    const mouseOverListener = (e) => {
+        if (position === "left" && e.screenX > 0) {
+            close()
+        } else if (position === "right" && e.screenX < window.innerWidth - 70) {
+            close()
+        }
+    }
 
     useImperativeHandle(
         ref,
@@ -48,7 +62,7 @@ function Drawer({ children }, ref) {
 
     return (
         <CSSTransition in={isOpen} timeout={0}>
-            <div className="drawer" aria-hidden="true">
+            <div className={"drawer " + position} aria-hidden="true">
                 {isOpen ? (
                     <div className="backdrop" onClick={close}></div>
                 ) : null}

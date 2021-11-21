@@ -7,6 +7,7 @@ import { PowerOffIcon, BarsIcon, CartIcon } from "../../icons"
 import NavLinks from "./NavLinks/NavLinks"
 import { routes } from "../../pages/routes"
 import Drawer from "../../components/Drawer/Drawer"
+import Cart from "./../../pages/Cart/Cart"
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
 
 const Navigation = () => {
@@ -15,14 +16,17 @@ const Navigation = () => {
     const [width, setWidth] = useState(() => window.innerWidth)
     let props = useLocation()
     const ref = useRef()
-    const drawer = useRef()
+    const navigationRef = useRef()
+    const cartRef = useRef()
 
     useEffect(() => {
         let root = document.getElementById("root")
         document.addEventListener("mouseup", clickMenuListener)
+        document.addEventListener("mousemove", mouseMoveListener)
         root.addEventListener("scroll", handleSize)
         return () => {
             document.removeEventListener("mouseup", clickMenuListener)
+            document.removeEventListener("mousemove", mouseMoveListener)
             root.removeEventListener("scroll", handleSize)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -39,17 +43,26 @@ const Navigation = () => {
         }
     }
 
+    const mouseMoveListener = (e) => {
+        if (e.screenX === 0) {
+            navigationRef.current && navigationRef.current.open()
+        }
+        if (e.screenX >= window.innerWidth - 20) {
+            cartRef.current && cartRef.current.open()
+        }
+    }
+
     const clickMenuListener = (e) => {
         let inComponent = e.target.matches(`.navbar__wrapper *`)
         if (!inComponent) {
-            drawer.current.close()
+            navigationRef.current.close()
         }
     }
 
     useEffect(() => {
         const handleResize = () => {
             if (width < 767 && window.innerWidth > 767) {
-                drawer.current.close()
+                navigationRef.current.close()
                 return setWidth(window.innerWidth)
             } else if (width >= 767 && window.innerWidth <= 767) {
                 return setWidth(window.innerWidth)
@@ -61,10 +74,10 @@ const Navigation = () => {
     }, [width])
 
     const handleClose = () => {
-        drawer.current.close()
+        navigationRef.current.close()
     }
     const handleOpen = () => {
-        drawer.current.open()
+        navigationRef.current.open()
     }
 
     return (
@@ -81,44 +94,56 @@ const Navigation = () => {
                     <RLink ref={ref} className="navbar-brand" to="/main">
                         {SHOP_NAME}
                     </RLink>
-                    <RLink className="nav-cart" to="/cart">
+                    <div
+                        className="nav-cart"
+                        onClick={() => cartRef.current.open()}
+                    >
                         <CartIcon fill="var(--main-2)" />
-                    </RLink>
+                        {storage.length}
+                    </div>
                 </div>
             </div>
-            <Drawer ref={drawer}>
-                <NavLinks
-                    close={handleClose}
-                    storage={storage}
-                    routes={routes}
-                    main={props.pathname === "/main"}
-                />
-                {admin && (
-                    <li className="nav-item">
-                        <RLink
-                            className="nav-link"
-                            activeClassName="current"
-                            to="/create"
-                        >
-                            Create
-                        </RLink>
-                    </li>
-                )}
-                {admin && (
-                    <li className="nav-item">
-                        <div className="nav-link">
-                            <button
-                                onClick={() => logout()}
-                                className="btn btn-danger"
+            <Drawer ref={navigationRef} position="left">
+                <ul>
+                    <NavLinks
+                        close={handleClose}
+                        routes={routes}
+                        main={props.pathname === "/main"}
+                    />
+                    {admin && (
+                        <li className="nav-item">
+                            <RLink
+                                className="nav-link"
+                                activeClassName="current"
+                                to="/create"
                             >
-                                <PowerOffIcon
-                                    width="1.5em"
-                                    height="1.5em"
-                                    fill="var(--main)"
-                                />
-                            </button>
-                        </div>
-                    </li>
+                                Create
+                            </RLink>
+                        </li>
+                    )}
+                    {admin && (
+                        <li className="nav-item">
+                            <div className="nav-link">
+                                <button
+                                    onClick={() => logout()}
+                                    className="btn btn-danger"
+                                >
+                                    <PowerOffIcon
+                                        width="1.5em"
+                                        height="1.5em"
+                                        fill="var(--main)"
+                                    />
+                                </button>
+                            </div>
+                        </li>
+                    )}
+                </ul>
+            </Drawer>
+            <Drawer ref={cartRef} position="right">
+                {cartRef.current && cartRef.current.visible && (
+                    <Cart
+                        close={cartRef.current.close}
+                    />
                 )}
             </Drawer>
         </nav>

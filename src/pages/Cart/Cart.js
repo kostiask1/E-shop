@@ -6,19 +6,17 @@ import React, {
     Suspense,
     lazy,
 } from "react"
-import { Redirect, NavLink } from "react-router-dom"
 import { catalogContext } from "../../context/catalog/catalog-context"
-import ShopItem from "../../components/ShopItem/ShopItem"
 import "./Cart.scss"
 import axios from "axios"
 import PurchaseForm from "./PurchaseForm/PurchaseForm"
+import ShortItem from "../../components/ShortItem/ShortItem"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 
-const Cart = () => {
-    const { data, getById, clearStorage, getStorage } =
+const Cart = ({ close }) => {
+    const { cart, clearStorage, getStorage, deleteFromStorage } =
         useContext(catalogContext)
     const [loading, setLoading] = useState("")
-    const [redirect, setRedirect] = useState(false)
     const [requestFinished, setRequestFinished] = useState(false)
     const link = "https://" + window.location.hostname + "/catalog"
     const modal = useRef(null)
@@ -40,8 +38,8 @@ const Cart = () => {
                 `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
                 {
                     params: {
-                        text: data.length
-                            ? `<b>${name} заказал(а):</b>${data.map(
+                        text: cart.length
+                            ? `<b>${name} заказал(а):</b>${cart.map(
                                   (item) =>
                                       `\n<a href="${link}/${item.id}">${
                                           item.text
@@ -66,7 +64,7 @@ const Cart = () => {
                                       : `Отделение новой почты: <i>${department}</i>\n`
                               }Тип платежа: <i>${
                                   payment === "Cash" ? "Наличными" : "Картой"
-                              }</i>\nОбщая сумма заказа: <b>${data.reduce(
+                              }</i>\nОбщая сумма заказа: <b>${cart.reduce(
                                   (acc, obj) => {
                                       return (
                                           acc +
@@ -92,7 +90,6 @@ const Cart = () => {
                     getCart()
                 }
             })
-
     useEffect(() => {
         getCart()
         const timeout = setTimeout(
@@ -102,7 +99,6 @@ const Cart = () => {
                         (prev = (
                             <div className="fade-in">
                                 <h1>Cart is empty</h1>
-                                <NavLink to="/catalog">Go back shoping</NavLink>
                             </div>
                         ))
                 ),
@@ -115,69 +111,56 @@ const Cart = () => {
     }, [])
 
     const getCart = () => {
-        getById(getStorage())
+        getStorage()
     }
 
     const handleClean = () => {
-        clearStorage().then(() => {
-            setRedirect(true)
-        })
-    }
-    if (redirect) {
-        return <Redirect to="/catalog" />
+        clearStorage()
     }
     return (
         <div className="cart">
-            <div className="container pop-in">
-                {data && data.length > 0 ? (
-                    <div style={{ width: "100%" }}>
-                        <div className="catalog">
-                            {data.map((item, index) => (
-                                <ShopItem
-                                    key={item.id}
-                                    index={index}
-                                    id={item.id}
-                                    text={item.text}
-                                    imagesArray={item.imagesArray}
-                                    category={item.category}
-                                    description={item.description}
-                                    price={item.price}
-                                    discountPrice={item.discountPrice}
-                                    inCart={true}
-                                    functions={{
-                                        getCart,
-                                    }}
-                                ></ShopItem>
-                            ))}
-                        </div>
-                        <p className="total-price">
-                            {data.reduce(
-                                (acc, obj) =>
-                                    acc +
-                                    (obj.discountPrice
-                                        ? obj.discountPrice
-                                        : obj.price),
-                                0
-                            )}
-                            &nbsp;Uah's to pay (+ delivery)
-                        </p>
-                        <button
-                            className="btn btn-success"
-                            onClick={() => modal.current.open()}
-                        >
-                            Buy all
-                        </button>
-                        <button
-                            className="btn btn-danger"
-                            onClick={() => handleClean()}
-                        >
-                            Clear cart
-                        </button>
+            {cart && cart.length > 0 ? (
+                <>
+                    <div className="catalog">
+                        {cart.map((item) => (
+                            <ShortItem
+                                key={item.id}
+                                id={item.id}
+                                text={item.text}
+                                price={item.price}
+                                discountPrice={item.discountPrice}
+                                deleteFromStorage={deleteFromStorage}
+                                close={close}
+                            ></ShortItem>
+                        ))}
                     </div>
-                ) : (
-                    <div>{loading}</div>
-                )}
-            </div>
+                    <p className="total-price">
+                        {cart.reduce(
+                            (acc, obj) =>
+                                acc +
+                                (obj.discountPrice
+                                    ? obj.discountPrice
+                                    : obj.price),
+                            0
+                        )}
+                        &nbsp;Uah's to pay (+ delivery)
+                    </p>
+                    <button
+                        className="btn btn-success"
+                        onClick={() => modal.current.open()}
+                    >
+                        Buy all
+                    </button>
+                    <button
+                        className="btn btn-danger"
+                        onClick={() => handleClean()}
+                    >
+                        Clear cart
+                    </button>
+                </>
+            ) : (
+                <div>{loading}</div>
+            )}
             <Suspense fallback={<p></p>}>
                 <Modal ref={modal}>
                     {requestFinished ? (
@@ -187,11 +170,11 @@ const Cart = () => {
                                 receive a message soon
                             </h3>
                             <button
-                                onClick={() => setRedirect(true)}
+                                onClick={() => modal.current.close()}
                                 className="btn-success"
                                 style={{ marginTop: "1.5rem" }}
                             >
-                                Go shopping
+                                OK
                             </button>
                         </div>
                     ) : (

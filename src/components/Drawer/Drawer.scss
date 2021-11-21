@@ -5,16 +5,40 @@
     flex-direction: column;
     position: fixed;
     top: 0;
-    left: 0;
     bottom: 0;
-    padding-left: 2rem;
-    padding-right: 5rem;
     padding-top: 4rem;
     background: #fff;
     z-index: 9999;
-    transform: translateX(-100%);
     width: var(--drawer-width);
     transition: all 0.2s ease-in-out;
+    &.left {
+        left: 0;
+        transform: translateX(-100%);
+        &.exit-done {
+            transform: translateX(-100%);
+        }
+        &.enter-done {
+            transform: translateX(0px);
+            .backdrop {
+                left: 0;
+                transform: translateX(var(--drawer-width));
+            }
+        }
+    }
+    &.right {
+        right: 0;
+        transform: translateX(100%);
+        &.exit-done {
+            transform: translateX(100%);
+        }
+        &.enter-done {
+            transform: translateX(0px);
+            .backdrop {
+                right: 0;
+                transform: translateX(calc(var(--drawer-width) * -1));
+            }
+        }
+    }
     .close {
         font-size: 0.6rem;
         cursor: pointer;
@@ -22,21 +46,16 @@
         top: 0.9rem;
         right: 1.2rem;
     }
-    &.exit-done {
-        transform: translateX(-100%);
-    }
     &.enter-done {
         transform: translateX(0px);
         .backdrop {
             width: 100vw;
-            transform: translateX(var(--drawer-width));
             opacity: 1;
         }
     }
     .backdrop {
         position: fixed;
         top: 0;
-        left: 0;
         height: 100vh;
         opacity: 0;
         background-color: rgba(0, 0, 0, 0.5);

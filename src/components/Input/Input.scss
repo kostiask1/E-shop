@@ -9,7 +9,7 @@ input.input-component {
     }
 }
 span.input-component {
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     color: var(--gray);
@@ -22,7 +22,7 @@ span.input-component {
     line-height: 0;
 }
 .input-component-wrapper {
-    margin: 0 !important;
+    margin: 0;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;

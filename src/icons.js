@@ -42,8 +42,22 @@ export const Times = ({ width, height, fill, strokeWidth }) => (
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
     >
-        <line x1={0} y1={100} x2={100} y2={0} strokeWidth={strokeWidth} stroke={fill} />
-        <line x1={0} y1={0} x2={100} y2={100} strokeWidth={strokeWidth} stroke={fill} />
+        <line
+            x1={0}
+            y1={100}
+            x2={100}
+            y2={0}
+            strokeWidth={strokeWidth}
+            stroke={fill}
+        />
+        <line
+            x1={0}
+            y1={0}
+            x2={100}
+            y2={100}
+            strokeWidth={strokeWidth}
+            stroke={fill}
+        />
     </svg>
 )
 
@@ -169,7 +183,7 @@ export const SearchIcon = ({ width, height, fill, viewbox }) => (
         viewBox={viewbox ?? "0 0 24 24"}
         fill="none"
         stroke={fill ?? "var(--textBlack)"}
-        strokeWidth={2}
+        strokeWidth={1}
         strokeLinecap="round"
         strokeLinejoin="round"
     >

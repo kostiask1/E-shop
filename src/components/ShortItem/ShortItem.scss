@@ -1,0 +1,23 @@
+.cart-item {
+    a {
+        display: inline-block;
+    }
+    svg {
+        cursor: pointer;
+        margin-left: 10px;
+    }
+    .price {
+        &-default {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 1.2rem;
+        }
+        &-now {
+            display: inline-block;
+            margin-left: 5px;
+            font-size: 1.2rem;
+            color: var(--success);
+            z-index: 1;
+        }
+    }
+}

@@ -1,9 +1,8 @@
 import React from "react"
-import "./NavLinks.scss"
 import { Link } from "react-scroll"
 import { NavLink } from "react-router-dom"
 
-const NavLinks = ({ routes, main, storage, close }) => {
+const NavLinks = ({ routes, main, close }) => {
     return (
         <>
             <li className="nav-item">
@@ -32,7 +31,7 @@ const NavLinks = ({ routes, main, storage, close }) => {
                     </NavLink>
                 )}
             </li>
-            <div className="nav-item">
+            <li className="nav-item">
                 <NavLink
                     className="nav-link"
                     activeClassName="active"
@@ -41,7 +40,7 @@ const NavLinks = ({ routes, main, storage, close }) => {
                 >
                     Catalog
                 </NavLink>
-            </div>
+            </li>
             {main
                 ? routes.map(({ to, name }) => (
                       <li className="nav-item" key={name}>
@@ -61,23 +60,6 @@ const NavLinks = ({ routes, main, storage, close }) => {
                       </li>
                   ))
                 : null}
-            {storage.length > 0 && (
-                <li className="nav-item pop-in">
-                    <NavLink
-                        activeClassName="active"
-                        to="/cart"
-                        onClick={close}
-                    >
-                        Cart
-                        <div className="counter">
-                            <div id="burst-8"></div>
-                            <span className="cart-counter">
-                                {storage.length}
-                            </span>
-                        </div>
-                    </NavLink>
-                </li>
-            )}
         </>
     )
 }

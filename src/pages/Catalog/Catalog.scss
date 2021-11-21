@@ -1,6 +1,16 @@
+:root {
+    --repeat: 3;
+    @media (max-width: 991px) {
+        --repeat: 2;
+    }
+    @media (max-width: 767px) {
+        --repeat: 1;
+    }
+}
 #catalog {
     padding: 2rem 0;
-    margin-top: 100px;
+    margin: 0 auto;
+    width: clamp(300px, 75%, 1500px);
     @media screen and (max-width: 768px) {
         & > .container > .row {
             flex-direction: column;
@@ -14,19 +24,17 @@
     width: 100%;
     background-color: var(--main);
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    grid-template-columns: repeat(var(--repeat), 1fr);
     grid-gap: 1.5rem;
     align-items: flex-start;
     margin-bottom: 2rem;
-    &__wrapper {
-        padding-left: 2rem;
-        width: 100%;
+    .item-wrapper {
+        @media (max-width: 768px) {
+            margin: auto;
+        }
     }
 }
-.category label {
-    cursor: pointer;
-    transition: 0.4s all;
-}
+
 .btn-delete-multiple {
     position: fixed;
     left: 50%;

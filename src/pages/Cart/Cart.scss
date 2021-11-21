@@ -1,17 +1,18 @@
 .cart {
     padding: 2rem 0;
+    padding-left: 1rem;
+    padding-right: 0.5rem;
+    height: 100%;
+    overflow-y: auto;
     .catalog {
-        display: flex;
-        flex-wrap: wrap;
-        grid-gap: 1.5rem;
-        align-items: flex-start;
-        margin-bottom: 2rem;
+        grid-template-columns: repeat(1, 1fr);
         .item-wrapper {
             flex: 1 0 300px;
             max-width: 400px;
         }
     }
     .btn {
+        padding: 0.5rem;
         &-success {
             margin-right: 1rem;
         }
@@ -20,4 +21,17 @@
         margin-top: 1rem;
         margin-bottom: 1rem;
     }
+    .modal-body {
+        height: 85vh;
+        padding: 0;
+        overflow-y: auto;
+    }
+}
+
+.drawer .modal-overlay {
+    left: calc(var(--drawer-width) - 100vw);
+    width: 200vw;
+}
+.drawer .modal-dialog {
+    left: calc(var(--drawer-width) - 100vw);
 }

@@ -23,7 +23,6 @@ const Catalog = () => {
     const { admin } = useContext(authContext)
     const [deleteArray, setDeleteArray] = useState([])
     const modal = useRef(null)
-    const modalFilters = useRef(null)
     const [dataSlice, setDataSlice] = useState([])
     const catalogRef = useRef(null)
 
@@ -113,71 +112,56 @@ const Catalog = () => {
         <>
             <div id="catalog">
                 <div className="container">
-                    <div className="row">
-                        {window.innerWidth > 767 && (
-                            <FilterSection handleCheckbox={handleCheckbox} />
-                        )}
-
-                        <div className="catalog__wrapper">
-                            {window.innerWidth <= 767 && (
+                    <div className="column">
+                        <FilterSection handleCheckbox={handleCheckbox} />
+                        {admin && deleteArray.length ? (
+                            <button
+                                className="btn-delete-multiple pop-in"
+                                onClick={deleteMultipleItems}
+                            >
+                                <DeleteIcon width={42} height={42} />
+                            </button>
+                        ) : null}
+                        <div className="catalog">
+                            {admin && (
                                 <button
-                                    className="btn btn-filters"
-                                    onClick={() => modalFilters.current.open()}
+                                    className="btn btn-primary"
+                                    type="submit"
+                                    onClick={() => modal.current.open()}
                                 >
-                                    Filters
+                                    Create new item
                                 </button>
                             )}
-                            {admin && deleteArray.length ? (
-                                <button
-                                    className="btn-delete-multiple pop-in"
-                                    onClick={deleteMultipleItems}
-                                >
-                                    <DeleteIcon width={42} height={42} />
-                                </button>
-                            ) : null}
-                            <div className="catalog">
-                                {admin && (
-                                    <button
-                                        className="btn btn-primary"
-                                        type="submit"
-                                        onClick={() => modal.current.open()}
-                                    >
-                                        Create new item
-                                    </button>
-                                )}
-                                {dataSlice.length > 0 ? (
-                                    dataSlice[0].length &&
-                                    dataSlice[0].map((item, index) => {
-                                        return (
-                                            <ShopItem
-                                                key={item.id}
-                                                index={0}
-                                                id={item.id}
-                                                text={item.text}
-                                                imagesArray={item.imagesArray}
-                                                image={item.image}
-                                                category={item.category}
-                                                description={item.description}
-                                                handleDeleteArray={() =>
-                                                    handleDeleteArray()
-                                                }
-                                                deleteArray={deleteArray}
-                                                price={item.price}
-                                                discountPrice={
-                                                    item.discountPrice
-                                                }
-                                                boughtCount={item.boughtCount}
-                                            />
-                                        )
-                                    })
-                                ) : (
-                                    <span className="fade-in">
-                                        No matching results found
-                                    </span>
-                                )}
-                            </div>
-                            <div ref={catalogRef} className="end"></div>
+                            {dataSlice.length > 0 ? (
+                                dataSlice[0].length &&
+                                dataSlice[0].map((item, index) => {
+                                    return (
+                                        <ShopItem
+                                            key={item.id}
+                                            index={0}
+                                            id={item.id}
+                                            text={item.text}
+                                            imagesArray={item.imagesArray}
+                                            image={item.image}
+                                            category={item.category}
+                                            description={item.description}
+                                            handleDeleteArray={() =>
+                                                handleDeleteArray()
+                                            }
+                                            deleteArray={deleteArray}
+                                            price={item.price}
+                                            discountPrice={item.discountPrice}
+                                            boughtCount={item.boughtCount}
+                                        />
+                                    )
+                                })
+                            ) : (
+                                <span className="fade-in">
+                                    No matching results found
+                                </span>
+                            )}
                         </div>
+                        <div ref={catalogRef} className="end"></div>
                     </div>
                 </div>
             </div>
@@ -192,13 +176,6 @@ const Catalog = () => {
                                 getData={() => getData()}
                             />
                         )}
-                    </Modal>
-                </Suspense>
-            )}
-            {admin && (
-                <Suspense fallback={<p></p>}>
-                    <Modal ref={modalFilters} size="lg">
-                        <FilterSection handleCheckbox={handleCheckbox} />
                     </Modal>
                 </Suspense>
             )}

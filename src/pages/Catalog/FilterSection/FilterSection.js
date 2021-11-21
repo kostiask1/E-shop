@@ -1,9 +1,9 @@
 import React, { useContext, useMemo } from "react"
 import { catalogContext } from "../../../context/catalog/catalog-context"
-import Category from "./Category/Category"
 import "./FilterSection.scss"
 import { SearchIcon } from "../../../icons"
 import Input from "../../../components/Input/Input"
+import { DropDown } from "../../../components/DropDown/DropDown"
 
 const FilterSection = (props) => {
     const { handleCheckbox } = props
@@ -29,22 +29,18 @@ const FilterSection = (props) => {
                         <SearchIcon
                             width="18px"
                             height="18px"
-                            fill="var(--gray)"
+                            fill="var(--main-2)"
                         />
                     }
                 />
-                <div className="categories">
-                    {filters
-                        ? filters.map((item, index) => (
-                              <Category
-                                  category={category}
-                                  key={index}
-                                  item={item}
-                                  change={(e) => handleCheckbox(e)}
-                              />
-                          ))
-                        : null}
-                </div>
+                <span>Category</span>
+                <DropDown
+                    key={filters}
+                    options={filters}
+                    change={handleCheckbox}
+                    defaultValue={category}
+                    placeholder="Choose category"
+                ></DropDown>
             </div>
         ),
         // eslint-disable-next-line react-hooks/exhaustive-deps

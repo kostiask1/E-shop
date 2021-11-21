@@ -33,6 +33,10 @@
             font-size: 3.5rem;
         }
     }
+    ul {
+        padding-left: 2rem;
+        padding-right: 5rem;
+    }
     .nav {
         &-item {
             display: flex;
@@ -105,6 +109,7 @@
 }
 .nav-cart {
     position: absolute;
+    cursor: pointer;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
