@@ -6,8 +6,8 @@ import "./navigation.scss"
 import { PowerOffIcon, BarsIcon, CartIcon } from "../../icons"
 import NavLinks from "./NavLinks/NavLinks"
 import { routes } from "../../pages/routes"
-import Drawer from "../../components/Drawer/Drawer"
-import Cart from "./../../pages/Cart/Cart"
+import Drawer from "../Drawer/Drawer"
+import Cart from "../../components/Cart/Cart"
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
 
 const Navigation = () => {
@@ -141,9 +141,7 @@ const Navigation = () => {
             </Drawer>
             <Drawer ref={cartRef} position="right">
                 {cartRef.current && cartRef.current.visible && (
-                    <Cart
-                        close={cartRef.current.close}
-                    />
+                    <Cart close={cartRef.current.close} />
                 )}
             </Drawer>
         </nav>

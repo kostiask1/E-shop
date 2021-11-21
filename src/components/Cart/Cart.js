@@ -10,7 +10,7 @@ import { catalogContext } from "../../context/catalog/catalog-context"
 import "./Cart.scss"
 import axios from "axios"
 import PurchaseForm from "./PurchaseForm/PurchaseForm"
-import ShortItem from "../../components/ShortItem/ShortItem"
+import ShortItem from "./ShortItem/ShortItem"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 
 const Cart = ({ close }) => {

@@ -1,6 +1,6 @@
 import React from "react"
+import CallToAction from "./CallToAction/CallToAction"
 import "./Heading.scss"
-import CallToAction from "../../../components/CallToAction/CallToAction"
 
 const Heading = () => {
     return (

@@ -28,7 +28,7 @@ function Drawer({ children, position }, ref) {
     }, [isOpen])
 
     const mouseOverListener = (e) => {
-        if (position === "left" && e.screenX > 0) {
+        if (position === "left" && e.screenX > 70) {
             close()
         } else if (position === "right" && e.screenX < window.innerWidth - 70) {
             close()

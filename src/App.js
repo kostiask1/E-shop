@@ -7,7 +7,6 @@ import { authContext } from "./context/Auth/auth-context"
 import Navigation from "./layout/navigation/navigation"
 import Catalog from "./pages/Catalog/Catalog"
 import Card from "./pages/Card/Card"
-import Cart from "./pages/Cart/Cart"
 import Create from "./pages/Create/Create"
 import Auth from "./pages/Auth/Auth"
 import Main from "./pages/Main/Main"
@@ -20,7 +19,6 @@ const mainRoutes = [
 const routesSub = [
     { path: "/catalog", Component: Catalog },
     { path: "/auth", Component: Auth },
-    { path: "/cart", Component: Cart },
     { path: "/create", Component: Create },
     { path: "/catalog/:name", Component: Card },
 ]

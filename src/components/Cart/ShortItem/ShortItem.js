@@ -1,12 +1,12 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { Times } from "../../icons"
+import { Times } from "../../../icons"
 import "./ShortItem.scss"
 
 const ShortItem = (props) => {
     const { id, text, price, discountPrice, close, deleteFromStorage } = props
     return (
-        <div className="cart-item">
+        <div className="cart-item pop-in">
             <Link to={"/catalog/" + id} onClick={close}>
                 <span className="item-name">{text} - </span>
             </Link>

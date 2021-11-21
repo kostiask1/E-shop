@@ -80,17 +80,6 @@
                     transform: scaleX(1);
                 }
             }
-            &:first-child a,
-            &:last-child a {
-                padding: 0;
-                padding-bottom: 3px;
-            }
-            &:first-child a {
-                padding-right: 0.5rem;
-            }
-            &:last-child a {
-                padding-left: 0.5rem;
-            }
         }
     }
     &-nav {

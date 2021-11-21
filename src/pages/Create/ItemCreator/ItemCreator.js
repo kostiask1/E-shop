@@ -1,83 +1,83 @@
-import React, { useEffect, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-import Modal from "../../../components/Modal/Modal";
-import { app } from "../../../base";
-import "./ItemCreator.scss";
-import { DropDown } from "../../../components/DropDown/DropDown";
-import Input from "../../../components/Input/Input";
-import { DeleteIcon, UploadIcon, ImageIcon } from "../../../icons";
-import ShopItem from "../../../components/ShopItem/ShopItem";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import DragAndDrop from "../../../components/DragAndDrop/DragAndDrop";
-const db = app.firestore();
+import React, { useEffect, useRef, useState } from "react"
+import { v4 as uuidv4 } from "uuid"
+import Modal from "../../../components/Modal/Modal"
+import { app } from "../../../base"
+import "./ItemCreator.scss"
+import { DropDown } from "../../../components/DropDown/DropDown"
+import Input from "../../../components/Input/Input"
+import { DeleteIcon, UploadIcon, ImageIcon } from "../../../icons"
+import { Carousel } from "react-responsive-carousel"
+import "react-responsive-carousel/lib/styles/carousel.min.css"
+import DragAndDrop from "../../../components/DragAndDrop/DragAndDrop"
+import ShopItem from "../../../components/ShopItem/ShopItem"
+const db = app.firestore()
 
 const ItemCreator = (props) => {
     const sumBtn =
-        props.filters || props.new ? "Add item to shop" : "Update item";
-    const [filters, setFilters] = useState(props.filters || []);
-    const [title, setTitle] = useState(props.title || "");
-    const [imagesArray, setImagesArray] = useState(props.imagesArray || [""]);
-    const [description, setDescription] = useState(props.description || "");
-    const [category, setCategory] = useState(props.category || "");
-    const [drag, setDrag] = useState(false);
-    const [gallery, setGallery] = useState([]);
-    const [price, setPrice] = useState(props.price || "");
+        props.filters || props.new ? "Add item to shop" : "Update item"
+    const [filters, setFilters] = useState(props.filters || [])
+    const [title, setTitle] = useState(props.title || "")
+    const [imagesArray, setImagesArray] = useState(props.imagesArray || [""])
+    const [description, setDescription] = useState(props.description || "")
+    const [category, setCategory] = useState(props.category || "")
+    const [drag, setDrag] = useState(false)
+    const [gallery, setGallery] = useState([])
+    const [price, setPrice] = useState(props.price || "")
     const [discountPrice, setDiscountPrice] = useState(
         props.discountPrice || ""
-    );
+    )
     const [discountPercent, setDiscountPercent] = useState(
         (discountPrice && 100 - Math.ceil((discountPrice / price) * 100)) ||
             false
-    );
-    const [boughtCount, setBoughtCount] = useState(props.boughtCount || "");
-    const [tab, setTab] = useState("big");
-    const id = props.id || uuidv4();
-    const modal = useRef(null);
+    )
+    const [boughtCount, setBoughtCount] = useState(props.boughtCount || "")
+    const [tab, setTab] = useState("big")
+    const id = props.id || uuidv4()
+    const modal = useRef(null)
 
     useEffect(() => {
-        if (discountPercent) handleDiscountPercent(discountPercent);
+        if (discountPercent) handleDiscountPercent(discountPercent)
         //eslint-disable-next-line
-    }, [price]);
+    }, [price])
 
     useEffect(() => {
         if (filters && filters.length === 0) {
-            getFilters();
+            getFilters()
         }
-        setFilters((prev) => (prev = props.filters));
+        setFilters((prev) => (prev = props.filters))
         //eslint-disable-next-line
-    }, [props.filters]);
+    }, [props.filters])
 
     const getFilters = async () => {
         try {
-            let filt = await db.collection("categories").get();
-            filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = []);
+            let filt = await db.collection("categories").get()
+            filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = [])
             if (filt.length) {
-                filt = Object.values(filt[0].categories);
+                filt = Object.values(filt[0].categories)
             }
-            setFilters(filt);
-            return filters;
+            setFilters(filt)
+            return filters
         } catch (err) {
-            console.error(err);
+            console.error(err)
         }
-    };
+    }
     const clearInputs = (e) => {
-        if (e) e.preventDefault();
-        setTitle(props.title ?? "");
-        setImagesArray(props.imagesArray ?? [""]);
-        setDescription(props.description ?? "");
-        setPrice(props.price ?? "");
-        setDiscountPrice(props.discountPrice ?? "");
+        if (e) e.preventDefault()
+        setTitle(props.title ?? "")
+        setImagesArray(props.imagesArray ?? [""])
+        setDescription(props.description ?? "")
+        setPrice(props.price ?? "")
+        setDiscountPrice(props.discountPrice ?? "")
         setDiscountPercent(
             props.discountPrice
                 ? 100 - Math.ceil((props.discountPrice / props.price) * 100)
                 : ""
-        );
-        setBoughtCount(props.boughtCount ?? "");
-        setCategory(props.category ?? "");
-    };
+        )
+        setBoughtCount(props.boughtCount ?? "")
+        setCategory(props.category ?? "")
+    }
     const newItem = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const data = {
             category,
             id,
@@ -88,156 +88,156 @@ const ItemCreator = (props) => {
             timestamp: new Date().getTime(),
             text: title,
             boughtCount,
-        };
+        }
         db.collection("All")
             .doc(data.id)
             .set(data)
             .then(() => {
                 if (props.id === id || props.hasOwnProperty("close")) {
-                    props.close();
-                    return props.getData();
+                    props.close()
+                    return props.getData()
                 }
-                clearInputs();
-            });
-    };
+                clearInputs()
+            })
+    }
     const loadImages = async (e) => {
         try {
-            let files = Array.from(e);
-            let links = [];
-            const storageRef = app.storage().ref().child("images");
+            let files = Array.from(e)
+            let links = []
+            const storageRef = app.storage().ref().child("images")
             let requests = Promise.all(
                 files.map(async (file) => {
-                    const fileRef = storageRef.child(file.name);
-                    await fileRef.put(file);
-                    links.push(await fileRef.getDownloadURL());
+                    const fileRef = storageRef.child(file.name)
+                    await fileRef.put(file)
+                    links.push(await fileRef.getDownloadURL())
                 })
-            );
+            )
             requests.then(() => {
-                setImagesArray((array) => array.concat(links));
+                setImagesArray((array) => array.concat(links))
                 if (modal.current.visible.current) {
-                    loadGallery();
+                    loadGallery()
                 }
-            });
+            })
         } catch (err) {
-            console.error(err);
+            console.error(err)
         }
-    };
+    }
     const deleteImage = async (file) => {
-        const storageRef = app.storage();
-        setGallery((gallery) => gallery.filter((img) => img !== file));
-        storageRef.refFromURL(file).delete(file);
-        let clone = [...imagesArray];
-        clone = clone.filter((img) => img !== file);
-        setImagesArray(clone);
-    };
+        const storageRef = app.storage()
+        setGallery((gallery) => gallery.filter((img) => img !== file))
+        storageRef.refFromURL(file).delete(file)
+        let clone = [...imagesArray]
+        clone = clone.filter((img) => img !== file)
+        setImagesArray(clone)
+    }
     const clearImages = (event) => {
-        event.preventDefault();
-        setImagesArray([""]);
-    };
+        event.preventDefault()
+        setImagesArray([""])
+    }
     const resetImages = (event) => {
-        event.preventDefault();
-        setImagesArray(props.imagesArray ?? [""]);
-    };
+        event.preventDefault()
+        setImagesArray(props.imagesArray ?? [""])
+    }
     const loadGallery = async (e) => {
         if (e) {
-            e.preventDefault();
+            e.preventDefault()
         }
-        var storageRef = app.storage().ref();
-        var listRef = storageRef.child("images");
+        var storageRef = app.storage().ref()
+        var listRef = storageRef.child("images")
         listRef.listAll().then(function (result) {
-            if (result.items.length === 0) return setGallery([]);
+            if (result.items.length === 0) return setGallery([])
             let promises = result.items.map(function (imgRef) {
                 return imgRef.getDownloadURL().then(function (url) {
-                    return url;
-                });
-            });
+                    return url
+                })
+            })
             Promise.all(promises).then((items) => {
-                setGallery(items);
-            });
-        });
-        modal.current.open();
-    };
+                setGallery(items)
+            })
+        })
+        modal.current.open()
+    }
     const handleTitle = (e) => {
-        if (!e) return setTitle("");
-        let newTitle = e[0].toUpperCase();
-        newTitle = newTitle + e.slice(1);
-        setTitle(newTitle);
-    };
+        if (!e) return setTitle("")
+        let newTitle = e[0].toUpperCase()
+        newTitle = newTitle + e.slice(1)
+        setTitle(newTitle)
+    }
     const onDragStart = (e) => {
-        e.preventDefault();
-        if (!e.target.classList.contains("img-fluid")) setDrag(true);
-    };
+        e.preventDefault()
+        if (!e.target.classList.contains("img-fluid")) setDrag(true)
+    }
     const onDragLeave = (e) => {
-        e.preventDefault();
-        setDrag(false);
-    };
+        e.preventDefault()
+        setDrag(false)
+    }
     const onDragLoad = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         try {
-            let files = [...e.dataTransfer.files];
+            let files = [...e.dataTransfer.files]
             files.map((file) => {
                 if (
                     !imagesArray.length ||
                     (imagesArray.length === 1 && imagesArray[0] === "")
                 ) {
-                    modal.current.close();
+                    modal.current.close()
                 }
-                return loadImages([file]).then(setDrag(false));
-            });
+                return loadImages([file]).then(setDrag(false))
+            })
         } catch (err) {
-            console.log(err);
+            console.log(err)
         }
-    };
+    }
     const handleDiscountPercent = (percent) => {
-        percent = +percent;
+        percent = +percent
         if (percent && percent > 0 && percent < 100) {
-            let newPrice = Math.floor(price - (price / 100) * percent);
-            setDiscountPrice(newPrice);
-            setDiscountPercent(percent);
+            let newPrice = Math.floor(price - (price / 100) * percent)
+            setDiscountPrice(newPrice)
+            setDiscountPercent(percent)
         } else if (percent && percent >= 100) {
-            let newPrice = Math.floor(price - (price / 100) * 99);
-            setDiscountPrice(newPrice);
-            setDiscountPercent(99);
+            let newPrice = Math.floor(price - (price / 100) * 99)
+            setDiscountPrice(newPrice)
+            setDiscountPercent(99)
         } else {
-            setDiscountPrice("");
-            setDiscountPercent("");
+            setDiscountPrice("")
+            setDiscountPercent("")
         }
-    };
+    }
     const handleDiscountPrice = (discountPrice) => {
-        discountPrice = +discountPrice;
+        discountPrice = +discountPrice
         if (discountPrice && discountPrice > 0 && discountPrice < price) {
-            let newPercent = 100 - Math.ceil((discountPrice / price) * 100);
-            setDiscountPrice(discountPrice);
-            setDiscountPercent(newPercent);
+            let newPercent = 100 - Math.ceil((discountPrice / price) * 100)
+            setDiscountPrice(discountPrice)
+            setDiscountPercent(newPercent)
         } else if (discountPrice && discountPrice > price) {
-            setDiscountPrice(price - 1);
-            setDiscountPercent(1);
+            setDiscountPrice(price - 1)
+            setDiscountPercent(1)
         } else {
-            setDiscountPrice("");
-            setDiscountPercent("");
+            setDiscountPrice("")
+            setDiscountPercent("")
         }
-    };
+    }
     const handleTabs = (tab) => {
         if (tab === "card") {
-            setTab(tab);
+            setTab(tab)
         } else {
-            setTab("big");
+            setTab("big")
         }
-    };
+    }
     const handleImageSet = (index, url) => {
         setImagesArray((prevArray) =>
             prevArray.splice(prevArray.splice(index, 1, url))
-        );
-    };
+        )
+    }
     const deleteImg = (index) => {
-        let clone = [...imagesArray];
-        clone = clone.splice(clone.splice(index, 1));
-        setImagesArray(clone);
-    };
+        let clone = [...imagesArray]
+        clone = clone.splice(clone.splice(index, 1))
+        setImagesArray(clone)
+    }
     const addToImgArray = (event) => {
-        event.preventDefault();
-        setImagesArray((prevArray) => prevArray.concat(""));
-    };
+        event.preventDefault()
+        setImagesArray((prevArray) => prevArray.concat(""))
+    }
     return (
         <div className="item-creator">
             <div className="row">
@@ -541,8 +541,8 @@ const ItemCreator = (props) => {
                                             onClick={() => {
                                                 setImagesArray((prevArray) =>
                                                     prevArray.concat(img)
-                                                );
-                                                modal.current.close();
+                                                )
+                                                modal.current.close()
                                             }}
                                         />
                                     </div>
@@ -583,11 +583,11 @@ const ItemCreator = (props) => {
                 )}
             </Modal>
         </div>
-    );
-};
-
-function arePropsEqual(prevProps, nextProps) {
-    return prevProps.filters === nextProps.filters;
+    )
 }
 
-export default React.memo(ItemCreator, arePropsEqual);
+function arePropsEqual(prevProps, nextProps) {
+    return prevProps.filters === nextProps.filters
+}
+
+export default React.memo(ItemCreator, arePropsEqual)
