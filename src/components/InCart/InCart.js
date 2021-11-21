@@ -1,30 +1,30 @@
-import React, { useState, useContext, useEffect } from "react";
-import { catalogContext } from "../../context/catalog/catalog-context";
-import { CartIcon } from "../../icons";
+import React, { useState, useContext, useEffect } from "react"
+import { catalogContext } from "../../context/catalog/catalog-context"
+import { CartIcon } from "../../icons"
 
 const InCart = ({ id, ...props }) => {
-    const { findInStorage, addToStorage, deleteFromStorage } =
-        useContext(catalogContext);
+    const { findInStorage, addToStorage, deleteFromStorage, storage } =
+        useContext(catalogContext)
 
-    const [inStorage, setInStorage] = useState(false);
+    const [inStorage, setInStorage] = useState(false)
 
     useEffect(() => {
-        setInStorage(findInStorage(id));
+        setInStorage(findInStorage(id))
         //eslint-disable-next-line
-    }, []);
+    }, [storage.length])
 
     const addToCart = () => {
-        addToStorage(id);
-        setInStorage(true);
-    };
+        addToStorage(id)
+        setInStorage(true)
+    }
     const deleteFromCart = () => {
         deleteFromStorage([id]).then(() => {
             if (props.hasOwnProperty("update")) {
-                props.update();
+                props.update()
             }
-        });
-        setInStorage(false);
-    };
+        })
+        setInStorage(false)
+    }
 
     return (
         <div className="cart-control">
@@ -42,7 +42,7 @@ const InCart = ({ id, ...props }) => {
                 </button>
             )}
         </div>
-    );
-};
+    )
+}
 
-export default InCart;
+export default InCart

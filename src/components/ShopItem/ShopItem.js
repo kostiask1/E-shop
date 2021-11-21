@@ -37,7 +37,7 @@ const ShopItem = (props) => {
         boughtCount,
         disabledControls,
     } = props
-    const { getData, deleteFromStorage } = useContext(catalogContext)
+    const { getData, deleteFromStorage, storage } = useContext(catalogContext)
     const { admin } = useContext(authContext)
     const [fading, setFading] = useState(false)
     const [selected, setSelected] = useState(
