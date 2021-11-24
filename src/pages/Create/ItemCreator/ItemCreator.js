@@ -336,7 +336,6 @@ const ItemCreator = (props) => {
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
-                                    required
                                 />
                             </div>
                             <div>
