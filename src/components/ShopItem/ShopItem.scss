@@ -6,13 +6,70 @@
     justify-content: space-between;
     align-self: stretch;
     overflow: hidden;
+    &-image {
+        position: relative;
+        &:hover .item-hovered {
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+    }
+    &-hovered {
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(253, 250, 250, 0.7);
+        transition: all 0.25s ease-in-out;
+        & a,
+        & button {
+            position: relative;
+            font-family: Cormorant Garamond;
+            color: var(--main-2);
+            padding-bottom: 30px;
+            line-height: 1;
+            font-size: 1.8rem;
+            background-color: transparent;
+            filter: brightness(100%);
+            &:after {
+                content: " ";
+                display: block;
+                height: 1px;
+                width: 100%;
+                transform: scaleX(0) translateY(5px);
+                left: 0;
+                background-color: var(--main-2);
+                transition: transform 0.25s ease-in-out;
+            }
+            &:hover {
+                filter: brightness(100%);
+            }
+            &:hover::after {
+                transform: scaleX(1) translateY(5px);
+            }
+        }
+    }
+    .in-cart {
+        color: var(--main-1);
+        &:after {
+            background-color: var(--main-1);
+        }
+    }
     &-wrapper {
         max-width: 400px;
         height: 100%;
     }
     a,
     .a {
-        flex: 1 1;
+        position: relative;
         overflow: hidden;
     }
     &-img {
@@ -116,7 +173,6 @@
 }
 .cart-control {
     display: inline-block;
-    margin-left: 0.7rem;
     button {
         border: unset;
         padding: 0;

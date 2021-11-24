@@ -17,7 +17,7 @@
         font-family: Cormorant Garamond;
         font-weight: 500;
         text-transform: capitalize;
-        font-size: 3.5rem;
+        font-size: 3.2rem;
         padding: 1rem 0px;
         color: rgba(var(--main-1-transparent), 1);
         transition: all 0.25s ease-in-out;
@@ -94,6 +94,49 @@
     .btn-danger {
         padding: 0.2rem;
         padding-bottom: 0;
+    }
+    .counter {
+        position: absolute;
+        right: 0px;
+        top: 0;
+        transform: translateY(-15%) translateX(120%);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cart-counter {
+        font-family: sans-serif;
+        font-size: 0.8rem;
+        top: 1px;
+        position: absolute;
+        color: var(--main);
+    }
+    #burst-8 {
+        background: var(--main-2);
+        width: 1rem;
+        height: 1rem;
+        position: relative;
+        text-align: center;
+        transform: rotate(20deg);
+        animation: 10s spin linear infinite;
+        &:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 1rem;
+            width: 1rem;
+            background: var(--main-2);
+            transform: rotate(135deg);
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     }
 }
 .nav-cart {

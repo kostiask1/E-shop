@@ -143,19 +143,19 @@ const Cart = ({ close }) => {
                                     : obj.price),
                             0
                         )}
-                        &nbsp;Uah's to pay (+ delivery)
+                        &nbsp;гривен к оплате
                     </p>
                     <button
                         className="btn btn-success"
                         onClick={() => modal.current.open()}
                     >
-                        Buy all
+                        Купить
                     </button>
                     <button
                         className="btn btn-danger"
                         onClick={() => handleClean()}
                     >
-                        Clear cart
+                        Очистить корзину
                     </button>
                 </>
             ) : (

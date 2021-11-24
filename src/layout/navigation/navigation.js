@@ -100,7 +100,14 @@ const Navigation = () => {
                         onClick={() => cartRef.current.open()}
                     >
                         <CartIcon fill="var(--main-2)" />
-                        {storage.length}
+                        {storage.length > 0 && (
+                            <div className="counter fade-in">
+                                <div id="burst-8"></div>
+                                <span className="cart-counter">
+                                    {storage.length}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

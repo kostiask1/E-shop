@@ -11,16 +11,16 @@ const ShortItem = (props) => {
                 <span className="item-name">{text} - </span>
             </Link>
             {!discountPrice ? (
-                <span className="price-default">{price} uah</span>
+                <span className="price-default">{price} грн</span>
             ) : (
-                <span className="price-now">{discountPrice} uah</span>
+                <span className="price-now">{discountPrice} грн</span>
             )}
             <span onClick={() => deleteFromStorage([id])}>
                 <Times
                     width="14px"
                     height="14px"
-                    strokeWidth="12px"
-                    fill="var(--alert)"
+                    strokeWidth="8px"
+                    fill="var(--main-2)"
                 />
             </span>
         </div>

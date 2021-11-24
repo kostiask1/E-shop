@@ -125,26 +125,11 @@ const ShopItem = (props) => {
                         </div>
                     ) : null}
                 </div>
-                <Link to={!disabledControls ? "/catalog/" + id : "#"}>
-                    <img
-                        src={imagesArray && imagesArray[0]}
-                        className="item-img"
-                        alt={text}
-                    />
-                </Link>
-                <div className="item-body">
-                    <p className="item-name">{text}</p>
-                    <div>
-                        {!discountPrice ? (
-                            <span className="price-default">{price} uah</span>
-                        ) : (
-                            <>
-                                <span className="price-was">{price}</span>&nbsp;
-                                <span className="price-now">
-                                    {discountPrice} uah
-                                </span>
-                            </>
-                        )}
+                <div className="item-image">
+                    <div className="item-hovered">
+                        <Link to={!disabledControls ? "/catalog/" + id : "#"}>
+                            Просмотреть товар
+                        </Link>
                         <InCart
                             update={() =>
                                 props.hasOwnProperty("functions") &&
@@ -153,6 +138,26 @@ const ShopItem = (props) => {
                             id={id}
                             key={page}
                         />
+                    </div>
+                    <img
+                        src={imagesArray && imagesArray[0]}
+                        className="item-img"
+                        alt={text}
+                    />
+                </div>
+                <div className="item-body">
+                    <p className="item-name">{text}</p>
+                    <div>
+                        {!discountPrice ? (
+                            <span className="price-default">{price} грн</span>
+                        ) : (
+                            <>
+                                <span className="price-was">{price}</span>&nbsp;
+                                <span className="price-now">
+                                    {discountPrice} грн
+                                </span>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

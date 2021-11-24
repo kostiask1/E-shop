@@ -31,14 +31,13 @@ const InCart = ({ id, ...props }) => {
             {inStorage ? (
                 <button
                     onClick={() => deleteFromCart()}
-                    className="item-control"
+                    className="item-control in-cart"
                 >
-                    <CartIcon fill="var(--success)" viewbox="0 0 24 20" />
+                    В корзине
                 </button>
             ) : (
                 <button className="item-control" onClick={() => addToCart()}>
-                    <CartIcon fill="var(--gray)" viewbox="0 0 24 20" />
-                    {/* <CartRemoveIcon fill="var(--gray)" viewbox="0 0 24 20" /> */}
+                    Добавить в корзину
                 </button>
             )}
         </div>

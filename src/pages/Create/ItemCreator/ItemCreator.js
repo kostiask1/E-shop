@@ -345,7 +345,7 @@ const ItemCreator = (props) => {
                                     value={price}
                                     placeholder="price"
                                     change={setPrice}
-                                    symbol="UAH"
+                                    symbol="грн"
                                     required
                                 />
                             </div>
@@ -356,7 +356,7 @@ const ItemCreator = (props) => {
                                     value={discountPrice}
                                     placeholder="discount price (optional)"
                                     change={handleDiscountPrice}
-                                    symbol="UAH"
+                                    symbol="грн"
                                 />
                             </div>
                             <div>
@@ -480,14 +480,14 @@ const ItemCreator = (props) => {
                                         </p>
                                     )}
                                     {!discountPrice ? (
-                                        <p>{price && price + " UAH"}</p>
+                                        <p>{price && price + " грн"}</p>
                                     ) : (
                                         <>
                                             <del className="price-was">
                                                 {price}
                                             </del>
                                             <span className="price-now">
-                                                {discountPrice} Uah
+                                                {discountPrice} грн
                                             </span>
                                         </>
                                     )}

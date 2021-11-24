@@ -69,12 +69,12 @@ const Card = (match) => {
                             <div className="text-info">
                                 <h1>{text}</h1>
                                 {!discountPrice ? (
-                                    <p className="price-now">{price} UAH</p>
+                                    <p className="price-now">{price} грн</p>
                                 ) : (
                                     <>
                                         <del className="price-was">{price}</del>
                                         <span className="price-now">
-                                            {discountPrice} Uah
+                                            {discountPrice} грн
                                         </span>
                                     </>
                                 )}
