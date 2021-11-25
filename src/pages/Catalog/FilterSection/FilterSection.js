@@ -16,7 +16,6 @@ const FilterSection = (props) => {
         }, 350)
         return () => clearTimeout(timeOutId)
     }
-    console.log(filters)
     return useMemo(
         () => (
             <div className="filter-section fade-in">

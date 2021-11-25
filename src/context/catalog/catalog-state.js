@@ -26,7 +26,7 @@ export const CatalogState = ({ children }) => {
         rowData: [],
         data: [],
         cart: [],
-        category: JSON.parse(localStorage.getItem(local_category)) || "all",
+        category: JSON.parse(localStorage.getItem(local_category)) || "Всё",
         searchText: JSON.parse(localStorage.getItem(local_searchText)) || "",
     }
     const [state, dispatch] = useReducer(catalogReducer, initialState)
@@ -144,7 +144,7 @@ export const CatalogState = ({ children }) => {
                 return item.text.toLowerCase().includes(searchText)
             })
         }
-        if (category !== "all" && dataNew.length > 0) {
+        if (category !== "Всё" && dataNew.length > 0) {
             dataNew = dataNew.filter((item) => {
                 return item.category === category
             })
