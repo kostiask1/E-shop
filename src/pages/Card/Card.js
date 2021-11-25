@@ -61,7 +61,6 @@ const Card = (match) => {
                                 ) : (
                                     <img
                                         src={imagesArray && imagesArray[0]}
-                                        className="img"
                                         alt={text}
                                     />
                                 )}
@@ -78,10 +77,8 @@ const Card = (match) => {
                                         </span>
                                     </>
                                 )}
-                                <div className="description">
-                                    {description}
-                                    <InCart id={id} />
-                                </div>
+                                <div className="description">{description}</div>
+                                <InCart id={id} />
                             </div>
                         </>
                     ) : (
