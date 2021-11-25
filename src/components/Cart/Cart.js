@@ -26,6 +26,7 @@ const Cart = ({ close }) => {
         code,
         phone,
         address,
+        city,
         service,
         payment,
         message,
@@ -41,30 +42,33 @@ const Cart = ({ close }) => {
                         text: cart.length
                             ? `<b>${name} заказал(а):</b>${cart.map(
                                   (item) =>
-                                      `\n<a href="${link}/${item.id}">${
+                                      `\n<a href="${link}/${item.id}"> - ${
                                           item.text
                                       }</a>: ${
                                           item.discountPrice
                                               ? `${item.discountPrice} грн. (со скидкой)`
                                               : `${item.price} грн.`
                                       }`
-                              )}\n\nПолучатель <b>${name}</b>:\nТелефон: <i>${phone}</i>\n${
+                              )}\n\nПолучатель <b>${name}</b>:
+                              \nТелефон: <i>${phone}</i>\n${
                                   email && `E-mail: <i>${email}</i>`
                               }\nТип Доставки: ${
                                   deliveryType === "department"
                                       ? "<i>Отделение почты</i>"
                                       : "<i>Курьерская доставка</i>"
-                              }\nАдрес доставки: <i>${address}</i>\nТип почты: ${
+                              }
+                              \nГород: <i>${city}</i>\nАдрес доставки: <i>${address}</i>\nТип почты: ${
                                   service === "nova"
                                       ? "Нова пошта"
                                       : "Укр пошта"
                               }\n${
                                   code
-                                      ? `Почтовый индекс: <i>${code}</i>\n`
-                                      : `Отделение новой почты: <i>${department}</i>\n`
-                              }Тип платежа: <i>${
-                                  payment === "Cash" ? "Наличными" : "Картой"
-                              }</i>\nОбщая сумма заказа: <b>${cart.reduce(
+                                      ? `Почтовый индекс: <i>${code}</i>`
+                                      : `Отделение новой почты: <i>${department}</i>`
+                              }\nТип платежа: <i>${
+                                  payment === "Cash" ? "Наличными" : payment === "cod" ? "Наложенный платёж" : "Картой"
+                              }</i>
+                              \nОбщая сумма заказа: <b>${cart.reduce(
                                   (acc, obj) => {
                                       return (
                                           acc +
@@ -92,18 +96,7 @@ const Cart = ({ close }) => {
             })
     useEffect(() => {
         getCart()
-        const timeout = setTimeout(
-            () =>
-                setLoading(
-                    (prev) =>
-                        (prev = (
-                            <div className="fade-in">
-                                <h1>Cart is empty</h1>
-                            </div>
-                        ))
-                ),
-            2000
-        )
+        const timeout = setTimeout(() => setLoading(""), 2000)
         return () => {
             clearTimeout(timeout)
         }
@@ -121,6 +114,7 @@ const Cart = ({ close }) => {
         <div className="cart">
             {cart && cart.length > 0 ? (
                 <>
+                    <h2>Корзина</h2>
                     <div className="catalog">
                         {cart.map((item) => (
                             <ShortItem
@@ -134,35 +128,30 @@ const Cart = ({ close }) => {
                             ></ShortItem>
                         ))}
                     </div>
-                    <p className="total-price">
-                        {cart.reduce(
-                            (acc, obj) =>
-                                acc +
-                                (obj.discountPrice
-                                    ? obj.discountPrice
-                                    : obj.price),
-                            0
-                        )}
-                        &nbsp;гривен к оплате
-                    </p>
-                    <button
-                        className="btn btn-success"
-                        onClick={() => modal.current.open()}
-                    >
-                        Купить
-                    </button>
-                    <button
-                        className="btn btn-danger"
-                        onClick={() => handleClean()}
-                    >
-                        Очистить корзину
-                    </button>
+                    <div className="divider"></div>
+                    <div className="total">
+                        <p>Сумма</p>
+                        <p className="total-price">
+                            {cart.reduce(
+                                (acc, obj) =>
+                                    acc +
+                                    (obj.discountPrice
+                                        ? obj.discountPrice
+                                        : obj.price),
+                                0
+                            )}
+                        </p>
+                    </div>
+                    <div className="cart-actions">
+                        <p onClick={() => modal.current.open()}>Купить</p>
+                        <p onClick={() => handleClean()}>Очистить корзину</p>
+                    </div>
                 </>
             ) : (
                 <div>{loading}</div>
             )}
             <Suspense fallback={<p></p>}>
-                <Modal ref={modal}>
+                <Modal ref={modal} {...(requestFinished ? { size: "sm" } : "")}>
                     {requestFinished ? (
                         <div className="purchase-form">
                             <h3>
@@ -170,7 +159,10 @@ const Cart = ({ close }) => {
                                 receive a message soon
                             </h3>
                             <button
-                                onClick={() => modal.current.close()}
+                                onClick={() => {
+                                    modal.current.close()
+                                    setRequestFinished(false)
+                                }}
                                 className="btn-success"
                                 style={{ marginTop: "1.5rem" }}
                             >

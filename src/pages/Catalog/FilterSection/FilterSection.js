@@ -16,12 +16,12 @@ const FilterSection = (props) => {
         }, 350)
         return () => clearTimeout(timeOutId)
     }
-
+    console.log(filters)
     return useMemo(
         () => (
             <div className="filter-section fade-in">
                 <Input
-                    placeholder="Search..."
+                    placeholder="Поиск..."
                     important="defaultValue"
                     defaultValue={searchText}
                     change={handleInput}
@@ -33,13 +33,13 @@ const FilterSection = (props) => {
                         />
                     }
                 />
-                <span>Category</span>
+                <span>Категория</span>
                 <DropDown
                     key={filters}
                     options={filters}
                     change={handleCheckbox}
                     defaultValue={category}
-                    placeholder="Choose category"
+                    placeholder="Выберите категорию"
                 ></DropDown>
             </div>
         ),

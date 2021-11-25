@@ -6,6 +6,7 @@ import {
     local_userName,
     local_userPhone,
     local_userAddress,
+    local_userCity,
     local_userCode,
     local_userService,
     local_userPayment,
@@ -24,6 +25,9 @@ const PurchaseForm = ({ buy }) => {
     )
     const [address, setAddress] = useState(
         JSON.parse(localStorage.getItem(local_userAddress)) || ""
+    )
+    const [city, setCity] = useState(
+        JSON.parse(localStorage.getItem(local_userCity)) || ""
     )
     const [code, setCode] = useState(
         JSON.parse(localStorage.getItem(local_userCode)) || ""
@@ -48,6 +52,7 @@ const PurchaseForm = ({ buy }) => {
             name,
             phone,
             address,
+            city,
             service,
             payment,
             message,
@@ -64,6 +69,7 @@ const PurchaseForm = ({ buy }) => {
         localStorage.setItem(local_userPhone, JSON.stringify(phone))
         localStorage.setItem(local_userEmail, JSON.stringify(email))
         localStorage.setItem(local_userAddress, JSON.stringify(address))
+        localStorage.setItem(local_userCity, JSON.stringify(city))
         localStorage.setItem(local_userCode, JSON.stringify(code))
         localStorage.setItem(local_userDepartment, JSON.stringify(department))
         localStorage.setItem(local_userService, JSON.stringify(service))
@@ -76,7 +82,7 @@ const PurchaseForm = ({ buy }) => {
                     <Input
                         name="name"
                         value={name}
-                        label="Type your Name and Surname"
+                        label="Ваше имя и фамилия"
                         change={setName}
                         required={true}
                     />
@@ -86,7 +92,7 @@ const PurchaseForm = ({ buy }) => {
                         name="tel"
                         type="tel"
                         value={phone}
-                        label="Enter your phone number"
+                        label="Номер телефона"
                         change={setPhone}
                         required={true}
                     />
@@ -96,13 +102,13 @@ const PurchaseForm = ({ buy }) => {
                         name="email"
                         type="email"
                         value={email}
-                        label="Enter your e-mail"
+                        label="E-mail"
                         change={setEmail}
                         required={true}
                     />
                 </div>
                 <div>
-                    <label className="service">Choose post service</label>
+                    <label className="service">Почтовая служба</label>
                     <DropDown
                         defaultValue={service}
                         change={setService}
@@ -112,7 +118,7 @@ const PurchaseForm = ({ buy }) => {
                     />
                 </div>
                 <div>
-                    <label className="service">Choose delivery type</label>
+                    <label className="service">Тип доставки</label>
                     <DropDown
                         defaultValue={deliveryType}
                         change={setDeliveryType}
@@ -121,23 +127,21 @@ const PurchaseForm = ({ buy }) => {
                         searchable={false}
                     />
                 </div>
-                {deliveryType === "department" && service === "nova" ? (
+                <div>
+                    <Input
+                        name="city"
+                        value={city}
+                        label="Город"
+                        change={setCity}
+                        required={true}
+                    />
+                </div>
+                {deliveryType === "courier" && (
                     <div>
                         <Input
                             name="address"
                             value={address}
-                            label="Enter your post office address"
-                            change={setAddress}
-                            required={true}
-                        />
-                    </div>
-                ) : deliveryType === "department" &&
-                  service === "ukr" ? null : (
-                    <div>
-                        <Input
-                            name="address"
-                            value={address}
-                            label="Enter your home address"
+                            label="Адрес доставки"
                             change={setAddress}
                             required={true}
                         />
@@ -150,45 +154,50 @@ const PurchaseForm = ({ buy }) => {
                                 type="number"
                                 name="postal_code"
                                 value={code}
-                                label="Enter your postal code"
+                                label="Почтовый индекс"
                                 change={setCode}
                                 required={true}
                             />
                         </div>
                     ) : (
-                        <Input
-                            type="number"
-                            name="department"
-                            value={department}
-                            label="Enter your department"
-                            change={setDepartment}
-                            required={true}
-                        />
+                        <div>
+                            <Input
+                                type="number"
+                                name="department"
+                                value={department}
+                                label="Отделение почты"
+                                change={setDepartment}
+                                required={true}
+                            />
+                        </div>
                     ))}
                 <div>
-                    <label className="service">Choose payment type</label>
+                    <label className="service">Выберите тип оплаты</label>
                     <DropDown
                         defaultValue={payment}
                         change={setPayment}
-                        optionsLabels={["Карта", "Наличные"]}
-                        options={["Card", "Cash"]}
+                        optionsLabels={[
+                            "Карта",
+                            "Наличные",
+                            "Наложенный платёж",
+                        ]}
+                        options={["Card", "Cash", "cod"]}
                         searchable={false}
                     />
                 </div>
                 <div>
-                    <label>Message</label>
+                    <label>Ваши пожелания</label>
                     <textarea
                         type="text"
                         name="message"
                         rows={5}
                         value={message}
-                        placeholder="Enter your wishes (optional)"
                         onChange={(e) => setMessage(e.target.value)}
                     />
                 </div>
 
                 <div className="memorize-wrap">
-                    <label htmlFor="memorize">Remember my creadentials</label>
+                    <label htmlFor="memorize">Запомнить мои данные</label>
                     <input
                         className="memorize"
                         id="memorize"
@@ -199,8 +208,8 @@ const PurchaseForm = ({ buy }) => {
                         onChange={() => setMemorize(!memorize)}
                     />
                 </div>
-                <button type="submit" className="btn-success">
-                    Submit
+                <button type="submit" className="btn-submit">
+                    Отправить
                 </button>
             </form>
         </div>

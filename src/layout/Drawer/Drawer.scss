@@ -10,6 +10,7 @@
     background: #fff;
     z-index: 9999;
     width: var(--drawer-width);
+    background-color: var(--main);
     transition: all 0.2s ease-in-out;
     &.left {
         left: 0;
@@ -59,6 +60,6 @@
         height: 100vh;
         opacity: 0;
         background-color: rgba(0, 0, 0, 0.5);
-        transition: all 0.4s ease-in-out;
+        transition: opacity 0.25s ease-in-out;
     }
 }

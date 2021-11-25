@@ -8,21 +8,23 @@ const ShortItem = (props) => {
     return (
         <div className="cart-item pop-in">
             <Link to={"/catalog/" + id} onClick={close}>
-                <span className="item-name">{text} - </span>
+                <span className="item-name">{text}</span>
             </Link>
-            {!discountPrice ? (
-                <span className="price-default">{price} грн</span>
-            ) : (
-                <span className="price-now">{discountPrice} грн</span>
-            )}
-            <span onClick={() => deleteFromStorage([id])}>
-                <Times
-                    width="14px"
-                    height="14px"
-                    strokeWidth="8px"
-                    fill="var(--main-2)"
-                />
-            </span>
+            <div>
+                {!discountPrice ? (
+                    <span className="price">{price} грн</span>
+                ) : (
+                    <span className="price">{discountPrice} грн</span>
+                )}
+                <span className="times" onClick={() => deleteFromStorage([id])}>
+                    <Times
+                        width="13px"
+                        height="13px"
+                        strokeWidth="5px"
+                        fill="var(--main-2)"
+                    />
+                </span>
+            </div>
         </div>
     )
 }

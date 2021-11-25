@@ -107,27 +107,18 @@ button {
 }
 .carousel-root {
     display: contents;
-    .thumbs {
-        text-align: center;
-        .thumb:hover {
-            border-color: #ddd;
-            border-color: rgba(var(--main-1-transparent), 1);
-        }
-        .thumb.selected {
-            border-color: #999;
-            border-color: rgba(var(--main-2-transparent), 1);
-        }
-    }
     .carousel.carousel-slider {
         display: flex;
         align-items: center;
         justify-content: center;
         .control-dots {
             width: unset;
-            background: rgba(0, 0, 0, 0.1);
             border-radius: 100px;
-            opacity: 0.2;
+            opacity: 0;
             transition: 0.3s all;
+            .dot {
+                box-shadow: unset;
+            }
         }
         .slider-wrapper {
             margin: unset;
@@ -139,11 +130,13 @@ button {
         .control-arrow {
             box-shadow: unset;
             padding: 0.8rem;
+            opacity: 0;
             transition: 0.3s all;
         }
         &:hover {
             .control-arrow {
                 background-color: rgba(0, 0, 0, 0.1);
+                opacity: 0.7;
             }
             .control-dots {
                 opacity: 1;
@@ -167,12 +160,6 @@ button {
 }
 ::-webkit-scrollbar-thumb {
     background: var(--gray);
-}
-// ::-webkit-scrollbar-track-piece:start {
-//     background: var(--gray);
-// }
-:is(input, button):focus {
-    box-shadow: 0 0 1px 1px var(--mainContrast);
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

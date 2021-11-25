@@ -67,7 +67,7 @@ function Drawer({ children, position }, ref) {
                     <div className="backdrop" onClick={close}></div>
                 ) : null}
                 <div className="close" onClick={close}>
-                    <Times strokeWidth="7px" fill="var(--main-2)" />
+                    <Times strokeWidth="3px" fill="var(--main-2)" />
                 </div>
                 {children}
             </div>

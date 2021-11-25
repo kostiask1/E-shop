@@ -13,12 +13,14 @@
 }
 
 #root {
+    font-family: Manrope;
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
     overflow-x: hidden;
     height: 100%;
     justify-content: flex-start;
+    background-color: var(--main);
 }
 :root {
     --mainContrast: #007bff;
@@ -26,7 +28,7 @@
     --mainStrong: #fd792f;
     --black: #232323;
     --textBlack: #000000b3;
-    --main: #FDFAFA;
+    --main: #fdfafa;
     --mainElements: #fdfefe;
     --gray: #888;
     --alert: #dd0303;

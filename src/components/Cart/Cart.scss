@@ -1,12 +1,19 @@
 .cart {
-    padding: 2rem 0;
-    padding-left: 1rem;
-    padding-right: 0.5rem;
+    padding: 1rem;
     height: 100%;
     overflow-y: auto;
+    h2 {
+        font-family: Cormorant Garamond;
+        text-align: center;
+        font-weight: 400;
+        font-size: 2.2rem;
+        color: var(--main-2);
+        margin-bottom: 2.6rem;
+    }
     .catalog {
         grid-template-columns: repeat(1, 1fr);
         background: transparent;
+        grid-gap: 5px;
         .item-wrapper {
             flex: 1 0 300px;
             max-width: 400px;
@@ -18,9 +25,35 @@
             margin-right: 1rem;
         }
     }
-    .total-price {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
+    .divider {
+        background-color: var(--main-1);
+    }
+    .total {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.8rem;
+        p {
+            color: var(--main-1);
+            font-family: Manrope;
+            font-weight: 300;
+            font-size: 1.2rem;
+        }
+    }
+    .cart-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        p {
+            cursor: pointer;
+            color: var(--main-2);
+            font-family: Manrope;
+            font-weight: 300;
+            font-size: 1.2rem;
+            &:hover {
+                color: var(--main-1);
+            }
+        }
     }
     .modal-body {
         height: 85vh;

@@ -7,6 +7,7 @@ export const local_searchText = `${SHOP_NAME}_searchText`
 export const local_userName = `${SHOP_NAME}_userName`
 export const local_userPhone = `${SHOP_NAME}_userPhone`
 export const local_userAddress = `${SHOP_NAME}_userAddress`
+export const local_userCity = `${SHOP_NAME}_userCity`
 export const local_userCode = `${SHOP_NAME}_userCode`
 export const local_userService = `${SHOP_NAME}_userService`
 export const local_userPayment = `${SHOP_NAME}_userPayment`

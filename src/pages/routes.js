@@ -1,5 +1,5 @@
 export const routes = [
-    { to: "about", name: "About" },
-    { to: "delivery", name: "Delivery" },
-    { to: "contacts", name: "Contacts" },
+    { to: "about", name: "Про нас" },
+    { to: "delivery", name: "Доставка" },
+    { to: "contacts", name: "Контакты" },
 ]

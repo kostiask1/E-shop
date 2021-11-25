@@ -22,6 +22,11 @@
         position: relative;
         max-width: unset;
     }
+    &-sm {
+        .modal-body {
+            height: unset !important;
+        }
+    }
     &-lg {
         width: clamp(300px, 100%, 80vw);
         height: 90%;

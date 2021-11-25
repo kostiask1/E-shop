@@ -22,7 +22,17 @@
         & > * {
             margin: 0.5rem 0;
         }
+        .input-component,
+        .DropDown__button,
+        textarea {
+            border-color: var(--main-2);
+            color: var(--main-2);
+            &::placeholder {
+                color: var(--main-2);
+            }
+        }
         label {
+            color: var(--main-2);
             display: inline-block;
             margin-bottom: 0.2em;
         }

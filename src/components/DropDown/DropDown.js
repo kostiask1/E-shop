@@ -83,7 +83,7 @@ export const DropDown = (props) => {
                         <input
                             autoFocus
                             type="text"
-                            placeholder="Search.."
+                            placeholder="Поиск..."
                             onKeyUp={filterFunction}
                         />
                     )}

@@ -15,15 +15,10 @@
         span {
             margin: 0;
         }
-        & * {
-            border-color: var(--main-2);
-        }
-    }
-    .DropDown__button {
-        border-color: var(--main-2);
     }
 
     span {
+        color: var(--main-2);
         display: inline-block;
         margin: 0px 1rem;
     }
@@ -31,15 +26,11 @@
     span,
     input::placeholder,
     button {
-        color: var(--main-2);
         font-family: Manrope;
         font-weight: 300;
     }
     button {
         height: 30px;
         padding: 0 10px;
-        svg {
-            fill: var(--main-2);
-        }
     }
 }

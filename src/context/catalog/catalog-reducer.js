@@ -1,4 +1,4 @@
-import { local_cart_storage } from "../../localStorage";
+import { local_cart_storage } from "../../localStorage"
 import {
     FILTERS,
     RESPONSE,
@@ -7,12 +7,12 @@ import {
     SEARCHTEXT,
     DATA,
     STORAGE,
-} from "./types";
+} from "./types"
 
 const handlers = {
     [FILTERS]: (state, { payload }) => ({
         ...state,
-        filters: ["all", ...payload],
+        filters: ["Всё", ...payload],
     }),
     [RESPONSE]: (state, { payload }) => ({
         ...state,
@@ -35,16 +35,16 @@ const handlers = {
         searchText: payload,
     }),
     [STORAGE]: (state, { payload }) => {
-        localStorage.setItem(local_cart_storage, JSON.stringify(payload));
+        localStorage.setItem(local_cart_storage, JSON.stringify(payload))
         return {
             ...state,
             storage: payload,
-        };
+        }
     },
     DEFAULT: (state) => state,
-};
+}
 
 export const catalogReducer = (state, action) => {
-    const handler = handlers[action.type] || handlers.DEFAULT;
-    return handler(state, action);
-};
+    const handler = handlers[action.type] || handlers.DEFAULT
+    return handler(state, action)
+}

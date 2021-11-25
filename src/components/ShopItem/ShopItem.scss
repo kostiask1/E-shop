@@ -31,6 +31,7 @@
         transition: all 0.25s ease-in-out;
         & a,
         & button {
+            text-align: center;
             position: relative;
             font-family: Cormorant Garamond;
             color: var(--main-2);

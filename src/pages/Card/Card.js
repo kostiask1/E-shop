@@ -48,11 +48,11 @@ const Card = (match) => {
                                         showStatus={false}
                                         infiniteLoop={true}
                                         emulateTouch={true}
+                                        showThumbs={false}
                                     >
                                         {imagesArray.map((img) => (
                                             <img
                                                 src={img}
-                                                className="img-fluid"
                                                 alt={text}
                                                 key={img}
                                             />
@@ -61,7 +61,7 @@ const Card = (match) => {
                                 ) : (
                                     <img
                                         src={imagesArray && imagesArray[0]}
-                                        className="img-fluid"
+                                        className="img"
                                         alt={text}
                                     />
                                 )}

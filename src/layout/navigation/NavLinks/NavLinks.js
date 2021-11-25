@@ -18,7 +18,7 @@ const NavLinks = ({ routes, main, close }) => {
                         className="nav-link"
                         onClick={close}
                     >
-                        Main
+                        Главная
                     </Link>
                 ) : (
                     <NavLink
@@ -27,7 +27,7 @@ const NavLinks = ({ routes, main, close }) => {
                         to="/main"
                         onClick={close}
                     >
-                        Main
+                        Главная
                     </NavLink>
                 )}
             </li>
@@ -38,7 +38,7 @@ const NavLinks = ({ routes, main, close }) => {
                     to="/catalog"
                     onClick={close}
                 >
-                    Catalog
+                    Каталог
                 </NavLink>
             </li>
             {main
