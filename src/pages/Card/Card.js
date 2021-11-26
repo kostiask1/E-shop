@@ -78,7 +78,9 @@ const Card = (match) => {
                                     </>
                                 )}
                                 <div className="description">{description}</div>
-                                <InCart id={id} />
+                                <div className="btn">
+                                    <InCart id={id} inCard={true}/>
+                                </div>
                             </div>
                         </>
                     ) : (

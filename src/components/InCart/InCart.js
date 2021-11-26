@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from "react"
 import { catalogContext } from "../../context/catalog/catalog-context"
 
-const InCart = ({ id, ...props }) => {
+const InCart = ({ id, inCard = false, ...props }) => {
     const { findInStorage, addToStorage, deleteFromStorage, storage } =
         useContext(catalogContext)
 
@@ -36,7 +36,7 @@ const InCart = ({ id, ...props }) => {
                 </button>
             ) : (
                 <button className="item-control" onClick={() => addToCart()}>
-                    Добавить в корзину
+                    {!inCard ? "Добавить в корзину" : "В корзину"}
                 </button>
             )}
         </div>

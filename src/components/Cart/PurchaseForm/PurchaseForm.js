@@ -176,12 +176,8 @@ const PurchaseForm = ({ buy }) => {
                     <DropDown
                         defaultValue={payment}
                         change={setPayment}
-                        optionsLabels={[
-                            "Карта",
-                            "Наличные",
-                            "Наложенный платёж",
-                        ]}
-                        options={["Card", "Cash", "cod"]}
+                        optionsLabels={["Карта", "Наложенный платёж"]}
+                        options={["Card", "cod"]}
                         searchable={false}
                     />
                 </div>

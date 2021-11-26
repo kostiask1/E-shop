@@ -3,6 +3,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    &:hover {
+        a,
+        span {
+            color: var(--main-1);
+        }
+    }
     a,
     span {
         color: var(--main-2);
@@ -16,5 +22,8 @@
     svg {
         cursor: pointer;
         margin-left: 10px;
+        &:hover line {
+            stroke: var(--main-1);
+        }
     }
 }

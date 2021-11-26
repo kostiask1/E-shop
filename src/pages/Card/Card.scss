@@ -1,21 +1,25 @@
 .card {
-    margin-top: 60px;
+    margin: 0 auto;
+    margin-top: 30px;
     margin-bottom: 60px;
-    .item-control {
-        color: var(--main-2);
+    width: 80%;
+    color: var(--main-1);
+    .row {
+        width: 100%;
+    }
+    * {
+        color: inherit;
+        font-family: Manrope;
+        font-weight: 300;
     }
     .img {
-        width: 26%;
-        margin-left: 6%;
+        width: 35%;
         & > img {
             width: 100%;
         }
     }
     .text-info {
         margin: 0px 2rem;
-        .description {
-            padding: 0.8rem 0;
-        }
     }
     .cart-add,
     .cart-delete {
@@ -37,6 +41,18 @@
         &-discount {
             position: absolute;
             top: 0;
+        }
+    }
+    .btn {
+        padding: 0;
+        display: inline-block;
+        margin-top: 5rem;
+        background-color: var(--main-1);
+        border-color: var(--main-1);
+        border-radius: 10px;
+        color: #fff;
+        .cart-control {
+            padding: 0.4rem 1rem;
         }
     }
 }

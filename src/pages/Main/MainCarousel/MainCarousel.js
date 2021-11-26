@@ -54,7 +54,7 @@ const MainCarousel = () => {
         const { className, onClick } = props
         return (
             <p className={className + " next"} onClick={onClick}>
-                next
+                Следущие
             </p>
         )
     }
@@ -63,7 +63,7 @@ const MainCarousel = () => {
         const { className, onClick } = props
         return (
             <p className={className + " prev"} onClick={onClick}>
-                prev
+                Предыдущие
             </p>
         )
     }
@@ -80,7 +80,7 @@ const MainCarousel = () => {
     if (clone.length) {
         return (
             <div className="MainCarousel">
-                <h4>Popular products</h4>
+                <h4>Популярные товары</h4>
                 <Slider {...settings}>
                     {clone.map((item) => (
                         <div

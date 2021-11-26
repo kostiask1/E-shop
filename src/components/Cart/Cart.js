@@ -65,8 +65,9 @@ const Cart = ({ close }) => {
                                   code
                                       ? `Почтовый индекс: <i>${code}</i>`
                                       : `Отделение новой почты: <i>${department}</i>`
-                              }\nТип платежа: <i>${
-                                  payment === "Cash" ? "Наличными" : payment === "cod" ? "Наложенный платёж" : "Картой"
+                              }\nТип платежа: <i>${payment === "cod"
+                                      ? "Наложенный платёж"
+                                      : "Картой"
                               }</i>
                               \nОбщая сумма заказа: <b>${cart.reduce(
                                   (acc, obj) => {
@@ -139,7 +140,8 @@ const Cart = ({ close }) => {
                                         ? obj.discountPrice
                                         : obj.price),
                                 0
-                            )}
+                            )}{" "}
+                            грн
                         </p>
                     </div>
                     <div className="cart-actions">
@@ -155,8 +157,8 @@ const Cart = ({ close }) => {
                     {requestFinished ? (
                         <div className="purchase-form">
                             <h3>
-                                Your purchase was successfully send, you will
-                                receive a message soon
+                                Ваша заявка была отправлена, вы получите
+                                сообщение в ближайшее время
                             </h3>
                             <button
                                 onClick={() => {
@@ -166,7 +168,7 @@ const Cart = ({ close }) => {
                                 className="btn-success"
                                 style={{ marginTop: "1.5rem" }}
                             >
-                                OK
+                                ОК
                             </button>
                         </div>
                     ) : (

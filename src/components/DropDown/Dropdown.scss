@@ -30,7 +30,6 @@
         background-color: #fafafa;
         border: 2px solid #ddd;
         min-width: 300px;
-        padding: 0;
         width: 100%;
         z-index: 1;
         input {
@@ -48,6 +47,7 @@
             max-height: 200px;
             flex-direction: column;
             overflow-y: scroll;
+            padding: 0;
             li {
                 color: black;
                 padding: 0.4rem 0.7rem;
