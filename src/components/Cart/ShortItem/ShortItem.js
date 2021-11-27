@@ -10,7 +10,7 @@ const ShortItem = (props) => {
             <Link to={"/catalog/" + id} onClick={close}>
                 <span className="item-name">{text}</span>
             </Link>
-            <div>
+            <div className="flex">
                 {!discountPrice ? (
                     <span className="price">{price} грн</span>
                 ) : (

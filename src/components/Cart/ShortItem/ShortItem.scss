@@ -19,6 +19,13 @@
     a {
         display: inline-block;
     }
+    .flex {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+    }
     svg {
         cursor: pointer;
         margin-left: 10px;

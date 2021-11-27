@@ -69,7 +69,7 @@ const MainCarousel = () => {
     }
     const settings = {
         infinite: true,
-        slidesToShow: 3,
+        slidesToShow: width > 767 ? 3 : 1,
         speed: 400,
         autoplay: true,
         autoplaySpeed: 3000,

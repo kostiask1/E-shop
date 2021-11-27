@@ -113,7 +113,12 @@ const ItemCreator = (props) => {
                 })
             )
             requests.then(() => {
-                setImagesArray((array) => array.concat(links))
+                setImagesArray((array) => {
+                    if (array[array.length - 1] === "") {
+                        array.pop()
+                    }
+                    return array.concat(links)
+                })
                 if (modal.current.visible.current) {
                     loadGallery()
                 }
@@ -426,13 +431,16 @@ const ItemCreator = (props) => {
                     <div className="row">
                         {tab === "card" ? (
                             <ShopItem
-                                id={id}
-                                text={title}
-                                imagesArray={imagesArray}
-                                category={category}
-                                description={description}
-                                price={price}
-                                discountPrice={discountPrice}
+                                item={{
+                                    id,
+                                    imagesArray,
+                                    text: title,
+                                    description,
+                                    price,
+                                    discountPrice,
+                                    category,
+                                    boughtCount,
+                                }}
                                 disabledControls={true}
                             />
                         ) : (
@@ -450,11 +458,11 @@ const ItemCreator = (props) => {
                                                 showStatus={false}
                                                 infiniteLoop={true}
                                                 emulateTouch={true}
+                                                showThumbs={false}
                                             >
                                                 {imagesArray.map((img) => (
                                                     <img
                                                         src={img}
-                                                        className="img-fluid"
                                                         alt={title}
                                                         key={img}
                                                     />

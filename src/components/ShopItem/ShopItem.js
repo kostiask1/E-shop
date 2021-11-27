@@ -21,15 +21,7 @@ const ItemCreator = lazy(() =>
 const db = app.firestore()
 
 const ShopItem = (props) => {
-    const {
-        handleDeleteArray,
-        deleteArray,
-        page,
-        index = 0,
-        inCart,
-        disabledControls,
-        item,
-    } = props
+    const { handleDeleteArray, deleteArray, disabledControls, item } = props
     const {
         id,
         imagesArray,
@@ -54,7 +46,7 @@ const ShopItem = (props) => {
             setFading(false)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page])
+    }, [])
 
     const deleteItem = () => {
         setFading(false)
@@ -78,7 +70,7 @@ const ShopItem = (props) => {
                 className={`item ${fading ? "pop-in" : ""} ${
                     disabledControls && "show"
                 }`}
-                style={{ animationDelay: `${index * 70}ms` }}
+                style={{ animationDelay: 70 }}
             >
                 <div className="item-controls">
                     <span className={discountPrice && "price-discount"}>
@@ -108,37 +100,38 @@ const ShopItem = (props) => {
                                     <DeleteIcon width="1em" height="1em" />
                                 </button>
                             </div>
-                            {!inCart && (
-                                <input
-                                    key={selected}
-                                    className="item-control "
-                                    type="checkbox"
-                                    checked={selected ? "checked" : ""}
-                                    onChange={handleCheckbox}
-                                    style={{
-                                        width: 50,
-                                        height: 50,
-                                        marginLeft: ".4em",
-                                    }}
-                                />
-                            )}
+                            <input
+                                key={selected}
+                                className="item-control "
+                                type="checkbox"
+                                checked={selected ? "checked" : ""}
+                                onChange={handleCheckbox}
+                                style={{
+                                    width: 50,
+                                    height: 50,
+                                    marginLeft: ".4em",
+                                }}
+                            />
                         </div>
                     ) : null}
                 </div>
                 <div className="item-image">
-                    <div className="item-hovered">
-                        <Link to={!disabledControls ? "/catalog/" + id : "#"}>
-                            Просмотреть товар
-                        </Link>
-                        <InCart
-                            update={() =>
-                                props.hasOwnProperty("functions") &&
-                                props.functions.getCart()
-                            }
-                            id={id}
-                            key={page}
-                        />
-                    </div>
+                    {!disabledControls && (
+                        <div className="item-hovered">
+                            <Link
+                                to={!disabledControls ? "/catalog/" + id : "#"}
+                            >
+                                Просмотреть товар
+                            </Link>
+                            <InCart
+                                update={() =>
+                                    props.hasOwnProperty("functions") &&
+                                    props.functions.getCart()
+                                }
+                                id={id}
+                            />
+                        </div>
+                    )}
                     <img
                         src={imagesArray && imagesArray[0]}
                         className="item-img"

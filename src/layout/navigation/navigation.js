@@ -48,7 +48,7 @@ const Navigation = () => {
         if (e.screenX === 0) {
             navigationRef.current && navigationRef.current.open()
         }
-        if (e.screenX >= window.innerWidth - 20) {
+        if (e.x >= window.innerWidth - 20) {
             cartRef.current && cartRef.current.open()
         }
     }
