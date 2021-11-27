@@ -79,7 +79,7 @@ const MainCarousel = () => {
 
     if (clone.length) {
         return (
-            <div className="MainCarousel">
+            <div className="main-carousel">
                 <h4>Популярные товары</h4>
                 <Slider {...settings}>
                     {clone.map((item) => (
