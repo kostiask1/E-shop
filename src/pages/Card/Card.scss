@@ -43,14 +43,22 @@
             top: 0;
         }
     }
-    .btn {
-        padding: 0;
+    .cart-control {
         display: inline-block;
         margin-top: 5rem;
-        background-color: var(--main-1);
-        border-color: var(--main-1);
-        border-radius: 10px;
         color: #fff;
+        .cart-in {
+            padding: 1rem 1rem;
+            border-color: var(--main-1);
+            background-color: var(--main-1);
+            border-radius: 10px;
+        }
+        .cart-out {
+            padding: 1rem 1rem;
+            border-color: var(--main-2);
+            background-color: var(--main-2);
+            border-radius: 10px;
+        }
         .cart-control {
             padding: 0.4rem 1rem;
         }

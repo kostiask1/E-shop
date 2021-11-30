@@ -30,12 +30,15 @@ const InCart = ({ id, inCard = false, ...props }) => {
             {inStorage ? (
                 <button
                     onClick={() => deleteFromCart()}
-                    className="item-control in-cart"
+                    className="item-control cart-in"
                 >
                     В корзине
                 </button>
             ) : (
-                <button className="item-control" onClick={() => addToCart()}>
+                <button
+                    className="item-control cart-out"
+                    onClick={() => addToCart()}
+                >
                     {!inCard ? "Добавить в корзину" : "В корзину"}
                 </button>
             )}
