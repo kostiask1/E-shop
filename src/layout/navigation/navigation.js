@@ -100,6 +100,7 @@ const Navigation = () => {
                     <div
                         className="nav-cart"
                         onClick={() => cartRef.current.open()}
+                        style={storage.length > 0 ? { right: 16 } : {}}
                     >
                         <CartIcon fill="var(--main-2)" />
                         {storage.length > 0 && (

@@ -8,13 +8,11 @@ import { Footer } from "../../layout/footer/footer"
 const Main = () => {
     return (
         <>
-            <div>
-                <Heading />
-                <About />
-                <MainCarousel />
-                <Tout />
-                <Footer />
-            </div>
+            <Heading />
+            <About />
+            <MainCarousel />
+            <Tout />
+            <Footer />
         </>
     )
 }

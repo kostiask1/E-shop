@@ -10,9 +10,9 @@ import { app } from "../../base"
 import ShopItem from "../../components/ShopItem/ShopItem"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
-import { DeleteIcon } from "../../icons"
 import "./Catalog.scss"
 import FilterSection from "./FilterSection/FilterSection"
+const DeleteIcon = lazy(() => import("../../icons"))
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 const ItemCreator = lazy(() => import("../Create/ItemCreator/ItemCreator"))
 const db = app.firestore()
