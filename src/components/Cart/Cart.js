@@ -65,7 +65,8 @@ const Cart = ({ close }) => {
                                   code
                                       ? `Почтовый индекс: <i>${code}</i>`
                                       : `Отделение новой почты: <i>${department}</i>`
-                              }\nТип платежа: <i>${payment === "cod"
+                              }\nТип платежа: <i>${
+                                  payment === "cod"
                                       ? "Наложенный платёж"
                                       : "Картой"
                               }</i>
@@ -111,15 +112,17 @@ const Cart = ({ close }) => {
     const handleClean = () => {
         clearStorage()
     }
+
     return (
         <div className="cart">
+            <h2>Корзина</h2>
             {cart && cart.length > 0 ? (
                 <>
-                    <h2>Корзина</h2>
                     <div className="catalog">
-                        {cart.map((item) => (
+                        {cart.map((item, idx) => (
                             <ShortItem
                                 key={item.id}
+                                idx={idx}
                                 id={item.id}
                                 text={item.text}
                                 price={item.price}

@@ -62,14 +62,14 @@ function Drawer({ children, position }, ref) {
 
     return (
         <CSSTransition in={isOpen} timeout={0}>
-            <div className={"drawer " + position} aria-hidden="true">
+            <div className={"drawer " + position}>
                 {isOpen ? (
                     <div className="backdrop" onClick={close}></div>
                 ) : null}
                 <div className="close" onClick={close}>
                     <Times strokeWidth="3px" fill="var(--main-2)" />
                 </div>
-                {children}
+                {isOpen && <>{children}</>}
             </div>
         </CSSTransition>
     )

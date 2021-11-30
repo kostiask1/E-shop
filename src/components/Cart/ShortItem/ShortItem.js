@@ -4,9 +4,13 @@ import { Times } from "../../../icons"
 import "./ShortItem.scss"
 
 const ShortItem = (props) => {
-    const { id, text, price, discountPrice, close, deleteFromStorage } = props
+    const { id, text, price, discountPrice, close, deleteFromStorage, idx } =
+        props
     return (
-        <div className="cart-item pop-in">
+        <div
+            className="cart-item pop-in"
+            style={{ animationDelay: 40 + 40 * idx + "ms" }}
+        >
             <Link to={"/catalog/" + id} onClick={close}>
                 <span className="item-name">{text}</span>
             </Link>

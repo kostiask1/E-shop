@@ -54,7 +54,9 @@ const Navigation = () => {
     }
 
     const clickMenuListener = (e) => {
-        let inComponent = e.target.matches(`.navbar__wrapper *`)
+        let inComponent = e.target.matches(
+            `.drawer, .drawer *, .navbar__wrapper *`
+        )
         if (!inComponent) {
             navigationRef.current.close()
         }
