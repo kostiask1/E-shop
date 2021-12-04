@@ -128,7 +128,7 @@ const Navigation = () => {
                                 activeClassName="current"
                                 to="/create"
                             >
-                                Create
+                                Админ панель
                             </RLink>
                         </li>
                     )}
