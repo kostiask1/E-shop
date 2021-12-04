@@ -7,7 +7,7 @@
         display: inline-block;
         font-family: "Cormorant Garamond";
         font-weight: 300;
-        font-size: 6rem;
+        font-size: 3.2rem;
         padding-bottom: 0.4rem;
         margin-bottom: 6rem;
         color: var(--main-1);
@@ -37,16 +37,17 @@
         font-weight: 500;
     }
     .slick-arrow {
-        top: 115%;
+        font-size: 1.45rem;
+        top: 120%;
         left: 50%;
         z-index: 100;
         color: var(--main-1);
     }
     .prev {
-        transform: translateX(calc(-50% - 120px));
+        transform: translateX(calc(-50% - 90px));
     }
     .next {
-        transform: translateX(calc(-50% + 120px));
+        transform: translateX(calc(-50% + 90px));
     }
     .slick-list {
         overflow: visible;
