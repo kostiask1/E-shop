@@ -30,10 +30,10 @@ const Auth = () => {
     return (
         <div className="auth container">
             <form>
-                <h3>Enter your credentials</h3>
+                <h3>Введите свои учетные данные</h3>
                 <div>
                     <label htmlFor="exampleInputEmail1" className="form-label">
-                        Email address
+                        Адрес электронной почты
                     </label>
                     <input
                         type="email"
@@ -49,7 +49,7 @@ const Auth = () => {
                         htmlFor="exampleInputPassword1"
                         className="form-label"
                     >
-                        Password
+                        Пароль
                     </label>
                     <input
                         type="password"
@@ -65,7 +65,7 @@ const Auth = () => {
                         id="login"
                         style={{ marginTop: "1em" }}
                     >
-                        Log In
+                        Авторизоваться
                     </button>
                 )}
             </form>

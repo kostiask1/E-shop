@@ -115,29 +115,33 @@ const Create = () => {
             <div className="container">
                 <div className="row">
                     <div className="btns-wrapper">
-                        <label className="btn" onClick={createRandom}>
-                            Create filler item
-                        </label>
-                        <label
-                            className="btn"
-                            onClick={(e) =>
-                                [1, 2, 3, 4, 5].forEach((counter) =>
-                                    createRandom(e)
-                                )
-                            }
-                        >
-                            Create filler items
-                        </label>
+                        {process.env.NODE_ENV === "development" && (
+                            <>
+                                <label className="btn" onClick={createRandom}>
+                                    Добавить пустой товар
+                                </label>
+                                <label
+                                    className="btn"
+                                    onClick={(e) =>
+                                        [1, 2, 3, 4, 5].forEach((counter) =>
+                                            createRandom(e)
+                                        )
+                                    }
+                                >
+                                    Добавить пустые товары
+                                </label>
+                            </>
+                        )}
                         <label
                             className="btn btn-danger"
                             onClick={getUncategorized}
                         >
-                            Delete items without category (fillers)
+                            Удалить товары без категории
                         </label>
                     </div>
                     <div className="form-wrapper">
                         <form onSubmit={(e) => newFilter(e)} action="/">
-                            <p className=" title">Create category</p>
+                            <p className=" title">Создать категорию</p>
                             <div>
                                 <input
                                     type="text"
@@ -153,17 +157,17 @@ const Create = () => {
                                 }
                                 type="submit"
                             >
-                                Add category
+                                Добавить
                             </button>
                         </form>
                         <form onSubmit={(e) => deleteFilter(e)} action="/">
-                            <p className=" title">Delete category</p>
+                            <p className=" title">Удалить категорию</p>
                             <DropDown
                                 key={filters}
                                 defaultValue={categoryToRemove}
                                 change={setCategoryToRemove}
                                 options={filters}
-                                placeholder="Choose category"
+                                placeholder="Выберите категорию"
                             />
                             <button
                                 className={
@@ -171,7 +175,7 @@ const Create = () => {
                                 }
                                 type="submit"
                             >
-                                Delete category
+                                Удалить
                             </button>
                         </form>
                     </div>

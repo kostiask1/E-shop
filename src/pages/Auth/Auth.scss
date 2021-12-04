@@ -3,8 +3,12 @@
     justify-content: center;
     margin-top: 100px;
     h3 {
+        text-transform: lowercase;
         font-size: 2rem;
         margin-bottom: 1rem;
+        &::first-letter {
+            text-transform: uppercase;
+        }
     }
     form {
         margin-bottom: 7rem;

@@ -28,6 +28,9 @@ function App() {
     const location = useLocation()
 
     useEffect(() => {
+        if (process.env.NODE_ENV === "development") {
+            console.log("This is a development build")
+        }
         document.title = SHOP_NAME.charAt(0).toUpperCase() + SHOP_NAME.slice(1)
         auth()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -37,6 +40,7 @@ function App() {
         const root = document.getElementById("root")
         root.scrollTop = 0
     }, [location.pathname])
+
     return (
         <CatalogState>
             <Navigation />

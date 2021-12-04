@@ -41,9 +41,7 @@ const Catalog = () => {
     }, [])
 
     useEffect(() => {
-        if (data.length > 0) {
-            genNewData()
-        } //eslint-disable-next-line
+        genNewData() //eslint-disable-next-line
     }, [data])
 
     useEffect(() => {
@@ -129,7 +127,7 @@ const Catalog = () => {
                                     type="submit"
                                     onClick={() => modal.current.open()}
                                 >
-                                    Create new item
+                                    Добавить новый товар
                                 </button>
                             )}
                             {dataSlice.length > 0 ? (
@@ -148,7 +146,7 @@ const Catalog = () => {
                                 })
                             ) : (
                                 <span className="fade-in">
-                                    No matching results found
+                                    Не найдено совпадающих товаров
                                 </span>
                             )}
                         </div>
@@ -157,7 +155,7 @@ const Catalog = () => {
                 </div>
             </div>
             {admin && (
-                <Suspense fallback={<p>Loading...</p>}>
+                <Suspense fallback={<p>Загрузка...</p>}>
                     <Modal ref={modal} size="lg">
                         {modal.current && (
                             <ItemCreator

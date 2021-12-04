@@ -112,10 +112,23 @@ button {
         align-items: center;
         justify-content: center;
         .control-dots {
+            display: flex;
+            align-items: center;
             width: unset;
             border-radius: 100px;
             opacity: 0;
             transition: 0.3s all;
+            .li {
+                margin: 0 8px;
+                opacity: 0.4;
+                color: #fff;
+                font-size: 1.2rem;
+                transition: 0.2s all;
+                &.selected {
+                    opacity: 1;
+                    font-weight: 600;
+                }
+            }
             .dot {
                 box-shadow: unset;
             }

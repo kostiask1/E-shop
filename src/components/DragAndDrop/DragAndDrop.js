@@ -60,7 +60,7 @@ const DragAndDrop = ({ list, handleImageSet, deleteImg, setImagesArray }) => {
                               type="text"
                               name="image"
                               value={list[index]}
-                              placeholder="ImageURL"
+                              placeholder="Ссылка на картинку"
                               change={handleImageSet.bind(null, index)}
                               symbol={<DeleteIcon width=".7rem" />}
                               symbolClick={deleteImg.bind(null, index)}

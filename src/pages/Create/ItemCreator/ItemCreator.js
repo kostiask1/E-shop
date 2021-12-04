@@ -13,8 +13,7 @@ import ShopItem from "../../../components/ShopItem/ShopItem"
 const db = app.firestore()
 
 const ItemCreator = (props) => {
-    const sumBtn =
-        props.filters || props.new ? "Add item to shop" : "Update item"
+    const sumBtn = props.filters || props.new ? "Добавить" : "Обновить"
     const [filters, setFilters] = useState(props.filters || [])
     const [title, setTitle] = useState(props.title || "")
     const [imagesArray, setImagesArray] = useState(props.imagesArray || [""])
@@ -248,14 +247,14 @@ const ItemCreator = (props) => {
             <div className="row">
                 <div>
                     <form onSubmit={(e) => newItem(e)}>
-                        <p className="title">Create item</p>
+                        <p className="title">Создать элемент</p>
                         <div className="row">
                             <div>
                                 <Input
                                     type="text"
                                     name="title"
                                     value={title}
-                                    placeholder="title"
+                                    placeholder="Название"
                                     change={handleTitle}
                                     symbol="Title"
                                     required
@@ -273,7 +272,7 @@ const ItemCreator = (props) => {
                                     className="btn btn-outline"
                                     onClick={addToImgArray}
                                 >
-                                    + image
+                                    + изображение
                                 </label>
                                 <label
                                     className="btn btn-outline btn-danger"
@@ -281,7 +280,7 @@ const ItemCreator = (props) => {
                                         deleteImg(imagesArray.length - 1)
                                     }
                                 >
-                                    - image
+                                    - изображение
                                 </label>
                             </div>
                             <div>
@@ -289,13 +288,15 @@ const ItemCreator = (props) => {
                                     className="btn btn-primary btn-expanded"
                                     htmlFor="loadFile"
                                 >
-                                    Load file &nbsp;&nbsp;&nbsp;
+                                    Загрузить файл &nbsp;&nbsp;&nbsp;
                                     <UploadIcon
                                         fill="var(--main)"
                                         height="1.4em"
                                         viewbox="0 0 20 24"
                                     />
                                 </label>
+                            </div>
+                            <div>
                                 <input
                                     className="hidden"
                                     type="file"
@@ -308,7 +309,7 @@ const ItemCreator = (props) => {
                                     className="btn btn-primary btn-expanded"
                                     onClick={(e) => loadGallery(e)}
                                 >
-                                    Browse gallery&nbsp;&nbsp;
+                                    Обзор галереи&nbsp;&nbsp;
                                     <ImageIcon
                                         fill="var(--main)"
                                         width="1.6em"
@@ -322,13 +323,15 @@ const ItemCreator = (props) => {
                                     className="btn btn-warning btn-expanded"
                                     onClick={resetImages}
                                 >
-                                    Reset images
+                                    Сбросить изображения
                                 </label>
+                            </div>
+                            <div>
                                 <button
                                     className="btn btn-danger btn-expanded"
                                     onClick={clearImages}
                                 >
-                                    Clear images
+                                    Очистить изображения
                                 </button>
                             </div>
                             <div>
@@ -337,7 +340,7 @@ const ItemCreator = (props) => {
                                     name="description"
                                     rows="5"
                                     value={description}
-                                    placeholder="description"
+                                    placeholder="описание"
                                     onChange={(e) =>
                                         setDescription(e.target.value)
                                     }
@@ -348,7 +351,7 @@ const ItemCreator = (props) => {
                                     type="number"
                                     name="price"
                                     value={price}
-                                    placeholder="price"
+                                    placeholder="цена"
                                     change={setPrice}
                                     symbol="грн"
                                     required
@@ -359,7 +362,7 @@ const ItemCreator = (props) => {
                                     type="number"
                                     name="discount"
                                     value={discountPrice}
-                                    placeholder="discount price (optional)"
+                                    placeholder="Цена скидки (необязательно)"
                                     change={handleDiscountPrice}
                                     symbol="грн"
                                 />
@@ -369,7 +372,7 @@ const ItemCreator = (props) => {
                                     type="number"
                                     name="percent"
                                     value={discountPercent}
-                                    placeholder="discount percent (optional)"
+                                    placeholder="Процент скидки (необязательно)"
                                     change={handleDiscountPercent}
                                     symbol="%"
                                 />
@@ -379,7 +382,7 @@ const ItemCreator = (props) => {
                                     type="number"
                                     name="boughtCount"
                                     value={boughtCount}
-                                    placeholder="Times has been bought (optional)"
+                                    placeholder="Сколько раз купили (необязательно)"
                                     change={setBoughtCount}
                                     symbol="Bought"
                                 />
@@ -389,14 +392,14 @@ const ItemCreator = (props) => {
                                 defaultValue={category}
                                 change={setCategory}
                                 options={filters}
-                                placeholder="Choose a category"
+                                placeholder="Выберите категорию"
                             />
                             <div>
                                 <button
                                     className="btn btn-warning"
                                     onClick={(e) => clearInputs(e)}
                                 >
-                                    reset
+                                    сброс настроек
                                 </button>
                                 <button
                                     className="btn btn-success"
@@ -409,7 +412,7 @@ const ItemCreator = (props) => {
                     </form>
                 </div>
                 <div className="item-preview">
-                    <p className="title">Item preview</p>
+                    <p className="title">Предварительный просмотр товара</p>
                     <div className="btns-wrapper">
                         <button
                             className={
@@ -417,7 +420,7 @@ const ItemCreator = (props) => {
                             }
                             onClick={() => handleTabs("big")}
                         >
-                            Whole card
+                            Целая карточка
                         </button>
                         <button
                             className={
@@ -425,7 +428,7 @@ const ItemCreator = (props) => {
                             }
                             onClick={() => handleTabs("card")}
                         >
-                            Catalog card
+                            Каталог карточка
                         </button>
                     </div>
                     <div className="row">
@@ -459,6 +462,51 @@ const ItemCreator = (props) => {
                                                 infiniteLoop={true}
                                                 emulateTouch={true}
                                                 showThumbs={false}
+                                                renderIndicator={(
+                                                    onClickHandler,
+                                                    isSelected,
+                                                    index,
+                                                    label
+                                                ) => {
+                                                    if (isSelected) {
+                                                        return (
+                                                            <li
+                                                                className="li selected"
+                                                                aria-label={`Selected: ${label} ${
+                                                                    index + 1
+                                                                }`}
+                                                                title={`Selected: ${label} ${
+                                                                    index + 1
+                                                                }`}
+                                                            >
+                                                                {index + 1}
+                                                            </li>
+                                                        )
+                                                    }
+                                                    return (
+                                                        <li
+                                                            className="li"
+                                                            onClick={
+                                                                onClickHandler
+                                                            }
+                                                            onKeyDown={
+                                                                onClickHandler
+                                                            }
+                                                            value={index}
+                                                            key={index}
+                                                            role="button"
+                                                            tabIndex={0}
+                                                            title={`${label} ${
+                                                                index + 1
+                                                            }`}
+                                                            aria-label={`${label} ${
+                                                                index + 1
+                                                            }`}
+                                                        >
+                                                            {index + 1}
+                                                        </li>
+                                                    )
+                                                }}
                                             >
                                                 {imagesArray.map((img) => (
                                                     <img
@@ -557,7 +605,7 @@ const ItemCreator = (props) => {
                             </div>
                         ) : (
                             <div style={{ height: "100%" }}>
-                                Drop files here...
+                                Перетащите файлы сюда...
                             </div>
                         )}
                         <div className="modal-controls">
@@ -565,7 +613,7 @@ const ItemCreator = (props) => {
                                 className="btn btn-success btn-expanded"
                                 htmlFor="loadFile"
                             >
-                                Load file&nbsp;&nbsp;&nbsp;&nbsp;
+                                Загрузить файл&nbsp;&nbsp;&nbsp;&nbsp;
                                 <UploadIcon
                                     fill="var(--main)"
                                     height="1.4em"
@@ -583,7 +631,7 @@ const ItemCreator = (props) => {
                                 className="btn btn-primary"
                                 onClick={() => modal.current.close()}
                             >
-                                Close
+                                Закрыть
                             </button>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import {
     FILTERS,
     RESPONSE,
@@ -30,6 +31,7 @@ export const CatalogState = ({ children }) => {
         searchText: JSON.parse(localStorage.getItem(local_searchText)) || "",
     }
     const [state, dispatch] = useReducer(catalogReducer, initialState)
+    const history = useHistory()
     const { filters, data, cart, storage, rowData, category, searchText } =
         state
 
@@ -138,6 +140,7 @@ export const CatalogState = ({ children }) => {
     }
 
     const filterData = () => {
+        if (history.location.pathname === "/main") return
         let dataNew = [...rowData]
         if (searchText !== "" && dataNew.length > 0) {
             dataNew = dataNew.filter((item) => {
