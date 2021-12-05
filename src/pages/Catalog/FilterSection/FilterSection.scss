@@ -9,7 +9,9 @@
     z-index: 11;
     @media (max-width: 767px) {
         top: 37px;
-        padding: 1em;
+        padding: 1em 0px;
+        justify-content: center;
+        width: 100%;
     }
     .input-component-wrapper {
         span {

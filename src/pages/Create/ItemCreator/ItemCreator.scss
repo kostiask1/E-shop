@@ -46,6 +46,8 @@
             max-width: 300px;
         }
         .control-dots {
+            padding: 0 5px;
+            background-color: rgba(0, 0, 0, 0.4);
             opacity: 1;
         }
         .text-info {
@@ -53,6 +55,28 @@
             margin-left: 1rem;
             .description {
                 padding: 0.7rem 0;
+            }
+        }
+        .card-preview {
+            display: flex;
+            & * {
+                color: inherit;
+                font-family: Manrope;
+                font-weight: 300;
+                color: var(--main-1);
+            }
+            .price {
+                &-was {
+                    display: inline-block;
+                    font-size: 1rem;
+                    color: var(--gray);
+                    margin-right: 5px;
+                }
+                &-now {
+                    display: inline-block;
+                    margin-top: 10px;
+                    font-size: 1.3em;
+                }
             }
         }
     }

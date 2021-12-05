@@ -36,6 +36,13 @@
                 font-family: Manrope;
                 font-weight: 300;
             }
+            @media (max-width: 576px) {
+                flex-direction: column;
+                margin-top: 1rem;
+                .link {
+                    margin: 0.3rem;
+                }
+            }
         }
         &:before,
         &::after {

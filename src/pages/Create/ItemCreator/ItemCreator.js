@@ -256,7 +256,7 @@ const ItemCreator = (props) => {
                                     value={title}
                                     placeholder="Название"
                                     change={handleTitle}
-                                    symbol="Title"
+                                    symbol="Имя"
                                     required
                                 />
                             </div>
@@ -362,9 +362,9 @@ const ItemCreator = (props) => {
                                     type="number"
                                     name="discount"
                                     value={discountPrice}
-                                    placeholder="Цена скидки (необязательно)"
+                                    placeholder="Цена со скидкой (необязательно)"
                                     change={handleDiscountPrice}
-                                    symbol="грн"
+                                    symbol="грн - %"
                                 />
                             </div>
                             <div>
@@ -384,7 +384,7 @@ const ItemCreator = (props) => {
                                     value={boughtCount}
                                     placeholder="Сколько раз купили (необязательно)"
                                     change={setBoughtCount}
-                                    symbol="Bought"
+                                    symbol="Куплено"
                                 />
                             </div>
                             <DropDown
@@ -447,14 +447,9 @@ const ItemCreator = (props) => {
                                 disabledControls={true}
                             />
                         ) : (
-                            <>
+                            <div className="card-preview">
                                 {imagesArray && (
                                     <div className="img">
-                                        {discountPercent && (
-                                            <span className="price-discount">
-                                                {discountPercent}%
-                                            </span>
-                                        )}
                                         {imagesArray &&
                                         imagesArray.length > 1 ? (
                                             <Carousel
@@ -529,14 +524,9 @@ const ItemCreator = (props) => {
                                     </div>
                                 )}
                                 <div className="text-info">
-                                    {title && <h4>{title}</h4>}
-                                    {description && (
-                                        <p className="description">
-                                            {description}
-                                        </p>
-                                    )}
+                                    {title && <h1>{title}</h1>}
                                     {!discountPrice ? (
-                                        <p>{price && price + " грн"}</p>
+                                        <p className="price-now">{price} грн</p>
                                     ) : (
                                         <>
                                             <del className="price-was">
@@ -547,8 +537,13 @@ const ItemCreator = (props) => {
                                             </span>
                                         </>
                                     )}
+                                    {description && (
+                                        <div className="description">
+                                            {description}
+                                        </div>
+                                    )}
                                 </div>
-                            </>
+                            </div>
                         )}
                     </div>
                     <div className="row"></div>

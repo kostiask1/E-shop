@@ -1,11 +1,11 @@
 .item {
     opacity: 0;
-    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-self: stretch;
     overflow: hidden;
+    width: calc(100% - 1px);
     &-image {
         position: relative;
         &:hover .item-hovered {
@@ -82,11 +82,11 @@
     }
     &-controls {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
-        top: 0;
+        top: 5px;
         position: absolute;
-        width: 90%;
+        width: 100%;
         z-index: 1;
     }
     &-control {
@@ -183,13 +183,4 @@
         padding: 0;
         margin: 0;
     }
-}
-.price-discount {
-    pointer-events: none;
-    color: var(--main);
-    padding: 5px;
-    height: 60px;
-    background: linear-gradient(165deg, red 50%, transparent 53%);
-    filter: drop-shadow(1px 2px 5px rgba(120, 0, 0, 0.55));
-    z-index: 1;
 }

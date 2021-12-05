@@ -73,13 +73,6 @@ const ShopItem = (props) => {
                 style={{ animationDelay: 70 }}
             >
                 <div className="item-controls">
-                    <span className={discountPrice && "price-discount"}>
-                        {discountPrice
-                            ? 100 -
-                              Math.ceil((discountPrice / price) * 100) +
-                              "%"
-                            : null}
-                    </span>
                     {!disabledControls && admin ? (
                         <div className="admin">
                             <div className="edit">
