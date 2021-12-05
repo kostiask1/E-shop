@@ -53,16 +53,25 @@
             font-size: 10rem;
             font-family: Cormorant Garamond;
             font-weight: 300;
+            @media (max-width: 500px) {
+                font-size: 5rem;
+            }
         }
         &:before {
             top: 0;
             left: 0;
             transform: translate(-150%, -50%);
+            @media (max-width: 500px) {
+                transform: translate(-10px, -50%);
+            }
         }
         &:after {
             bottom: 0;
             right: 0;
             transform: translate(150%, 0%) rotate(180deg);
+            @media (max-width: 500px) {
+                transform: translate(10px, -50%) rotate(180deg);
+            }
         }
     }
 }

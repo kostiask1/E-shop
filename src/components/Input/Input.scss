@@ -5,12 +5,13 @@ input.input-component {
     padding-bottom: 0.25rem;
     border-radius: 4px;
     background-color: var(--main);
+    font-size: clamp(14px, 0.9rem, 24px);
     color: var(--main-2);
     &-with-symbol {
         border-radius: 4px 0px 0px 4px;
     }
     &::placeholder {
-        font-size: 0.9rem;
+        font-size: clamp(14px, 0.9rem, 24px);
         color: rgba(var(--main-2-transparent), 0.7);
     }
 }
