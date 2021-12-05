@@ -15,10 +15,14 @@ const Create = () => {
     const [filters, setFilters] = useState([])
     const [categoryToRemove, setCategoryToRemove] = useState("")
     const [categoryToAdd, setCategoryToAdd] = useState("")
+    const [whitelistIps, setWhitelistIps] = useState([])
+    const [whitelistIp, setWhitelistIp] = useState("")
+    const [unblockIp, setUnblockIp] = useState("")
 
     useEffect(() => {
         if (admin) {
             getFilters()
+            getWhitelist()
         }
         //eslint-disable-next-line
     }, [admin])
@@ -35,6 +39,21 @@ const Create = () => {
 
             setFilters(filt)
             return filters
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const getWhitelist = async () => {
+        try {
+            let gotWhitelist = await db.collection("whitelist").get()
+            gotWhitelist
+                ? (gotWhitelist = gotWhitelist.docs.map((doc) => doc.data()))
+                : (gotWhitelist = [])
+            if (gotWhitelist.length) {
+                gotWhitelist = Object.values(gotWhitelist[0].ips)
+            }
+            setWhitelistIps(gotWhitelist)
         } catch (err) {
             console.error(err)
         }
@@ -79,7 +98,7 @@ const Create = () => {
     const deleteFilter = (e) => {
         e.preventDefault()
         const value = e.target[0].innerText
-        if (value !== "Choose category") {
+        if (value !== "Выберите категорию") {
             const data = filters.filter((el) => el !== value)
             db.collection("categories")
                 .doc("categories")
@@ -110,6 +129,41 @@ const Create = () => {
         }
         db.collection("All").doc(data.id).set(data)
     }
+
+    const blockByIp = (e) => {
+        e.preventDefault()
+        const value = e.target[0].value
+        if (!value) return false
+        if (whitelistIps && whitelistIps.includes(value)) {
+            alert("Этот айпи адресс уже заблокирован")
+            return false
+        }
+        const data = whitelistIps.concat(value)
+        db.collection("whitelist")
+            .doc("whitelist")
+            .set({ ips: data })
+            .then(() => {
+                setWhitelistIp("")
+                return getWhitelist()
+            })
+    }
+
+    const unblockByIp = (e) => {
+        e.preventDefault()
+        const value = e.target[0].innerText
+        if (value !== "Выберите IP адрес") {
+            const data = whitelistIps.filter((el) => el !== value)
+            db.collection("whitelist").doc("whitelist").set({ ips: data })
+
+            db.collection("whitelist")
+                .doc("whitelist")
+                .onSnapshot(() => {
+                    setUnblockIp("")
+                    return getWhitelist()
+                })
+        }
+    }
+
     return (
         <div className="create">
             <div className="container">
@@ -180,6 +234,48 @@ const Create = () => {
                         </form>
                     </div>
                     {filters.length ? <ItemCreator filters={filters} /> : null}
+                    <div className="divider"></div>
+
+                    <div className="form-wrapper">
+                        <form onSubmit={(e) => blockByIp(e)} action="/">
+                            <p className="title">Заблокировать IP</p>
+                            <div>
+                                <input
+                                    type="text"
+                                    value={whitelistIp}
+                                    onChange={(e) =>
+                                        setWhitelistIp(e.target.value)
+                                    }
+                                />
+                            </div>
+                            <button
+                                className={
+                                    whitelistIp ? "btn-success" : "disabled"
+                                }
+                                type="submit"
+                            >
+                                Заблокировать
+                            </button>
+                        </form>
+                        <form onSubmit={(e) => unblockByIp(e)} action="/">
+                            <p className="title">Разбанить IP</p>
+                            <DropDown
+                                key={whitelistIps}
+                                defaultValue={unblockIp}
+                                change={setUnblockIp}
+                                options={whitelistIps}
+                                placeholder="Выберите IP адрес"
+                            />
+                            <button
+                                className={
+                                    unblockIp ? "btn-danger" : "disabled"
+                                }
+                                type="submit"
+                            >
+                                Разбанить
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

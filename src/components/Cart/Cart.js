@@ -17,10 +17,17 @@ const Cart = ({ close }) => {
     const { cart, clearStorage, getStorage, deleteFromStorage } =
         useContext(catalogContext)
     const [loading, setLoading] = useState("")
+    const [requestCount, setRequestCount] = useState(
+        JSON.parse(localStorage.getItem("requestCount")) ?? 0
+    )
+    const [requestTimestamp, setRequestTimestamp] = useState(
+        JSON.parse(localStorage.getItem("requestTimestamp"))
+    )
     const [requestFinished, setRequestFinished] = useState(false)
     const link = "https://" + window.location.hostname + "/catalog"
     const modal = useRef(null)
-
+    const day = 86400000
+    const now = () => new Date().getTime()
     const sendRequest = ({
         name,
         code,
@@ -33,43 +40,49 @@ const Cart = ({ close }) => {
         department,
         deliveryType,
         email,
-    }) =>
-        axios
-            .get(
-                `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
-                {
-                    params: {
-                        text: cart.length
-                            ? `<b>${name} заказал(а):</b>${cart.map(
-                                  (item) =>
-                                      `\n<a href="${link}/${item.id}"> - ${
-                                          item.text
-                                      }</a>: ${
-                                          item.discountPrice
-                                              ? `${item.discountPrice} грн. (со скидкой)`
-                                              : `${item.price} грн.`
-                                      }`
-                              )}\n\nПолучатель <b>${name}</b>:
+    }) => {
+        requestCount < 5 &&
+            fetch("https://www.cloudflare.com/cdn-cgi/trace").then(
+                async (data) => {
+                    let response = await data.text()
+                    let ip = response.split("\n")[2]
+                    ip = ip.slice(3, -1)
+                    axios
+                        .get(
+                            `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
+                            {
+                                params: {
+                                    text: cart.length
+                                        ? `<b>${name} (${ip}) заказал(а):</b>${cart.map(
+                                              (item) =>
+                                                  `\n<a href="${link}/${
+                                                      item.id
+                                                  }"> - ${item.text}</a>: ${
+                                                      item.discountPrice
+                                                          ? `${item.discountPrice} грн. (со скидкой)`
+                                                          : `${item.price} грн.`
+                                                  }`
+                                          )}\n\nПолучатель <b>${name}</b>:
                               \nТелефон: <i>${phone}</i>\n${
-                                  email && `E-mail: <i>${email}</i>`
-                              }\nТип Доставки: ${
-                                  deliveryType === "department"
-                                      ? "<i>Отделение почты</i>"
-                                      : "<i>Курьерская доставка</i>"
-                              }
+                                              email && `E-mail: <i>${email}</i>`
+                                          }\nТип Доставки: ${
+                                              deliveryType === "department"
+                                                  ? "<i>Отделение почты</i>"
+                                                  : "<i>Курьерская доставка</i>"
+                                          }
                               \nГород: <i>${city}</i>\nАдрес доставки: <i>${address}</i>\nТип почты: ${
-                                  service === "nova"
-                                      ? "Нова пошта"
-                                      : "Укр пошта"
-                              }\n${
-                                  code
-                                      ? `Почтовый индекс: <i>${code}</i>`
-                                      : `Отделение новой почты: <i>${department}</i>`
-                              }\nТип платежа: <i>${
-                                  payment === "cod"
-                                      ? "Наложенный платёж"
-                                      : "Картой"
-                              }</i>
+                                              service === "nova"
+                                                  ? "Нова пошта"
+                                                  : "Укр пошта"
+                                          }\n${
+                                              code
+                                                  ? `Почтовый индекс: <i>${code}</i>`
+                                                  : `Отделение новой почты: <i>${department}</i>`
+                                          }\nТип платежа: <i>${
+                                              payment === "cod"
+                                                  ? "Наложенный платёж"
+                                                  : "Картой"
+                                          }</i>
                               \nОбщая сумма заказа: <b>${cart.reduce(
                                   (acc, obj) => {
                                       return (
@@ -81,22 +94,37 @@ const Cart = ({ close }) => {
                                   },
                                   0
                               )} грн.</b>\n${
-                                  message &&
-                                  `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
-                              }`
-                            : null,
-                        parse_mode: "HTML",
-                    },
+                                              message &&
+                                              `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
+                                          }`
+                                        : null,
+                                    parse_mode: "HTML",
+                                },
+                            }
+                        )
+                        .then((response) => {
+                            if (response.status === 200) {
+                                setRequestFinished(true)
+                                clearStorage()
+                                getCart()
+                            }
+                            setRequestCount((requests) => requests + 1)
+                            localStorage.setItem(
+                                "requestCount",
+                                requestCount + 1
+                            )
+                            localStorage.setItem("requestTimestamp", now())
+                        })
                 }
             )
-            .then((response) => {
-                if (response.status === 200) {
-                    setRequestFinished(true)
-                    clearStorage()
-                    getCart()
-                }
-            })
+    }
     useEffect(() => {
+        if (requestTimestamp && now() - day > requestTimestamp) {
+            setRequestCount(0)
+            setRequestTimestamp(null)
+            localStorage.setItem("requestCount", 0)
+            localStorage.setItem("requestTimestamp", null)
+        }
         getCart()
         const timeout = setTimeout(() => setLoading(""), 2000)
         return () => {
@@ -147,10 +175,19 @@ const Cart = ({ close }) => {
                             грн
                         </p>
                     </div>
-                    <div className="cart-actions">
-                        <p onClick={() => modal.current.open()}>Купить</p>
-                        <p onClick={() => handleClean()}>Очистить корзину</p>
-                    </div>
+                    {requestCount < 5 ? (
+                        <div className="cart-actions">
+                            <p onClick={() => modal.current.open()}>Купить</p>
+                            <p onClick={() => handleClean()}>
+                                Очистить корзину
+                            </p>
+                        </div>
+                    ) : (
+                        <div>
+                            You have made too many requests for today, try
+                            tomorrow
+                        </div>
+                    )}
                 </>
             ) : (
                 <div>{loading}</div>
