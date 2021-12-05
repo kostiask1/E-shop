@@ -163,7 +163,10 @@ const Create = () => {
                 })
         }
     }
-
+    const handleWhitelistIp = (value) => {
+        value = value.replace(/[^\d;^\.;]/g, "")
+        setWhitelistIp(value)
+    }
     return (
         <div className="create">
             <div className="container">
@@ -244,7 +247,7 @@ const Create = () => {
                                     type="text"
                                     value={whitelistIp}
                                     onChange={(e) =>
-                                        setWhitelistIp(e.target.value)
+                                        handleWhitelistIp(e.target.value)
                                     }
                                 />
                             </div>
