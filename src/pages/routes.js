@@ -1,4 +1,4 @@
 export const routes = [
     { to: "about", name: "Про нас" },
-    { to: "contacts", name: "Контакты" },
+    { to: "footer", name: "Контакты" },
 ]

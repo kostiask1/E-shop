@@ -7,13 +7,12 @@ const Tout = () => {
         <div className="Tout">
             <div className="text">
                 <p>
-                    Ми підібрали для тебе варіанти та ідеї рисунків, але ти
-                    завжди можеш сам запропонувати свою ідею, та ми виконаємо її
-                    на замовлення
+                    Мы подобрали для тебя варианты и идеи рисунков, но ты всегда
+                    можешь сам предложить свою идею, и мы выполним ее на заказ.
                 </p>
                 <div className="links">
                     <NavLink className="link" to="catalog">
-                        Переглянути каталог
+                        Просмотрет каталог
                     </NavLink>
                     <a
                         className="link"
@@ -21,7 +20,7 @@ const Tout = () => {
                         rel="noopener noreferrer"
                         href="https://t.me/apollin_ko"
                     >
-                        Замовити свій принт
+                        Заказать свой принт
                     </a>
                 </div>
             </div>

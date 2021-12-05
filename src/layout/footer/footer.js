@@ -3,10 +3,14 @@ import "./footer.scss"
 import { TelegramIcon, InstagramIcon } from "../../icons"
 export const Footer = () => {
     return (
-        <div className="footer">
+        <div className="footer" id="footer">
             <div className="container">
                 <div className="row">
-                    <a href="tel:380679029584">
+                    <a
+                        href="https://t.me/apollin_ko"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <TelegramIcon fill="#fff" width="48" height="48" />
                     </a>
                     <a
