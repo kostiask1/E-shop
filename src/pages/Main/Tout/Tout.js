@@ -12,7 +12,7 @@ const Tout = () => {
                 </p>
                 <div className="links">
                     <NavLink className="link" to="catalog">
-                        Просмотрет каталог
+                        Просмотреть каталог
                     </NavLink>
                     <a
                         className="link"

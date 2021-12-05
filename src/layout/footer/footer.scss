@@ -1,14 +1,33 @@
 .footer {
     padding: 0.5rem 0;
     background-color: var(--main-3);
-    .container {
-        background-color: transparent;
-    }
+    color: var(--main);
     .row {
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
         a {
             margin: 0 0.1rem;
+            color: var(--main);
+        }
+    }
+    .developer a {
+        border-bottom: 2px solid var(--main);
+    }
+    .rights {
+        cursor: pointer;
+    }
+    .container {
+        background-color: transparent;
+    }
+    .links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .modal-body {
+        padding: 1rem;
+        * {
+            color: #000;
         }
     }
 }

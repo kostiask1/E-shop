@@ -54,7 +54,7 @@ const MainCarousel = () => {
         const { className, onClick } = props
         return (
             <p className={className + " next"} onClick={onClick}>
-                Следущие
+                Следующие
             </p>
         )
     }
