@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, lazy, Suspense } from "react"
 import { useLocation } from "react-router"
 import { Route, withRouter, Redirect } from "react-router-dom"
 import { CSSTransition } from "react-transition-group"
@@ -7,10 +7,11 @@ import { authContext } from "./context/Auth/auth-context"
 import Navigation from "./layout/navigation/navigation"
 import Catalog from "./pages/Catalog/Catalog"
 import Card from "./pages/Card/Card"
-import Create from "./pages/Create/Create"
-import Auth from "./pages/Auth/Auth"
 import Main from "./pages/Main/Main"
+const Auth = lazy(() => import("./pages/Auth/Auth"))
+const Create = lazy(() => import("./pages/Create/Create"))
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
+
 const mainRoutes = [
     { path: "/", Component: Catalog },
     { path: "/main", Component: Main },
@@ -18,13 +19,11 @@ const mainRoutes = [
 
 const routesSub = [
     { path: "/catalog", Component: Catalog },
-    { path: "/auth", Component: Auth },
-    { path: "/create", Component: Create },
     { path: "/catalog/:name", Component: Card },
 ]
 
 function App() {
-    const { auth } = useContext(authContext)
+    const { auth, admin } = useContext(authContext)
     const location = useLocation()
 
     useEffect(() => {
@@ -79,6 +78,40 @@ function App() {
                     )}
                 </Route>
             ))}
+            {admin && (
+                <Suspense fallback={<p>Загрузка...</p>}>
+                    <Route path="/create" exact>
+                        {({ match }) => (
+                            <CSSTransition
+                                in={match != null}
+                                timeout={400}
+                                classNames="page"
+                                unmountOnExit
+                            >
+                                <div id="page" className="page">
+                                    <Create {...match} />
+                                </div>
+                            </CSSTransition>
+                        )}
+                    </Route>
+                </Suspense>
+            )}
+            <Suspense fallback={<p>Загрузка...</p>}>
+                <Route path="/auth" exact>
+                    {({ match }) => (
+                        <CSSTransition
+                            in={match != null}
+                            timeout={400}
+                            classNames="page"
+                            unmountOnExit
+                        >
+                            <div id="page" className="page">
+                                <Auth {...match} />
+                            </div>
+                        </CSSTransition>
+                    )}
+                </Route>
+            </Suspense>
         </CatalogState>
     )
 }
