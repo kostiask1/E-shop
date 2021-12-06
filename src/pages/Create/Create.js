@@ -164,7 +164,7 @@ const Create = () => {
         }
     }
     const handleWhitelistIp = (value) => {
-        value = value.replace(/[^\d;^\.;]/g, "")
+        value = value.replace(/[^\d;^.;]/g, "")
         setWhitelistIp(value)
     }
     return (

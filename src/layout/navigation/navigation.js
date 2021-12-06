@@ -99,10 +99,16 @@ const Navigation = () => {
                     </RLink>
                     <div
                         className="nav-cart"
-                        onClick={() => cartRef.current.open()}
+                        onClick={() =>
+                            cartRef.current && cartRef.current.open()
+                        }
                         style={storage.length > 0 ? { right: 16 } : {}}
                     >
-                        <CartIcon fill="var(--main-2)" />
+                        <CartIcon
+                            fill={`var(--${
+                                storage.length ? "main-2" : "gray"
+                            })`}
+                        />
                         {storage.length > 0 && (
                             <div className="counter fade-in">
                                 <div id="burst-8"></div>
@@ -150,11 +156,13 @@ const Navigation = () => {
                     )}
                 </ul>
             </Drawer>
-            <Drawer ref={cartRef} position="right">
-                {cartRef.current && cartRef.current.visible && (
-                    <Cart close={cartRef.current.close} />
-                )}
-            </Drawer>
+            {storage.length && (
+                <Drawer ref={cartRef} position="right">
+                    {cartRef.current && cartRef.current.visible && (
+                        <Cart close={cartRef.current.close} />
+                    )}
+                </Drawer>
+            )}
         </nav>
     )
 }
