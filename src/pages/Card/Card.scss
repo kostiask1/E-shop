@@ -59,4 +59,8 @@
             padding: 0.4rem 1rem;
         }
     }
+    @media (max-width: 767px) {
+        width: 100%;
+        .img {width: 100%;}
+    }
 }

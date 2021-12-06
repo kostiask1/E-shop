@@ -34,8 +34,11 @@ const Navigation = () => {
 
     const handleSize = () => {
         let root = document.getElementById("root")
-        const distanceY = root.scrollTop,
-            shrinkOn = 200
+        const distanceY = root.scrollTop
+        let shrinkOn = 200
+        if (root.offsetWidth < 767) {
+            shrinkOn = 40
+        }
         if (distanceY > shrinkOn) {
             ref.current.classList.add("smaller")
         } else {
