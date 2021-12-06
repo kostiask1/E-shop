@@ -156,13 +156,13 @@ const Navigation = () => {
                     )}
                 </ul>
             </Drawer>
-            {storage.length && (
+            {storage.length ? (
                 <Drawer ref={cartRef} position="right">
                     {cartRef.current && cartRef.current.visible && (
                         <Cart close={cartRef.current.close} />
                     )}
                 </Drawer>
-            )}
+            ) : null}
         </nav>
     )
 }
