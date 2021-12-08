@@ -4,7 +4,7 @@ import "./Tout.scss"
 
 const Tout = () => {
     return (
-        <div className="Tout">
+        <div className="Tout" id="tout">
             <div className="text">
                 <p>
                     Мы подобрали для тебя варианты и идеи рисунков, но ты всегда

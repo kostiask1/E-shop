@@ -5,7 +5,7 @@ const Modal = lazy(() => import("../../components/Modal/Modal"))
 export const Footer = () => {
     const rights = useRef()
     return (
-        <div className="footer" id="footer">
+        <div className="footer">
             <div className="container">
                 <div className="row">
                     <div className="developer">
@@ -24,21 +24,31 @@ export const Footer = () => {
                     >
                         &copy; Все права защищены.
                     </div>
-                    <div className="links">
-                        <a
-                            href="https://t.me/apollin_ko"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <TelegramIcon fill="#fff" width="48" height="48" />
-                        </a>
-                        <a
-                            href="https://www.instagram.com/apollin_ko_shop/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <InstagramIcon fill="#fff" width="42" height="42" />
-                        </a>
+                    <div>
+                        <div className="links">
+                            <a
+                                href="https://t.me/apollin_ko"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <TelegramIcon
+                                    fill="#fff"
+                                    width="48"
+                                    height="48"
+                                />
+                            </a>
+                            <a
+                                href="https://www.instagram.com/apollin_ko_shop/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <InstagramIcon
+                                    fill="#fff"
+                                    width="42"
+                                    height="42"
+                                />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
