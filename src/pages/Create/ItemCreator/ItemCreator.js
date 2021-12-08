@@ -94,7 +94,7 @@ const ItemCreator = (props) => {
             .then(() => {
                 if (props.id === id || props.hasOwnProperty("close")) {
                     props.close()
-                    return props.getData()
+                    return  props.getData()
                 }
                 clearInputs()
             })

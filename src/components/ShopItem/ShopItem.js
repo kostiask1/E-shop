@@ -58,6 +58,7 @@ const ShopItem = (props) => {
             })
         })
     }
+    
     const handleCheckbox = (event) => {
         event.preventDefault()
         setSelected(!selected)

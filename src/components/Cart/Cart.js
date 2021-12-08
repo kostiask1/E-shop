@@ -27,6 +27,7 @@ const Cart = ({ close }) => {
     const link = "https://" + window.location.hostname + "/catalog"
     const modal = useRef(null)
     const day = 86400000
+    const buyLimit = 5
     const now = () => new Date().getTime()
     const sendRequest = ({
         name,
@@ -41,7 +42,7 @@ const Cart = ({ close }) => {
         deliveryType,
         email,
     }) => {
-        requestCount < 5 &&
+        requestCount < buyLimit &&
             fetch("https://www.cloudflare.com/cdn-cgi/trace").then(
                 async (data) => {
                     let response = await data.text()
@@ -171,11 +172,11 @@ const Cart = ({ close }) => {
                                         ? obj.discountPrice
                                         : obj.price),
                                 0
-                            )}{" "}
+                            )}
                             грн
                         </p>
                     </div>
-                    {requestCount < 5 ? (
+                    {requestCount < buyLimit ? (
                         <div className="cart-actions">
                             <p onClick={() => modal.current.open()}>Купить</p>
                             <p onClick={() => handleClean()}>
