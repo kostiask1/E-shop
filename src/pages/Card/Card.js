@@ -59,7 +59,15 @@ const Card = (match) => {
     }
 
     if (data && data.length === 1) {
-        const { text, imagesArray, price, description, discountPrice,boughtCount,category } = data[0]
+        const {
+            text,
+            imagesArray,
+            price,
+            description,
+            discountPrice,
+            boughtCount,
+            category,
+        } = data[0]
         return (
             <>
                 <div className="card container pop-in">

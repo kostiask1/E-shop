@@ -27,7 +27,7 @@ const Cart = ({ close }) => {
     const link = "https://" + window.location.hostname + "/catalog"
     const modal = useRef(null)
     const day = 86400000
-    const buyLimit = 5
+    const buyLimit = process.env.NODE_ENV === "development" ? 100 : 5
     const now = () => new Date().getTime()
     const sendRequest = ({
         name,
