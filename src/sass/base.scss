@@ -52,6 +52,9 @@ textarea,
     color: var(--main-2);
     border-radius: 4px;
     outline: none;
+    &::placeholder {
+        color: rgba(var(--main-2-transparent), 0.7);
+    }
 }
 select {
     padding: 5px;

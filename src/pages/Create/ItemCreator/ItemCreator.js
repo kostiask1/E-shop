@@ -401,20 +401,21 @@ const ItemCreator = (props) => {
                                 options={filters}
                                 placeholder="Выберите категорию"
                             />
+                            <div className="divider"></div>
+                            <button
+                                className="btn btn-warning"
+                                onClick={(e) => clearInputs(e)}
+                            >
+                                Сбросить до старых значений
+                            </button>
+                            <div className="divider"></div>
                             <div>
                                 <button
                                     className="btn btn-primary"
+                                    style={{ marginRight: "5px" }}
                                     onClick={(e) => handleArchive(e)}
                                 >
                                     {archived ? "В Архиве" : "В Каталоге"}
-                                </button>
-                            </div>
-                            <div>
-                                <button
-                                    className="btn btn-warning"
-                                    onClick={(e) => clearInputs(e)}
-                                >
-                                    сброс настроек
                                 </button>
                                 <button
                                     className="btn btn-success"
