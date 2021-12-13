@@ -17,6 +17,7 @@ const MainCarousel = () => {
     }, [])
     useEffect(() => {
         let newClone = [...data]
+        newClone = newClone.filter((item) => !item.archived)
         newClone.sort((a, b) => {
             if (+a.boughtCount < +b.boughtCount) {
                 return 1
