@@ -107,7 +107,7 @@ const Cart = ({ close }) => {
                             if (response.status === 200) {
                                 setRequestFinished(true)
                                 clearStorage()
-                                getCart()
+                                getStorage()
                             }
                             setRequestCount((requests) => requests + 1)
                             localStorage.setItem(
@@ -126,17 +126,13 @@ const Cart = ({ close }) => {
             localStorage.setItem("requestCount", 0)
             localStorage.setItem("requestTimestamp", null)
         }
-        getCart()
+        getStorage()
         const timeout = setTimeout(() => setLoading(""), 2000)
         return () => {
             clearTimeout(timeout)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    const getCart = () => {
-        getStorage()
-    }
 
     const handleClean = () => {
         clearStorage()

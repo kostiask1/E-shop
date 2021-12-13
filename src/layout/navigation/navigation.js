@@ -11,7 +11,7 @@ import Cart from "../../components/Cart/Cart"
 const SHOP_NAME = process.env.REACT_APP_SHOP_NAME
 
 const Navigation = () => {
-    const { storage } = useContext(catalogContext)
+    const { storage, cart } = useContext(catalogContext)
     const { admin, logout } = useContext(authContext)
     const [width, setWidth] = useState(() => window.innerWidth)
     let props = useLocation()
@@ -112,11 +112,11 @@ const Navigation = () => {
                                 storage.length ? "main-2" : "gray"
                             })`}
                         />
-                        {storage.length > 0 && (
+                        {cart.length > 0 && (
                             <div className="counter fade-in">
                                 <div id="burst-8"></div>
                                 <span className="cart-counter">
-                                    {storage.length}
+                                    {cart.length}
                                 </span>
                             </div>
                         )}

@@ -116,10 +116,18 @@ export const CatalogState = ({ children }) => {
             if (rowData.length) {
                 let clone = [...rowData]
                 let storageClone = [...storage]
-                let data = clone.map((item) => item.id)
+                let data = []
+                clone.forEach((item) => data.push(item.id))
+                clone = clone.filter((item) => item.archived)
+                let archiveditems = clone.map((item) => item.id)
                 let itemsToDelete = storageClone.filter(
                     (item) => !data.includes(item)
                 )
+                let archivedElements = storageClone.filter((item) => {
+                    return archiveditems.includes(item)
+                })
+
+                itemsToDelete.push(...archivedElements)
                 if (itemsToDelete.length)
                     return deleteFromStorage(itemsToDelete)
             } else if (
@@ -161,7 +169,6 @@ export const CatalogState = ({ children }) => {
         }
         return dispatch({ type: DATA, payload: dataNew })
     }
-
     const setCategory = (value) => {
         localStorage.setItem(local_category, JSON.stringify(value))
         return dispatch({ type: CATEGORY, payload: value })
@@ -213,6 +220,9 @@ export const CatalogState = ({ children }) => {
                 })
                 checkStorage(payload)
                 payload = payload.filter((item) => typeof item === "object")
+                if (!admin) {
+                    payload = payload.filter((item) => !item.archived)
+                }
                 dispatch({ type: CART, payload })
                 return true
             } else {
