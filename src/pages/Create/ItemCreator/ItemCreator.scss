@@ -45,8 +45,14 @@
     .img {
         position: relative;
         max-width: 60%;
+        img {
+            object-position: top;
+        }
     }
     .item-preview {
+        h1 {
+            text-transform: unset;
+        }
         .row {
             flex-direction: row;
             margin-top: 1rem;
@@ -85,6 +91,14 @@
                     display: inline-block;
                     margin-top: 10px;
                     font-size: 1.3em;
+                }
+            }
+            &.archived {
+                img,
+                p,
+                h1,
+                .description {
+                    opacity: 0.4;
                 }
             }
         }

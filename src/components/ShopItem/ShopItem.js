@@ -139,18 +139,14 @@ const ShopItem = (props) => {
                     ) : null}
                 </div>
                 <div className="item-image">
-                    {archived ||
-                        (!disabledControls && (
-                            <div className="item-hovered">
-                                <Link
-                                    to={
-                                        !disabledControls
-                                            ? "/catalog/" + id
-                                            : "#"
-                                    }
-                                >
-                                    Просмотреть товар
-                                </Link>
+                    {!disabledControls && (
+                        <div className="item-hovered">
+                            <Link
+                                to={!disabledControls ? "/catalog/" + id : "#"}
+                            >
+                                Просмотреть товар
+                            </Link>
+                            {!archived && (
                                 <InCart
                                     update={() =>
                                         props.hasOwnProperty("functions") &&
@@ -158,8 +154,9 @@ const ShopItem = (props) => {
                                     }
                                     id={id}
                                 />
-                            </div>
-                        ))}
+                            )}
+                        </div>
+                    )}
                     <img
                         src={imagesArray && imagesArray[0]}
                         className="item-img"
@@ -186,15 +183,7 @@ const ShopItem = (props) => {
                 <Suspense fallback={<p></p>}>
                     <Modal ref={modal} size="lg">
                         <ItemCreator
-                            title={text}
-                            imagesArray={imagesArray}
-                            id={id}
-                            description={description}
-                            price={price}
-                            discountPrice={discountPrice}
-                            boughtCount={boughtCount}
-                            category={category}
-                            archived={archived}
+                            item={item}
                             close={() => modal.current.close()}
                             getData={() => getData()}
                         />

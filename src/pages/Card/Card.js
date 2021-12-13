@@ -58,6 +58,26 @@ const Card = (match) => {
         })
     }
 
+    const toggleArchiveItem = (event, item) => {
+        event.preventDefault()
+        const data = {
+            id,
+            imagesArray: item.imagesArray,
+            text: item.text,
+            price: item.price,
+            discountPrice: item.discountPrice,
+            description: item.description,
+            category: item.category,
+            boughtCount: item.boughtCount,
+            archived: item.archived ? false : true,
+            timestamp: new Date().getTime(),
+        }
+        db.collection("All")
+            .doc(data.id)
+            .set(data)
+            .then(() => getById([id]))
+    }
+
     if (data && data.length === 1) {
         const {
             text,
@@ -67,16 +87,43 @@ const Card = (match) => {
             discountPrice,
             boughtCount,
             category,
+            archived,
         } = data[0]
         return (
             <>
-                <div className="card container pop-in">
+                <div
+                    className={`card container pop-in ${
+                        archived ? "archived" : ""
+                    }`}
+                >
                     <div className="row">
                         {Object.keys(data).length !== 0 ? (
                             <>
                                 {admin ? (
                                     <div className="admin">
-                                        <div className="edit">
+                                        <div className="archive">
+                                            <button
+                                                className="item-control item-archive"
+                                                onClick={(event) =>
+                                                    toggleArchiveItem(event, {
+                                                        text,
+                                                        imagesArray,
+                                                        price,
+                                                        description,
+                                                        discountPrice,
+                                                        boughtCount,
+                                                        category,
+                                                        archived,
+                                                    })
+                                                }
+                                            >
+                                                {archived ? "архив" : "каталог"}
+                                            </button>
+                                        </div>
+                                        <div
+                                            className="edit"
+                                            style={{ marginTop: 5 }}
+                                        >
                                             <button
                                                 className="item-control item-edit"
                                                 data-bs-toggle="modal"
@@ -147,7 +194,9 @@ const Card = (match) => {
                                     <div className="description">
                                         {description}
                                     </div>
-                                    <InCart id={id} inCard={true} />
+                                    {!archived && (
+                                        <InCart id={id} inCard={true} />
+                                    )}
                                 </div>
                             </>
                         ) : (
@@ -162,14 +211,7 @@ const Card = (match) => {
                     <Suspense fallback={<p></p>}>
                         <Modal ref={modal} size="lg">
                             <ItemCreator
-                                title={text}
-                                imagesArray={imagesArray}
-                                id={id}
-                                description={description}
-                                price={price}
-                                discountPrice={discountPrice}
-                                boughtCount={boughtCount}
-                                category={category}
+                                item={data[0]}
                                 close={() => modal.current.close()}
                                 getData={() => getById([id])}
                             />

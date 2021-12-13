@@ -12,27 +12,25 @@ import DragAndDrop from "../../../components/DragAndDrop/DragAndDrop"
 import ShopItem from "../../../components/ShopItem/ShopItem"
 const db = app.firestore()
 
-const ItemCreator = (props) => {
+const ItemCreator = ({ item = {} }, ...props) => {
     const sumBtn = props.filters || props.new ? "Добавить" : "Обновить"
     const [filters, setFilters] = useState(props.filters || [])
-    const [title, setTitle] = useState(props.title || "")
-    const [imagesArray, setImagesArray] = useState(props.imagesArray || [""])
-    const [description, setDescription] = useState(props.description || "")
-    const [archived, setArchived] = useState(props.archived || false)
-    const [category, setCategory] = useState(props.category || "")
+    const [title, setTitle] = useState(item.text || "")
+    const [imagesArray, setImagesArray] = useState(item.imagesArray || [""])
+    const [description, setDescription] = useState(item.description || "")
+    const [archived, setArchived] = useState(item.archived || false)
+    const [category, setCategory] = useState(item.category || "")
     const [drag, setDrag] = useState(false)
     const [gallery, setGallery] = useState([])
-    const [price, setPrice] = useState(props.price || "")
-    const [discountPrice, setDiscountPrice] = useState(
-        props.discountPrice || ""
-    )
+    const [price, setPrice] = useState(item.price || "")
+    const [discountPrice, setDiscountPrice] = useState(item.discountPrice || "")
     const [discountPercent, setDiscountPercent] = useState(
         (discountPrice && 100 - Math.ceil((discountPrice / price) * 100)) ||
             false
     )
-    const [boughtCount, setBoughtCount] = useState(props.boughtCount || "")
+    const [boughtCount, setBoughtCount] = useState(item.boughtCount || "")
     const [tab, setTab] = useState("big")
-    const id = props.id || uuidv4()
+    const id = item.id || uuidv4()
     const modal = useRef(null)
 
     useEffect(() => {
@@ -63,19 +61,19 @@ const ItemCreator = (props) => {
     }
     const clearInputs = (e) => {
         if (e) e.preventDefault()
-        setTitle(props.title ?? "")
-        setImagesArray(props.imagesArray ?? [""])
-        setDescription(props.description ?? "")
-        setArchived(props.archived ?? false)
-        setPrice(props.price ?? "")
-        setDiscountPrice(props.discountPrice ?? "")
+        setTitle(item.text ?? "")
+        setImagesArray(item.imagesArray ?? [""])
+        setDescription(item.description ?? "")
+        setArchived(item.archived ?? false)
+        setPrice(item.price ?? "")
+        setDiscountPrice(item.discountPrice ?? "")
         setDiscountPercent(
-            props.discountPrice
-                ? 100 - Math.ceil((props.discountPrice / props.price) * 100)
+            item.discountPrice
+                ? 100 - Math.ceil((item.discountPrice / item.price) * 100)
                 : ""
         )
-        setBoughtCount(props.boughtCount ?? "")
-        setCategory(props.category ?? "")
+        setBoughtCount(item.boughtCount ?? "")
+        setCategory(item.category ?? "")
     }
     const newItem = (e) => {
         e.preventDefault()
@@ -95,7 +93,7 @@ const ItemCreator = (props) => {
             .doc(data.id)
             .set(data)
             .then(() => {
-                if (props.id === id || props.hasOwnProperty("close")) {
+                if (item.id === id || props.hasOwnProperty("close")) {
                     props.close()
                     return props.getData()
                 }
@@ -143,7 +141,7 @@ const ItemCreator = (props) => {
     }
     const resetImages = (event) => {
         event.preventDefault()
-        setImagesArray(props.imagesArray ?? [""])
+        setImagesArray(item.imagesArray ?? [""])
     }
     const loadGallery = async (e) => {
         if (e) {
@@ -459,11 +457,16 @@ const ItemCreator = (props) => {
                                     discountPrice,
                                     category,
                                     boughtCount,
+                                    archived,
                                 }}
                                 disabledControls={true}
                             />
                         ) : (
-                            <div className="card-preview">
+                            <div
+                                className={`card-preview ${
+                                    archived ? "archived" : ""
+                                }`}
+                            >
                                 {imagesArray && (
                                     <div className="img">
                                         {imagesArray &&
