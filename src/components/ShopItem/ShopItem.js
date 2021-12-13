@@ -8,7 +8,6 @@ import React, {
 } from "react"
 import { Link } from "react-router-dom"
 import { catalogContext } from "../../context/catalog/catalog-context"
-import { app } from "../../base"
 import { authContext } from "../../context/Auth/auth-context"
 import InCart from "../InCart/InCart"
 import "./ShopItem.scss"
@@ -18,22 +17,12 @@ const Modal = lazy(() => import("../Modal/Modal"))
 const ItemCreator = lazy(() =>
     import("../../pages/Create/ItemCreator/ItemCreator")
 )
-const db = app.firestore()
 
 const ShopItem = (props) => {
     const { handleDeleteArray, deleteArray, disabledControls, item } = props
-    const {
-        id,
-        imagesArray,
-        text,
-        price,
-        discountPrice,
-        description,
-        category,
-        boughtCount,
-        archived,
-    } = item
-    const { getData, deleteFromStorage } = useContext(catalogContext)
+    const { id, imagesArray, text, price, discountPrice, archived } = item
+    const { getData, toggleArchiveItem, deleteItemById } =
+        useContext(catalogContext)
     const { admin } = useContext(authContext)
     const [fading, setFading] = useState(false)
     const [selected, setSelected] = useState(
@@ -51,33 +40,13 @@ const ShopItem = (props) => {
 
     const deleteItem = () => {
         setFading(false)
-        deleteFromStorage([id])
-        let item = db.collection("All").where("id", "==", id)
-        item.get().then(function (querySnapshot) {
-            querySnapshot.docs[0].ref.delete().then(() => {
-                getData()
-            })
+        deleteItemById([id]).then(() => {
+            getData()
         })
     }
 
-    const toggleArchiveItem = (event) => {
-        event.preventDefault()
-        const data = {
-            id,
-            imagesArray,
-            text,
-            price,
-            discountPrice,
-            description,
-            category,
-            boughtCount,
-            archived: archived ? false : true,
-            timestamp: new Date().getTime(),
-        }
-        db.collection("All")
-            .doc(data.id)
-            .set(data)
-            .then(() => getData())
+    const handleToggleArchiveItem = (event) => {
+        toggleArchiveItem(event, item).then(() => getData())
     }
 
     const handleCheckbox = (event) => {
@@ -100,7 +69,7 @@ const ShopItem = (props) => {
                             <div className="archive">
                                 <button
                                     className="item-control item-archive"
-                                    onClick={toggleArchiveItem}
+                                    onClick={handleToggleArchiveItem}
                                 >
                                     {archived ? "архив" : "каталог"}
                                 </button>
@@ -185,7 +154,7 @@ const ShopItem = (props) => {
                         <ItemCreator
                             item={item}
                             close={() => modal.current.close()}
-                            getData={() => getData()}
+                            getData={getData}
                         />
                     </Modal>
                 </Suspense>

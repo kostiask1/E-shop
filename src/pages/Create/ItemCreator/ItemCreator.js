@@ -12,7 +12,8 @@ import DragAndDrop from "../../../components/DragAndDrop/DragAndDrop"
 import ShopItem from "../../../components/ShopItem/ShopItem"
 const db = app.firestore()
 
-const ItemCreator = ({ item = {} }, ...props) => {
+const ItemCreator = (props) => {
+    const { item = {} } = props
     const sumBtn = props.filters || props.new ? "Добавить" : "Обновить"
     const [filters, setFilters] = useState(props.filters || [])
     const [title, setTitle] = useState(item.text || "")

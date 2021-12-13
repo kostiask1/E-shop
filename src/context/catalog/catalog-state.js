@@ -111,6 +111,36 @@ export const CatalogState = ({ children }) => {
         }
     }
 
+    const deleteItemById = (ids = []) => {
+        if (!ids.length) return
+        let promises = []
+        ids.forEach((id) => {
+            return promises.push(
+                new Promise((resolve, reject) => {
+                    deleteFromStorage([id])
+                    let item = db.collection("All").where("id", "==", id)
+                    item.get().then((querySnapshot) => {
+                        resolve(querySnapshot.docs[0].ref.delete())
+                    })
+                })
+            )
+        })
+        return Promise.all(promises)
+    }
+
+    const toggleArchiveItem = (event, item) => {
+        event.preventDefault()
+        const data = {
+            ...item,
+            timestamp: new Date().getTime(),
+            archived: !item.archived,
+        }
+        let promise = new Promise((resolve, reject) => {
+            resolve(db.collection("All").doc(item.id).set(data))
+        })
+        return promise
+    }
+
     const checkStorage = (gotElements) => {
         if (storage.length) {
             if (rowData.length) {
@@ -149,14 +179,17 @@ export const CatalogState = ({ children }) => {
     }
 
     const filterData = () => {
+        let archivedElements = []
         if (history.location.pathname === "/main")
             return dispatch({ type: DATA, payload: rowData })
-        let dataNew = [...rowData]
-        if (!admin) {
-            dataNew = dataNew.filter((item) => {
-                return !item.archived
-            })
-        }
+        let dataNew = []
+        rowData.forEach((item) => {
+            if (!item.archived) {
+                dataNew.push(item)
+            } else {
+                archivedElements.push(item)
+            }
+        })
         if (searchText !== "" && dataNew.length > 0) {
             dataNew = dataNew.filter((item) => {
                 return item.text.toLowerCase().includes(searchText)
@@ -166,6 +199,18 @@ export const CatalogState = ({ children }) => {
             dataNew = dataNew.filter((item) => {
                 return item.category === category
             })
+        }
+        if (admin) {
+            archivedElements = archivedElements.sort((a, b) => {
+                if (+a.timestamp < +b.timestamp) {
+                    return 1
+                }
+                if (+a.timestamp > +b.timestamp) {
+                    return -1
+                }
+                return 0
+            })
+            dataNew = dataNew.concat(...archivedElements)
         }
         return dispatch({ type: DATA, payload: dataNew })
     }
@@ -246,6 +291,8 @@ export const CatalogState = ({ children }) => {
                 getStorage,
                 setCategory,
                 setSearchText,
+                deleteItemById,
+                toggleArchiveItem,
                 data,
                 cart,
                 filters,

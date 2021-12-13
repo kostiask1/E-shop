@@ -9,7 +9,6 @@ import React, {
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import { Link, useHistory } from "react-router-dom"
-import { app } from "../../base"
 import InCart from "../../components/InCart/InCart"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
@@ -20,10 +19,9 @@ const ItemCreator = lazy(() =>
     import("../../pages/Create/ItemCreator/ItemCreator")
 )
 
-const db = app.firestore()
-
 const Card = (match) => {
-    const { data, getById, deleteFromStorage } = useContext(catalogContext)
+    const { data, getById, deleteItemById, toggleArchiveItem } =
+        useContext(catalogContext)
     const { admin } = useContext(authContext)
     const history = useHistory()
     const [loading, setLoading] = useState("")
@@ -48,38 +46,19 @@ const Card = (match) => {
     }, [id])
 
     const deleteItem = () => {
-        deleteFromStorage([id])
-        let item = db.collection("All").where("id", "==", id)
-        item.get().then(function (querySnapshot) {
-            querySnapshot.docs[0].ref.delete().then(() => {
-                let path = `/catalog`
-                history.push(path)
-            })
+        deleteItemById([id]).then(() => {
+            let path = `/catalog`
+            history.push(path)
         })
     }
 
-    const toggleArchiveItem = (event, item) => {
-        event.preventDefault()
-        const data = {
-            id,
-            imagesArray: item.imagesArray,
-            text: item.text,
-            price: item.price,
-            discountPrice: item.discountPrice,
-            description: item.description,
-            category: item.category,
-            boughtCount: item.boughtCount,
-            archived: item.archived ? false : true,
-            timestamp: new Date().getTime(),
-        }
-        db.collection("All")
-            .doc(data.id)
-            .set(data)
-            .then(() => getById([id]))
+    const handleToggle = (event, item) => {
+        toggleArchiveItem(event, item).then(() => getById([id]))
     }
 
     if (data && data.length === 1) {
         const {
+            id,
             text,
             imagesArray,
             price,
@@ -105,7 +84,8 @@ const Card = (match) => {
                                             <button
                                                 className="item-control item-archive"
                                                 onClick={(event) =>
-                                                    toggleArchiveItem(event, {
+                                                    handleToggle(event, {
+                                                        id,
                                                         text,
                                                         imagesArray,
                                                         price,

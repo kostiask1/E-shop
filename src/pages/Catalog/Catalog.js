@@ -6,7 +6,6 @@ import React, {
     useRef,
     useState,
 } from "react"
-import { app } from "../../base"
 import ShopItem from "../../components/ShopItem/ShopItem"
 import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
@@ -15,10 +14,9 @@ import FilterSection from "./FilterSection/FilterSection"
 import { DeleteIcon } from "../../icons"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 const ItemCreator = lazy(() => import("../Create/ItemCreator/ItemCreator"))
-const db = app.firestore()
 
 const Catalog = () => {
-    const { data, getData, category, setCategory, deleteFromStorage } =
+    const { data, getData, category, setCategory, deleteItemById } =
         useContext(catalogContext)
     const { admin } = useContext(authContext)
     const [deleteArray, setDeleteArray] = useState([])
@@ -57,19 +55,7 @@ const Catalog = () => {
     }
 
     const deleteMultipleItems = () => {
-        let promises = []
-        deleteArray.map((id) => {
-            return promises.push(
-                new Promise((resolve, reject) => {
-                    deleteFromStorage([id])
-                    let item = db.collection("All").where("id", "==", id)
-                    item.get().then((querySnapshot) => {
-                        resolve(querySnapshot.docs[0].ref.delete())
-                    })
-                })
-            )
-        })
-        Promise.all(promises).then(() => {
+        deleteItemById(deleteArray).then(() => {
             getData()
             setDeleteArray([])
         })
@@ -163,7 +149,7 @@ const Catalog = () => {
                                 new={true}
                                 category={category}
                                 close={() => modal.current.close()}
-                                getData={() => getData()}
+                                getData={getData}
                             />
                         )}
                     </Modal>
