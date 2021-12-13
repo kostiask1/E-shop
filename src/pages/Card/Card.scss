@@ -7,7 +7,12 @@
     .row {
         width: 100%;
     }
-    .admin {position: absolute; margin-left: 5px; top: 5px;}
+    .admin {
+        position: absolute;
+        margin-left: 5px;
+        top: 5px;
+        z-index: 9;
+    }
     * {
         color: inherit;
         font-family: Manrope;
@@ -62,6 +67,8 @@
     }
     @media (max-width: 767px) {
         width: 100%;
-        .img {width: 100%;}
+        .img {
+            width: 100%;
+        }
     }
 }

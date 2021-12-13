@@ -31,6 +31,7 @@ const ShopItem = (props) => {
         description,
         category,
         boughtCount,
+        archived,
     } = item
     const { getData, deleteFromStorage } = useContext(catalogContext)
     const { admin } = useContext(authContext)
@@ -58,7 +59,27 @@ const ShopItem = (props) => {
             })
         })
     }
-    
+
+    const toggleArchiveItem = (event) => {
+        event.preventDefault()
+        const data = {
+            id,
+            imagesArray,
+            text,
+            price,
+            discountPrice,
+            description,
+            category,
+            boughtCount,
+            archived: archived ? false : true,
+            timestamp: new Date().getTime(),
+        }
+        db.collection("All")
+            .doc(data.id)
+            .set(data)
+            .then(() => getData())
+    }
+
     const handleCheckbox = (event) => {
         event.preventDefault()
         setSelected(!selected)
@@ -69,13 +90,21 @@ const ShopItem = (props) => {
         <>
             <div
                 className={`item ${fading ? "pop-in" : ""} ${
-                    disabledControls && "show"
-                }`}
+                    disabledControls ? "show" : ""
+                } ${archived ? "archived" : ""}`}
                 style={{ animationDelay: 70 }}
             >
                 <div className="item-controls">
                     {!disabledControls && admin ? (
                         <div className="admin">
+                            <div className="archive">
+                                <button
+                                    className="item-control item-archive"
+                                    onClick={toggleArchiveItem}
+                                >
+                                    {archived ? "архив" : "каталог"}
+                                </button>
+                            </div>
                             <div className="edit">
                                 <button
                                     className="item-control item-edit"
@@ -110,22 +139,27 @@ const ShopItem = (props) => {
                     ) : null}
                 </div>
                 <div className="item-image">
-                    {!disabledControls && (
-                        <div className="item-hovered">
-                            <Link
-                                to={!disabledControls ? "/catalog/" + id : "#"}
-                            >
-                                Просмотреть товар
-                            </Link>
-                            <InCart
-                                update={() =>
-                                    props.hasOwnProperty("functions") &&
-                                    props.functions.getCart()
-                                }
-                                id={id}
-                            />
-                        </div>
-                    )}
+                    {archived ||
+                        (!disabledControls && (
+                            <div className="item-hovered">
+                                <Link
+                                    to={
+                                        !disabledControls
+                                            ? "/catalog/" + id
+                                            : "#"
+                                    }
+                                >
+                                    Просмотреть товар
+                                </Link>
+                                <InCart
+                                    update={() =>
+                                        props.hasOwnProperty("functions") &&
+                                        props.functions.getCart()
+                                    }
+                                    id={id}
+                                />
+                            </div>
+                        ))}
                     <img
                         src={imagesArray && imagesArray[0]}
                         className="item-img"
@@ -160,6 +194,7 @@ const ShopItem = (props) => {
                             discountPrice={discountPrice}
                             boughtCount={boughtCount}
                             category={category}
+                            archived={archived}
                             close={() => modal.current.close()}
                             getData={() => getData()}
                         />

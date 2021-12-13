@@ -14,6 +14,11 @@
             visibility: visible;
         }
     }
+    &.archived {
+        .item-image {
+            opacity: 0.3;
+        }
+    }
     &-hovered {
         opacity: 0;
         pointer-events: none;
@@ -105,6 +110,11 @@
         display: flex;
         align-self: baseline;
         margin-top: 5px;
+        .item-archive {
+            font-size: 14px;
+            padding: 12px 10px;
+            color: var(--textBlack);
+        }
         .item-edit {
             font-size: 14px;
             padding: 6.5px 5px;

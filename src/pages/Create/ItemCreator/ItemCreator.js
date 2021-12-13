@@ -18,6 +18,7 @@ const ItemCreator = (props) => {
     const [title, setTitle] = useState(props.title || "")
     const [imagesArray, setImagesArray] = useState(props.imagesArray || [""])
     const [description, setDescription] = useState(props.description || "")
+    const [archived, setArchived] = useState(props.archived || false)
     const [category, setCategory] = useState(props.category || "")
     const [drag, setDrag] = useState(false)
     const [gallery, setGallery] = useState([])
@@ -65,6 +66,7 @@ const ItemCreator = (props) => {
         setTitle(props.title ?? "")
         setImagesArray(props.imagesArray ?? [""])
         setDescription(props.description ?? "")
+        setArchived(props.archived ?? false)
         setPrice(props.price ?? "")
         setDiscountPrice(props.discountPrice ?? "")
         setDiscountPercent(
@@ -87,6 +89,7 @@ const ItemCreator = (props) => {
             timestamp: new Date().getTime(),
             text: title,
             boughtCount,
+            archived,
         }
         db.collection("All")
             .doc(data.id)
@@ -94,7 +97,7 @@ const ItemCreator = (props) => {
             .then(() => {
                 if (props.id === id || props.hasOwnProperty("close")) {
                     props.close()
-                    return  props.getData()
+                    return props.getData()
                 }
                 clearInputs()
             })
@@ -166,6 +169,10 @@ const ItemCreator = (props) => {
         let newTitle = e[0].toUpperCase()
         newTitle = newTitle + e.slice(1)
         setTitle(newTitle)
+    }
+    const handleArchive = (e) => {
+        e.preventDefault()
+        setArchived((archived) => !archived)
     }
     const onDragStart = (e) => {
         e.preventDefault()
@@ -394,6 +401,14 @@ const ItemCreator = (props) => {
                                 options={filters}
                                 placeholder="Выберите категорию"
                             />
+                            <div>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={(e) => handleArchive(e)}
+                                >
+                                    {archived ? "В Архиве" : "В Каталоге"}
+                                </button>
+                            </div>
                             <div>
                                 <button
                                     className="btn btn-warning"

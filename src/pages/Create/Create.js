@@ -122,10 +122,12 @@ const Create = () => {
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbBfHrizUe6bngDar6zG_DUcPblwxBczo-_Q&usqp=CAU",
             ],
             price: Math.ceil(Math.random() * 1000),
+            discountPrice: 0,
             description: "Lorem ipsum dolor",
             timestamp: new Date().getTime(),
             text: "Placeholder Item",
-            boughtCount: null,
+            boughtCount: "",
+            archived: true
         }
         db.collection("All").doc(data.id).set(data)
     }

@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react"
+import React, { useReducer, useEffect, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import {
     FILTERS,
@@ -18,9 +18,11 @@ import {
     local_category,
     local_searchText,
 } from "../../localStorage"
+import { authContext } from "./../Auth/auth-context"
 const db = app.firestore()
 
 export const CatalogState = ({ children }) => {
+    const { admin } = useContext(authContext)
     const initialState = {
         storage: JSON.parse(localStorage.getItem(local_cart_storage)) || [],
         filters: [],
@@ -79,7 +81,6 @@ export const CatalogState = ({ children }) => {
                     resolve(row)
                 })
                 promise.then((response) => {
-                    dispatch({ type: DATA, payload: response })
                     dispatch({ type: RESPONSE, payload: response })
                 })
             })
@@ -140,8 +141,14 @@ export const CatalogState = ({ children }) => {
     }
 
     const filterData = () => {
-        if (history.location.pathname === "/main") return
+        if (history.location.pathname === "/main")
+            return dispatch({ type: DATA, payload: rowData })
         let dataNew = [...rowData]
+        if (!admin) {
+            dataNew = dataNew.filter((item) => {
+                return !item.archived
+            })
+        }
         if (searchText !== "" && dataNew.length > 0) {
             dataNew = dataNew.filter((item) => {
                 return item.text.toLowerCase().includes(searchText)

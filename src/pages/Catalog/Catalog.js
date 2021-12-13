@@ -12,7 +12,7 @@ import { authContext } from "../../context/Auth/auth-context"
 import { catalogContext } from "../../context/catalog/catalog-context"
 import "./Catalog.scss"
 import FilterSection from "./FilterSection/FilterSection"
-const DeleteIcon = lazy(() => import("../../icons"))
+import { DeleteIcon } from "../../icons"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 const ItemCreator = lazy(() => import("../Create/ItemCreator/ItemCreator"))
 const db = app.firestore()
@@ -106,6 +106,7 @@ const Catalog = () => {
             setDataSlice(clone)
         }
     }
+
     return (
         <>
             <div id="catalog">
