@@ -111,6 +111,18 @@ export const CatalogState = ({ children }) => {
         }
     }
 
+    const uploadItem = (e, item) => {
+        e.preventDefault()
+        const data = {
+            ...item,
+            timestamp: new Date().getTime(),
+        }
+        let promise = new Promise((resolve, reject) => {
+            resolve(db.collection("All").doc(data.id).set(data))
+        })
+        return promise
+    }
+
     const deleteItemById = (ids = []) => {
         if (!ids.length) return
         let promises = []
@@ -281,9 +293,10 @@ export const CatalogState = ({ children }) => {
 
     return (
         <catalogContext.Provider
-            value={{
+            value={{uploadItem,
                 getData,
                 getById,
+                getFilters,
                 clearStorage,
                 findInStorage,
                 addToStorage,

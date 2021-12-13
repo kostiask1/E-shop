@@ -39,7 +39,7 @@ const AppWrapper = () => {
                 setLoading(
                     "Ваш айпи был заблокирован или у вас плохое соединение с сетью"
                 ),
-            2000
+            5000
         )
         return () => {
             clearTimeout(timeout)

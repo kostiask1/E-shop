@@ -10,7 +10,8 @@ import { catalogContext } from "../../context/catalog/catalog-context"
 const db = app.firestore()
 
 const Create = () => {
-    const { deleteFromStorage } = useContext(catalogContext)
+    const { deleteItemById, getFilters, uploadItem } =
+        useContext(catalogContext)
     const { admin } = useContext(authContext)
     const [filters, setFilters] = useState([])
     const [categoryToRemove, setCategoryToRemove] = useState("")
@@ -21,28 +22,13 @@ const Create = () => {
 
     useEffect(() => {
         if (admin) {
-            getFilters()
+            getFilters().then((resp) => setFilters(resp))
             getWhitelist()
         }
         //eslint-disable-next-line
     }, [admin])
 
     if (!admin) return null
-
-    const getFilters = async () => {
-        try {
-            let filt = await db.collection("categories").get()
-            filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = [])
-            if (filt.length) {
-                filt = Object.values(filt[0].categories)
-            }
-
-            setFilters(filt)
-            return filters
-        } catch (err) {
-            console.error(err)
-        }
-    }
 
     const getWhitelist = async () => {
         try {
@@ -68,13 +54,7 @@ const Create = () => {
         response.docs.forEach((item) => {
             items.push(item.data().id)
         })
-        deleteFromStorage(items)
-        items.forEach((id) => {
-            let item = db.collection("All").where("id", "==", id)
-            item.get().then((querySnapshot) => {
-                querySnapshot.docs[0].ref.delete()
-            })
-        })
+        deleteItemById(items)
     }
 
     const newFilter = (e) => {
@@ -114,7 +94,6 @@ const Create = () => {
     }
 
     const createRandom = (e) => {
-        e.preventDefault()
         const data = {
             category: "",
             id: uuidv4(),
@@ -124,12 +103,11 @@ const Create = () => {
             price: Math.ceil(Math.random() * 1000),
             discountPrice: 0,
             description: "Lorem ipsum dolor",
-            timestamp: new Date().getTime(),
             text: "Placeholder Item",
             boughtCount: "",
-            archived: true
+            archived: true,
         }
-        db.collection("All").doc(data.id).set(data)
+        uploadItem(e, data)
     }
 
     const blockByIp = (e) => {

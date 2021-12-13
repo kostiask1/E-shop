@@ -1,19 +1,21 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState, useContext } from "react"
 import { v4 as uuidv4 } from "uuid"
 import Modal from "../../../components/Modal/Modal"
 import { app } from "../../../base"
 import "./ItemCreator.scss"
 import { DropDown } from "../../../components/DropDown/DropDown"
 import Input from "../../../components/Input/Input"
-import { DeleteIcon, UploadIcon, ImageIcon } from "../../../icons"
+import { UploadIcon, ImageIcon } from "../../../icons"
 import { Carousel } from "react-responsive-carousel"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 import DragAndDrop from "../../../components/DragAndDrop/DragAndDrop"
 import ShopItem from "../../../components/ShopItem/ShopItem"
-const db = app.firestore()
+import { catalogContext } from "./../../../context/catalog/catalog-context"
+import Gallery from "../../../components/Gallery/Gallery"
 
 const ItemCreator = (props) => {
     const { item = {} } = props
+    const { getFilters, uploadItem } = useContext(catalogContext)
     const sumBtn = props.filters || props.new ? "Добавить" : "Обновить"
     const [filters, setFilters] = useState(props.filters || [])
     const [title, setTitle] = useState(item.text || "")
@@ -21,8 +23,6 @@ const ItemCreator = (props) => {
     const [description, setDescription] = useState(item.description || "")
     const [archived, setArchived] = useState(item.archived || false)
     const [category, setCategory] = useState(item.category || "")
-    const [drag, setDrag] = useState(false)
-    const [gallery, setGallery] = useState([])
     const [price, setPrice] = useState(item.price || "")
     const [discountPrice, setDiscountPrice] = useState(item.discountPrice || "")
     const [discountPercent, setDiscountPercent] = useState(
@@ -40,26 +40,14 @@ const ItemCreator = (props) => {
     }, [price])
 
     useEffect(() => {
-        if (filters && filters.length === 0) {
-            getFilters()
+        if (!filters || filters.length === 0) {
+            getFilters().then((resp) => setFilters(resp))
+        } else {
+            setFilters((prev) => (prev = props.filters))
         }
-        setFilters((prev) => (prev = props.filters))
         //eslint-disable-next-line
     }, [props.filters])
 
-    const getFilters = async () => {
-        try {
-            let filt = await db.collection("categories").get()
-            filt ? (filt = filt.docs.map((doc) => doc.data())) : (filt = [])
-            if (filt.length) {
-                filt = Object.values(filt[0].categories)
-            }
-            setFilters(filt)
-            return filters
-        } catch (err) {
-            console.error(err)
-        }
-    }
     const clearInputs = (e) => {
         if (e) e.preventDefault()
         setTitle(item.text ?? "")
@@ -77,7 +65,6 @@ const ItemCreator = (props) => {
         setCategory(item.category ?? "")
     }
     const newItem = (e) => {
-        e.preventDefault()
         const data = {
             category,
             id,
@@ -85,22 +72,19 @@ const ItemCreator = (props) => {
             price: +price,
             discountPrice: +discountPrice,
             description,
-            timestamp: new Date().getTime(),
             text: title,
             boughtCount,
             archived,
         }
-        db.collection("All")
-            .doc(data.id)
-            .set(data)
-            .then(() => {
-                if (item.id === id || props.hasOwnProperty("close")) {
-                    props.close()
-                    return props.getData()
-                }
-                clearInputs()
-            })
+        uploadItem(e, data).then(() => {
+            if (item.id === id || props.hasOwnProperty("close")) {
+                props.close()
+                return props.getData()
+            }
+            clearInputs()
+        })
     }
+
     const loadImages = async (e) => {
         try {
             let files = Array.from(e)
@@ -128,14 +112,6 @@ const ItemCreator = (props) => {
             console.error(err)
         }
     }
-    const deleteImage = async (file) => {
-        const storageRef = app.storage()
-        setGallery((gallery) => gallery.filter((img) => img !== file))
-        storageRef.refFromURL(file).delete(file)
-        let clone = [...imagesArray]
-        clone = clone.filter((img) => img !== file)
-        setImagesArray(clone)
-    }
     const clearImages = (event) => {
         event.preventDefault()
         setImagesArray([""])
@@ -145,22 +121,7 @@ const ItemCreator = (props) => {
         setImagesArray(item.imagesArray ?? [""])
     }
     const loadGallery = async (e) => {
-        if (e) {
-            e.preventDefault()
-        }
-        var storageRef = app.storage().ref()
-        var listRef = storageRef.child("images")
-        listRef.listAll().then(function (result) {
-            if (result.items.length === 0) return setGallery([])
-            let promises = result.items.map(function (imgRef) {
-                return imgRef.getDownloadURL().then(function (url) {
-                    return url
-                })
-            })
-            Promise.all(promises).then((items) => {
-                setGallery(items)
-            })
-        })
+        e.preventDefault()
         modal.current.open()
     }
     const handleTitle = (e) => {
@@ -172,31 +133,6 @@ const ItemCreator = (props) => {
     const handleArchive = (e) => {
         e.preventDefault()
         setArchived((archived) => !archived)
-    }
-    const onDragStart = (e) => {
-        e.preventDefault()
-        if (!e.target.classList.contains("img-fluid")) setDrag(true)
-    }
-    const onDragLeave = (e) => {
-        e.preventDefault()
-        setDrag(false)
-    }
-    const onDragLoad = (e) => {
-        e.preventDefault()
-        try {
-            let files = [...e.dataTransfer.files]
-            files.map((file) => {
-                if (
-                    !imagesArray.length ||
-                    (imagesArray.length === 1 && imagesArray[0] === "")
-                ) {
-                    modal.current.close()
-                }
-                return loadImages([file]).then(setDrag(false))
-            })
-        } catch (err) {
-            console.error(err)
-        }
     }
     const handleDiscountPercent = (percent) => {
         percent = +percent
@@ -248,6 +184,7 @@ const ItemCreator = (props) => {
         event.preventDefault()
         setImagesArray((prevArray) => prevArray.concat(""))
     }
+
     return (
         <div className="item-creator">
             <div className="row">
@@ -571,85 +508,13 @@ const ItemCreator = (props) => {
             </div>
 
             <Modal ref={modal} size="xl">
-                {modal.current && modal.current.visible.current && (
-                    <div
-                        className={`modal-wrapper ${
-                            drag || !gallery.length ? "dragging" : ""
-                        }`}
-                        onDragStart={(e) => onDragStart(e)}
-                        onDragLeave={(e) => onDragLeave(e)}
-                        onDragOver={(e) => onDragStart(e)}
-                        onMouseUp={() => setDrag(false)}
-                        onDrop={(e) => onDragLoad(e)}
-                    >
-                        {!drag && gallery.length > 0 ? (
-                            <div className="row images-catalog">
-                                {gallery.map((img, idx) => (
-                                    <div className="item pop-in" key={idx}>
-                                        <div className="item-controls">
-                                            <div className="edit"></div>
-                                            <div className="delete">
-                                                <button
-                                                    onClick={() =>
-                                                        deleteImage(img)
-                                                    }
-                                                    className="item-control item-delete"
-                                                >
-                                                    <DeleteIcon />
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <span className="image-format">
-                                            {/\b(?:.jpg|.webp|.png|.svg)\b/gi.exec(
-                                                img
-                                            )}
-                                        </span>
-                                        <img
-                                            className="item-img img-fluid"
-                                            src={img}
-                                            alt=""
-                                            onClick={() => {
-                                                setImagesArray((prevArray) =>
-                                                    prevArray.concat(img)
-                                                )
-                                                modal.current.close()
-                                            }}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div style={{ height: "100%" }}>
-                                Перетащите файлы сюда...
-                            </div>
-                        )}
-                        <div className="modal-controls">
-                            <label
-                                className="btn btn-success btn-expanded"
-                                htmlFor="loadFile"
-                            >
-                                Загрузить файл&nbsp;&nbsp;&nbsp;&nbsp;
-                                <UploadIcon
-                                    fill="var(--main)"
-                                    height="1.4em"
-                                    viewbox="0 0 20 24"
-                                />
-                            </label>
-                            <input
-                                className="hidden"
-                                type="file"
-                                name="loadFile"
-                                id="loadFile"
-                                onChange={(e) => loadImages(e.target.files)}
-                            />
-                            <button
-                                className="btn btn-primary"
-                                onClick={() => modal.current.close()}
-                            >
-                                Закрыть
-                            </button>
-                        </div>
-                    </div>
+                {modal.current && (
+                    <Gallery
+                        imagesArray={imagesArray}
+                        setImagesArray={setImagesArray}
+                        loadImages={loadImages}
+                        close={modal.current.close}
+                    />
                 )}
             </Modal>
         </div>
