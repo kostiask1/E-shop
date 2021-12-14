@@ -24,7 +24,7 @@ const routesSub = [
 
 function App() {
     const { auth, admin } = useContext(authContext)
-    const location = useLocation()
+    const { pathname } = useLocation()
 
     useEffect(() => {
         if (process.env.NODE_ENV === "development") {
@@ -38,7 +38,7 @@ function App() {
     useEffect(() => {
         const root = document.getElementById("root")
         root.scrollTop = 0
-    }, [location.pathname])
+    }, [pathname])
 
     return (
         <CatalogState>

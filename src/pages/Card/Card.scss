@@ -6,6 +6,40 @@
     color: var(--main-1);
     .row {
         width: 100%;
+        @media (max-width: 470px) {
+            flex-direction: column;
+            & > .img {
+                width: 100%;
+            }
+
+            & > .text-info {
+                margin-left: 0;
+                margin-top: 1rem;
+                width: 100%;
+                h1 {
+                    font-size: 2.3rem;
+                }
+                .price {
+                    &-was {
+                        font-size: 1.2rem;
+                    }
+                    &-now {
+                        font-size: 1.6rem;
+                    }
+                }
+                .description {
+                    margin-top: 1rem;
+                    font-size: 1.3rem;
+                }
+                .cart-control {
+                    margin-top: 2.5rem;
+                    .item-control {
+                        padding: 1.3rem;
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+        }
     }
     .admin {
         position: absolute;
