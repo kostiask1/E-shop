@@ -51,16 +51,18 @@ const PurchaseForm = ({ buy }) => {
         let params = {
             name,
             phone,
-            address,
             city,
-            service,
             payment,
             message,
             deliveryType,
             email,
         }
+        deliveryType === "courier"
+            ? (params["address"] = address)
+            : (params["service"] = service)
         service === "nova"
-            ? (params["department"] = department)
+            ? deliveryType === "department" &&
+              (params["department"] = department)
             : (params["code"] = code)
         buy(params)
     }
