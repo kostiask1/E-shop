@@ -73,7 +73,7 @@ const Cart = ({ close }) => {
                                           }
                               \nГород: <i>${city}</i>\n${
                                               address
-                                                  ? "Адрес доставки: <i>${address}</i>\n"
+                                                  ? `Адрес доставки: <i>${address}</i>\n`
                                                   : ""
                                           }Тип почты: ${
                                               service === "nova"
