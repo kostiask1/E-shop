@@ -56,10 +56,11 @@ const PurchaseForm = ({ buy }) => {
             message,
             deliveryType,
             email,
+            service,
         }
-        deliveryType === "courier"
-            ? (params["address"] = address)
-            : (params["service"] = service)
+        if (deliveryType === "courier") {
+            params["address"] = address
+        }
         service === "nova"
             ? deliveryType === "department" &&
               (params["department"] = department)

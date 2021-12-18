@@ -26,12 +26,12 @@ const AppWrapper = () => {
     }
 
     useEffect(() => {
-        fetch("https://api.db-ip.com/v2/free/self")
+        fetch("http://ip.jsontest.com/")
             .then((response) => {
                 return response.json()
             })
             .then((data) => {
-                setIp(data.ipAddress)
+                setIp(data.ip)
             })
             .catch(() => {
                 setIp("0")
