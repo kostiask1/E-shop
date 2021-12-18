@@ -9,17 +9,6 @@ const AppWrapper = () => {
     const [ip, setIp] = useState(0)
     const [whitelist, setWhitelist] = useState(null)
 
-    fetch("https://api.db-ip.com/v2/free/self")
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            setIp(data.ipAddress)
-        })
-        .catch(() => {
-            setIp("0")
-        })
-
     const getWhitelist = async () => {
         try {
             let gotWhitelist = await db.collection("whitelist").get()
@@ -37,6 +26,16 @@ const AppWrapper = () => {
     }
 
     useEffect(() => {
+        fetch("https://api.db-ip.com/v2/free/self")
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                setIp(data.ipAddress)
+            })
+            .catch(() => {
+                setIp("0")
+            })
         getWhitelist()
         const timeout = setTimeout(
             () =>
