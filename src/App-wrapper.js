@@ -8,13 +8,17 @@ const AppWrapper = () => {
     const [loading, setLoading] = useState("")
     const [ip, setIp] = useState(0)
     const [whitelist, setWhitelist] = useState(null)
-    
-    fetch("https://www.cloudflare.com/cdn-cgi/trace").then(async (data) => {
-        let response = await data.text()
-        let gotIp = response.split("\n")[2]
-        gotIp = gotIp.slice(3, -1)
-        setIp(gotIp)
-    })
+
+    fetch("https://api.db-ip.com/v2/free/self")
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            setIp(data.ipAddress)
+        })
+        .catch(() => {
+            setIp("0")
+        })
 
     const getWhitelist = async () => {
         try {
@@ -39,7 +43,7 @@ const AppWrapper = () => {
                 setLoading(
                     "Ваш айпи был заблокирован или у вас плохое соединение с сетью"
                 ),
-            5000
+            15000
         )
         return () => {
             clearTimeout(timeout)

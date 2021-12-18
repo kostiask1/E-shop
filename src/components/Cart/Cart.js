@@ -43,11 +43,12 @@ const Cart = ({ close }) => {
         email,
     }) => {
         requestCount < buyLimit &&
-            fetch("https://www.cloudflare.com/cdn-cgi/trace").then(
-                async (data) => {
-                    let response = await data.text()
-                    let ip = response.split("\n")[2]
-                    ip = ip.slice(3, -1)
+            fetch("https://api.db-ip.com/v2/free/self")
+                .then((response) => {
+                    return response.json()
+                })
+                .then((data) => {
+                    const ip = data.ipAddress
                     axios
                         .get(
                             `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
@@ -120,8 +121,7 @@ const Cart = ({ close }) => {
                             )
                             localStorage.setItem("requestTimestamp", now())
                         })
-                }
-            )
+                })
     }
     useEffect(() => {
         if (requestTimestamp && now() - day > requestTimestamp) {
