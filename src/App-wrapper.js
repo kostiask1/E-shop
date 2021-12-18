@@ -26,12 +26,17 @@ const AppWrapper = () => {
     }
 
     useEffect(() => {
-        fetch("http://ip.jsontest.com/")
+        // https://www.cloudflare.com/cdn-cgi/trace
+        fetch("https://api.db-ip.com/v2/free/self")
             .then((response) => {
                 return response.json()
             })
             .then((data) => {
-                setIp(data.ip)
+                if (data.hasOwnProperty("error")) {
+                    throw new Error(data.error)
+                } else {
+                    setIp(data.ipAddress)
+                }
             })
             .catch(() => {
                 setIp("0")

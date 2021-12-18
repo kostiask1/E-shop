@@ -43,12 +43,12 @@ const Cart = ({ close }) => {
         email,
     }) => {
         requestCount < buyLimit &&
-            fetch("http://ip.jsontest.com/")
+            fetch("https://api.db-ip.com/v2/free/self")
                 .then((response) => {
                     return response.json()
                 })
                 .then((data) => {
-                    const ip = data.ip
+                    const ip = data.ipAddress
                     axios
                         .get(
                             `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
