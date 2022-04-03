@@ -1,6 +1,7 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-import "firebase/storage";
+import firebase from "firebase/app"
+import "firebase/firestore"
+import "firebase/storage"
+import "firebase/auth"
 
 export const app = firebase.initializeApp({
     projectId: "e-shop-d051e",
@@ -12,4 +13,4 @@ export const app = firebase.initializeApp({
     apiKey: "AIzaSyACbkEzWwbaNw9RYxCQxaMygVljKavpdxg",
     authDomain: "e-shop-d051e.firebaseapp.com",
     messagingSenderId: "855311977355",
-});
+})
