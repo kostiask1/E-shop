@@ -26,20 +26,23 @@ const AppWrapper = () => {
     }
 
     useEffect(() => {
-        // https://www.cloudflare.com/cdn-cgi/trace
-        fetch("https://api.db-ip.com/v2/free/self")
-            .then((response) => {
-                return response.json()
-            })
+        fetch("https://www.cloudflare.com/cdn-cgi/trace")
+            .then((response) => response.text())
             .then((data) => {
-                if (data.hasOwnProperty("error")) {
-                    throw new Error(data.error)
-                } else {
-                    setIp(data.ipAddress)
-                }
+                setIp(data.split("\n")[2].slice(3, -1))
             })
             .catch(() => {
-                setIp("0")
+                fetch("https://api.db-ip.com/v2/free/self")
+                    .then((response) => {
+                        return response.json()
+                    })
+                    .then((data) => {
+                        if (data.hasOwnProperty("error")) {
+                            setIp("0")
+                        } else {
+                            setIp(data.ipAddress)
+                        }
+                    })
             })
         getWhitelist()
         const timeout = setTimeout(

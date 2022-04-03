@@ -29,67 +29,94 @@ const Cart = ({ close }) => {
     const day = 86400000
     const buyLimit = process.env.NODE_ENV === "development" ? 100 : 5
     const now = () => new Date().getTime()
-    const sendRequest = ({
-        name,
-        code,
-        phone,
-        address,
-        city,
-        service,
-        payment,
-        message,
-        department,
-        deliveryType,
-        email,
-    }) => {
+    const sendRequest = (params) => {
         requestCount < buyLimit &&
-            fetch("https://api.db-ip.com/v2/free/self")
-                .then((response) => {
-                    return response.json()
-                })
+            fetch("https://www.cloudflare.com/cdn-cgi/trace")
+                .then((response) => response.text())
                 .then((data) => {
-                    const ip = data.ipAddress
-                    axios
-                        .get(
-                            `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
-                            {
-                                params: {
-                                    text: cart.length
-                                        ? `<b>${name} (${ip}) заказал(а):</b>${cart.map(
-                                              (item) =>
-                                                  `\n<a href="${link}/${
-                                                      item.id
-                                                  }"> - ${item.text}</a>: ${
-                                                      item.discountPrice
-                                                          ? `${item.discountPrice} грн. (со скидкой)`
-                                                          : `${item.price} грн.`
-                                                  }`
-                                          )}\n\nПолучатель <b>${name}</b>:
+                    let ip = data.split("\n")[2].slice(3, -1)
+                    sendTelegramMessage(ip, params)
+                })
+                .catch(() => {
+                    fetch("https://api.db-ip.com/v2/free/self")
+                        .then((response) => {
+                            return response.json()
+                        })
+                        .then((data) => {
+                            if (data.hasOwnProperty("error")) {
+                                let ip = false
+                                sendTelegramMessage({
+                                    ip,
+                                    params,
+                                })
+                            } else {
+                                let ip = data.ipAddress
+                                sendTelegramMessage({
+                                    ip,
+                                    params,
+                                })
+                            }
+                        })
+                })
+    }
+
+    const sendTelegramMessage = ({ ip, params }) => {
+        const {
+            name,
+            code,
+            phone,
+            address,
+            city,
+            service,
+            payment,
+            message,
+            department,
+            deliveryType,
+            email,
+        } = params
+        axios
+            .get(
+                `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
+                {
+                    params: {
+                        text: cart.length
+                            ? `<b>${name}${
+                                  ip !== false ? ` (${ip})` : ""
+                              } заказал(а):</b>${cart.map(
+                                  (item) =>
+                                      `\n<a href="${link}/${item.id}"> - ${
+                                          item.text
+                                      }</a>: ${
+                                          item.discountPrice
+                                              ? `${item.discountPrice} грн. (со скидкой)`
+                                              : `${item.price} грн.`
+                                      }`
+                              )}\n\nПолучатель <b>${name}</b>:
                               \nТелефон: <i>${phone}</i>\n${
-                                              email && `E-mail: <i>${email}</i>`
-                                          }\n\nТип Доставки: ${
-                                              deliveryType === "department"
-                                                  ? "<i>Отделение почты</i>"
-                                                  : "<i>Курьерская доставка</i>"
-                                          }\nГород: <i>${city}</i>\n${
-                                              address
-                                                  ? `Адрес доставки: <i>${address}</i>\n`
-                                                  : ""
-                                          }Тип почты: ${
-                                              service === "nova"
-                                                  ? "Нова пошта"
-                                                  : "Укр пошта"
-                                          }\n${
-                                              deliveryType === "department"
-                                                  ? code
-                                                      ? `Почтовый индекс: <i>${code}</i>`
-                                                      : `Отделение новой почты: <i>${department}</i>`
-                                                  : ""
-                                          }\nТип платежа: <i>${
-                                              payment === "cod"
-                                                  ? "Наложенный платёж"
-                                                  : "Картой"
-                                          }</i>
+                                  email && `E-mail: <i>${email}</i>`
+                              }\n\nТип Доставки: ${
+                                  deliveryType === "department"
+                                      ? "<i>Отделение почты</i>"
+                                      : "<i>Курьерская доставка</i>"
+                              }\nГород: <i>${city}</i>\n${
+                                  address
+                                      ? `Адрес доставки: <i>${address}</i>\n`
+                                      : ""
+                              }Тип почты: ${
+                                  service === "nova"
+                                      ? "Нова пошта"
+                                      : "Укр пошта"
+                              }\n${
+                                  deliveryType === "department"
+                                      ? code
+                                          ? `Почтовый индекс: <i>${code}</i>`
+                                          : `Отделение новой почты: <i>${department}</i>`
+                                      : ""
+                              }\nТип платежа: <i>${
+                                  payment === "cod"
+                                      ? "Наложенный платёж"
+                                      : "Картой"
+                              }</i>
                               \nОбщая сумма заказа: <b>${cart.reduce(
                                   (acc, obj) => {
                                       return (
@@ -101,28 +128,24 @@ const Cart = ({ close }) => {
                                   },
                                   0
                               )} грн.</b>\n${
-                                              message &&
-                                              `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
-                                          }`
-                                        : null,
-                                    parse_mode: "HTML",
-                                },
-                            }
-                        )
-                        .then((response) => {
-                            if (response.status === 200) {
-                                setRequestFinished(true)
-                                clearStorage()
-                                getStorage()
-                            }
-                            setRequestCount((requests) => requests + 1)
-                            localStorage.setItem(
-                                "requestCount",
-                                requestCount + 1
-                            )
-                            localStorage.setItem("requestTimestamp", now())
-                        })
-                })
+                                  message &&
+                                  `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
+                              }`
+                            : null,
+                        parse_mode: "HTML",
+                    },
+                }
+            )
+            .then((response) => {
+                if (response.status === 200) {
+                    setRequestFinished(true)
+                    clearStorage()
+                    getStorage()
+                }
+                setRequestCount((requests) => requests + 1)
+                localStorage.setItem("requestCount", requestCount + 1)
+                localStorage.setItem("requestTimestamp", now())
+            })
     }
     useEffect(() => {
         if (requestTimestamp && now() - day > requestTimestamp) {
