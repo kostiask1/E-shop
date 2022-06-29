@@ -1,113 +1,113 @@
 .page .item-creator {
-    padding: 1.5rem 2rem;
-    & > .row {
-        justify-content: space-around;
-        flex-direction: row;
-        & > div:first-child {
-            width: 45%;
-        }
-        & > div:last-child {
-            width: 53%;
-            margin-left: 3rem;
-        }
-        @media (max-width: 768px) {
-            flex-direction: column;
-            & > div:first-child {
-                width: 100%;
-            }
-            & > div:last-child {
-                margin-left: 0;
-                margin-top: 2rem;
-                width: 100%;
-            }
-        }
-        & > div {
-            height: 100%;
-        }
+  padding: 1.5rem 2rem;
+  & > .row {
+    justify-content: space-around;
+    flex-direction: row;
+    & > div:first-child {
+      width: 45%;
     }
-    .btn {
-        font-size: 0.8rem;
+    & > div:last-child {
+      width: 53%;
+      margin-left: 3rem;
     }
-    .btn {
-        display: inline-block;
-        margin-bottom: 0;
-    }
-    .swap-wrap {
-        text-align: center;
-    }
-    form .row {
-        flex-direction: column;
-        & > div {
-            width: 100%;
-            margin-top: 10px;
-        }
-    }
-    .img {
-        position: relative;
-        max-width: 60%;
-        img {
-            object-position: top;
-        }
-    }
-    .item-preview {
-        h1 {
-            text-transform: unset;
-        }
-        .row {
-            flex-direction: row;
-            margin-top: 1rem;
-        }
-        .item {
-            max-width: 300px;
-        }
-        .control-dots {
-            padding: 0 5px;
-            background-color: rgba(0, 0, 0, 0.4);
-            opacity: 1;
-        }
-        .text-info {
-            flex: 1 1;
-            margin-left: 1rem;
-            .description {
-                padding: 0.7rem 0;
-            }
-        }
-        .card-preview {
-            display: flex;
-            & * {
-                color: inherit;
-                font-family: Manrope;
-                font-weight: 300;
-                color: var(--main-1);
-            }
-            .price {
-                &-was {
-                    display: inline-block;
-                    font-size: 1rem;
-                    color: var(--gray);
-                    margin-right: 5px;
-                }
-                &-now {
-                    display: inline-block;
-                    margin-top: 10px;
-                    font-size: 1.3em;
-                }
-            }
-            &.archived {
-                img,
-                p,
-                h1,
-                .description {
-                    opacity: 0.4;
-                }
-            }
-        }
-    }
-    select {
+    @media (max-width: 768px) {
+      flex-direction: column;
+      & > div:first-child {
         width: 100%;
+      }
+      & > div:last-child {
+        margin-left: 0;
+        margin-top: 2rem;
+        width: 100%;
+      }
     }
+    & > div {
+      height: 100%;
+    }
+  }
+  .btn {
+    font-size: 0.8rem;
+  }
+  .btn {
+    display: inline-block;
+    margin-bottom: 0;
+  }
+  .swap-wrap {
+    text-align: center;
+  }
+  form .row {
+    flex-direction: column;
+    & > div {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+  .img {
+    position: relative;
+    max-width: 60%;
+    img {
+      object-position: top;
+    }
+  }
+  .item-preview {
+    h1 {
+      text-transform: unset;
+    }
+    .row {
+      flex-direction: row;
+      margin-top: 1rem;
+    }
+    .item {
+      max-width: 300px;
+    }
+    .control-dots {
+      padding: 0 5px;
+      background-color: rgba(0, 0, 0, 0.4);
+      opacity: 1;
+    }
+    .text-info {
+      flex: 1 1;
+      margin-left: 1rem;
+      .description {
+        padding: 0.7rem 0;
+      }
+    }
+    .card-preview {
+      display: flex;
+      & * {
+        color: inherit;
+        font-family: Manrope;
+        font-weight: 300;
+        color: var(--main-1);
+      }
+      .price {
+        &-was {
+          display: inline-block;
+          font-size: 1rem;
+          color: var(--gray);
+          margin-right: 5px;
+        }
+        &-now {
+          display: inline-block;
+          margin-top: 10px;
+          font-size: 1.3em;
+        }
+      }
+      &.archived {
+        img,
+        p,
+        h1,
+        .description {
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+  select {
+    width: 100%;
+  }
 }
 .modal .item-creator {
-    overflow: scroll;
-    height: 85vh;
+  overflow: scroll;
+  height: 85vh;
 }

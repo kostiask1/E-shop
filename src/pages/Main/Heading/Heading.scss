@@ -1,69 +1,69 @@
 .heading {
-    margin: 0 auto;
-    margin-bottom: 12rem;
-    margin-top: 120px;
-    position: relative;
-    text-align: center;
-    width: 75%;
-    .img-wrapper {
-        display: flex;
-        flex-direction: row;
-        img,
-        div {
-            width: 100%;
-        }
-        img:first-child {
-            padding-right: 10px;
-        }
-        img:last-child {
-            padding-left: 10px;
-        }
-        @media (max-width: 767px) {
-            flex-direction: column;
-        }
+  margin: 0 auto;
+  margin-bottom: 12rem;
+  margin-top: 120px;
+  position: relative;
+  text-align: center;
+  width: 75%;
+  .img-wrapper {
+    display: flex;
+    flex-direction: row;
+    img,
+    div {
+      width: 100%;
     }
-    .sticker {
-        width: 5rem;
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        transform: translateX(50%);
+    img:first-child {
+      padding-right: 10px;
     }
-    .circle {
-        position: absolute;
-        display: flex;
-        top: 0;
-        left: 0;
-        border-radius: 100%;
-        background-color: var(--main-1);
-        width: 10rem;
-        height: 10rem;
-        align-items: center;
-        justify-content: center;
-        transform: translate(-50%, -50%);
-        color: #fff;
-        font-family: Cormorant Garamond;
-        font-weight: 600;
-        font-size: 1.5rem;
-        line-height: 1.3;
+    img:last-child {
+      padding-left: 10px;
     }
-    p.call-to-action {
-        text-align: left;
-        font-family: Cormorant Garamond;
-        font-weight: 600;
-        font-size: 2.8rem;
-        color: transparent;
-        -webkit-text-stroke: 1px var(--main-1);
-        animation: 3s CTA ease-in-out infinite;
-        @keyframes CTA {
-            0%,
-            100% {
-                opacity: 0;
-            }
-            25%,
-            75% {
-                opacity: 1;
-            }
-        }
+    @media (max-width: 767px) {
+      flex-direction: column;
     }
+  }
+  .sticker {
+    width: 5rem;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: translateX(50%);
+  }
+  .circle {
+    position: absolute;
+    display: flex;
+    top: 0;
+    left: 0;
+    border-radius: 100%;
+    background-color: var(--main-1);
+    width: 10rem;
+    height: 10rem;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-family: Cormorant Garamond;
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+  p.call-to-action {
+    text-align: left;
+    font-family: Cormorant Garamond;
+    font-weight: 600;
+    font-size: 2.8rem;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--main-1);
+    animation: 3s CTA ease-in-out infinite;
+    @keyframes CTA {
+      0%,
+      100% {
+        opacity: 0;
+      }
+      25%,
+      75% {
+        opacity: 1;
+      }
+    }
+  }
 }

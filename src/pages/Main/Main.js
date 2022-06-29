@@ -6,15 +6,15 @@ import Tout from "./Tout/Tout"
 import { Footer } from "../../layout/footer/footer"
 
 const Main = () => {
-    return (
-        <>
-            <Heading />
-            <About />
-            <MainCarousel />
-            <Tout />
-            <Footer />
-        </>
-    )
+  return (
+    <>
+      <Heading />
+      <About />
+      <MainCarousel />
+      <Tout />
+      <Footer />
+    </>
+  )
 }
 
 export default Main

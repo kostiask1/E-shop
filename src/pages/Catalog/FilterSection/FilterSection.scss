@@ -1,38 +1,38 @@
 .filter-section {
-    display: flex;
-    align-items: center;
-    padding-top: 1.5em;
-    padding-bottom: 1em;
-    margin-bottom: 3rem;
-    position: sticky;
-    background-color: var(--main);
-    z-index: 11;
-    @media (max-width: 767px) {
-        top: 36px;
-        padding: 1em 0px;
-        justify-content: center;
-        width: 100%;
-    }
-    .input-component-wrapper {
-        span {
-            margin: 0;
-        }
-    }
-
+  display: flex;
+  align-items: center;
+  padding-top: 1.5em;
+  padding-bottom: 1em;
+  margin-bottom: 3rem;
+  position: sticky;
+  background-color: var(--main);
+  z-index: 11;
+  @media (max-width: 767px) {
+    top: 36px;
+    padding: 1em 0px;
+    justify-content: center;
+    width: 100%;
+  }
+  .input-component-wrapper {
     span {
-        color: var(--main-2);
-        display: inline-block;
-        margin: 0px 1rem;
+      margin: 0;
     }
+  }
 
-    span,
-    input::placeholder,
-    button {
-        font-family: Manrope;
-        font-weight: 300;
-    }
-    button {
-        height: 30px;
-        padding: 0 10px;
-    }
+  span {
+    color: var(--main-2);
+    display: inline-block;
+    margin: 0px 1rem;
+  }
+
+  span,
+  input::placeholder,
+  button {
+    font-family: Manrope;
+    font-weight: 300;
+  }
+  button {
+    height: 30px;
+    padding: 0 10px;
+  }
 }

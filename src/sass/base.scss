@@ -1,68 +1,68 @@
 body {
-    margin: 0;
-    overflow: hidden;
-    height: 100vh;
-    width: 100%;
-    font-family: -apple-system, BlinkMacSystemFont, "Arial", "Segoe UI",
-        "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-        "Helvetica Neue", sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Arial", "Segoe UI", "Roboto",
+    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 html {
-    font-size: 16px;
-    @media (max-width: 991px) {
-        font-size: 14px;
-    }
-    @media (max-width: 767px) {
-        font-size: 12px;
-    }
-    @media (max-width: 500px) {
-        font-size: 11px;
-    }
+  font-size: 16px;
+  @media (max-width: 991px) {
+    font-size: 14px;
+  }
+  @media (max-width: 767px) {
+    font-size: 12px;
+  }
+  @media (max-width: 500px) {
+    font-size: 11px;
+  }
 }
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-        monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 a,
 button,
 select {
-    font-size: 1rem;
-    cursor: pointer;
+  font-size: 1rem;
+  cursor: pointer;
 }
 label {
-    margin-bottom: 0.5em;
-    margin-right: 0.5em;
+  margin-bottom: 0.5em;
+  margin-right: 0.5em;
 }
 textarea {
-    resize: none;
-    background-color: var(--main);
+  resize: none;
+  background-color: var(--main);
 }
 input,
 textarea,
 .input {
-    font-size: 0.9rem;
-    width: 100%;
-    padding: 8px 15px;
-    border: 1px solid var(--main-2);
-    color: var(--main-2);
-    border-radius: 4px;
-    outline: none;
-    &::placeholder {
-        color: rgba(var(--main-2-transparent), 0.7);
-    }
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 8px 15px;
+  border: 1px solid var(--main-2);
+  color: var(--main-2);
+  border-radius: 4px;
+  outline: none;
+  &::placeholder {
+    color: rgba(var(--main-2-transparent), 0.7);
+  }
 }
 select {
-    padding: 5px;
-    padding-left: 12px;
+  padding: 5px;
+  padding-left: 12px;
 }
 ul {
-    padding-left: 0;
-    list-style: none;
+  padding-left: 0;
+  list-style: none;
 }
 h1,
 h2,
@@ -70,7 +70,7 @@ h3,
 h4,
 h5,
 h6 {
-    text-transform: capitalize;
+  text-transform: capitalize;
 }
 h1,
 h2,
@@ -82,13 +82,13 @@ p,
 input,
 option,
 a {
-    color: var(--black);
+  color: var(--black);
 }
 p {
-    word-break: break-word;
+  word-break: break-word;
 }
 hr {
-    height: 1px;
-    border: unset;
-    background-color: var(--gray);
+  height: 1px;
+  border: unset;
+  background-color: var(--gray);
 }

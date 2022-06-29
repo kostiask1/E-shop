@@ -1,10 +1,10 @@
 import React, {
-    useEffect,
-    useState,
-    useRef,
-    useContext,
-    Suspense,
-    lazy,
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+  Suspense,
+  lazy,
 } from "react"
 import { catalogContext } from "../../context/catalog/catalog-context"
 import "./Cart.scss"
@@ -14,235 +14,220 @@ import ShortItem from "./ShortItem/ShortItem"
 const Modal = lazy(() => import("../../components/Modal/Modal"))
 
 const Cart = ({ close }) => {
-    const { cart, clearStorage, getStorage, deleteFromStorage } =
-        useContext(catalogContext)
-    const [loading, setLoading] = useState("")
-    const [requestCount, setRequestCount] = useState(
-        JSON.parse(localStorage.getItem("requestCount")) ?? 0
-    )
-    const [requestTimestamp, setRequestTimestamp] = useState(
-        JSON.parse(localStorage.getItem("requestTimestamp"))
-    )
-    const [requestFinished, setRequestFinished] = useState(false)
-    const link = "https://" + window.location.hostname + "/catalog"
-    const modal = useRef(null)
-    const day = 86400000
-    const buyLimit = process.env.NODE_ENV === "development" ? 100 : 5
-    const now = () => new Date().getTime()
-    const sendRequest = (params) => {
-        requestCount < buyLimit &&
-            fetch("https://www.cloudflare.com/cdn-cgi/trace")
-                .then((response) => response.text())
-                .then((data) => {
-                    let ip = data.split("\n")[2].slice(3, -1)
-                    sendTelegramMessage(ip, params)
-                })
-                .catch(() => {
-                    fetch("https://api.db-ip.com/v2/free/self")
-                        .then((response) => {
-                            return response.json()
-                        })
-                        .then((data) => {
-                            if (data.hasOwnProperty("error")) {
-                                let ip = false
-                                sendTelegramMessage({
-                                    ip,
-                                    params,
-                                })
-                            } else {
-                                let ip = data.ipAddress
-                                sendTelegramMessage({
-                                    ip,
-                                    params,
-                                })
-                            }
-                        })
-                })
-    }
-
-    const sendTelegramMessage = ({ ip, params }) => {
-        const {
-            name,
-            code,
-            phone,
-            address,
-            city,
-            service,
-            payment,
-            message,
-            department,
-            deliveryType,
-            email,
-        } = params
-        axios
-            .get(
-                `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
-                {
-                    params: {
-                        text: cart.length
-                            ? `<b>${name}${
-                                  ip !== false ? ` (${ip})` : ""
-                              } заказал(а):</b>${cart.map(
-                                  (item) =>
-                                      `\n<a href="${link}/${item.id}"> - ${
-                                          item.text
-                                      }</a>: ${
-                                          item.discountPrice
-                                              ? `${item.discountPrice} грн. (со скидкой)`
-                                              : `${item.price} грн.`
-                                      }`
-                              )}\n\nПолучатель <b>${name}</b>:
-                              \nТелефон: <i>${phone}</i>\n${
-                                  email && `E-mail: <i>${email}</i>`
-                              }\n\nТип Доставки: ${
-                                  deliveryType === "department"
-                                      ? "<i>Отделение почты</i>"
-                                      : "<i>Курьерская доставка</i>"
-                              }\nГород: <i>${city}</i>\n${
-                                  address
-                                      ? `Адрес доставки: <i>${address}</i>\n`
-                                      : ""
-                              }Тип почты: ${
-                                  service === "nova"
-                                      ? "Нова пошта"
-                                      : "Укр пошта"
-                              }\n${
-                                  deliveryType === "department"
-                                      ? code
-                                          ? `Почтовый индекс: <i>${code}</i>`
-                                          : `Отделение новой почты: <i>${department}</i>`
-                                      : ""
-                              }\nТип платежа: <i>${
-                                  payment === "cod"
-                                      ? "Наложенный платёж"
-                                      : "Картой"
-                              }</i>
-                              \nОбщая сумма заказа: <b>${cart.reduce(
-                                  (acc, obj) => {
-                                      return (
-                                          acc +
-                                          (obj.discountPrice
-                                              ? obj.discountPrice
-                                              : obj.price)
-                                      )
-                                  },
-                                  0
-                              )} грн.</b>\n${
-                                  message &&
-                                  `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
-                              }`
-                            : null,
-                        parse_mode: "HTML",
-                    },
-                }
-            )
+  const { cart, clearStorage, getStorage, deleteFromStorage } = useContext(
+    catalogContext
+  )
+  const [loading, setLoading] = useState("")
+  const [requestCount, setRequestCount] = useState(
+    JSON.parse(localStorage.getItem("requestCount")) ?? 0
+  )
+  const [requestTimestamp, setRequestTimestamp] = useState(
+    JSON.parse(localStorage.getItem("requestTimestamp"))
+  )
+  const [requestFinished, setRequestFinished] = useState(false)
+  const link = "https://" + window.location.hostname + "/catalog"
+  const modal = useRef(null)
+  const day = 86400000
+  const buyLimit = process.env.NODE_ENV === "development" ? 100 : 5
+  const now = () => new Date().getTime()
+  const sendRequest = (params) => {
+    requestCount < buyLimit &&
+      fetch("https://www.cloudflare.com/cdn-cgi/trace")
+        .then((response) => response.text())
+        .then((data) => {
+          let ip = data.split("\n")[2].slice(3, -1)
+          sendTelegramMessage(ip, params)
+        })
+        .catch(() => {
+          fetch("https://api.db-ip.com/v2/free/self")
             .then((response) => {
-                if (response.status === 200) {
-                    setRequestFinished(true)
-                    clearStorage()
-                    getStorage()
-                }
-                setRequestCount((requests) => requests + 1)
-                localStorage.setItem("requestCount", requestCount + 1)
-                localStorage.setItem("requestTimestamp", now())
+              return response.json()
             })
-    }
-    useEffect(() => {
-        if (requestTimestamp && now() - day > requestTimestamp) {
-            setRequestCount(0)
-            setRequestTimestamp(null)
-            localStorage.setItem("requestCount", 0)
-            localStorage.setItem("requestTimestamp", null)
-        }
-        getStorage()
-        const timeout = setTimeout(() => setLoading(""), 2000)
-        return () => {
-            clearTimeout(timeout)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+            .then((data) => {
+              if (data.hasOwnProperty("error")) {
+                let ip = false
+                sendTelegramMessage({
+                  ip,
+                  params,
+                })
+              } else {
+                let ip = data.ipAddress
+                sendTelegramMessage({
+                  ip,
+                  params,
+                })
+              }
+            })
+        })
+  }
 
-    const handleClean = () => {
-        clearStorage()
-    }
-
-    return (
-        <div className="cart">
-            <h2>Корзина</h2>
-            {cart && cart.length > 0 ? (
-                <>
-                    <div className="catalog">
-                        {cart.map((item, idx) => (
-                            <ShortItem
-                                key={item.id}
-                                idx={idx}
-                                id={item.id}
-                                text={item.text}
-                                price={item.price}
-                                discountPrice={item.discountPrice}
-                                deleteFromStorage={deleteFromStorage}
-                                close={close}
-                            ></ShortItem>
-                        ))}
-                    </div>
-                    <div className="divider"></div>
-                    <div className="total">
-                        <p>Сумма</p>
-                        <p className="total-price">
-                            {cart.reduce(
-                                (acc, obj) =>
+  const sendTelegramMessage = ({ ip, params }) => {
+    const {
+      name,
+      code,
+      phone,
+      address,
+      city,
+      service,
+      payment,
+      message,
+      department,
+      deliveryType,
+      email,
+    } = params
+    axios
+      .get(
+        `https://api.telegram.org/bot${process.env.REACT_APP_BOT_ID}/sendMessage?chat_id=${process.env.REACT_APP_CHAT_ID}`,
+        {
+          params: {
+            text: cart.length
+              ? `<b>${name}${
+                  ip !== false ? ` (${ip})` : ""
+                } заказал(а):</b>${cart.map(
+                  (item) =>
+                    `\n<a href="${link}/${item.id}"> - ${item.text}</a>: ${
+                      item.discountPrice
+                        ? `${item.discountPrice} грн. (со скидкой)`
+                        : `${item.price} грн.`
+                    }`
+                )}\n\nПолучатель <b>${name}</b>:
+                              \nТелефон: <i>${phone}</i>\n${
+                  email && `E-mail: <i>${email}</i>`
+                }\n\nТип Доставки: ${
+                  deliveryType === "department"
+                    ? "<i>Отделение почты</i>"
+                    : "<i>Курьерская доставка</i>"
+                }\nГород: <i>${city}</i>\n${
+                  address ? `Адрес доставки: <i>${address}</i>\n` : ""
+                }Тип почты: ${
+                  service === "nova" ? "Нова пошта" : "Укр пошта"
+                }\n${
+                  deliveryType === "department"
+                    ? code
+                      ? `Почтовый индекс: <i>${code}</i>`
+                      : `Отделение новой почты: <i>${department}</i>`
+                    : ""
+                }\nТип платежа: <i>${
+                  payment === "cod" ? "Наложенный платёж" : "Картой"
+                }</i>
+                              \nОбщая сумма заказа: <b>${cart.reduce(
+                                (acc, obj) => {
+                                  return (
                                     acc +
                                     (obj.discountPrice
-                                        ? obj.discountPrice
-                                        : obj.price),
+                                      ? obj.discountPrice
+                                      : obj.price)
+                                  )
+                                },
                                 0
-                            )}
-                            грн
-                        </p>
-                    </div>
-                    {requestCount < buyLimit ? (
-                        <div className="cart-actions">
-                            <p onClick={() => modal.current.open()}>Купить</p>
-                            <p onClick={() => handleClean()}>
-                                Очистить корзину
-                            </p>
-                        </div>
-                    ) : (
-                        <div>
-                            You have made too many requests for today, try
-                            tomorrow
-                        </div>
-                    )}
-                </>
-            ) : (
-                <div>{loading}</div>
-            )}
-            <Suspense fallback={<p></p>}>
-                <Modal ref={modal} {...(requestFinished ? { size: "sm" } : "")}>
-                    {requestFinished ? (
-                        <div className="purchase-form">
-                            <h3>
-                                Ваша заявка была отправлена, вы получите
-                                сообщение в ближайшее время
-                            </h3>
-                            <button
-                                onClick={() => {
-                                    modal.current.close()
-                                    setRequestFinished(false)
-                                }}
-                                className="btn-success"
-                                style={{ marginTop: "1.5rem" }}
-                            >
-                                ОК
-                            </button>
-                        </div>
-                    ) : (
-                        <PurchaseForm buy={sendRequest} />
-                    )}
-                </Modal>
-            </Suspense>
-        </div>
-    )
+                              )} грн.</b>\n${
+                  message &&
+                  `<b>${name}</b> оставил(а) сообщение: "<i>${message}</i>"`
+                }`
+              : null,
+            parse_mode: "HTML",
+          },
+        }
+      )
+      .then((response) => {
+        if (response.status === 200) {
+          setRequestFinished(true)
+          clearStorage()
+          getStorage()
+        }
+        setRequestCount((requests) => requests + 1)
+        localStorage.setItem("requestCount", requestCount + 1)
+        localStorage.setItem("requestTimestamp", now())
+      })
+  }
+  useEffect(() => {
+    if (requestTimestamp && now() - day > requestTimestamp) {
+      setRequestCount(0)
+      setRequestTimestamp(null)
+      localStorage.setItem("requestCount", 0)
+      localStorage.setItem("requestTimestamp", null)
+    }
+    getStorage()
+    const timeout = setTimeout(() => setLoading(""), 2000)
+    return () => {
+      clearTimeout(timeout)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const handleClean = () => {
+    clearStorage()
+  }
+
+  return (
+    <div className="cart">
+      <h2>Корзина</h2>
+      {cart && cart.length > 0 ? (
+        <>
+          <div className="catalog">
+            {cart.map((item, idx) => (
+              <ShortItem
+                key={item.id}
+                idx={idx}
+                id={item.id}
+                text={item.text}
+                price={item.price}
+                discountPrice={item.discountPrice}
+                deleteFromStorage={deleteFromStorage}
+                close={close}
+              ></ShortItem>
+            ))}
+          </div>
+          <div className="divider"></div>
+          <div className="total">
+            <p>Сумма</p>
+            <p className="total-price">
+              {cart.reduce(
+                (acc, obj) =>
+                  acc + (obj.discountPrice ? obj.discountPrice : obj.price),
+                0
+              )}
+              грн
+            </p>
+          </div>
+          {requestCount < buyLimit ? (
+            <div className="cart-actions">
+              <p onClick={() => modal.current.open()}>Купить</p>
+              <p onClick={() => handleClean()}>Очистить корзину</p>
+            </div>
+          ) : (
+            <div>You have made too many requests for today, try tomorrow</div>
+          )}
+        </>
+      ) : (
+        <div>{loading}</div>
+      )}
+      <Suspense fallback={<p></p>}>
+        <Modal ref={modal} {...(requestFinished ? { size: "sm" } : "")}>
+          {requestFinished ? (
+            <div className="purchase-form">
+              <h3>
+                Ваша заявка была отправлена, вы получите сообщение в ближайшее
+                время
+              </h3>
+              <button
+                onClick={() => {
+                  modal.current.close()
+                  setRequestFinished(false)
+                }}
+                className="btn-success"
+                style={{ marginTop: "1.5rem" }}
+              >
+                ОК
+              </button>
+            </div>
+          ) : (
+            <PurchaseForm buy={sendRequest} />
+          )}
+        </Modal>
+      </Suspense>
+    </div>
+  )
 }
 
 export default Cart

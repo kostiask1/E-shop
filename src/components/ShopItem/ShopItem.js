@@ -1,10 +1,10 @@
 import React, {
-    useContext,
-    useEffect,
-    useState,
-    useRef,
-    lazy,
-    Suspense,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  lazy,
+  Suspense,
 } from "react"
 import { Link } from "react-router-dom"
 import { catalogContext } from "../../context/catalog/catalog-context"
@@ -15,152 +15,149 @@ import { DeleteIcon, EditIcon } from "../../icons"
 import "react-responsive-carousel/lib/styles/carousel.min.css"
 const Modal = lazy(() => import("../Modal/Modal"))
 const ItemCreator = lazy(() =>
-    import("../../pages/Create/ItemCreator/ItemCreator")
+  import("../../pages/Create/ItemCreator/ItemCreator")
 )
 
 const ShopItem = (props) => {
-    const { handleDeleteArray, deleteArray, disabledControls, item } = props
-    const { id, imagesArray, text, price, discountPrice, archived } = item
-    const { getData, toggleArchiveItem, deleteItemById } =
-        useContext(catalogContext)
-    const { admin } = useContext(authContext)
-    const [fading, setFading] = useState(false)
-    const [selected, setSelected] = useState(
-        deleteArray && deleteArray.includes(id) ? true : false
-    )
-    const modal = useRef(null)
-    useEffect(() => {
-        setFading(false)
-        if (!disabledControls) setTimeout(() => setFading(true), 300)
-        return () => {
-            setFading(false)
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    const deleteItem = () => {
-        setFading(false)
-        deleteItemById([id]).then(() => {
-            getData()
-        })
+  const { handleDeleteArray, deleteArray, disabledControls, item } = props
+  const { id, imagesArray, text, price, discountPrice, archived } = item
+  const { getData, toggleArchiveItem, deleteItemById } = useContext(
+    catalogContext
+  )
+  const { admin } = useContext(authContext)
+  const [fading, setFading] = useState(false)
+  const [selected, setSelected] = useState(
+    deleteArray && deleteArray.includes(id) ? true : false
+  )
+  const modal = useRef(null)
+  useEffect(() => {
+    setFading(false)
+    if (!disabledControls) setTimeout(() => setFading(true), 300)
+    return () => {
+      setFading(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
-    const handleToggleArchiveItem = (event) => {
-        toggleArchiveItem(event, item).then(() => getData())
-    }
+  const deleteItem = () => {
+    setFading(false)
+    deleteItemById([id]).then(() => {
+      getData()
+    })
+  }
 
-    const handleCheckbox = (event) => {
-        event.preventDefault()
-        setSelected(!selected)
-        handleDeleteArray(id)
-    }
+  const handleToggleArchiveItem = (event) => {
+    toggleArchiveItem(event, item).then(() => getData())
+  }
 
-    return (
-        <>
-            <div
-                className={`item ${fading ? "pop-in" : ""} ${
-                    disabledControls ? "show" : ""
-                } ${archived ? "archived" : ""}`}
-                style={{ animationDelay: 70 }}
-            >
-                <div className="item-controls">
-                    {!disabledControls && admin ? (
-                        <div className="admin">
-                            <div className="archive">
-                                <button
-                                    className="item-control item-archive"
-                                    onClick={handleToggleArchiveItem}
-                                >
-                                    {archived ? "архив" : "каталог"}
-                                </button>
-                            </div>
-                            <div className="edit">
-                                <button
-                                    className="item-control item-edit"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#Edit"
-                                    onClick={() => modal.current.open()}
-                                >
-                                    <EditIcon height="1em" width="1em" />
-                                </button>
-                            </div>
-                            <div className="delete">
-                                <button
-                                    onClick={() => deleteItem()}
-                                    className="item-control item-delete"
-                                >
-                                    <DeleteIcon width="1em" height="1em" />
-                                </button>
-                            </div>
-                            <input
-                                key={selected}
-                                className="item-control "
-                                type="checkbox"
-                                checked={selected ? "checked" : ""}
-                                onChange={handleCheckbox}
-                                style={{
-                                    width: 50,
-                                    height: 50,
-                                    marginLeft: ".4em",
-                                }}
-                            />
-                        </div>
-                    ) : null}
-                </div>
-                <div className="item-image">
-                    {!disabledControls && (
-                        <div className="item-hovered">
-                            <Link
-                                to={!disabledControls ? "/catalog/" + id : "#"}
-                            >
-                                Просмотреть товар
-                            </Link>
-                            {!archived && (
-                                <InCart
-                                    update={() =>
-                                        props.hasOwnProperty("functions") &&
-                                        props.functions.getCart()
-                                    }
-                                    id={id}
-                                />
-                            )}
-                        </div>
-                    )}
-                    <img
-                        src={imagesArray && imagesArray[0]}
-                        className="item-img"
-                        alt={text}
-                    />
-                </div>
-                <div className="item-body">
-                    <p className="item-name">{text}</p>
-                    <div>
-                        {!discountPrice ? (
-                            <span className="price-default">{price} грн</span>
-                        ) : (
-                            <>
-                                <span className="price-was">{price}</span>&nbsp;
-                                <span className="price-now">
-                                    {discountPrice} грн
-                                </span>
-                            </>
-                        )}
-                    </div>
-                </div>
+  const handleCheckbox = (event) => {
+    event.preventDefault()
+    setSelected(!selected)
+    handleDeleteArray(id)
+  }
+
+  return (
+    <>
+      <div
+        className={`item ${fading ? "pop-in" : ""} ${
+          disabledControls ? "show" : ""
+        } ${archived ? "archived" : ""}`}
+        style={{ animationDelay: 70 }}
+      >
+        <div className="item-controls">
+          {!disabledControls && admin ? (
+            <div className="admin">
+              <div className="archive">
+                <button
+                  className="item-control item-archive"
+                  onClick={handleToggleArchiveItem}
+                >
+                  {archived ? "архив" : "каталог"}
+                </button>
+              </div>
+              <div className="edit">
+                <button
+                  className="item-control item-edit"
+                  data-bs-toggle="modal"
+                  data-bs-target="#Edit"
+                  onClick={() => modal.current.open()}
+                >
+                  <EditIcon height="1em" width="1em" />
+                </button>
+              </div>
+              <div className="delete">
+                <button
+                  onClick={() => deleteItem()}
+                  className="item-control item-delete"
+                >
+                  <DeleteIcon width="1em" height="1em" />
+                </button>
+              </div>
+              <input
+                key={selected}
+                className="item-control "
+                type="checkbox"
+                checked={selected ? "checked" : ""}
+                onChange={handleCheckbox}
+                style={{
+                  width: 50,
+                  height: 50,
+                  marginLeft: ".4em",
+                }}
+              />
             </div>
-            {admin && (
-                <Suspense fallback={<p></p>}>
-                    <Modal ref={modal} size="lg">
-                        <ItemCreator
-                            item={item}
-                            close={() => modal.current.close()}
-                            getData={getData}
-                        />
-                    </Modal>
-                </Suspense>
+          ) : null}
+        </div>
+        <div className="item-image">
+          {!disabledControls && (
+            <div className="item-hovered">
+              <Link to={!disabledControls ? "/catalog/" + id : "#"}>
+                Просмотреть товар
+              </Link>
+              {!archived && (
+                <InCart
+                  update={() =>
+                    props.hasOwnProperty("functions") &&
+                    props.functions.getCart()
+                  }
+                  id={id}
+                />
+              )}
+            </div>
+          )}
+          <img
+            src={imagesArray && imagesArray[0]}
+            className="item-img"
+            alt={text}
+          />
+        </div>
+        <div className="item-body">
+          <p className="item-name">{text}</p>
+          <div>
+            {!discountPrice ? (
+              <span className="price-default">{price} грн</span>
+            ) : (
+              <>
+                <span className="price-was">{price}</span>&nbsp;
+                <span className="price-now">{discountPrice} грн</span>
+              </>
             )}
-        </>
-    )
+          </div>
+        </div>
+      </div>
+      {admin && (
+        <Suspense fallback={<p></p>}>
+          <Modal ref={modal} size="lg">
+            <ItemCreator
+              item={item}
+              close={() => modal.current.close()}
+              getData={getData}
+            />
+          </Modal>
+        </Suspense>
+      )}
+    </>
+  )
 }
 
 export default ShopItem

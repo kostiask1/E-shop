@@ -1,24 +1,24 @@
 .auth {
-    align-items: center;
-    justify-content: center;
-    margin-top: 100px;
-    h3 {
-        text-transform: lowercase;
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        &::first-letter {
-            text-transform: uppercase;
-        }
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  h3 {
+    text-transform: lowercase;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    &::first-letter {
+      text-transform: uppercase;
     }
-    form {
-        margin-bottom: 7rem;
-        padding: 1.5rem 2rem;
-        border: 1px solid var(--gray);
-        box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.4);
-        border-radius: 15px;
-        background-color: var(--main);
-        div {
-            margin-top: 0.5em;
-        }
+  }
+  form {
+    margin-bottom: 7rem;
+    padding: 1.5rem 2rem;
+    border: 1px solid var(--gray);
+    box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.4);
+    border-radius: 15px;
+    background-color: var(--main);
+    div {
+      margin-top: 0.5em;
     }
+  }
 }

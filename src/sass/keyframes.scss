@@ -1,107 +1,107 @@
 .page {
-    margin-top: 6.5rem;
-    width: 100%;
-    background-color: var(--main);
+  margin-top: 6.5rem;
+  width: 100%;
+  background-color: var(--main);
 }
 
 .page-enter {
-    opacity: 0;
+  opacity: 0;
 }
 
 .page-enter-active {
-    opacity: 1;
-    transition: opacity 300ms, transform 300ms;
+  opacity: 1;
+  transition: opacity 300ms, transform 300ms;
 }
 
 .page-exit {
-    opacity: 1;
+  opacity: 1;
 }
 
 .page-exit-active {
-    opacity: 0;
-    transition: opacity 300ms, transform 300ms;
+  opacity: 0;
+  transition: opacity 300ms, transform 300ms;
 }
 .item.show {
-    display: flex;
-    opacity: 1;
-    transform: scale(1);
+  display: flex;
+  opacity: 1;
+  transform: scale(1);
 }
 .pop-in {
-    opacity: 0;
-    animation: 0.25s popIn ease-in-out forwards;
+  opacity: 0;
+  animation: 0.25s popIn ease-in-out forwards;
 }
 .slide-in {
-    transform: scaleY(0);
-    animation: 0.2s 0.2s slideIn ease-in-out forwards;
+  transform: scaleY(0);
+  animation: 0.2s 0.2s slideIn ease-in-out forwards;
 }
 .slide-out {
-    transform: scaleY(1);
-    animation: 0.2s 0.2s slideIn ease-in-out reverse forwards;
+  transform: scaleY(1);
+  animation: 0.2s 0.2s slideIn ease-in-out reverse forwards;
 }
 .fade-in {
-    opacity: 0;
-    animation: 0.25s fadeIn ease-in-out forwards;
+  opacity: 0;
+  animation: 0.25s fadeIn ease-in-out forwards;
 }
 .prepare {
-    animation: 0.25s prepare ease-in-out forwards;
+  animation: 0.25s prepare ease-in-out forwards;
 }
 .skew {
-    transform: rotate(0deg);
-    transition: 0.4s ease-in-out;
+  transform: rotate(0deg);
+  transition: 0.4s ease-in-out;
 }
 .skew:hover {
-    transform: rotate(115deg);
+  transform: rotate(115deg);
 }
 
 @keyframes popIn {
-    0% {
-        transform: scale(0.3);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 @keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes prepare {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(0.3);
-        opacity: 0;
-    }
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
 }
 .fade-out {
-    opacity: 1;
-    animation: 0.3s fadeOut ease-out-out forwards;
+  opacity: 1;
+  animation: 0.3s fadeOut ease-out-out forwards;
 }
 
 @keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes slideIn {
-    0% {
-        transform-origin: top center;
-        transform: scaleY(0);
-    }
-    100% {
-        transform-origin: top center;
-        transform: scaleY(1);
-    }
+  0% {
+    transform-origin: top center;
+    transform: scaleY(0);
+  }
+  100% {
+    transform-origin: top center;
+    transform: scaleY(1);
+  }
 }

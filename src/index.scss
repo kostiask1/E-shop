@@ -6,38 +6,38 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@300;500&display=swap"); //Manrope
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    outline: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
 }
 
 #root {
-    font-family: Manrope;
-    display: flex;
-    flex-direction: column;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 100%;
-    justify-content: flex-start;
-    background-color: var(--main);
+  font-family: Manrope;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  justify-content: flex-start;
+  background-color: var(--main);
 }
 :root {
-    --mainContrast: #007bff;
-    --mainContrastHelper: #aecde2;
-    --mainStrong: #fd792f;
-    --black: #232323;
-    --textBlack: #000000b3;
-    --main: #fdfafa;
-    --mainElements: #fdfefe;
-    --gray: #888;
-    --alert: #dd0303;
-    --success: #00b400;
-    --warning: #ffc107;
-    --main-1: #e54900;
-    --main-2: #0327b3;
-    --main-3: #e1aac6;
-    --main-1-transparent: 229, 73, 0; // rgb(229, 73, 0)
-    --main-2-transparent: 3, 39, 179; // rgb(3, 39, 179)
-    --main-3-transparent: 225, 170, 198; // rgb(225, 170, 198)
+  --mainContrast: #007bff;
+  --mainContrastHelper: #aecde2;
+  --mainStrong: #fd792f;
+  --black: #232323;
+  --textBlack: #000000b3;
+  --main: #fdfafa;
+  --mainElements: #fdfefe;
+  --gray: #888;
+  --alert: #dd0303;
+  --success: #00b400;
+  --warning: #ffc107;
+  --main-1: #e54900;
+  --main-2: #0327b3;
+  --main-3: #e1aac6;
+  --main-1-transparent: 229, 73, 0; // rgb(229, 73, 0)
+  --main-2-transparent: 3, 39, 179; // rgb(3, 39, 179)
+  --main-3-transparent: 225, 170, 198; // rgb(225, 170, 198)
 }

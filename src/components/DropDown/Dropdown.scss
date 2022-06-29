@@ -1,82 +1,82 @@
 .DropDown {
-    position: relative;
-    display: inline-block;
-    &__button {
-        background-color: var(--main);
-        color: black;
-        font-size: 0.9rem;
-        border: none;
-        width: 100%;
-        border: 1px solid var(--main-2);
+  position: relative;
+  display: inline-block;
+  &__button {
+    background-color: var(--main);
+    color: black;
+    font-size: 0.9rem;
+    border: none;
+    width: 100%;
+    border: 1px solid var(--main-2);
+    color: var(--main-2);
+    white-space: nowrap;
+    vertical-align: middle;
+    padding: 0 0.65rem;
+    line-height: 1.5;
+    &:hover {
+      border-color: #9b9b9b;
+      background-color: #fff;
+    }
+    i {
+      padding-left: 0.5em;
+      font-size: 0.7rem;
+    }
+  }
+  svg {
+    fill: var(--main-2);
+  }
+  &__content {
+    position: absolute;
+    background-color: #fafafa;
+    border: 2px solid #ddd;
+    min-width: 300px;
+    width: 100%;
+    z-index: 1;
+    input {
+      box-sizing: border-box;
+      font-size: 1rem;
+      padding: 0.4rem 0.7rem;
+      border: none;
+      border-bottom: 1px solid #ddd;
+      &,
+      &::placeholder {
         color: var(--main-2);
-        white-space: nowrap;
-        vertical-align: middle;
-        padding: 0 0.65rem;
-        line-height: 1.5;
-        &:hover {
-            border-color: #9b9b9b;
-            background-color: #fff;
-        }
-        i {
-            padding-left: 0.5em;
-            font-size: 0.7rem;
-        }
+      }
     }
-    svg {
-        fill: var(--main-2);
-    }
-    &__content {
-        position: absolute;
-        background-color: #fafafa;
-        border: 2px solid #ddd;
-        min-width: 300px;
+    ul {
+      max-height: 200px;
+      flex-direction: column;
+      overflow-y: scroll;
+      padding: 0;
+      li {
+        color: black;
+        padding: 0.4rem 0.7rem;
+        text-decoration: none;
+        display: block;
         width: 100%;
-        z-index: 1;
-        input {
-            box-sizing: border-box;
-            font-size: 1rem;
-            padding: 0.4rem 0.7rem;
-            border: none;
-            border-bottom: 1px solid #ddd;
-            &,
-            &::placeholder {
-                color: var(--main-2);
-            }
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+        color: var(--main-2);
+        &.selected {
+          color: var(--main);
+          background-color: var(--main-2);
         }
-        ul {
-            max-height: 200px;
-            flex-direction: column;
-            overflow-y: scroll;
-            padding: 0;
-            li {
-                color: black;
-                padding: 0.4rem 0.7rem;
-                text-decoration: none;
-                display: block;
-                width: 100%;
-                border-bottom: 1px solid #ddd;
-                cursor: pointer;
-                color: var(--main-2);
-                &.selected {
-                    color: var(--main);
-                    background-color: var(--main-2);
-                }
-                &:hover {
-                    color: var(--main);
-                    background-color: var(--main-1);
-                }
-            }
-            &::-webkit-scrollbar {
-                width: 5px;
-                background-color: transparent;
-            }
-            &::-webkit-scrollbar-thumb {
-                background: #888;
-                border-radius: 100px;
-            }
-            &::-webkit-scrollbar-track-piece:start {
-                background-color: transparent;
-            }
+        &:hover {
+          color: var(--main);
+          background-color: var(--main-1);
         }
+      }
+      &::-webkit-scrollbar {
+        width: 5px;
+        background-color: transparent;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 100px;
+      }
+      &::-webkit-scrollbar-track-piece:start {
+        background-color: transparent;
+      }
     }
+  }
 }

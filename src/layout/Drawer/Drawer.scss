@@ -1,65 +1,65 @@
 :root {
-    --drawer-width: clamp(250px, 30%, 350px);
+  --drawer-width: clamp(250px, 30%, 350px);
 }
 .drawer {
-    flex-direction: column;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    padding-top: 4rem;
-    background: #fff;
-    z-index: 9999;
-    width: var(--drawer-width);
-    background-color: var(--main);
-    transition: all 0.2s ease-in-out;
-    &.left {
-        left: 0;
-        transform: translateX(-100%);
-        &.exit-done {
-            transform: translateX(-100%);
-        }
-        &.enter-done {
-            transform: translateX(0px);
-            .backdrop {
-                left: 0;
-                transform: translateX(var(--drawer-width));
-            }
-        }
-    }
-    &.right {
-        right: 0;
-        transform: translateX(100%);
-        &.exit-done {
-            transform: translateX(100%);
-        }
-        &.enter-done {
-            transform: translateX(0px);
-            .backdrop {
-                right: 0;
-                transform: translateX(calc(var(--drawer-width) * -1));
-            }
-        }
-    }
-    .close {
-        font-size: 0.6rem;
-        cursor: pointer;
-        position: absolute;
-        top: 0.9rem;
-        right: 1.2rem;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  padding-top: 4rem;
+  background: #fff;
+  z-index: 9999;
+  width: var(--drawer-width);
+  background-color: var(--main);
+  transition: all 0.2s ease-in-out;
+  &.left {
+    left: 0;
+    transform: translateX(-100%);
+    &.exit-done {
+      transform: translateX(-100%);
     }
     &.enter-done {
-        transform: translateX(0px);
-        .backdrop {
-            width: 100vw;
-            opacity: 1;
-        }
+      transform: translateX(0px);
+      .backdrop {
+        left: 0;
+        transform: translateX(var(--drawer-width));
+      }
     }
+  }
+  &.right {
+    right: 0;
+    transform: translateX(100%);
+    &.exit-done {
+      transform: translateX(100%);
+    }
+    &.enter-done {
+      transform: translateX(0px);
+      .backdrop {
+        right: 0;
+        transform: translateX(calc(var(--drawer-width) * -1));
+      }
+    }
+  }
+  .close {
+    font-size: 0.6rem;
+    cursor: pointer;
+    position: absolute;
+    top: 0.9rem;
+    right: 1.2rem;
+  }
+  &.enter-done {
+    transform: translateX(0px);
     .backdrop {
-        position: fixed;
-        top: 0;
-        height: 100vh;
-        opacity: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-        transition: opacity 0.25s ease-in-out;
+      width: 100vw;
+      opacity: 1;
     }
+  }
+  .backdrop {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: opacity 0.25s ease-in-out;
+  }
 }

@@ -1,37 +1,37 @@
 .footer {
-    padding: 0.5rem 0;
-    background-color: var(--main-3);
-    color: var(--main);
-    .row {
-        justify-content: space-between;
-        align-items: center;
-        & > div {
-            flex-basis: 100%;
-        }
-        a {
-            margin: 0 0.1rem;
-            color: var(--main);
-        }
+  padding: 0.5rem 0;
+  background-color: var(--main-3);
+  color: var(--main);
+  .row {
+    justify-content: space-between;
+    align-items: center;
+    & > div {
+      flex-basis: 100%;
     }
-    .developer a {
-        border-bottom: 2px solid var(--main);
+    a {
+      margin: 0 0.1rem;
+      color: var(--main);
     }
-    .rights {
-        text-align: center;
-        cursor: pointer;
+  }
+  .developer a {
+    border-bottom: 2px solid var(--main);
+  }
+  .rights {
+    text-align: center;
+    cursor: pointer;
+  }
+  .container {
+    background-color: transparent;
+  }
+  .links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  .modal-body {
+    padding: 1rem;
+    * {
+      color: #000;
     }
-    .container {
-        background-color: transparent;
-    }
-    .links {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-    }
-    .modal-body {
-        padding: 1rem;
-        * {
-            color: #000;
-        }
-    }
+  }
 }

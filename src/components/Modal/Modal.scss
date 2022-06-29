@@ -1,113 +1,113 @@
 .modal {
-    display: flex;
-    position: fixed;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  &-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
     top: 0;
     left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  &-dialog {
+    display: flex;
+    align-items: center;
+    position: relative;
+    max-width: unset;
+  }
+  &-sm {
+    .modal-body {
+      height: unset !important;
+    }
+  }
+  &-lg {
+    width: clamp(300px, 100%, 80vw);
+    height: 90%;
+  }
+  &-xl {
+    width: clamp(300px, 100%, 80vw);
+    height: 90%;
+    .modal-content {
+      height: 100%;
+    }
+  }
+  &-content {
+    width: 100%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
-    &-overlay {
-        width: 100%;
-        height: 100%;
+  }
+  &-body {
+    background-color: var(--main);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+  }
+  &-wrapper {
+    padding: 15px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scroll;
+    border: 4px solid transparent;
+    &.dragging {
+      border: 4px dotted #000;
+      border-radius: 20px;
+    }
+  }
+  .images-catalog {
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-auto-rows: 25%;
+    grid-gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 0;
+    overflow-y: scroll;
+    padding-right: 1rem;
+    .item {
+      max-width: 300px;
+      max-height: 400px;
+      flex: 1 1;
+      border: 3px solid transparent;
+      .image-format {
+        padding: 0.2rem;
+        top: -2px;
+        align-self: baseline;
+        background-color: #fff;
         position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-    &-dialog {
-        display: flex;
-        align-items: center;
-        position: relative;
-        max-width: unset;
-    }
-    &-sm {
-        .modal-body {
-            height: unset !important;
+        font-size: 0.8em;
+        border-right: 2px solid var(--gray);
+        border-bottom: 2px solid var(--gray);
+        border-radius: 0px 0px 10px 0px;
+      }
+      &:hover {
+        border-color: var(--mainContrast);
+        .image-format {
+          border-color: var(--mainContrast);
         }
+      }
     }
-    &-lg {
-        width: clamp(300px, 100%, 80vw);
-        height: 90%;
+  }
+  &-controls {
+    position: absolute;
+    bottom: 1rem;
+    right: 3rem;
+    label {
+      cursor: pointer;
     }
-    &-xl {
-        width: clamp(300px, 100%, 80vw);
-        height: 90%;
-        .modal-content {
-            height: 100%;
-        }
-    }
-    &-content {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    &-body {
-        background-color: var(--main);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin: auto;
-        height: 100%;
-        width: 100%;
-        border-radius: 10px;
-    }
-    &-wrapper {
-        padding: 15px;
-        height: 100%;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        overflow-y: scroll;
-        border: 4px solid transparent;
-        &.dragging {
-            border: 4px dotted #000;
-            border-radius: 20px;
-        }
-    }
-    .images-catalog {
-        height: 100%;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        grid-auto-rows: 25%;
-        grid-gap: 1rem;
-        align-items: flex-start;
-        margin-bottom: 0;
-        overflow-y: scroll;
-        padding-right: 1rem;
-        .item {
-            max-width: 300px;
-            max-height: 400px;
-            flex: 1 1;
-            border: 3px solid transparent;
-            .image-format {
-                padding: 0.2rem;
-                top: -2px;
-                align-self: baseline;
-                background-color: #fff;
-                position: absolute;
-                font-size: 0.8em;
-                border-right: 2px solid var(--gray);
-                border-bottom: 2px solid var(--gray);
-                border-radius: 0px 0px 10px 0px;
-            }
-            &:hover {
-                border-color: var(--mainContrast);
-                .image-format {
-                    border-color: var(--mainContrast);
-                }
-            }
-        }
-    }
-    &-controls {
-        position: absolute;
-        bottom: 1rem;
-        right: 3rem;
-        label {
-            cursor: pointer;
-        }
-    }
+  }
 }

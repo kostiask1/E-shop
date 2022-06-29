@@ -1,36 +1,36 @@
 .cart-item {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    &:hover {
-        a,
-        span {
-            color: var(--main-1);
-        }
-    }
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  &:hover {
     a,
     span {
-        color: var(--main-2);
-        font-family: Manrope;
-        font-size: 1.2rem;
-        font-weight: 300;
+      color: var(--main-1);
     }
-    a {
-        display: inline-block;
+  }
+  a,
+  span {
+    color: var(--main-2);
+    font-family: Manrope;
+    font-size: 1.2rem;
+    font-weight: 300;
+  }
+  a {
+    display: inline-block;
+  }
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+  svg {
+    cursor: pointer;
+    margin-left: 10px;
+    &:hover line {
+      stroke: var(--main-1);
     }
-    .flex {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: nowrap;
-        white-space: nowrap;
-    }
-    svg {
-        cursor: pointer;
-        margin-left: 10px;
-        &:hover line {
-            stroke: var(--main-1);
-        }
-    }
+  }
 }

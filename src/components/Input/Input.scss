@@ -1,43 +1,43 @@
 input.input-component {
-    display: inline-block;
-    border: 1px solid var(--main-2);
-    padding: 0.5rem 0.6rem;
-    padding-bottom: 0.25rem;
-    border-radius: 4px;
-    background-color: var(--main);
+  display: inline-block;
+  border: 1px solid var(--main-2);
+  padding: 0.5rem 0.6rem;
+  padding-bottom: 0.25rem;
+  border-radius: 4px;
+  background-color: var(--main);
+  font-size: clamp(14px, 0.9rem, 24px);
+  color: var(--main-2);
+  &-with-symbol {
+    border-radius: 4px 0px 0px 4px;
+  }
+  &::placeholder {
     font-size: clamp(14px, 0.9rem, 24px);
-    color: var(--main-2);
-    &-with-symbol {
-        border-radius: 4px 0px 0px 4px;
-    }
-    &::placeholder {
-        font-size: clamp(14px, 0.9rem, 24px);
-        color: rgba(var(--main-2-transparent), 0.7);
-    }
+    color: rgba(var(--main-2-transparent), 0.7);
+  }
 }
 span.input-component {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    color: var(--main-2);
-    border: 1px solid var(--main-2);
-    border-radius: 0px 4px 4px 0px;
-    flex: 1 1;
-    align-self: stretch;
-    font-size: 0.7rem;
-    width: 18%;
-    line-height: 0;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  color: var(--main-2);
+  border: 1px solid var(--main-2);
+  border-radius: 0px 4px 4px 0px;
+  flex: 1 1;
+  align-self: stretch;
+  font-size: 0.7rem;
+  width: 18%;
+  line-height: 0;
 }
 .input-component-wrapper {
-    margin: 0;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    border-radius: 4px 0px 0px 4px;
-    &-with-symbol {
-        input {
-            border-right: unset;
-            width: 82%;
-        }
+  margin: 0;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  border-radius: 4px 0px 0px 4px;
+  &-with-symbol {
+    input {
+      border-right: unset;
+      width: 82%;
     }
+  }
 }
